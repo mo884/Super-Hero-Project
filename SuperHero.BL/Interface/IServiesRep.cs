@@ -24,7 +24,7 @@ namespace SuperHero.BL.Interface
         Task<Friends> GetBYUserFriends(string id, string personid);
         Task<IEnumerable<Friends>> GetBYUserFriends( string personid);
         Task<bool> GetAll(int id, string personId);
-        Task<bool> FindByIdAsync(string personId, int groupId);
+        //Task<bool> FindByIdAsync(string personId, int groupId);
         Task<PersonGroup> FindById(string personId, int groupId);
         Task<bool> Create(int id, string personId);
         Task<bool> Delete(int id, string personId);

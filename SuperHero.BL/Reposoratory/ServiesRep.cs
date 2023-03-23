@@ -206,7 +206,7 @@ namespace SuperHero.BL.Reposoratory
         #region Group
         public async Task<bool> GetAll(int id, string personId)
         {
-            var data = await Db.personGroups.Where(g => g.PersonId == personId && g.Group == id).SingleOrDefaultAsync();
+            var data = await Db.personGroups.Where(g => g.PersonId == personId && g.Group == id).FirstOrDefaultAsync();
             if (data is null)
                 return false;
             return true;
@@ -225,19 +225,11 @@ namespace SuperHero.BL.Reposoratory
                 return false;
             return true;
         }
-        public async Task<bool> FindByIdAsync(string personId, int groupId)
-        {
-
-            var data = await Db.personGroups.Where(a => a.PersonId == personId && a.ID == groupId).SingleOrDefaultAsync();
-            if (data is null)
-                return false;
-            return true;
-        }
-
+   
         public async Task<PersonGroup> FindById(string personId, int groupId)
         {
 
-            var data = await Db.personGroups.Where(a => a.PersonId == personId && a.ID == groupId).SingleOrDefaultAsync();
+            var data = await Db.personGroups.Where(a => a.PersonId == personId && a.Group == groupId).FirstOrDefaultAsync();
             return data;
         }
         #endregion

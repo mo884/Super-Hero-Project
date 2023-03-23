@@ -196,7 +196,7 @@ namespace SuperHero.PL.Controllers.Admin.Social
 
                 var user = await userManager.FindByIdAsync(model[i].Id);
 
-                if (model[i].IsSelected && !await servis.FindByIdAsync(user.Id, group.ID))
+                if (model[i].IsSelected && !await servis.GetAll(group.ID, user.Id))
                 {
                     var result = new PersonGroup()
                     {
@@ -208,7 +208,7 @@ namespace SuperHero.PL.Controllers.Admin.Social
                     await personGroup.Create(result);
 
                 }
-                else if (!model[i].IsSelected && await servis.FindByIdAsync(user.Id, group.ID))
+                else if (!model[i].IsSelected && await servis.GetAll(group.ID,user.Id ))
                 {
                     var result = await servis.FindById(user.Id, group.ID);
 
