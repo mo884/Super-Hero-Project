@@ -1,0 +1,90 @@
+﻿@model IEnumerable<LessonVM>
+@{
+    ViewData["Title"] = "GetALL";
+    Layout = "~/Views/AdminLayout/_Layout.cshtml";
+}
+@section CSS{
+    <partial name="~/views/person/Partial/css.cshtml" />
+}
+    <a class="btn1 third col-sm-3  me-2 " asp-action="Create" asp-controller="Lesson"> &nbsp; &nbsp; &nbsp;<i class="uil uil-create-dashboard "></i> &nbsp; Create</a>
+    <br />
+    <br />
+    <table id="example" class="table" style="width:100%;color:darkgrey">
+        <thead>
+            <tr>
+                <th> - </th>
+                <th>Name</th>
+
+                
+                <th>Images</th>
+
+                
+
+                <th>Action</th>
+
+
+            </tr>
+        </thead>
+        <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Num</td>
+                <td>@item.Name</td>
+
+                
+
+               
+
+                <td>
+                    @if (item.Course.Image == null)
+                    {
+
+
+                        <div class="Image" style="background-image:url('/files/Courses/no-book.jpg') ; width:90px ; height:90px ;background-size:cover; background-position:center; background-repeat:no-repeat ;">
+                        </div>
+
+                    }
+                    else
+                    {
+                        <div class="Image" style="background-image:url('/files/Courses/@item.Course.Image') ; width:90px ; height:90px ;background-size:cover; background-position:center; background-repeat:no-repeat ;">
+                        </div>
+
+                    }
+                    
+                </td>
+
+
+
+
+                <td>
+                    <div class="dropdown show nav-links">
+                        <p class="btn1 third col-sm-1" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class=" col-sm-3 uil uil-plus"></i>
+                        </p>
+
+                        <div class="dropdown-menu align-items-center " aria-labelledby="dropdownMenuLink">
+                            <a class="dropdown-item ancor btn btn-primary" asp-action="Edite" asp-controller="Lesson" asp-route-id="@item.ID">
+
+                                Edite
+                            </a>
+                            <a style="text-align: center" class="dropdown-item" asp-action="Delete" asp-controller="Lesson" asp-route-id="@item.ID">
+
+                                Delete
+                            </a>
+
+
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        }
+
+
+    </tbody>
+
+</table>
+@section DatatablesJS{
+    <partial name="~/views/person/Partial/script.cshtml" />
+
+}

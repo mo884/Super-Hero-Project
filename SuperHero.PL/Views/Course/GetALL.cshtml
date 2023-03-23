@@ -1,0 +1,91 @@
+﻿@model IEnumerable<CourseVM>
+@{
+    ViewData["Title"] = "GetALL";
+    Layout = "~/Views/AdminLayout/_Layout.cshtml";
+}
+@section CSS{
+    <partial name="~/views/person/Partial/css.cshtml" />
+}
+    <a class="btn1 third col-sm-3  me-2 " asp-action="Create" asp-controller="Course"> &nbsp; &nbsp; &nbsp;<i class="uil uil-create-dashboard "></i> &nbsp; Create</a>
+    <br />
+    <br />
+    <table id="example" class="table" style="width:100%;color:darkgrey">
+        <thead>
+            <tr>
+
+                <th>Name</th>
+
+                <th>createdTime</th>
+
+                <th>Hours</th>
+
+                <th>Category</th>
+                <th></th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+
+                <td>@item.NameCourse</td>
+
+                <td>@item.DateOfPuplish</td>
+
+                <td>@item.Hours</td>
+                <td>@item.Catogery.CategoryName</td>
+
+             @*   <td class="danger">
+                    <span style='color:@(item.IsDelete ? "#f1416c" : "#50cd89");background:@(item.IsDelete ? "#fff5f8" : "#e8fff3");font-size:15px;font-weight: bold'>
+                        @(item.IsDelete ? "Deleted" : "Available")
+                    </span>
+
+                </td>
+*@
+                <td>
+                    @if(@item.Image==null){
+                       
+                      
+                            <div class="Image" style="background-image:url('/files/Courses/no-book.jpg') ; width:90px ; height:90px ;background-size:cover; background-position:center; background-repeat:no-repeat ;">
+                            </div>
+                
+                    }else{
+                        <div class="Image" style="background-image:url('/files/Courses/@item.Image') ; width:90px ; height:90px ;background-size:cover; background-position:center; background-repeat:no-repeat ;">
+                        </div>
+                       
+                    }
+
+
+
+                <td>
+                    <div class="dropdown show">
+                        <p class="btn btn-outline-info" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Action
+                        </p>
+
+                        <div class="dropdown-menu align-items-center " aria-labelledby="dropdownMenuLink">
+                            <a class="dropdown-item ancor btn btn-primary" asp-action="Edite" asp-controller="Course" asp-route-id="@item.ID">
+
+                                Edite
+                            </a>
+                            <a style="text-align: center" class="dropdown-item" asp-action="Delete" asp-controller="Course" asp-route-id="@item.ID">
+
+                                Delete
+                            </a>
+
+
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        }
+
+
+    </tbody>
+
+</table>
+@section DatatablesJS{
+    <partial name="~/views/person/Partial/script.cshtml" />
+
+}

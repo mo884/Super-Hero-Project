@@ -1,0 +1,90 @@
+﻿@model CategoryVM
+@{
+    ViewData["Title"] = $"{(ViewBag.Delete == "Delete" ? "Delete" : (ViewBag.ID != null ? "Edit" : "Add"))} Category";
+    Layout = "~/Views/AdminLayout/_Layout.cshtml";
+}
+
+
+<div class="card shadow-sm">
+
+    <div class="card-header">
+        <h3 class="card-title">@(ViewBag.Delete == "Delete" ? "Delete" : (ViewBag.ID != null ? "Edit" : "Add")) Category</h3>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-4">
+                <a>@TempData["error"]</a>
+                <div asp-validation-summary="All"></div>
+                <form method="post" asp-controller="Categories" enctype="multipart/form-data">
+
+                    <div class="mb-5">
+                        <div class="form-floating mb-2">
+                            <input type="text" class="form-control" placeholder="Name" asp-for="CategoryName" />
+                            <label asp-for="CategoryName"></label>
+                        </div>
+                        <span asp-validation-for="CategoryName" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-5">
+                        <div class="form-floating mb-2">
+                            <input type="date" class="form-control" placeholder="createdTime" asp-for="createdTime" />
+                            <label asp-for="createdTime"></label>
+                        </div>
+                        <span asp-validation-for="createdTime" class="text-danger"></span>
+                    </div>
+
+                  
+
+
+                    <div class="mb-5">
+                        <div class="form-floating mb-2">
+                            <select asp-for="IsDelete" class="form-select" aria-label="Default select example">
+
+                                <option value="True">True</option>
+                                <option value="False">False</option>
+                               
+                            </select>
+                        </div>
+
+                    </div>
+                    <span asp-validation-for="IsDelete" class="text-danger"></span>
+
+                    
+                   
+
+                    <br />
+                    @if (ViewBag.Delete == "Delete")
+                    {
+                        <center>
+                            <button type="submit" class="btn btn-danger" onclick="functionConfirm(this)">
+                                <i class="uil uil-exclamation-octagon"></i>  Delete
+                            </button>
+
+                            <a asp-action="GetAll" asp-controller="Person" class="btn btn-primary">return</a>
+                        </center>
+                    }
+                    else
+                    {
+                        <center>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="uil uil-check"></i>Save
+                            </button>
+
+                            <a asp-action="GetAll" asp-controller="Person" class="btn btn-danger">return</a>
+                        </center>
+                    }
+
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section CSS{
+    <partial name="~/views/person/Partial/css.cshtml" />
+
+}
+    @section JqueryValidation{
+    <partial name="~/views/person/Partial/Script.cshtml" />
+}

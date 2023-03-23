@@ -1,0 +1,8 @@
+﻿@model IEnumerable<PostVM>
+@using Microsoft.AspNetCore.Identity;
+@inject SignInManager<Person> signInManager
+@{
+
+    var userinfo = await signInManager.UserManager.FindByNameAsync(User.Identity.Name);
+
+}

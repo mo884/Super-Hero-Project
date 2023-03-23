@@ -1,0 +1,48 @@
+﻿@model IdentityRole
+@{
+    ViewData["Title"] = "Update";
+    Layout = "~/Views/AdminLayout/_Layout.cshtml";
+}
+
+<div class="card shadow-sm">
+
+    <div class="card-header">
+        <a asp-action="AddOrRemoveUsers" asp-controller="Roles" asp-route-RoleId="@Model.Id" class="btn1 third col-sm-3  me-2 "> <i class="uil uil-create-dashboard "></i> Add or Romove User</a>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-4">
+                <a>@TempData["error"]</a>
+                <div asp-validation-summary="All"></div>
+                <form method="post" asp-controller="Roles" asp-action="Update" enctype="multipart/form-data">
+
+                    <div class="mb-5">
+                        <div class="form-floating mb-2">
+                            <input readonly type="text" class="form-control" placeholder="Name" asp-for="Name" />
+                            <label asp-for="Name"></label>
+                        </div>
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+
+
+                    <center>
+                       
+
+                        <a asp-action="GetAll" asp-controller="Person" class="btn btn-danger">return</a>
+                    </center>
+
+
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section CSS{
+    <partial name="~/views/person/Partial/css.cshtml" />
+
+}
+    @section JqueryValidation{
+    <partial name="~/views/person/Partial/Script.cshtml" />
+}

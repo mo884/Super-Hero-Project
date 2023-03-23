@@ -1,0 +1,204 @@
+﻿@model CreatePerson
+@{
+    ViewData["Title"] = "Profile";
+    Layout = "~/Views/AdminLayout/_Layout.cshtml";
+}
+@using Microsoft.AspNetCore.Identity;
+@inject SignInManager<Person> signInManager
+@{
+
+    var userinfo = await signInManager.UserManager.FindByNameAsync(User.Identity.Name);
+
+}
+
+<div  class="container rounded bg-white mt-2 mb-5">
+    <div class="row">
+        <div class="col-sm-1"></div>
+        <div class="col-sm-3 border-right" style="background:#c8d6d6b4">
+            <div class="d-flex flex-column align-items-center text-center p-3 py-5">
+                <div class="rounded-circle mt-2 mb-1" style="background-image:url('/files/imgs/@(Model.Image == null ?(Model.gender == 0? "men.jpg" :"young-woman-avatar-cartoon-character-profile-picture-young-woman-wearing-blue-t-shirt-avatar-cartoon-character-vector-149732076.jpg"):$"{Model.Image}")') ; width:200px ; height:200px ; border-radius : 50%;background-size:cover; background-position:center; background-repeat:no-repeat ;border:4px solid #1EB2A6"></div>
+                <span class="font-weight-bold">@Model.FullName</span>
+                <span class="text-black-50">@Model.Email</span>
+                @if (Model.Id != userinfo.Id){
+                    <div class="row mt-2">
+                        <div class="col-sm-5">
+
+                            <a href="javascript:;" data-id="@Model.Id" class="js-Add   mr-3 btn @((Model.friends?.Where(c=>c.personId==userinfo.Id && c.FriendId == Model.Id)?.FirstOrDefault()?.IsFriend == null? "btn-dark": (Model.friends.Where(c=>c.personId==userinfo.Id).FirstOrDefault().IsFriend) == true ? "btn-primary" : "btn-dark"))">
+                                @(((Model.friends?.Where(c => c.personId == userinfo.Id && c.FriendId == Model.Id)?.SingleOrDefault() == null) ? "Follow" : (Model.friends.Where(c => c.personId == userinfo.Id).FirstOrDefault().IsFriend) == true ? "UnFollow" : "Follow"))
+                            </a>
+
+                        </div>
+                        <div class="col-sm-4"><a class="btn btn-light ">Send</a></div>
+                    </div>
+                }else{
+                    <div class="row mt-2"> 
+                        <div class="col-sm-8">
+                            <a class="js-friends btn btn-primary" href="javascript:;" data-title="My Friends" data-url="/Profile/Friend/@userinfo.Id" data-update="true">Friends</a>
+                         </div>
+                    </div>
+                }
+              
+
+            </div>
+        </div>
+        <div class="col-sm-7 pt-4" style="background:#f0f0f0">
+            <div class="card mb-4 mt-1">
+                <div style="backgound:#c8d6d6" class="card-body  p-3 py-5">
+                    <div class="row mb-2">
+                        <div class="col-sm-3">
+                            <p class="mb-0">Full Name</p>
+                        </div>
+                        <div class="col-sm-9">
+                            <p class="text-muted mb-0">@Model.FullName</p>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row mb-2">
+                        <div class="col-sm-3">
+                            <p class="mb-0">Email</p>
+                        </div>
+                        <div class="col-sm-9">
+                            <p class="text-muted mb-0">@Model.Email</p>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row mb-2">
+                        <div class="col-sm-3">
+                            <p class="mb-0">Type</p>
+                        </div>
+                        <div class="col-sm-9">
+                            <p class="text-muted mb-0">@Model.personType</p>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row mb-2">
+                        <div class="col-sm-3">
+                            <p class="mb-0">Adress</p>
+                        </div>
+                        <div class="col-sm-9">
+                            <p class="text-muted mb-0">@Model.district.Name @Model.district.City.Name</p>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row mb-2">
+                        <div class="col-sm-3">
+                            <p class="mb-0">Adress</p>
+                        </div>
+                        <div class="col-sm-9">
+                            <p class="text-muted mb-0">@Model.district.Name @Model.district.City.Name</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-sm-1"></div>
+    </div>
+
+
+
+</div>
+
+@foreach (var post in Model.Posts)
+{
+
+    <div class="container mt-5 col-md-12">
+        <div class="row d-flex align-items-center justify-content-center">
+            <div class="col-md-9">
+                <div class="card" style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
+                    <div class="d-flex justify-content-between p-2 px-3">
+                        <div class="d-flex flex-row align-items-center">
+                            <a asp-controller="Profile" asp-action="Profile" asp-route-id="@post.person.Id">
+                                @if (@post.person.Image == null)
+                                {
+                                    if (@post.person.gender == 0)
+                                    {
+                                        <div style="background-image:url('/files/imgs/men.jpg') ; width:50px ; height:50px ; border-radius:50%;background-size:cover; background-position:center; background-repeat:no-repeat ;margin-right:10px"></div>
+                                    }
+                                    else
+                                    {
+                                        <div style="background-image:url('/files/imgs/young-woman-avatar-cartoon-character-profile-picture-young-woman-wearing-blue-t-shirt-avatar-cartoon-character-vector-149732076.jpg') ; width:50px ; height:50px ; border-radius:50%;background-size:cover; background-position:center; background-repeat:no-repeat ;margin-right:10px"></div>
+                                    }
+                                }
+                                else
+                                {
+                                    <div style="background-image:url('/files/imgs/@post.person.Image') ; width:50px ; height:50px ; border-radius:50%;background-size:cover; background-position:center; background-repeat:no-repeat ;margin-right:10px"></div>
+                                }
+
+
+                            </a>
+                            <div class="d-flex flex-column ml-2"> <a style="text-decoration:none;font-weight:bold;color:#b9b9b9" asp-controller="Profile" asp-action="Profile" asp-route-id="@post.person.Id" class="font-weight-bold">@post.person.FullName</a> <small class="text-primary">@post.person.PersonType</small> </div>
+                        </div>
+                        <div class="d-flex flex-row mt-1 ellipsis">
+                            <small style="padding:10px;color:#363636b4" class="mr-2">@post.CreatedTime</small>
+                           
+
+                           @if (userinfo.Id == @post.person.Id ){
+                                <div>
+                                    <a class="" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i style="font-size:30px;color:#363636b4" class="uil uil-elipsis-double-v-alt"></i>
+                                    </a>
+
+                                    <div class="dropdown-menu mt-3 " aria-labelledby="dropdownMenuLink">
+                                        <a asp-controller="Post" asp-action="Edite" asp-route-id="@post.ID" class="dropdown-item ancor">
+                                            <i class="uil uil-pen"></i>
+                                            Edite
+                                        </a>
+                                        <a asp-controller="Post" asp-action="Delete" asp-route-id="@post.ID" class="dropdown-item ancor">
+                                            <i class="uil uil-trash-alt"></i>
+                                            Delete
+                                        </a>
+
+                                    </div>
+                                </div>
+                            }
+
+                        </div>
+
+                    </div>
+                    @if (post.Image != null)
+                    {
+                        <div style="background-image:url('/files/imgs/@post.Image') ; width:100%; height: 430px ;background-size:cover; background-position:center; background-repeat:no-repeat ;"></div>
+                    }
+
+                    <div class="p-2">
+                        <p style="font-size:20px;padding:30px;color:#363636b4;font-weight: 700;" class="text-justify">
+
+                            @post.Body
+
+
+                        </p>
+
+                        <div style="border-top:1px solid #c8d6d6" class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <a href="javascript:;" data-title="@post.Comments.Count() Comments  and  @post.Like Likes" data-url="/Comment/Comments/@post.ID" data-update="true" class="button js-render-modal"><i style="font-size: 20px;" class="uil uil-comment"></i> @post.Comments.Count() </a>
+                            </div>
+                            <div>
+                                <a style="margin:10px" href="javascript:;" data-id="@post.ID" class="ml-2  js-like @((post.ReactPosts?.Where(c=>c.PersonID==userinfo.Id)?.FirstOrDefault()?.IsLike==null?"btn btn-light":(post.ReactPosts.Where(c=>c.PersonID==userinfo.Id).FirstOrDefault().IsLike) ? "btn btn-primary" : "btn btn-light"))"><i style="font-size: 20px;" class="uil uil-thumbs-up"></i> </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+}
+
+    <partial name="~/views/post/Model.cshtml">
+        @section JS{
+            <partial name="~/views/post/scripts.cshtml">
+                <link href="~/dashboard/lib/style.bundle.css" rel="stylesheet" />
+               
+                <script src="~/dashboard/lib/plugins.bundle.js"></script>
+                <script src="~/dashboard/lib/sweetalert2/scripts.bundle.js"></script>
+
+            }
+            @section CSS{
+                <partial name="~/views/post/CSS.cshtml">
+
+                }
+            @section JqueryValidation{
+                    <partial name="~/views/person/Partial/Script.cshtml" />
+                }
+

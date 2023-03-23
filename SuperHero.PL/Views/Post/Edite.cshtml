@@ -1,0 +1,102 @@
+﻿@model PostVM
+@using Microsoft.AspNetCore.Identity;
+@inject SignInManager<Person> signInManager
+@{
+    ViewData["Title"] = "Edite";
+    Layout = "~/Views/AdminLayout/_Layout.cshtml";
+    var userinfo = await signInManager.UserManager.FindByNameAsync(User.Identity.Name);
+}
+
+<main>
+    <section>
+        <form class="add-post-form panel  col-md-12" asp-action="Edite" asp-controller="Post" enctype="multipart/form-data">
+
+            <div class="row">
+                <div class="col-md-2 mt-md-20">
+                    @if (signInManager.IsSignedIn(User))
+                    {
+
+                        if (@Model.person.Image == null)
+                        {
+                            if (@Model.person.gender == 0)
+                            {
+
+                                <img src="/files/imgs/men.jpg" height="48" width="48" style="border-radius:50%">
+                            }
+                            else
+                            {
+
+                                <img src="/files/imgs/young-woman-avatar-cartoon-character-profile-picture-young-woman-wearing-blue-t-shirt-avatar-cartoon-character-vector-149732076.jpg" style="border-radius:50%" height="48" width="48">
+                            }
+                        }
+                        else
+                        {
+                            <img src="/files/imgs/@Model.person.Image" style="border-radius:50%" height="48" width="48">
+                        }
+
+
+                    }
+                </div>
+                <div class="col-md-6">
+                    <input type="hidden" asp-for="PersonID" id="PersonID"  />
+                    <textarea name="Body" asp-for="Body" minlength="0" rows="3" class=" w-75" cols="50" placeholder="What are you Write on?"></textarea>
+                    <span asp-validation-for="Body"></span>
+                </div>
+                <div class="col-md-4">
+                    <div class="image-input image-input-empty mb-10" data-kt-image-input="true" style="margin:auto;background-image:url(/files/imgs/@(string.IsNullOrEmpty(Model.Image)? "image-placeholder.jpg" : $"{Model.Image}")">
+                        <div class="image-input-wrapper w-100px h-150px"></div>
+                        <label class="btn btn-icon btn-circle btn-color-muted btn-active-color-primary w-25px h-25px bg-body shadow"
+                               data-kt-image-input-action="change"
+                               data-bs-dismiss="click">
+                            <i class="uil uil-pen"></i>
+
+                            <input type="file" asp-for="ImageName" name="ImageName" accept=".png, .jpg, .jpeg" />
+                            <input type="hidden" asp-for="ImageName" id="ImageName" name="avatar_remove ImageName" />
+
+                        </label>
+
+                        <span class="btn btn-icon btn-circle btn-color-muted btn-active-color-primary w-25px h-25px bg-body shadow"
+                              data-kt-image-input-action="cancel"
+                              data-bs-dismiss="click">
+                            <i class="uil uil-times-circle"></i>
+                        </span>
+
+                        <span class="btn btn-icon btn-circle btn-color-muted btn-active-color-primary w-25px h-25px bg-body shadow"
+                              data-kt-image-input-action="remove"
+                              data-bs-dismiss="click">
+                            <i class="bi bi-x fs-2"></i>
+                        </span>
+
+                    </div>
+
+                    <button type="submit">
+                        Post
+                    </button>
+                </div>
+            </div>
+
+
+
+
+
+        </form>
+    </section>
+</main>
+
+@section JS{
+    <partial name="~/views/post/scripts.cshtml">
+        <link href="~/dashboard/lib/style.bundle.css" rel="stylesheet" />
+        <script>
+            function myFunction() {
+                alert("Delete post")
+            }
+        </script>
+    }
+    @section CSS{
+        <partial name="~/views/post/CSS.cshtml">
+            <script src="~/dashboard/lib/plugins.bundle.js"></script>
+            <script src="~/dashboard/lib/sweetalert2/scripts.bundle.js"></script>
+        }
+    @section JqueryValidation{
+            <partial name="~/views/person/Partial/Script.cshtml" />
+        }

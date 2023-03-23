@@ -1,0 +1,80 @@
+﻿<script src="~/jquery-validation/additional-methods.js"></script>
+<script src="~/jquery-validation/jquery.validate.js"></script>
+<script src="~/identity/js/validation-styling.js"></script>
+<script src="~/jquery-validation/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+<script src="~/jquery-validation/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+@*<script>
+
+    var FileUpload = function (el) {
+
+        this.noValue = 'No Media Chosen';
+
+        this.$container = $(el);
+        this.$input = this.$container.find('input');
+        this.$result = this.$container.next('.file-upload_result').html(this.noValue);
+
+        this.getValue();
+    };
+
+    FileUpload.prototype.getValue = function () {
+
+        var self = this;
+
+        this.$input.on('change', function () {
+
+            var valueArray = $(this).val().split('\\'),
+                value = valueArray[valueArray.length - 1];
+
+            if (value.length === 0) {
+                self.$result.html(self.noValue);
+            }
+            else {
+                self.$result.html(value);
+            }
+        });
+    };
+
+    new FileUpload('.file-upload');
+</script>*@
+<partial name="~/views/datatable/_datatablescripts.cshtml" />
+<script>
+
+    $('table').DataTable({
+        dom: 'Bfrtip',
+        buttons: [
+            'copy', 'csv', 'excel', 'pdf', 'print'
+        ]
+    }
+    );
+
+</script>
+<script>
+
+    $('#btnd').click(function () {
+        swal({
+            title: 'are you sur?',
+            text: "You will not be able to recover this item",
+            type: 'warning',
+            showCancelButton: true,
+            cancelButtonText: 'No',
+            cancelButtonClass: 'btn btn-danger',
+            showConfirmButton: true,
+            confirmButtonText: 'Yes',
+            confirmButtonClass: 'btn btn-success'
+        }, function (isConfirm) {
+            if (isConfirm) {
+                $('form').submit();
+                return true;
+            } else {
+                return false;
+            }
+        });
+        return false;
+    });
+
+   
+    
+       
+
+
+   </script> 

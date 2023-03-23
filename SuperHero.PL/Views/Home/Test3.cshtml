@@ -1,0 +1,45 @@
+﻿@model IEnumerable<City>
+@{
+    ViewData["Title"] = "Test3";
+    Layout = "~/Views/AdminLayout/_Layout.cshtml";
+}
+
+<h1>Test3</h1>
+
+<table id="example" class="table" style="width:100%;color:darkgrey">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.ID</td>
+                <td>@item.Name</td>
+
+            </tr>
+        }
+      
+        
+    </tbody>
+   
+</table>
+@section DatatablesJS{
+    <partial name="~/views/datatable/_datatablescripts.cshtml" />
+    <script>
+
+        $('table').DataTable({
+            dom: 'Bfrtip',
+            buttons: [
+                'copy', 'csv', 'excel', 'pdf', 'print'
+            ]
+        }
+        );
+       
+    </script>
+    
+}

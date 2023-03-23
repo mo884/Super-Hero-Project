@@ -1,0 +1,267 @@
+﻿@model AuditViewModel
+@using Microsoft.AspNetCore.Identity;
+@inject SignInManager<Person> signInManager
+@{
+    ViewData["Title"] = "GetALL";
+    Layout = "~/Views/AdminLayout/_Layout.cshtml";
+    var userinfo = await signInManager.UserManager.FindByNameAsync(User.Identity.Name);
+    int num1 = 0;
+    int num2 = 0;
+}
+<main>
+    <section>
+        <form class="add-post-form panel  col-md-12" asp-action="Create" asp-controller="Post" enctype="multipart/form-data">
+
+            <div class="row">
+                <div class="col-md-2 mt-md-20">
+                    @if (signInManager.IsSignedIn(User))
+                    {
+
+                        if (@userinfo.Image == null)
+                        {
+                            if (@userinfo.gender == 0)
+                            {
+
+                                <img src="/files/imgs/men.jpg" height="48" width="48" style="border-radius:50%">
+                            }
+                            else
+                            {
+
+                                <img src="/files/imgs/young-woman-avatar-cartoon-character-profile-picture-young-woman-wearing-blue-t-shirt-avatar-cartoon-character-vector-149732076.jpg" style="border-radius:50%" height="48" width="48">
+                            }
+                        }
+                        else
+                        {
+                            <img src="/files/imgs/@userinfo.Image" style="border-radius:50%" height="48" width="48">
+                        }
+
+
+                    }
+                </div>
+                <div class="col-md-6">
+                    <textarea name="Body" asp-for="Body" minlength="0" rows="3" class=" w-75" cols="50" placeholder="What are you Write on?"></textarea>
+                    <span asp-validation-for="Body"></span>
+                </div>
+                <div class="col-md-4">
+                    <div class="image-input image-input-empty mb-10" data-kt-image-input="true" style="background-image:url(/files/imgs/image-placeholder.jpg);margin:auto">
+                        <div class="image-input-wrapper w-100px h-150px"></div>
+                        <label class="btn btn-icon btn-circle btn-color-muted btn-active-color-primary w-25px h-25px bg-body shadow"
+                               data-kt-image-input-action="change"
+                               data-bs-dismiss="click">
+                            <i class="uil uil-pen"></i>
+
+                            <input type="file" asp-for="ImageName" name="ImageName" accept=".png, .jpg, .jpeg" />
+                            <input type="hidden" asp-for="ImageName" id="ImageName" name="avatar_remove ImageName" />
+
+                        </label>
+
+                        <span class="btn btn-icon btn-circle btn-color-muted btn-active-color-primary w-25px h-25px bg-body shadow"
+                              data-kt-image-input-action="cancel"
+                              data-bs-dismiss="click">
+                            <i class="uil uil-times-circle"></i>
+                        </span>
+
+                        <span class="btn btn-icon btn-circle btn-color-muted btn-active-color-primary w-25px h-25px bg-body shadow"
+                              data-kt-image-input-action="remove"
+                              data-bs-dismiss="click">
+                            <i class="bi bi-x fs-2"></i>
+                        </span>
+
+                    </div>
+
+                    <button type="submit">
+                        Post
+                    </button>
+                </div>
+            </div>
+
+
+
+
+
+        </form>
+    </section>
+</main>
+@foreach (var post in Model.post)
+{
+
+    <div class="container mt-5 col-md-12">
+        <div class="row d-flex align-items-center justify-content-center">
+            <div class="col-md-9">
+                <div class="card" style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
+                    <div class="d-flex justify-content-between p-2 px-3">
+                        <div class="d-flex flex-row align-items-center">
+                            <a asp-controller="Profile" asp-action="Profile" asp-route-id="@post.person.Id">
+                                @if (@post.person.Image == null)
+                                {
+                                    if (@post.person.gender == 0)
+                                    {
+                                        <div style="background-image:url('/files/imgs/men.jpg') ; width:50px ; height:50px ; border-radius:50%;background-size:cover; background-position:center; background-repeat:no-repeat ;margin-right:10px"></div>
+                                    }
+                                    else
+                                    {
+                                        <div style="background-image:url('/files/imgs/young-woman-avatar-cartoon-character-profile-picture-young-woman-wearing-blue-t-shirt-avatar-cartoon-character-vector-149732076.jpg') ; width:50px ; height:50px ; border-radius:50%;background-size:cover; background-position:center; background-repeat:no-repeat ;margin-right:10px"></div>
+                                    }
+                                }
+                                else
+                                {
+                                    <div style="background-image:url('/files/imgs/@post.person.Image') ; width:50px ; height:50px ; border-radius:50%;background-size:cover; background-position:center; background-repeat:no-repeat ;margin-right:10px"></div>
+                                }
+
+
+                            </a>
+                            <div class="d-flex flex-column ml-2"> <a style="text-decoration:none;font-weight:bold;color:#b9b9b9" asp-controller="Person" asp-action="Edite" asp-route-id="@post.person.Id" class="font-weight-bold">@post.person.FullName</a> <small class="text-primary">@post.person.PersonType</small> </div>
+                        </div>
+                        <div class="d-flex flex-row mt-1 ellipsis">
+                            <small style="padding:10px;color:#363636b4" class="mr-2">@post.CreatedTime</small><div class="dropdown show">
+
+
+                                @if (userinfo.Id == @post.person.Id)
+                                {
+                                    <div>
+                                        <a class="" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i style="font-size:30px;color:#363636b4" class="uil uil-elipsis-double-v-alt"></i>
+                                        </a>
+
+                                        <div class="dropdown-menu mt-3 " aria-labelledby="dropdownMenuLink">
+                                            <a asp-controller="Post" asp-action="Edite" asp-route-id="@post.ID" class="dropdown-item ancor">
+                                                <i class="uil uil-pen"></i>
+                                                Edite
+                                            </a>
+                                            <a asp-controller="Post" asp-action="Delete" asp-route-id="@post.ID" class="dropdown-item ancor">
+                                                <i class="uil uil-trash-alt"></i>
+                                                Delete
+                                            </a>
+
+                                        </div>
+                                    </div>
+                                }
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                    @if (post.Image != null)
+                    {
+                        <div style="background-image:url('/files/imgs/@post.Image') ; width:100%; height: 430px ;background-size:cover; background-position:center; background-repeat:no-repeat ;"></div>
+                    }
+
+                    <div class="p-2">
+                        <p style="font-size:20px;padding:30px;color:#363636b4;font-weight: 700;" class="text-justify">
+
+                            @post.Body
+
+
+                        </p>
+
+                        <div style="border-top:1px solid #c8d6d6" class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <a href="javascript:;" data-title="@post.Comments.Count() Comments  and  @post.Like Likes" data-url="/Comment/Comments/@post.ID" data-update="true" class="button js-render-modal"><i style="font-size: 20px;" class="uil uil-comment"></i> @post.Comments.Count() </a>
+                            </div>
+                            <div>
+                                <a style="margin:10px" href="javascript:;" data-id="@post.ID" class="ml-2  js-like btn  @((post.ReactPosts?.Where(c=>c.PersonID==userinfo.Id)?.FirstOrDefault() == null ? "btn-light" : (post.ReactPosts.Where(c=>c.PersonID==userinfo.Id).FirstOrDefault().IsLike == true) ? "btn-primary" : "btn-light"))"><i style="font-size: 20px;" class="uil uil-thumbs-up"></i> </a>
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    num1++;
+    @if (num1 == 6)
+    {
+        <div class="row mt-20">
+            <div class="col-sm-2"></div>
+            <div class="col-sm-8">
+                <div id="carousel-card" class="carousel slide" data-interval="5000">
+                    <div class="carousel-inner">
+
+                        @foreach (var doctor in Model.nearDoctor)
+                        {
+
+                            @if (doctor.Id != userinfo.Id)
+                            {
+                                <div class="carousel-item px-5 @(num2>0? " " : "active" ) ">
+                                    <div class="row">
+                                        <div class="col-3">
+                                        </div>
+                                        <div class="col-5">
+                                            <div style="text-align:center" class="card">
+                                                <img style="border-radius:50% ;margin:auto ;width:200px;height:200px" src="~/Files/Imgs/@(doctor.Image == null ?(doctor.gender == 0 ? "men.jpg" : "young-woman-avatar-cartoon-character-profile-picture-young-woman-wearing-blue-t-shirt-avatar-cartoon-character-vector-149732076.jpg") : $"{@doctor.Image}")" alt="Card image cap">
+                                                <h3>@doctor.FullName</h3>
+                                                <p>@doctor.district.Name</p>
+                                                <center>
+                                                    <a class="button" asp-action="Profile" asp-controller="Profile" asp-route-id="@doctor.Id">
+                                                        View Profile
+                                                    </a>
+                                                </center>
+
+
+
+                                            </div>
+                                        </div>
+                                        <div class="col-3">
+                                        </div>
+                                    </div>
+                                </div>
+                                num2++;
+                            }
+
+
+
+                        }
+
+
+                    </div>
+                    <a style="color: #333;" class="carousel-control-prev" href="#carousel-card" role="button" data-slide="prev">
+                        <i style="font-size:40px;color:#1EB2A6" class="uil uil-angle-double-left"></i>
+                    </a>
+                    <a style="color: #333;" class="carousel-control-next" href="#carousel-card" role="button" data-slide="next">
+                        <i style="font-size:40px;color:#1EB2A6" class="uil uil-angle-double-right"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="col-sm-2"></div>
+        </div>
+
+    }       }
+
+
+
+
+
+
+
+
+
+
+<div>
+    <button onclick="topFunction()" id="myBtn" title="Go to top"><i class="uil uil-camera"></i></button>
+</div>
+
+<partial name="~/views/post/Model.cshtml">
+
+    @section CSS{
+        <partial name="~/views/post/CSS.cshtml">
+            <link href="~/dashboard/lib/style.bundle.css" rel="stylesheet" />
+            <style>
+                               #carousel-card .carousel-control-next,
+                #carousel-card .carousel-control-prev {
+                  width: 5%;
+
+                }
+            </style>
+        }
+        @section JqueryValidation{
+            <partial name="~/views/person/Partial/Script.cshtml" />
+        }
+        @section JS{
+            <partial name="~/views/post/scripts.cshtml">
+
+                <script src="~/dashboard/lib/plugins.bundle.js"></script>
+                <script src="~/dashboard/lib/sweetalert2/scripts.bundle.js"></script>
+
+            }

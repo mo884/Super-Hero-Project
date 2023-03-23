@@ -1,0 +1,11 @@
+﻿global using AutoMapper;
+global using FRYMA_SuperHero.BL.Interface;
+global using Microsoft.AspNetCore.Mvc;
+global using SuperHero.BL.DomainModelVM;
+global using SuperHero.DAL.Entities;
+global using Microsoft.AspNetCore.Identity;
+global using Microsoft.AspNetCore.Mvc.Rendering;
+global using Microsoft.EntityFrameworkCore;
+global using SuperHero.BL;
+global using SuperHero.BL.DomainModelVM;
+global using SuperHero.DAL.Entities;

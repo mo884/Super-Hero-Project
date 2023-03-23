@@ -1,0 +1,68 @@
+﻿@model IEnumerable<GroupVM>
+
+    @{
+        ViewData["Title"] = "GetAll";
+        Layout = "~/Views/AdminLayout/_Layout.cshtml";
+    }
+
+    @section CSS{
+        <partial name="~/views/person/Partial/css.cshtml" />
+    }
+    <a class="btn1 third col-sm-3  me-2 " asp-action="Create" asp-controller="Group"> &nbsp; &nbsp; &nbsp;<i class="uil uil-create-dashboard "></i> &nbsp; Create</a>
+    <br />
+    <br />
+    <table id="example" class="table" style="width:100%;color:darkgrey">
+        <thead>
+            <tr>
+
+                <th>Name</th>
+
+                <th>createdTime</th>
+
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+
+                    <td>@item.Name</td>
+
+                    <td>@item.CreatedTime</td>
+
+                    <td>
+                        <div class="dropdown show">
+                            <p class="btn btn-outline-info" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Action
+                            </p>
+
+                            <div class="dropdown-menu align-items-center " aria-labelledby="dropdownMenuLink">
+                                <a class="dropdown-item ancor btn btn-primary" asp-action="Edite" asp-controller="Group" asp-route-id="@item.ID">
+
+                                    Edite
+                                </a>
+                                <a style="text-align: center" class="dropdown-item" asp-action="Delete" asp-controller="Group" asp-route-id="@item.ID">
+
+                                    Delete
+                                </a>
+                                <a style="text-align: center" class="dropdown-item" asp-action="AddOrRemoveGroups" asp-controller="Group" asp-route-id="@item.ID">
+
+                                    Add Person
+                                </a>
+
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            }
+
+
+        </tbody>
+
+    </table>
+    @section DatatablesJS{
+        <partial name="~/views/person/Partial/script.cshtml" />
+
+    }
+

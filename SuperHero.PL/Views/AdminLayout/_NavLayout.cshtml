@@ -1,0 +1,76 @@
+﻿@*@model List<PersonVM>*@
+@using Microsoft.AspNetCore.Identity;
+@inject SignInManager<Person> signInManager
+<div class="top">
+    <i class="uil uil-bars sidebar-toggle"></i>
+
+    <div class="search-box">
+        <i class="uil uil-search"></i>
+        <input type="text" placeholder="Search here..." />
+    </div>
+
+
+    <div class="dropdown show">
+     
+        <div @*class="dropdown show"*@>
+            <a class="" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+       @if (signInManager.IsSignedIn(User))
+        {
+
+            var userinfo = await signInManager.UserManager.FindByNameAsync(User.Identity.Name);
+            @if (@userinfo.Image == null)
+            {
+                if (@userinfo.gender == 0)
+                {
+                  <img src="/files/imgs/men.jpg" alt="" />
+                }
+                else
+                {
+
+                   <img src="/files/imgs/young-woman-avatar-cartoon-character-profile-picture-young-woman-wearing-blue-t-shirt-avatar-cartoon-character-vector-149732076.jpg" alt="" />
+                }
+            }
+            else
+            {
+
+                        <img src="/files/imgs/@userinfo.Image" style="width:60px;height:60px" alt="" />
+            }
+        }
+            </a>
+
+            <div class="dropdown-menu mt-3 " aria-labelledby="dropdownMenuLink">
+                <a class="dropdown-item ancor" href="#">
+                    <i class="uil uil-user"></i>
+                    Profile
+                </a>
+                <a class="dropdown-item" href="#">
+                    <i class="uil uil-edit"></i>
+                    Edit
+                </a>
+                <a style="z-index:299499495959"href="#">
+                   
+                    <form  class="dropdown-item" style="display:inline-block" asp-controller="Account" asp-action="LogOff">
+                        <i class="uil uil-signout"></i>
+                        <input type="submit" value="Sign Out" class="btn btn-block" />
+                    </form>
+                </a>
+
+            </div>
+        </div>
+       @* <div class="dropdown-menu mt-3 w-25 " aria-labelledby="dropdownMenuLink">
+            <a class="dropdown-item ancor" href="#">
+                <i class="uil uil-user"></i>
+                Profile
+            </a>
+            <a class="dropdown-item" href="#">
+                <i class="uil uil-edit"></i>
+                Edit
+            </a>
+            <a class="dropdown-item" asp-action="LogOff" asp-controller="Account">
+                <i class="uil uil-sign-out-alt"></i>
+                Log out
+            </a>
+
+        </div>*@
+    </div>
+</div>

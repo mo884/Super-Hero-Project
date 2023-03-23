@@ -1,0 +1,87 @@
+﻿@model RegistrationVM
+
+
+@{
+    ViewData["Title"] = "Registration";
+    Layout = "~/Views/FirstPage/_FirstPageLayout.cshtml";
+}
+
+<div class="modal " id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document" style="display:flex;justify-content:center">
+        <div class="modal-content " style="width:1200px;background-color:transparent;border:none">
+            <div class="modal-header" style="border:none">
+
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span style="font-size:40px" aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <section>
+                    <div class="container">
+                        <div class="form sign-in-form">
+                            <div class="wrapper">
+                                <partial name="~/views/account/login.cshtml" />
+                               
+                            </div>
+                        </div>
+                        <div class="form sign-up-form active">
+                            <div class="wrapper">
+                                <form method="post" asp-controller="Account" asp-action="Registration">
+                                    <h1>Sign up</h1>
+                                    <p>Please, provide all the correct info to create an account</p>
+                                    <input type="text" asp-for="UserName" placeholder="Full Name">
+                                    <span asp-validation-for="UserName" class="text-danger"> </span>
+
+                                    <input type="email" asp-for="Email" placeholder="Email">
+                                    <span asp-validation-for="Email" class="text-danger"> </span>
+
+                                    <input type="password" asp-for="Password" placeholder="password">
+                                    <span asp-validation-for="Password" class="text-danger"> </span>
+
+                                    <input type="password" asp-for="ConfirmPassword" placeholder="ConfirmPassward">
+                                    <span asp-validation-for="ConfirmPassword" class="text-danger"> </span>
+                                   
+                                    <input type="submit" value="Sing Up" class="btn btn-primary" />
+                                </form>
+                            </div>
+                        </div>
+                        <div class="overlay-container">
+                            <div class="overlay">
+                                <div class="overlay-left">
+                                    <h1>Create Account</h1>
+                                    <p>or</p>
+                                    <button id="signInButton">Log In</button>
+                                </div>
+                                <div class="overlay-right">
+                                    <h1>Please, Log In</h1>
+                                    <p>or</p>
+                                    <button id="signUpButton">Create Account</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+@section JqueryValidation{
+    <script src="~/jquery-validation/additional-methods.js"></script>
+    <script src="~/jquery-validation/jquery.validate.js"></script>
+    <script src="~/jquery-validation/validation-styling.js"></script>
+}
+@section CSSLogin{
+    <link href="~/identity/css/main.css" rel="stylesheet" />
+    @*    <link href="~/identity/css/bootstrap.min.css" rel="stylesheet" />*@
+    <link href="~/identity/prop/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/firstpage/pobup/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+ }
+   
+    @section ScriptsLogin{
+    <script src="~/identity/prop/js/jquery-3.6.0.js"></script>
+    <script src="~/identity/prop/js/bootstrap.js"></script>
+    <script src="~/identity/js/main.js"></script>
+}
+

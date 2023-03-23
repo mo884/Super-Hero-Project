@@ -1,0 +1,94 @@
+{
+  "version": "1.0",
+  "defaultProvider": "cdnjs",
+  "libraries": [
+    {
+      "library": "popper.js@2.11.6",
+      "destination": "wwwroot/Dashboard/Lib/popper.js/",
+      "files": [
+        "umd/popper.min.js"
+      ]
+    },
+    {
+      "library": "jquery@3.6.3",
+      "destination": "wwwroot/Dashboard/Lib/jquery/",
+      "files": [
+        "jquery.min.js"
+      ]
+    },
+    {
+      "library": "bootstrap@5.2.3",
+      "destination": "wwwroot/Dashboard/Lib/bootstrap/",
+      "files": [
+        "js/bootstrap.min.js",
+        "css/bootstrap.min.css"
+      ]
+    },
+    {
+      "library": "datatables@1.10.21",
+      "destination": "wwwroot/Datatable/datatables/",
+      "files": [
+        "js/jquery.dataTables.min.js",
+        "images/sort_asc.png",
+        "images/sort_asc_disabled.png",
+        "images/sort_both.png",
+        "images/sort_desc.png",
+        "images/sort_desc_disabled.png",
+        "js/dataTables.bootstrap4.js",
+        "css/dataTables.bootstrap4.css",
+        "css/dataTables.bootstrap4.min.css",
+        "js/dataTables.bootstrap4.min.js"
+      ]
+    },
+    {
+      "library": "datatables-buttons@2.3.4",
+      "destination": "wwwroot/Datatable/datatables-buttons/",
+      "files": [
+        "js/dataTables.buttons.min.js",
+        "js/buttons.print.min.js",
+        "js/buttons.html5.min.js"
+      ]
+    },
+    {
+      "library": "jszip@3.10.1",
+      "destination": "wwwroot/Datatable/jszip/"
+    },
+    {
+      "library": "pdfmake@0.2.7",
+      "destination": "wwwroot/Datatable/pdfmake/"
+    },
+    {
+      "library": "datatables.net-buttons-bs5@2.3.4",
+      "destination": "wwwroot/Datatable/datatables.net-buttons-bs5/"
+    },
+    {
+      "library": "sweetalert2@11.7.3",
+      "destination": "wwwroot/Dashboard/sweetalert2/"
+    },
+    {
+      "provider": "unpkg",
+      "library": "sweetalert2@11.7.3",
+      "destination": "wwwroot/Dashboard/Lib/sweetalert2/",
+      "files": [
+        "dist/sweetalert2.all.js",
+        "dist/sweetalert2.all.min.js",
+        "dist/sweetalert2.css",
+        "dist/sweetalert2.js",
+        "dist/sweetalert2.min.css",
+        "dist/sweetalert2.min.js"
+      ]
+    },
+    {
+      "library": "toastify-js@1.12.0",
+      "destination": "wwwroot/Dashboard/Lib/toastify-js/"
+    },
+    {
+      "library": "select2@4.0.13",
+      "destination": "wwwroot/Dashboard/Lib/select2/",
+      "files": [
+        "js/select2.min.js",
+        "css/select2.min.css"
+      ]
+    }
+  ]
+}

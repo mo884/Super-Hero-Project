@@ -1,0 +1,45 @@
+﻿
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="~/Dashboard/Images/Flash.svg" rel="icon">
+
+    <!----======== CSS ======== -->
+    <link href="~/dashboard/style.css" rel="stylesheet" />
+    <!----======== Datatable ======== -->
+    <link href="~/datatable/datatables/css/datatables.bootstrap4.min.css" rel="stylesheet" />
+    @*<link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />*@
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lobster&family=Oswald:wght@500&display=swap" rel="stylesheet">
+    <!----===== Iconscout CSS ===== -->
+    <link rel="stylesheet"href="https://unicons.iconscout.com/release/v4.0.0/css/line.css" />
+    <!--Bootstrap-->
+    <link href="~/datatable/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <!--Sweet alert-->
+    <link href="~/dashboard/lib/sweetalert2/dist/sweetalert2.css" rel="stylesheet" />
+    <link href="~/dashboard/lib/sweetalert2/dist/sweetalert2.min.css" rel="stylesheet" />
+<link href="~/datatable/datatables.net-buttons-bs5/buttons.bootstrap5.min.css" rel="stylesheet" />
+@RenderSection("CSS",required:false)
+<title>@ViewData["Title"]</title>
+</head>
+<body>
+    <partial name="~/views/adminlayout/_sidelayout.cshtml" />
+    <section class="dashboard">
+        <partial name="~/views/adminlayout/_Navlayout.cshtml" />
+        <div class="dash-content "> 
+            @RenderBody()
+            <span id="Message" class="d-none"> @TempData["Message"]</span>
+        </div>
+    </section>
+    
+   
+  <partial name="~/views/adminlayout/_ScriptsLayout.cshtml" />
+    @RenderSection("DatatablesJS",required:false)
+    @RenderSection("JS",required:false)
+    @RenderSection("JqueryValidation",required:false)
+
+</body>
+</html>

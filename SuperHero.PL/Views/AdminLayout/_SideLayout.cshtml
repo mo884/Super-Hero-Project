@@ -1,0 +1,143 @@
+﻿@*@model List<PersonVM>*@
+@using Microsoft.AspNetCore.Identity;
+@inject SignInManager<Person> signInManager
+
+
+<nav>
+    <div class="logo-name">
+        <div class="logo-image">
+            <img src="~/dashboard/images/flash.svg" />
+        </div>
+
+        <span class="logo_name">Super Heroes</span>
+      
+       @if (signInManager.IsSignedIn(User))
+        {
+
+            var userinfo = await signInManager.UserManager.FindByNameAsync(User.Identity.Name);
+            <a asp-action="Profile" asp-controller="Profile" asp-route-id="@userinfo.Id">
+            @if (@userinfo.Image == null)
+            {
+                if (@userinfo.gender == 0)
+                {
+                    <div class="Image" style="background-image:url('/files/imgs/men.jpg') ; ">
+                    </div>
+
+                }
+                else
+                {
+                    <div class="Image" style="background-image:url('/files/imgs/young-woman-avatar-cartoon-character-profile-picture-young-woman-wearing-blue-t-shirt-avatar-cartoon-character-vector-149732076.jpg') ">
+                    </div>
+
+                }
+            }
+            else
+            {
+                <div class="Image" style="background-image:url('/files/imgs/@userinfo.Image') ">
+                </div>
+            }
+
+
+            </a>
+            <div style="margin-top:-15px" class="d-flex flex-column align-items-center text-center c  py-5">
+                <span class="font-weight-bold">@userinfo.FullName</span>
+                <span class="text-black-50">@userinfo.Email</span>
+            </div>
+          
+        }
+  
+    </div>
+
+    <div style="margin-top:-20px" class="menu-items">
+        <ul class="nav-links" style="padding-left:0px">
+
+            <li >
+                <a active-when="Person" asp-action="GetAll" asp-controller="Person">
+                    <i class="uil uil-user-circle"></i>
+                    <span class="link-name">Person</span>
+                </a>
+                
+            </li>
+  
+            <li  data-bs-toggle="dropdown" aria-expanded="false">
+                <a asp-controller="Categories" active-when="Categories">
+                    <i class="uil uil-files-landscapes icon"></i>
+                    <span class="link-name">Courses</span>
+                </a>
+                
+            </li>
+               <ul class="nav-links dropdown-menu" aria-labelledby="dropdownMenuLink" style="padding-left:0px;z-index:12939494">
+
+                <li><a active-when="Categories" class="dropdown-item" asp-action="GetAll" asp-controller="Categories"><i class="uil uil-servers"></i>Category</a></li>
+                <li><a active-when="Course" class="dropdown-item" asp-action="GetAll" asp-controller="Course"><i class="uil uil-presentation-edit"></i>Course</a></li>
+                <li><a active-when="Lesson" class="dropdown-item" asp-action="GetAll" asp-controller="Lesson"><i class="uil uil-layer-group"></i>Lesson</a></li>
+
+                </ul>
+            <li >
+                <a active-when="Post" asp-action="GetAll" asp-controller="Post">
+                    <i class="uil uil-search"></i>
+                    <span class="link-name">Post</span>
+                </a>
+            </li>
+            <li>
+                <a active-when="Group" asp-action="GetAll" asp-controller="Group">
+                    <i class="uil uil-users-alt"></i>
+                    <span class="link-name">Group</span>
+                </a>
+            </li>
+          @*  <ul class="nav-links dropdown-menu" aria-labelledby="dropdownMenuLink" style="padding-left:0px">
+
+                <li><a class="dropdown-item" asp-action="GetAll" asp-controller="Categories"><i class="uil uil-globe"></i>District</a></li>
+                <li><a class="dropdown-item" asp-action="GetAll" asp-controller="Course"><i class="uil uil-presentation-edit"></i>City</a></li>
+                <li><a class="dropdown-item" asp-action="GetAll" asp-controller="Lesson"><i class="uil uil-layer-group"></i>Governorate</a></li>
+
+            </ul>*@
+            <li>
+                <a href="#">
+                    <i class="uil uil-chart icon"></i>
+                    <span class="link-name">Analytics</span>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="uil uil-thumbs-up icon"></i>
+                    <span class="link-name">Like</span>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="uil uil-comments icon"></i>
+                    <span class="link-name">Comment</span>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="uil uil-share icon"></i>
+                    <span class="link-name">Share</span>
+                </a>
+            </li>
+        </ul>
+
+        <ul class="logout-mode" style="padding-left:0px">
+            <li>
+            @*    <form style="display:inline-block" asp-controller="Account" asp-action="LogOff">
+                    <i class="uil uil-signout"></i>
+                    <input type="submit" value="Sign Out" class="btn btn-block" />
+                </form>*@
+            </li>
+            <li class ="mode">
+            </li>
+
+            <li class="mode">
+                <a href="#">
+                    <i class="uil uil-moon"></i>
+                    <span class="link-name">Dark Mode</span>
+                </a>
+
+                <div class="mode-toggle">
+                    <span class="switch"></span>
+                </div>
+            </li>
+        </ul>
+    </div>
+</nav>

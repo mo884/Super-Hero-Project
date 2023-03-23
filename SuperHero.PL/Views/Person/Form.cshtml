@@ -1,0 +1,63 @@
+﻿@model CreatePerson
+@{
+    ViewData["Title"] = $"Delete Person";
+    Layout = "~/Views/AdminLayout/_Layout.cshtml";
+}
+
+
+<div  class="card shadow-sm ">
+
+    <div class="card-header">
+        <h3 class="card-title">@(ViewBag.Delete == "Delete" ? "Delete" : (ViewBag.ID != null ? "Edit" : "Add")) Person</h3>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-4">
+                <a>@TempData["error"]</a>
+                <div asp-validation-summary="All"></div>
+                <form method="post" asp-controller="Person" enctype="multipart/form-data">
+
+                    <div class="mb-5">
+                        <div class="form-floating mb-2">
+                            <input readonly type="text" class="form-control" placeholder="Name" asp-for="FullName" />
+                            <label asp-for="FullName"></label>
+                        </div>
+                        <span asp-validation-for="FullName" class="text-danger"></span>
+                    </div>
+
+                  
+
+                    <div class="mb-5">
+                        <div class="form-floating mb-2">
+                            <input readonly type="text" class="form-control" placeholder="Email" asp-for="Email" />
+                            <label asp-for="Email"></label>
+                        </div>
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+
+
+                  
+                    
+                        <center>
+                            <button id="btnd" type="submit" class="btn btn-danger">
+                                Delete
+                            </button>
+
+                            <a asp-action="GetAll" asp-controller="Person" class="btn btn-primary">return</a>
+                        </center>
+                   
+                   
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section CSS{
+    <partial name="~/views/person/Partial/css.cshtml" />
+      
+}
+    @section JqueryValidation{
+    <partial name="~/views/person/Partial/Script.cshtml" />
+}

@@ -1,0 +1,127 @@
+﻿@model IEnumerable<CreatePerson>
+@inject SignInManager<Person> signInManager
+@{
+    ViewData["Title"] = "GetAll";
+    Layout = "~/Views/AdminLayout/_Layout.cshtml";
+}
+@section CSS{
+    <partial name="~/views/person/Partial/css.cshtml" />
+}
+
+
+    <a data-bs-toggle="dropdown" aria-expanded="false" class="btn1 third col-sm-3  me-2 " > &nbsp; &nbsp; &nbsp;<i class="uil uil-create-dashboard "></i> &nbsp; Create</a>
+    <ul class="nav-links dropdown-menu  col-sm-3  me-2" aria-labelledby="dropdownMenuLink" style="padding-left:0px;text-align:center">
+
+        <li><a class="dropdown-item" asp-action="CreateUser" asp-controller="Patient"><i class="uil uil-user"></i> &nbsp; &nbsp; &nbsp;Patient</a></li>
+        <li><a class="dropdown-item" asp-action="CreateDonner" asp-controller="Donner"><i class="uil uil-usd-circle"></i> &nbsp; &nbsp; &nbsp;Donner</a></li>
+        <li><a class="dropdown-item" asp-action="CreateDoctor" asp-controller="Doctor"><i class="uil uil-stethoscope"></i> &nbsp; &nbsp; &nbsp;Doctor</a></li>
+        <li><a class="dropdown-item" asp-action="CreateTrainer" asp-controller="Trainer"><i class="uil uil-presentation-edit"></i></i> &nbsp; &nbsp; &nbsp;Trainer</a></li>
+    </ul>
+    <br />
+    <br />
+<table id="example" class="table" style="width:100%;color:darkgrey">
+    <thead>
+        <tr>
+
+            <th>Profile</th>
+
+            <th>UserName</th>  
+            
+            <th>Person Type</th>
+
+            <th>IsDelete</th>  
+            
+            <th>Gender</th>
+
+            <th>District</th>
+
+               
+            <th>Action</th>
+            
+            
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @if (@item.Image == null)
+                    {
+                        if (@item.gender == 0)
+                        {
+                            <div class="Image" style="background-image:url('/files/imgs/men.jpg') ; width:50px ; height:50px ; border-radius : 50%;background-size:cover;margin:auto; background-position:center; background-repeat:no-repeat ;">
+                            </div>
+
+                        }
+                        else
+                        {
+                            <div class="Image" style="background-image:url('/files/imgs/young-woman-avatar-cartoon-character-profile-picture-young-woman-wearing-blue-t-shirt-avatar-cartoon-character-vector-149732076.jpg') ; width:50px;margin:auto ; height:50px ; border-radius : 50%;background-size:cover; background-position:center; background-repeat:no-repeat ;">
+                            </div>
+
+                        }
+                    }
+                    else
+                    {
+                        <div class="Image" style="background-image:url('/files/imgs/@item.Image') ; width:50px ; height:50px ; border-radius : 50%;background-size:cover;margin:auto; background-position:center; background-repeat:no-repeat ;">
+                        </div>
+                    }
+
+
+
+
+                </td>
+                <td>@item.UserName</td>
+                
+                <td>@item.personType</td>
+
+                <td class="danger">
+                    <span style='color:@(item.ISDeleted ? "#f1416c" : "#50cd89");background:@(item.ISDeleted ? "#fff5f8" : "#e8fff3");font-size:15px;font-weight: bold'>
+                        @(item.ISDeleted ? "Deleted" : "Available")
+                    </span>
+                   
+                </td>
+
+                <td>
+                    @item.gender
+                </td>
+
+
+               
+               
+                <td>
+                   
+                    @item.district.Name
+                </td>
+               <td>
+                    <div class="dropdown show">
+                        <p class="btn btn-outline-dark" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="uil uil-angle-down"></i>
+                            Action
+                        </p>
+
+                        <div class="dropdown-menu align-items-center " aria-labelledby="dropdownMenuLink">
+                            <a class="dropdown-item ancor btn btn-primary" asp-action="Edite" asp-controller="Person" asp-route-id="@item.Id">
+                               
+                               Edite
+                            </a>
+                            <a style="text-align: center" class="dropdown-item" asp-action="Delete" asp-controller="Person" asp-route-id="@item.Id">
+                                
+                                Delete
+                            </a>
+                            
+
+                        </div>
+                    </div>
+                   </td>
+            </tr>
+        }
+      
+        
+    </tbody>
+   
+</table>
+@section DatatablesJS{
+    <partial name="~/views/person/Partial/script.cshtml" />
+    
+}

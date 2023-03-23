@@ -1,0 +1,140 @@
+﻿@model CreatePerson
+@{
+    ViewData["Title"] = "Patient";
+    Layout = "~/Views/AdminLayout/_Layout.cshtml";
+}
+
+
+<div class="card shadow-sm">
+
+    <div class="card-header">
+        <h3 class="card-title">Add Patient</h3>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-2 ">
+                </div>
+            <div class="col-md-8 ">
+                <a>@TempData["error"]</a>
+                <div asp-validation-summary="All"></div>
+                <form method="post" asp-controller="patient" asp-action="CreateUser" enctype="multipart/form-data">
+                    <div class="row">
+                        <div class="col-md-4 ">
+                        </div>
+                        <div class="col-md-4 ">
+                            <div class="image-input image-input-empty mb-10" data-kt-image-input="true" style="background-image:url(/files/imgs/men.jpg);margin:auto">
+                                <div class="image-input-wrapper w-250px h-250px"></div>
+                                <label class="btn btn-icon btn-circle btn-color-muted btn-active-color-primary w-25px h-25px bg-body shadow"
+                                       data-kt-image-input-action="change"
+                                       data-bs-dismiss="click">
+                                    <i class="uil uil-pen"></i>
+
+                                    <input type="file" asp-for="ImageName" accept=".png, .jpg, .jpeg" />
+                                    <input type="hidden" asp-for="ImageName" name="avatar_remove" />
+
+                                </label>
+
+                                <span class="btn btn-icon btn-circle btn-color-muted btn-active-color-primary w-25px h-25px bg-body shadow"
+                                      data-kt-image-input-action="cancel"
+                                      data-bs-dismiss="click">
+                                    <i class="uil uil-times-circle"></i>
+                                </span>
+
+                                <span class="btn btn-icon btn-circle btn-color-muted btn-active-color-primary w-25px h-25px bg-body shadow"
+                                      data-kt-image-input-action="remove"
+                                      data-bs-dismiss="click">
+                                    <i class="bi bi-x fs-2"></i>
+                                </span>
+                             
+                            </div>
+                            <span asp-validation-for="Image" class="text-danger d-block"></span>
+                        </div>
+                        <div class="col-md-4 ">
+                        </div>
+                    </div>
+                   
+                    <div class="mb-5 center-block ">
+                        <div class="form-floating mb-2">
+                            <input type="text" class="form-control" placeholder="Name" asp-for="FullName" />
+                            <label asp-for="FullName"></label>
+                        </div>
+                        <span asp-validation-for="FullName" class="text-danger"></span>
+                    </div>
+                    <div class="mb-5">
+                        <div class="form-floating mb-2">
+                            <input type="text" class="form-control" placeholder="Email" asp-for="Email" />
+                            <label asp-for="Email"></label>
+                        </div>
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>                    
+                    <div class="mb-5">
+                        <div class="form-floating mb-2">
+                            <input type="text" class="form-control" placeholder="UserName" asp-for="UserName" />
+                            <label asp-for="UserName"></label>
+                        </div>
+                        <span asp-validation-for="UserName" class="text-danger"></span>
+                    </div>
+                    <div class="mb-5">
+                        <div class="form-floating mb-2">
+                            <input type="password" asp-for="PasswordHash" class="form-control" placeholder="passward" asp-for="PasswordHash" />
+                            <label asp-for="PasswordHash"></label>
+                        </div>
+                        <span asp-validation-for="PasswordHash" class="text-danger"></span>
+                    </div>
+                    <div class="mb-5">
+                        <div class="form-floating mb-2">
+                            <select asp-for="patient.Reason" class="form-select" aria-label="Default select example">
+                                <option value="0">Autism</option>
+                                <option value="1">Deaf_and_Dumb</option>
+                                <option value="2">Down_syndrome</option>
+                            </select>
+                        </div>
+                     </div>
+                     <span asp-validation-for="personType" class="text-danger"></span>                   
+                    <div class="mb-5">
+                        <div class="form-floating mb-2">
+                            <select asp-for="gender" class="form-select" aria-label="Default select example">
+                                <option value="0">Male</option>
+                                <option value="1">Female</option>
+                            </select>
+                        </div>
+                    </div>
+
+                  
+                    <div class="mb-5">
+                        <div class="form-floating mb-2">
+                            
+                            <select class="form-select" aria-label="Default select example" asp-for="districtID" asp-items="(SelectList)ViewBag.districtList">
+                            </select>
+                        </div>
+                    </div>
+
+                    <span asp-validation-for="districtID" class="text-danger"></span>
+                    <br />
+
+                        <center>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="uil uil-check"></i>Save
+                            </button>
+
+                            <a asp-action="GetAll" asp-controller="Person" class="btn btn-danger">return</a>
+                        </center>
+                  
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col-md-2 ">
+</div>
+@section CSS{
+    <partial name="~/views/person/Partial/css.cshtml" />
+    <link href="~/dashboard/lib/style.bundle.css" rel="stylesheet" />
+}
+@section JqueryValidation{
+    <partial name="~/views/person/Partial/Script.cshtml" />
+    <script src="~/dashboard/lib/plugins.bundle.js"></script>
+    <script src="~/dashboard/lib/sweetalert2/scripts.bundle.js"></script>
+}
+
+

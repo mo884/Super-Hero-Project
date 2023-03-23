@@ -1,0 +1,45 @@
+﻿@model List<UserInRoleVM>
+
+@{
+    ViewData["Title"] = "AddOrRemoveUsers";
+    var RoleId = ViewBag.roleId;
+    Layout = "~/Views/AdminLayout/_Layout.cshtml";
+}
+
+<h1>AddOrRemoveUsers</h1>
+
+
+<form method="post" class="form-group">
+
+    <div class="card-header">
+        <h2>Add Or Remove User In Role</h2>
+    </div>
+
+
+    @for (int i = 0; i < Model.Count; i++)
+    {
+
+        <input asp-for="@Model[i].IsSelected" type="checkbox" class="filled-in">
+        <label asp-for="@Model[i].IsSelected">@Model[i].UserName</label>
+
+        <input type="hidden" asp-for="@Model[i].UserId" />
+        <input type="hidden" asp-for="@Model[i].UserName" />
+
+    }
+
+    <div class="card-footer">
+        <input type="submit" value="Edit" class="btn btn-primary" />
+    </div>
+
+
+</form>
+
+<a asp-controller="Roles" asp-action="Update" asp-route-id="@RoleId">Cancle</a>
+
+@section CSS{
+    <partial name="~/views/person/Partial/css.cshtml" />
+
+}
+    @section JqueryValidation{
+    <partial name="~/views/person/Partial/Script.cshtml" />
+}
