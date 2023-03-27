@@ -134,22 +134,13 @@ namespace SuperHero.PL.Controllers.Admin.Persons
         }
 
         [HttpPost]
-        public async Task<IActionResult> Registration(RegistrationVM model)
+        public async Task<IActionResult> Registration(CreatePerson model)
         {
-
-            var user = new Person()
-            {
-                UserName = model.UserName,
-                Email = model.Email,
-                districtID = 1,
-                //GroupID=1
-            };
-
-            var result = await userManager.CreateAsync(user, model.Password);
+             var result = await userManager.CreateAsync(await Service.Add(model, 0), model.PasswordHash);
 
             if (result.Succeeded)
             {
-                return RedirectToAction("Login");
+                return RedirectToAction("Login","Account");
             }
             else
             {
@@ -159,7 +150,7 @@ namespace SuperHero.PL.Controllers.Admin.Persons
                 }
             }
 
-            return View(model);
+            return PartialView("Registration",model);
         }
         #endregion
 

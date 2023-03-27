@@ -9,6 +9,7 @@ using SuperHero.DAL.Enum;
 using SuperHero.DAL.Enum;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,6 +25,10 @@ namespace SuperHero.BL.Helper
             {
                 if (num == 0)
                 {
+                    if(model.Image is null)
+                    {
+                        model.Image = null;
+                    }
                     var user = new Person()
                     {
                         UserName = model.UserName,

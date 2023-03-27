@@ -14,11 +14,17 @@ namespace SuperHero.BL.DomainModelVM
     public class CreatePerson
     {
         public string? Id { get; set; }
-        [Required, MaxLength(30)]
+        [Required, MaxLength(30,ErrorMessage = "FullName required and Length Max 30")]
         public string FullName { get; set; }
         public bool ISDeleted { get; set; }
+
+        [Required(ErrorMessage = "UserName required")]
         public string? UserName { get; set; }
+        [Required(ErrorMessage ="Password required")]
         public string? PasswordHash { get; set; }
+        [DataType(DataType.Password)]
+        [Compare("PasswordHash", ErrorMessage = "Password should be idintical")]
+        public string? ConfirmPassword { get; set; }
         public string Email { get; set; }
        
 
