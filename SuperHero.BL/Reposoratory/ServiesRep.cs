@@ -9,6 +9,7 @@ using SuperHero.DAL.Enum;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -225,7 +226,7 @@ namespace SuperHero.BL.Reposoratory
                 return false;
             return true;
         }
-   
+
         public async Task<PersonGroup> FindById(string personId, int groupId)
         {
 
@@ -250,5 +251,56 @@ namespace SuperHero.BL.Reposoratory
         }
         #endregion
 
+        #region  fliter address ❤ fatma 
+        public async Task<IEnumerable<Governorate>> GetGovAsync(Expression<Func<Governorate, bool>> filter = null)
+        {
+            if (filter != null)
+                return
+                      await Db.Governorates.Where(filter).ToListAsync();
+            else
+                return await Db.Governorates.ToListAsync();
+        }
+        public async Task<IEnumerable<City>> GetCityAsync(Expression<Func<City, bool>> filter = null)
+        {
+            if (filter != null)
+            {
+                return
+                  await Db.Cities.Where(filter)
+                               .ToListAsync();
+            }
+            else
+                return
+                    await Db.Cities
+                                 .ToListAsync();
+        }
+        public async Task<IEnumerable<District>> GetDistAsync(Expression<Func<District, bool>> filter = null)
+        {
+            if (filter != null)
+            {
+                return
+                  await Db.District.Where(filter) 
+                               .ToListAsync();
+            }
+            else
+                return
+                    await Db.District
+                                 .ToListAsync();
+        }
+        public async Task<IEnumerable<Person>> GetPersonAsync(Expression<Func<Person, bool>> filter = null)
+        {
+            if (filter != null)
+            {
+                return
+                  await Db.Persons.Where(filter)
+                               .ToListAsync();
+            }
+            else
+                return
+                    await Db.Persons
+                                    .ToListAsync();
+        }
+
+
+        #endregion
     }
 }

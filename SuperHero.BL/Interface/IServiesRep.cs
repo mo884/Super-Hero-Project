@@ -3,6 +3,7 @@ using SuperHero.DAL.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -29,7 +30,9 @@ namespace SuperHero.BL.Interface
         Task<bool> Create(int id, string personId);
         Task<bool> Delete(int id, string personId);
         Task<IEnumerable<Person>> GetDoctor(int Districtid, int cityid, int GovernorateID);
-       
+        Task<IEnumerable<City>> GetCityAsync(Expression<Func<City, bool>> filter = null);
+        Task<IEnumerable<District>> GetDistAsync(Expression<Func<District, bool>> filter = null);
+        Task<IEnumerable<Governorate>> GetGovAsync(Expression<Func<Governorate, bool>> filter = null);
 
     }
 }

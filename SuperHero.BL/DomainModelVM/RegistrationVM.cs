@@ -5,12 +5,14 @@ using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-
+using SuperHero.BL.Enum;
 
 namespace SuperHero.BL.DomainModelVM
 {
     public class RegistrationVM
     {
+        [Required(ErrorMessage = "Name Required")]
+        public string FullName { get; set; }
         [Required(ErrorMessage = "Email Required")]
         [EmailAddress(ErrorMessage = "Invalid Email")]
         public string Email { get; set; }
@@ -28,7 +30,10 @@ namespace SuperHero.BL.DomainModelVM
         [DataType(DataType.Password)]
         [Compare("Password", ErrorMessage ="Password should be idintical")]
         public string ConfirmPassword { get; set; }
+        public Gender Gender { get; set; }
+        public PersonType persontype { get; set; }
+        public int DistrictId { get; set; }
 
-        
+
     }
 }

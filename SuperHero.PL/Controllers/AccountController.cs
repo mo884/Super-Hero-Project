@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Raven.Database.Server.Controllers;
 using SuperHero.BL.DomainModelVM;
 using SuperHero.BL.Seeds;
 using SuperHero.DAL.Entities;

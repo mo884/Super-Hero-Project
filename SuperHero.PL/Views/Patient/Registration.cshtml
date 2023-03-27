@@ -1,0 +1,217 @@
+﻿@model RegistrationVM
+@inject IServiesRep servis
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="~/registration/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/registration/main.css" rel="stylesheet" />
+
+    <link href="~/firstpage/image/flash.svg" rel="icon">
+    <title>Document</title>
+</head>
+<body>
+    <div class="row Reg">
+        <div class="col-sm-1"></div>
+        <div class="col-sm-10">
+            <div class="row ">
+                <div class="col-sm-6">
+                    <div class="content1  ">
+                        <h2>
+                            <span class="fast-flicker"> Patient</span>
+                        </h2>
+                        <p>
+                            Rem id rerum. Debitis deserunt quidem delectus expedita ducimus dolor.
+                            Aut iusto ipsa. Eos ipsum nobis ipsa soluta itaque perspiciatis fuga ipsum perspiciatis
+                            Aut iusto ipsa. Eos ipsum nobis ipsa soluta itaque perspiciatis fuga
+                        </p>
+
+                        <div class="words word-1">
+                            <span>S </span>
+                            <span>U </span>
+                            <span>P </span>
+                            <span>E </span>
+                            <span>R </span>
+                        </div>
+
+
+
+                        <div class="words word-2">
+                            <span>H </span>
+                            <span>E </span>
+                            <span>R </span>
+                            <span>O </span>
+                            <span>E</span>
+                            <span>S </span>
+
+                        </div>
+                        <div class="words word-2">
+                            <span>P</span>
+                            <span>A </span>
+                            <span>T </span>
+                            <span>I </span>
+                            <span>E</span>
+                            <span>N </span>
+                            <span>T </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="content1 ">
+                        <form class="login d-flex ">
+
+                            <div class="formcontent ">
+                                <h2>
+                                    <span> Registration</span>
+                                </h2>
+                                <p>
+                                    Vel nobis odio laboriosam et hic voluptatem.
+                                    Inventore vitae totam. Rerum repellendus enim linead sero park flows.
+                                </p>
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <input type="text" asp-for="FullName" class="form-control" placeholder="Full Name">
+
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <input type="text" asp-for="UserName" class="form-control" placeholder="User Name" required="">
+
+                                    </div>
+                                </div>
+
+                                <input type="email" asp-for="Email" class="form-control" placeholder="Email" required="">
+
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <input type="password" asp-for="Password" class="form-control" placeholder="password" required="">
+
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <input type="password" asp-for="ConfirmPassword" class="form-control" placeholder="Confirm password" required="">
+
+                                    </div>
+                                </div>
+
+
+
+
+                                <select asp-for="persontype" class="form-control select">
+                                    <option>Patient Type</option>
+                                    <option>ffff</option>
+                                    <option>UUUU</option>
+                                    <option>kkkkk</option>
+                                </select>
+
+                                <div class="row"></div>
+                                <select asp-for="Gender" class="form-control select">
+                                    <option value="0">Gender</option>
+                                    <option value="1">Male</option>
+                                    <option value="2">Female</option>
+                                </select>
+                                <br>
+
+                                <div class="row">
+                                    <div class="col-sm-4">
+                                        <select class="form-control select" id="GoverList">
+                                            <option>Governate</option>
+                                            @foreach (var item in await servis.GetGovAsync())
+                                            {
+
+                                                <option value="@item.ID">@item.Name</option>
+                                            }
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <select class="form-control select" id="CityList">
+                                            <option>City</option>
+
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <select asp-for="DistrictId" class="form-control select" id="Distric">
+                                            <option>District</option>
+
+                                        </select>
+                                    </div>
+                                </div>
+
+
+                                <br>
+
+
+                                <div class="sent-message">Your quote request has been sent successfully. Thank you!</div>
+                                <button type="submit">Get a quote</button>
+
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-1"></div>
+    </div>
+
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js" integrity="sha512-pumBsjNRGGqkPzKHndZMaAG+bir374sORyzM3uulLV14lN5LyykqNk8eEeUlUkB3U0M4FApyaHraT65ihJhDpQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="~/registration/bootstrap/js/bootstrap.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+
+            $("#GoverList").change(function () {
+
+                var goverList = $("#GoverList option:selected").val();
+                $("#CityList").empty();
+
+                $.ajax({
+                    type: "post",
+                    url: "/Patient/GetCityBtGonvId",
+                    data: { goverId: goverList },
+                    cash: false,
+                    
+                    success: function (res) {
+                        console.log(res);
+
+                        $.each(res, function (i, e) {
+                            if (typeof res == "string") {
+                                console.log(res.message);
+                            }
+                            $("#CityList").append("<option value='" + e.ID + "'>" + e.Name + "</option>")
+                        });
+                        $("select").selectpicker("refresh");
+                    },
+                    error:function(x,m,z){
+
+                        console.log(x);
+                        console.log(m);
+                        console.log(z);
+                    }
+                });
+            });
+            $("#CityList").change(function () {
+
+                var Cityid = $("#CityList option:selected").val();
+                $("#Distric").empty();
+
+                $.ajax({
+                    type: "POST",
+                    url: "/Patient/GetDistricByIdCity",
+                    data: { CityId: Cityid },
+                    success: function (res) {
+                        $.each(res, function (i, e) {
+                            $("#Distric").append("<option value='" + e.ID + "'>" + e.Name + "</option>")
+                        });
+                        $("select").selectpicker("refresh");
+                    }
+                });
+            });
+        });
+
+
+    </script>
+
+</body>
+</html>

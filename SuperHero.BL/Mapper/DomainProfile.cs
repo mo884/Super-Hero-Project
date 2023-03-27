@@ -49,6 +49,9 @@ namespace SuperHero.BL.Mapper
             CreateMap<DoctorInfo, DoctorInfoVM>();
             CreateMap<DoctorInfoVM, DoctorInfo>();
 
+            CreateMap<CityVM, City>();
+            CreateMap<City, CityVM>();
+
         }
     }
 }

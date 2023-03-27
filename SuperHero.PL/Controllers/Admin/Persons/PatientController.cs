@@ -16,16 +16,20 @@ namespace SuperHero.PL.Controllers.Admin.Persons
         #region Prop
         private readonly UserManager<Person> userManager;
         private readonly IBaseRepsoratory<Person> person;
+      
+        private readonly SignInManager<Person> signInManager;
         private readonly IMapper mapper;
         private readonly RoleManager<IdentityRole> roleManager;
         private readonly IServiesRep servis;
         private readonly IBaseRepsoratory<District> district;
+        
         #endregion
 
         #region Ctor
-        public PatientController(UserManager<Person> userManager, IBaseRepsoratory<Person> person, IMapper mapper, RoleManager<IdentityRole> roleManager, IServiesRep servis, IBaseRepsoratory<District> district)
+        public PatientController(UserManager<Person> userManager, SignInManager<Person> signInManager, IBaseRepsoratory<Person> person, IMapper mapper, RoleManager<IdentityRole> roleManager, IServiesRep servis, IBaseRepsoratory<District> district)
         {
             this.userManager = userManager;
+            this.signInManager = signInManager;
             this.person = person;
             this.mapper = mapper;
             this.roleManager = roleManager;
@@ -121,5 +125,77 @@ namespace SuperHero.PL.Controllers.Admin.Persons
             return View(model);
         }
         #endregion
+
+        #region Registration 
+        [HttpGet]
+        public IActionResult Registration()
+        {
+            return PartialView("Registration");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Registration(RegistrationVM model)
+        {
+
+            var user = new Person()
+            {
+                UserName = model.UserName,
+                Email = model.Email,
+                districtID = 1,
+                //GroupID=1
+            };
+
+            var result = await userManager.CreateAsync(user, model.Password);
+
+            if (result.Succeeded)
+            {
+                return RedirectToAction("Login");
+            }
+            else
+            {
+                foreach (var item in result.Errors)
+                {
+                    ModelState.AddModelError("", item.Description);
+                }
+            }
+
+            return View(model);
+        }
+        #endregion
+
+        #region ajax call
+        [HttpPost]
+        public async Task<JsonResult> GetCityBtGonvId(int? goverId)
+        {
+            if (goverId!=null)
+            {
+                var data = await servis.GetCityAsync(a => a.GovernorateID == goverId);
+                
+                return Json(data);
+            }
+            else
+            {
+                string message = "Data Not Found";
+                return Json(message);
+            }
+         
+        }
+        [HttpPost]
+        public async Task<JsonResult> GetDistricByIdCity(int? CityId)
+        {
+            if (CityId!=null)
+            {
+                var data = await servis.GetDistAsync(a => a.CityId == CityId);
+                return Json(data);
+            }
+            else
+            {
+                string message = "Data Not Found";
+                return Json(message);
+            }
+            
+        }
+        #endregion
+
     }
 }

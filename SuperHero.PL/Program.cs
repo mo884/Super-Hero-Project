@@ -3,6 +3,8 @@ using FRYMA_SuperHero.BL.Reposoratory;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using SuperHero.BL.Interface;
 using SuperHero.BL.Mapper;
 using SuperHero.BL.Reposoratory;
@@ -13,7 +15,9 @@ using SuperHero.DAL.Entities;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews().AddNewtonsoftJson(opt => {
+    opt.SerializerSettings.ContractResolver = new DefaultContractResolver();
+});
 
 
 // Enhancement ConnectionString
