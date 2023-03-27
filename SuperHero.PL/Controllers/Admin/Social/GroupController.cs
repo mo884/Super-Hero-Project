@@ -156,7 +156,7 @@ namespace SuperHero.PL.Controllers.Admin.Social
         public async Task<IActionResult> AddOrRemoveGroups(int id)
         {
 
-            ViewBag.Id = id;
+            ViewBag.Id = id; 
 
             var DataGroup = await groups.GetByID(id);
 
