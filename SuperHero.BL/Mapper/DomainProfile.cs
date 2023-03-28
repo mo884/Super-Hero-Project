@@ -18,6 +18,12 @@ namespace SuperHero.BL.Mapper
             CreateMap<Person,CreatePerson>();
             CreateMap<CreatePerson, Person>();
 
+            CreateMap<Person, PersonVM>();
+            CreateMap<PersonVM, Person>();
+
+            CreateMap<PersonVM, CreatePerson>();
+            CreateMap<CreatePerson, PersonVM>();
+
             CreateMap<Catogery, CategoryVM>();
             CreateMap<CategoryVM, Catogery>();
 
@@ -39,6 +45,7 @@ namespace SuperHero.BL.Mapper
 
             CreateMap<Comment, CommentVM>();
             CreateMap<CommentVM, Comment>();
+           
 
 
             CreateMap<CommentServise, Comment>();

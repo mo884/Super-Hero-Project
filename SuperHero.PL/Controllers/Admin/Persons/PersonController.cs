@@ -13,7 +13,7 @@ using System.Security.Cryptography;
 
 namespace SuperHero.PL.Controllers.Admin.Persons
 {
-    [Authorize(Roles = $"{AppRoles.Doctor}, {AppRoles.Admin}")]
+    //[Authorize(Roles = $"{AppRoles.Doctor}, {AppRoles.Admin}")]
 
     public class PersonController : Controller
     {
@@ -94,7 +94,7 @@ namespace SuperHero.PL.Controllers.Admin.Persons
         public async Task<IActionResult> Delete(string id)
         {
             var data = await person.GetByID(id);
-            var result = mapper.Map<CreatePerson>(data);
+            var result = mapper.Map<PersonVM>(data);
             ViewBag.districtList = new SelectList(await district.GetAll(), "Id", "Name", data.districtID);
             ViewBag.Delete = "Delete";
             ViewBag.ID = "Edite";
@@ -104,7 +104,7 @@ namespace SuperHero.PL.Controllers.Admin.Persons
 
         [HttpPost]
         [ActionName("Delete")]
-        public async Task<IActionResult> ConfirmDelete(CreatePerson obj)
+        public async Task<IActionResult> ConfirmDelete(PersonVM obj)
         {
             try
             {
@@ -131,7 +131,7 @@ namespace SuperHero.PL.Controllers.Admin.Persons
                     }
                     else
                     {
-
+                       
                     }
                     await person.Delete(data.Id);
 

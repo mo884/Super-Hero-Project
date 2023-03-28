@@ -8,7 +8,7 @@ using SuperHero.BL.Seeds;
 
 namespace SuperHero.PL.Controllers.Admin.Persons
 {
-    [Authorize(Roles = AppRoles.Admin)]
+    //[Authorize(Roles = AppRoles.Admin)]
     public class DoctorController : Controller
     {
         #region Prop
@@ -47,7 +47,7 @@ namespace SuperHero.PL.Controllers.Admin.Persons
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> CreateDoctor(CreatePerson model)
+        public async Task<IActionResult> CreateDoctor(PersonVM model)
         {
             var Alldistrict = await district.GetAll();
             try
@@ -55,7 +55,8 @@ namespace SuperHero.PL.Controllers.Admin.Persons
                 model.Image = FileUploader.UploadFile("Imgs", model.ImageName);
                 if (ModelState.IsValid)
                 {
-                    var result = await userManager.CreateAsync(await Service.Add(model, 1), model.PasswordHash);
+                    var doctor = mapper.Map<CreatePerson>(model);
+                    var result = await userManager.CreateAsync(await Service.Add(doctor, 1), model.PasswordHash);
                     var Doctor = await servis.GetBYUserName(model.UserName);
                     var role = await roleManager.FindByNameAsync(AppRoles.Doctor);
                     var result1 = await userManager.AddToRoleAsync(Doctor, role.Name);

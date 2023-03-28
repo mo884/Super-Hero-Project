@@ -10,7 +10,7 @@ using SuperHero.DAL.Entities;
 
 namespace SuperHero.PL.Controllers.Admin.Persons
 {
-    [Authorize(Roles = AppRoles.Admin)]
+    //[Authorize(Roles = AppRoles.Admin)]
     public class PatientController : Controller
     {
         #region Prop
@@ -47,7 +47,7 @@ namespace SuperHero.PL.Controllers.Admin.Persons
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> CreateUser(CreatePerson model)
+        public async Task<IActionResult> CreateUser(PersonVM model)
         {
             try
             {
@@ -55,7 +55,8 @@ namespace SuperHero.PL.Controllers.Admin.Persons
 
                 if (ModelState.IsValid)
                 {
-                    var result = await userManager.CreateAsync(await Service.Add(model, 0), model.PasswordHash);
+                    var patient = mapper.Map<CreatePerson>(model);
+                    var result = await userManager.CreateAsync(await Service.Add(patient, 0), model.PasswordHash);
                     var Patient = await servis.GetBYUserName(model.UserName);
                     var role = await roleManager.FindByNameAsync(AppRoles.User);
                     var result1 = await userManager.AddToRoleAsync(Patient, role.Name);

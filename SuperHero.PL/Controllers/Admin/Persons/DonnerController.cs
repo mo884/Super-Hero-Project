@@ -41,7 +41,7 @@ namespace SuperHero.PL.Controllers.Admin.Persons
             return View();
         }
         [HttpPost, ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateDonner(CreatePerson model)
+        public async Task<IActionResult> CreateDonner(PersonVM model)
         {
             var Alldistrict = await district.GetAll();
             try
@@ -49,7 +49,8 @@ namespace SuperHero.PL.Controllers.Admin.Persons
                 model.Image = FileUploader.UploadFile("Imgs", model.ImageName);
                 if (ModelState.IsValid)
                 {
-                    var result = await userManager.CreateAsync(await Service.Add(model, 2), model.PasswordHash);
+                    var donner = mapper.Map<CreatePerson>(model);
+                    var result = await userManager.CreateAsync(await Service.Add(donner, 2), model.PasswordHash);
                     var Donner = await servis.GetBYUserName(model.UserName);
                     var role = await roleManager.FindByNameAsync(AppRoles.Donner);
                     var result1 = await userManager.AddToRoleAsync(Donner, role.Name);

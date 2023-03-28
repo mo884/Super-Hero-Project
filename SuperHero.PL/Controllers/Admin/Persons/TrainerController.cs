@@ -9,7 +9,7 @@ using SuperHero.DAL.Entities;
 
 namespace SuperHero.PL.Controllers.Admin.Persons
 {
-    [Authorize(Roles = AppRoles.Admin)]
+    //[Authorize(Roles = AppRoles.Admin)]
     public class TrainerController : Controller
     {
         #region Prop
@@ -41,7 +41,7 @@ namespace SuperHero.PL.Controllers.Admin.Persons
             return View();
         }
         [HttpPost, ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateTrainer(CreatePerson model)
+        public async Task<IActionResult> CreateTrainer(PersonVM model)
         {
             var Alldistrict = await district.GetAll();
             try
@@ -50,7 +50,8 @@ namespace SuperHero.PL.Controllers.Admin.Persons
 
                 if (ModelState.IsValid)
                 {
-                    var result = await userManager.CreateAsync(await Service.Add(model, 3), model.PasswordHash);
+                    var trainer = mapper.Map<CreatePerson>(model);
+                    var result = await userManager.CreateAsync(await Service.Add(trainer, 3), model.PasswordHash);
                     var Trainer = await servis.GetBYUserName(model.UserName);
                     var role = await roleManager.FindByNameAsync(AppRoles.Trainer);
                     var result1 = await userManager.AddToRoleAsync(Trainer, role.Name);

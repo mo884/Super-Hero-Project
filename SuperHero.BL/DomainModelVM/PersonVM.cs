@@ -1,32 +1,25 @@
 ﻿using Microsoft.AspNetCore.Http;
-using SuperHero.DAL.Enum;
 using SuperHero.DAL.Entities;
+using SuperHero.DAL.Enum;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace SuperHero.BL.DomainModelVM
 {
-    public class CreatePerson
+    public class PersonVM
     {
         public string? Id { get; set; }
-        [Required, MaxLength(30,ErrorMessage = "FullName required and Length Max 30")]
-        public string? FullName { get; set; }
+        [Required, MaxLength(30)]
+        public string FullName { get; set; }
         public bool ISDeleted { get; set; }
-
-        [Required(ErrorMessage = "UserName required")]
         public string? UserName { get; set; }
-        [Required(ErrorMessage ="Password required")]
         public string? PasswordHash { get; set; }
-        [DataType(DataType.Password)]
-        [Compare("PasswordHash", ErrorMessage = "Password should be idintical")]
-        public string? ConfirmPassword { get; set; }
         public string Email { get; set; }
-       
+
 
 
 
@@ -36,17 +29,16 @@ namespace SuperHero.BL.DomainModelVM
         public DateTime? Birthdate { get; set; }
 
 
-        public  PersonType? personType{ get; set; }
+        public PersonType? personType { get; set; }
         //Nevegation Property
 
         public IFormFile? ImageName { get; set; }
 
-        public int GroupID { get; set; }
+        public int? GroupID { get; set; }
 
-        public int districtID { get; set; } = 0;
+        public int? districtID { get; set; }
         public DoctorInfoVM? doctor { get; set; }
-        public IEnumerable<PostVM>? Posts { get; set; }
-        public List<Friends>? friends { get; set; }
+        public List<Post>? Posts { get; set; }
         public List<Comment>? Comments { get; set; }
         public List<PersonCourses>? UserCourses { get; set; }
         public List<PersonGroup>? Personsgroup { get; set; }

@@ -204,7 +204,7 @@ namespace SuperHero.BL.Reposoratory
 
         #endregion
 
-        #region Group
+        #region Group ❤ Youmna
         public async Task<bool> GetAll(int id, string personId)
         {
             var data = await Db.personGroups.Where(g => g.PersonId == personId && g.Group == id).FirstOrDefaultAsync();
@@ -251,7 +251,7 @@ namespace SuperHero.BL.Reposoratory
         }
         #endregion
 
-        #region  fliter address ❤ fatma 
+        #region  filter address ❤ fatma 
         public async Task<IEnumerable<Governorate>> GetGovAsync(Expression<Func<Governorate, bool>> filter = null)
         {
             if (filter != null)
