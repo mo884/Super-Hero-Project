@@ -107,7 +107,7 @@ namespace SuperHero.PL.Controllers.Admin.Persons
                 if (ModelState.IsValid)
                 {
                     var data = await person.GetByID(model.Id);
-                    model.Image = FileUploader.UploadFile("Imgs", model.ImageName);
+                   
                     await servis.Update(model);
                     TempData["Message"] = "saved Successfuly";
                     return RedirectToAction("GetAll", "Person");

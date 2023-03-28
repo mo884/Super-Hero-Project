@@ -251,7 +251,7 @@ namespace SuperHero.DAL.Migrations
 
                     b.HasKey("ID");
 
-                    b.ToTable("Catogeries");
+                    b.ToTable("Catogeries", (string)null);
                 });
 
             modelBuilder.Entity("SuperHero.DAL.Entities.City", b =>
@@ -272,7 +272,7 @@ namespace SuperHero.DAL.Migrations
 
                     b.HasIndex("GovernorateID");
 
-                    b.ToTable("Cities");
+                    b.ToTable("Cities", (string)null);
                 });
 
             modelBuilder.Entity("SuperHero.DAL.Entities.Comment", b =>
@@ -302,7 +302,7 @@ namespace SuperHero.DAL.Migrations
 
                     b.HasIndex("UserID");
 
-                    b.ToTable("Comments");
+                    b.ToTable("Comments", (string)null);
                 });
 
             modelBuilder.Entity("SuperHero.DAL.Entities.Course", b =>
@@ -339,7 +339,7 @@ namespace SuperHero.DAL.Migrations
 
                     b.HasIndex("CategoryID");
 
-                    b.ToTable("Courses");
+                    b.ToTable("Courses", (string)null);
                 });
 
             modelBuilder.Entity("SuperHero.DAL.Entities.District", b =>
@@ -361,7 +361,7 @@ namespace SuperHero.DAL.Migrations
 
                     b.HasIndex("CityId");
 
-                    b.ToTable("District");
+                    b.ToTable("District", (string)null);
                 });
 
             modelBuilder.Entity("SuperHero.DAL.Entities.DoctorInfo", b =>
@@ -393,7 +393,7 @@ namespace SuperHero.DAL.Migrations
                         .IsUnique()
                         .HasFilter("[DectorID] IS NOT NULL");
 
-                    b.ToTable("DoctorsInfos");
+                    b.ToTable("DoctorsInfos", (string)null);
                 });
 
             modelBuilder.Entity("SuperHero.DAL.Entities.DonnerInfo", b =>
@@ -417,28 +417,7 @@ namespace SuperHero.DAL.Migrations
                     b.HasIndex("DonnerID")
                         .IsUnique();
 
-                    b.ToTable("DonnerInfos");
-                });
-
-            modelBuilder.Entity("SuperHero.DAL.Entities.Friends", b =>
-                {
-                    b.Property<string>("personId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("FriendId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("Id")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("IsFriend")
-                        .HasColumnType("bit");
-
-                    b.HasKey("personId", "FriendId");
-
-                    b.HasIndex("FriendId");
-
-                    b.ToTable("Friends");
+                    b.ToTable("DonnerInfos", (string)null);
                 });
 
             modelBuilder.Entity("SuperHero.DAL.Entities.Governorate", b =>
@@ -454,7 +433,7 @@ namespace SuperHero.DAL.Migrations
 
                     b.HasKey("ID");
 
-                    b.ToTable("Governorates");
+                    b.ToTable("Governorates", (string)null);
                 });
 
             modelBuilder.Entity("SuperHero.DAL.Entities.Group", b =>
@@ -474,7 +453,7 @@ namespace SuperHero.DAL.Migrations
 
                     b.HasKey("ID");
 
-                    b.ToTable("Groups");
+                    b.ToTable("Groups", (string)null);
                 });
 
             modelBuilder.Entity("SuperHero.DAL.Entities.Lesson", b =>
@@ -502,7 +481,7 @@ namespace SuperHero.DAL.Migrations
 
                     b.HasIndex("CourseID");
 
-                    b.ToTable("Lessons");
+                    b.ToTable("Lessons", (string)null);
                 });
 
             modelBuilder.Entity("SuperHero.DAL.Entities.PersonCourses", b =>
@@ -529,7 +508,7 @@ namespace SuperHero.DAL.Migrations
 
                     b.HasIndex("PersonID");
 
-                    b.ToTable("UserCourses");
+                    b.ToTable("UserCourses", (string)null);
                 });
 
             modelBuilder.Entity("SuperHero.DAL.Entities.PersonGroup", b =>
@@ -553,7 +532,7 @@ namespace SuperHero.DAL.Migrations
 
                     b.HasIndex("PersonId");
 
-                    b.ToTable("personGroups");
+                    b.ToTable("PersonGroup", (string)null);
                 });
 
             modelBuilder.Entity("SuperHero.DAL.Entities.Post", b =>
@@ -587,7 +566,7 @@ namespace SuperHero.DAL.Migrations
 
                     b.HasIndex("PersonID");
 
-                    b.ToTable("Posts");
+                    b.ToTable("Posts", (string)null);
                 });
 
             modelBuilder.Entity("SuperHero.DAL.Entities.ReactPost", b =>
@@ -612,7 +591,7 @@ namespace SuperHero.DAL.Migrations
 
                     b.HasIndex("PostID");
 
-                    b.ToTable("ReactPosts");
+                    b.ToTable("ReactPosts", (string)null);
                 });
 
             modelBuilder.Entity("SuperHero.DAL.Entities.TrainerInfo", b =>
@@ -639,7 +618,7 @@ namespace SuperHero.DAL.Migrations
                         .IsUnique()
                         .HasFilter("[TrainerID] IS NOT NULL");
 
-                    b.ToTable("TrainerInfos");
+                    b.ToTable("TrainerInfos", (string)null);
                 });
 
             modelBuilder.Entity("SuperHero.DAL.Entities.UserInfo", b =>
@@ -662,7 +641,7 @@ namespace SuperHero.DAL.Migrations
                     b.HasIndex("UserID")
                         .IsUnique();
 
-                    b.ToTable("UserInfos");
+                    b.ToTable("UserInfos", (string)null);
                 });
 
             modelBuilder.Entity("SuperHero.DAL.Entities.Person", b =>
@@ -824,17 +803,6 @@ namespace SuperHero.DAL.Migrations
                     b.Navigation("Person");
                 });
 
-            modelBuilder.Entity("SuperHero.DAL.Entities.Friends", b =>
-                {
-                    b.HasOne("SuperHero.DAL.Entities.Person", "person")
-                        .WithMany("friends")
-                        .HasForeignKey("FriendId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("person");
-                });
-
             modelBuilder.Entity("SuperHero.DAL.Entities.Lesson", b =>
                 {
                     b.HasOne("SuperHero.DAL.Entities.Course", "Course")
@@ -981,8 +949,6 @@ namespace SuperHero.DAL.Migrations
                     b.Navigation("doctor");
 
                     b.Navigation("donner");
-
-                    b.Navigation("friends");
 
                     b.Navigation("patient");
 

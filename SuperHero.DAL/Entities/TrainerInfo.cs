@@ -20,6 +20,6 @@ namespace SuperHero.DAL.Entities
         //Nevegation Property
         public string? TrainerID { get; set; }
         [ForeignKey("TrainerID")]
-        public Person Person { get; set; }
+        public Person? Person { get; set; }
     }
 }

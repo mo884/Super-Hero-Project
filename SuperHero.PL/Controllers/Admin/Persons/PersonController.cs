@@ -23,18 +23,20 @@ namespace SuperHero.PL.Controllers.Admin.Persons
         private readonly UserManager<Person> userManager;
         private readonly RoleManager<IdentityRole> roleManager;
         private readonly IBaseRepsoratory<District> district;
+        private readonly IBaseRepsoratory<UserInfo> user;
         private readonly IMapper mapper;
         private readonly IServiesRep servis;
 
         #endregion
 
         #region Ctor
-        public PersonController(IBaseRepsoratory<Person> person, UserManager<Person> userManager, RoleManager<IdentityRole> roleManager, IBaseRepsoratory<District> district, IMapper mapper, IServiesRep servis)
+        public PersonController(IBaseRepsoratory<Person> person, UserManager<Person> userManager, RoleManager<IdentityRole> roleManager, IBaseRepsoratory<District> district, IBaseRepsoratory<UserInfo> user, IMapper mapper, IServiesRep servis)
         {
             this.person = person;
             this.userManager = userManager;
             this.roleManager = roleManager;
             this.district = district;
+            this.user = user;
             this.mapper = mapper;
             this.servis = servis;
         }
@@ -96,8 +98,6 @@ namespace SuperHero.PL.Controllers.Admin.Persons
             var data = await person.GetByID(id);
             var result = mapper.Map<PersonVM>(data);
             ViewBag.districtList = new SelectList(await district.GetAll(), "Id", "Name", data.districtID);
-            ViewBag.Delete = "Delete";
-            ViewBag.ID = "Edite";
             return View("Form", result);
         }
 
@@ -128,12 +128,15 @@ namespace SuperHero.PL.Controllers.Admin.Persons
                     {
                         var Trainer = await servis.GetDonnerBYID(obj.Id);
                         data.donner = Trainer;
+
                     }
                     else
                     {
-                       
+                        var Patient = await servis.GetPatientBYID(obj.Id);
+                        await user.Delete(Patient.ID);
                     }
-                    await person.Delete(data.Id);
+                    var Person = await servis.GetPersonInclud("district", obj.Id);
+                    await person.Delete(Person.Id);
 
                     return RedirectToAction("GetAll");
                 }

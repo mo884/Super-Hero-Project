@@ -1,4 +1,5 @@
-﻿using SuperHero.BL.DomainModelVM;
+﻿using Microsoft.AspNetCore.Http;
+using SuperHero.BL.DomainModelVM;
 using SuperHero.DAL.Entities;
 using System;
 using System.Collections.Generic;

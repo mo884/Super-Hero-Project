@@ -202,7 +202,7 @@
 
                 $.ajax({
                     type: "post",
-                    url: "/ Person/GetCityBtGonvId",
+                    url: "/Person/GetCityBtGonvId",
                     data: { goverId: goverList },
                     cash: false,
                     
@@ -232,7 +232,7 @@
 
                 $.ajax({
                     type: "POST",
-                    url: "/ Person/GetDistricByIdCity",
+                    url: "/Person/GetDistricByIdCity",
                     data: { CityId: Cityid },
                     success: function (res) {
                         $.each(res, function (i, e) {

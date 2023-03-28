@@ -25,7 +25,7 @@
                 <div class="col-sm-6">
                     <div class="content1  ">
                         <h2>
-                            <span class="fast-flicker"> Patient</span>
+                            <span class="fast-flicker"> Doctor</span>
                         </h2>
                         <p>
                             Rem id rerum. Debitis deserunt quidem delectus expedita ducimus dolor.
@@ -65,7 +65,7 @@
                 </div>
                 <div class="col-sm-6">
                     <div class="content1 ">
-                        <form class="login d-flex " asp-controller="Patient" asp-action="Registration">
+                        <form class="login d-flex " asp-controller="Doctor" asp-action="Registration">
 
                             <div class="formcontent ">
                                 <h2>
@@ -210,7 +210,7 @@
 
                 $.ajax({
                     type: "post",
-                    url: "/ Person/GetCityBtGonvId",
+                    url: "/Person/GetCityBtGonvId",
                     data: { goverId: goverList },
                     cash: false,
                     
@@ -240,7 +240,7 @@
 
                 $.ajax({
                     type: "POST",
-                    url: "/ Person/GetDistricByIdCity",
+                    url: "/Person/GetDistricByIdCity",
                     data: { CityId: Cityid },
                     success: function (res) {
                         $.each(res, function (i, e) {

@@ -1,4 +1,5 @@
 ﻿using FRYMA_SuperHero.BL.Interface;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using SuperHero.BL.DomainModelVM;
 using SuperHero.BL.Helper;
@@ -43,6 +44,7 @@ namespace SuperHero.BL.Reposoratory
         #region update Person(Patien - Doctor - Trainer - Admin - Donner)
         public async Task Update(PersonVM obj)
         {
+            obj.Image = FileUploader.UploadFile("Imgs", obj.ImageName);
             var OldData = await person.GetByID(obj.Id);
 
             OldData.FullName = obj.FullName;
@@ -65,14 +67,17 @@ namespace SuperHero.BL.Reposoratory
                 {
                     if (obj.doctor.Cv_Name != null)
                     {
-                        var olduserData = await GetTrainerBYID(OldData.Id);
-                        OldData.doctor = new DoctorInfo()
+                        var olduserData = await GetDoctorBYID(OldData.Id);
+                        DoctorInfo doctorInfo = new DoctorInfo()
                         {
-                            ID = olduserData.ID,
+                           
                             CV = FileUploader.UploadFile("CVDoctors", obj.doctor.Cv_Name),
                             ClinicAdress = obj.doctor.ClinicAdress,
-                            ClinicName = obj.doctor.ClinicName
+                            ClinicName = obj.doctor.ClinicName,
+                            DectorID = obj.Id
                         };
+                        await doctor.Delete(olduserData);
+                        await doctor.Create(doctorInfo);
                     }
 
                 }
@@ -81,13 +86,18 @@ namespace SuperHero.BL.Reposoratory
                     if (obj.trainer.Cv_Name != null)
                     {
                         var olduserData = await GetTrainerBYID(OldData.Id);
-                        OldData.trainer = new TrainerInfo()
+                        
+                        var Trainer = new TrainerInfo()
                         {
-                            ID = olduserData.ID,
-                            CV = FileUploader.UploadFile("CVDoctors", obj.doctor.Cv_Name),
-
+                          
+                            CV = FileUploader.UploadFile("CVDoctors", obj.trainer.Cv_Name),
+                            Graduation = obj.trainer.Graduation,
+                            TrainerID = OldData.Id,
+                            Person = OldData,
                         };
-
+                       
+                        await trainer.Create(Trainer);
+                        await trainer.Delete(olduserData.ID);
                     }
 
                 }
@@ -99,8 +109,9 @@ namespace SuperHero.BL.Reposoratory
                         var olduserData = await GetDonnerBYID(OldData.Id);
                         OldData.donner = new DonnerInfo()
                         {
-                            ID = olduserData.ID,
+                            
                             DonationType = obj.doner.DonationType,
+                            DonnerID = obj.Id
 
                         };
 

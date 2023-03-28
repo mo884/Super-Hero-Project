@@ -9,7 +9,7 @@ using SuperHero.DAL.Entities;
 
 namespace SuperHero.PL.Controllers.Admin.Persons
 {
-    [Authorize(Roles = AppRoles.Admin)]
+    //[Authorize(Roles = AppRoles.Admin)]
     public class DonnerController : Controller
     {
         #region Prop
@@ -46,7 +46,6 @@ namespace SuperHero.PL.Controllers.Admin.Persons
             var Alldistrict = await district.GetAll();
             try
             {
-                model.Image = FileUploader.UploadFile("Imgs", model.ImageName);
                 if (ModelState.IsValid)
                 {
                     var donner = mapper.Map<CreatePerson>(model);
