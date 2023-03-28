@@ -53,13 +53,13 @@
 
                         </div>
                         <div class="words word-2">
-                            <span>P</span>
-                            <span>A </span>
+                            <span>D</span>
+                            <span>O </span>
+                            <span>C </span>
                             <span>T </span>
-                            <span>I </span>
-                            <span>E</span>
-                            <span>N </span>
-                            <span>T </span>
+                            <span>O</span>
+                            <span>R </span>
+                           
                         </div>
                     </div>
                 </div>
@@ -129,13 +129,21 @@
 
 
                                 <br />
-
-                              <select asp-for="patient.Reason" class="form-select" aria-label="Default select example">
-                                <option value="0">Autism</option>
-                                <option value="1">Deaf_and_Dumb</option>
-                                <option value="2">Down_syndrome</option>
-                              </select>
-                                <span class="text-danger" asp-validation-for="patient.Reason"></span>
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <input type="file" asp-for="doctor.Cv_Name" />
+                                        <span class="text-danger" asp-validation-for="doctor.Cv_Name"></span>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <input type="text" asp-for="doctor.ClinicName" class="form-control" placeholder="ClinicName" required="">
+                                        <span class="text-danger" asp-validation-for="doctor.ClinicName"></span>
+                                    </div>
+                                </div>
+                               <br />
+                                <input type="text" asp-for="doctor.ClinicAdress" class="form-control" placeholder="ClinicAdress" required="">
+                                <span class="text-danger" asp-validation-for="doctor.ClinicAdress"></span>
+                              
+                             
                               <br />
                                 <div class="row"></div>
                                 <select asp-for="gender" class="form-select" aria-label="Default select example">

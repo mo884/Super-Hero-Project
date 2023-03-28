@@ -139,5 +139,34 @@ namespace SuperHero.PL.Controllers.Admin.Persons
             return PartialView("nearDoctor", Doctorvm);
         }
         #endregion
+
+        #region Registration 
+        [HttpGet]
+        public IActionResult Registration()
+        {
+            return PartialView("Registration");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Registration(CreatePerson model)
+        {
+            var result = await userManager.CreateAsync(await Service.Add(model, 1), model.PasswordHash);
+
+            if (result.Succeeded)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+            else
+            {
+                foreach (var item in result.Errors)
+                {
+                    ModelState.AddModelError("", item.Description);
+                }
+            }
+
+            return PartialView("Registration", model);
+        }
+        #endregion
+
     }
 }

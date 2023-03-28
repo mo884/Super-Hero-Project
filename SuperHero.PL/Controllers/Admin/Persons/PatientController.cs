@@ -155,39 +155,7 @@ namespace SuperHero.PL.Controllers.Admin.Persons
         }
         #endregion
 
-        #region ajax call
-        [HttpPost]
-        public async Task<JsonResult> GetCityBtGonvId(int? goverId)
-        {
-            if (goverId!=null)
-            {
-                var data = await servis.GetCityAsync(a => a.GovernorateID == goverId);
-                
-                return Json(data);
-            }
-            else
-            {
-                string message = "Data Not Found";
-                return Json(message);
-            }
-         
-        }
-        [HttpPost]
-        public async Task<JsonResult> GetDistricByIdCity(int? CityId)
-        {
-            if (CityId!=null)
-            {
-                var data = await servis.GetDistAsync(a => a.CityId == CityId);
-                return Json(data);
-            }
-            else
-            {
-                string message = "Data Not Found";
-                return Json(message);
-            }
-            
-        }
-        #endregion
+       
 
     }
 }
