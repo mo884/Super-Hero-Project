@@ -51,6 +51,7 @@ namespace FRYMA_SuperHero.BL.Reposoratory
             Db.Set<T>().Remove(model);
             await Db.SaveChangesAsync();
         }
+       
 
         #endregion
 

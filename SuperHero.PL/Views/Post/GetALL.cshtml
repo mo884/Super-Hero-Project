@@ -91,52 +91,66 @@
                 <div class="card" style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
                     <div class="d-flex justify-content-between p-2 px-3">
                         <div class="d-flex flex-row align-items-center">
-                            <a asp-controller="Profile" asp-action="Profile" asp-route-id="@post.person.Id">
-                                @if (@post.person.Image == null)
-                                {
-                                    if (@post.person.gender == 0)
+                            @if(@post.PersonID != null){
+                                <a asp-controller="Profile" asp-action="Profile" asp-route-id="@post.person.Id">
+                                    @if (@post.person.Image==null)
                                     {
-                                        <div style="background-image:url('/files/imgs/men.jpg') ; width:50px ; height:50px ; border-radius:50%;background-size:cover; background-position:center; background-repeat:no-repeat ;margin-right:10px"></div>
+                                        if (@post.person.gender == 0)
+                                        {
+                                            <div style="background-image:url('/files/imgs/men.jpg') ; width:50px ; height:50px ; border-radius:50%;background-size:cover; background-position:center; background-repeat:no-repeat ;margin-right:10px"></div>
+                                        }
+                                        else
+                                        {
+                                            <div style="background-image:url('/files/imgs/young-woman-avatar-cartoon-character-profile-picture-young-woman-wearing-blue-t-shirt-avatar-cartoon-character-vector-149732076.jpg') ; width:50px ; height:50px ; border-radius:50%;background-size:cover; background-position:center; background-repeat:no-repeat ;margin-right:10px"></div>
+                                        }
                                     }
                                     else
                                     {
-                                        <div style="background-image:url('/files/imgs/young-woman-avatar-cartoon-character-profile-picture-young-woman-wearing-blue-t-shirt-avatar-cartoon-character-vector-149732076.jpg') ; width:50px ; height:50px ; border-radius:50%;background-size:cover; background-position:center; background-repeat:no-repeat ;margin-right:10px"></div>
+                                        <div style="background-image:url('/files/imgs/@post.person.Image') ; width:50px ; height:50px ; border-radius:50%;background-size:cover; background-position:center; background-repeat:no-repeat ;margin-right:10px"></div>
                                     }
-                                }
-                                else
-                                {
-                                    <div style="background-image:url('/files/imgs/@post.person.Image') ; width:50px ; height:50px ; border-radius:50%;background-size:cover; background-position:center; background-repeat:no-repeat ;margin-right:10px"></div>
-                                }
 
 
-                            </a>
-                            <div class="d-flex flex-column ml-2"> <a style="text-decoration:none;font-weight:bold;color:#b9b9b9" asp-controller="Person" asp-action="Edite" asp-route-id="@post.person.Id" class="font-weight-bold">@post.person.FullName</a> <small class="text-primary">@post.person.PersonType</small> </div>
+                                </a>
+                                    <div class="d-flex flex-column ml-2"> <a style="text-decoration:none;font-weight:bold;color:#b9b9b9" asp-controller="Person" asp-action="Edite" asp-route-id="@post.person.Id" class="font-weight-bold">@post.person.FullName</a> <small class="text-primary">@post.person.PersonType</small> </div>
+                       
+                            }else{
+                                  
+                                   
+                                      
+                              <div style="background-image:url('/files/imgs/men.jpg') ; width:50px ; height:50px ; border-radius:50%;background-size:cover; background-position:center; background-repeat:no-repeat ;margin-right:10px"></div>
+                                       
+                                  <div class="d-flex flex-column ml-2"> <a style="text-decoration:none;font-weight:bold;color:#b9b9b9" class="font-weight-bold">Deleted</a> <small class="text-primary">Deleted</small> </div>
+                      
+
+                            }
+
                         </div>
                         <div class="d-flex flex-row mt-1 ellipsis">
                             <small style="padding:10px;color:#363636b4" class="mr-2">@post.CreatedTime</small><div class="dropdown show">
 
-
-                                @if (userinfo.Id == @post.person.Id)
+                                @if (@post.PersonID != null)
                                 {
-                                    <div>
-                                        <a class="" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i style="font-size:30px;color:#363636b4" class="uil uil-elipsis-double-v-alt"></i>
-                                        </a>
-
-                                        <div class="dropdown-menu mt-3 " aria-labelledby="dropdownMenuLink">
-                                            <a asp-controller="Post" asp-action="Edite" asp-route-id="@post.ID" class="dropdown-item ancor">
-                                                <i class="uil uil-pen"></i>
-                                                Edite
-                                            </a>
-                                            <a asp-controller="Post" asp-action="Delete" asp-route-id="@post.ID" class="dropdown-item ancor">
-                                                <i class="uil uil-trash-alt"></i>
-                                                Delete
+                                    @if (userinfo.Id == @post.person.Id)
+                                    {
+                                        <div>
+                                            <a class="" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <i style="font-size:30px;color:#363636b4" class="uil uil-elipsis-double-v-alt"></i>
                                             </a>
 
+                                            <div class="dropdown-menu mt-3 " aria-labelledby="dropdownMenuLink">
+                                                <a asp-controller="Post" asp-action="Edite" asp-route-id="@post.ID" class="dropdown-item ancor">
+                                                    <i class="uil uil-pen"></i>
+                                                    Edite
+                                                </a>
+                                                <a asp-controller="Post" asp-action="Delete" asp-route-id="@post.ID" class="dropdown-item ancor">
+                                                    <i class="uil uil-trash-alt"></i>
+                                                    Delete
+                                                </a>
+
+                                            </div>
                                         </div>
-                                    </div>
+                                    }
                                 }
-
                             </div>
 
                         </div>

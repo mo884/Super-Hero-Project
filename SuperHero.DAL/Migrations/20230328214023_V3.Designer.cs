@@ -12,8 +12,8 @@ using SuperHero.DAL.Database;
 namespace SuperHero.DAL.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20230319105240_changevaribalereact")]
-    partial class changevaribalereact
+    [Migration("20230328214023_V3")]
+    partial class V3
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -423,6 +423,27 @@ namespace SuperHero.DAL.Migrations
                     b.ToTable("DonnerInfos");
                 });
 
+            modelBuilder.Entity("SuperHero.DAL.Entities.Friends", b =>
+                {
+                    b.Property<string>("personId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("FriendId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsFriend")
+                        .HasColumnType("bit");
+
+                    b.HasKey("personId", "FriendId");
+
+                    b.HasIndex("FriendId");
+
+                    b.ToTable("Friends");
+                });
+
             modelBuilder.Entity("SuperHero.DAL.Entities.Governorate", b =>
                 {
                     b.Property<int>("ID")
@@ -535,7 +556,7 @@ namespace SuperHero.DAL.Migrations
 
                     b.HasIndex("PersonId");
 
-                    b.ToTable("PersonGroup");
+                    b.ToTable("personGroups");
                 });
 
             modelBuilder.Entity("SuperHero.DAL.Entities.Post", b =>
@@ -556,7 +577,7 @@ namespace SuperHero.DAL.Migrations
                     b.Property<string>("Image")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("Like")
+                    b.Property<int>("Like")
                         .HasColumnType("int");
 
                     b.Property<string>("PersonID")
@@ -591,6 +612,8 @@ namespace SuperHero.DAL.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("ID");
+
+                    b.HasIndex("PostID");
 
                     b.ToTable("ReactPosts");
                 });
@@ -804,6 +827,17 @@ namespace SuperHero.DAL.Migrations
                     b.Navigation("Person");
                 });
 
+            modelBuilder.Entity("SuperHero.DAL.Entities.Friends", b =>
+                {
+                    b.HasOne("SuperHero.DAL.Entities.Person", "person")
+                        .WithMany("friends")
+                        .HasForeignKey("FriendId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("person");
+                });
+
             modelBuilder.Entity("SuperHero.DAL.Entities.Lesson", b =>
                 {
                     b.HasOne("SuperHero.DAL.Entities.Course", "Course")
@@ -856,6 +890,17 @@ namespace SuperHero.DAL.Migrations
                         .HasForeignKey("PersonID");
 
                     b.Navigation("person");
+                });
+
+            modelBuilder.Entity("SuperHero.DAL.Entities.ReactPost", b =>
+                {
+                    b.HasOne("SuperHero.DAL.Entities.Post", "Post")
+                        .WithMany("ReactPosts")
+                        .HasForeignKey("PostID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Post");
                 });
 
             modelBuilder.Entity("SuperHero.DAL.Entities.TrainerInfo", b =>
@@ -922,6 +967,8 @@ namespace SuperHero.DAL.Migrations
             modelBuilder.Entity("SuperHero.DAL.Entities.Post", b =>
                 {
                     b.Navigation("Comments");
+
+                    b.Navigation("ReactPosts");
                 });
 
             modelBuilder.Entity("SuperHero.DAL.Entities.Person", b =>
@@ -937,6 +984,8 @@ namespace SuperHero.DAL.Migrations
                     b.Navigation("doctor");
 
                     b.Navigation("donner");
+
+                    b.Navigation("friends");
 
                     b.Navigation("patient");
 
