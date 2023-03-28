@@ -93,13 +93,13 @@ namespace SuperHero.PL.Controllers.Admin.Persons
         public async Task<IActionResult> Edite(string ID)
         {
             var data = await person.GetByID(ID);
-            var result = mapper.Map<CreatePerson>(data);
+            var result = mapper.Map<PersonVM>(data);
             ViewBag.districtList = new SelectList(await district.GetAll(), "Id", "Name", data.districtID);
             TempData["Message"] = null;
             return View(result);
         }
         [HttpPost]
-        public async Task<IActionResult> Edite(CreatePerson model)
+        public async Task<IActionResult> Edite(PersonVM model)
         {
             try
             {

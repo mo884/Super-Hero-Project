@@ -41,7 +41,7 @@ namespace SuperHero.BL.Reposoratory
         #endregion
 
         #region update Person(Patien - Doctor - Trainer - Admin - Donner)
-        public async Task Update(CreatePerson obj)
+        public async Task Update(PersonVM obj)
         {
             var OldData = await person.GetByID(obj.Id);
 

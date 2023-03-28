@@ -11,7 +11,7 @@ namespace SuperHero.BL.Interface
 {
     public interface IServiesRep
     {
-        Task Update(CreatePerson obj);
+        Task Update(PersonVM obj);
         Task<DoctorInfo> GetDoctorBYID(string id);
         Task<TrainerInfo> GetTrainerBYID(string id);
         Task<DonnerInfo> GetDonnerBYID(string id);
