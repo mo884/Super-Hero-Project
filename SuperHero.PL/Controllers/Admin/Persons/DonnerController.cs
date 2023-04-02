@@ -35,24 +35,28 @@ namespace SuperHero.PL.Controllers.Admin.Persons
 
         #region Create Donner
         public async Task<IActionResult> CreateDonner()
-        {
-            ViewBag.districtList = new SelectList(await district.GetAll(), "Id", "Name");
+        { 
             TempData["Message"] = null;
             return View();
         }
         [HttpPost, ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateDonner(PersonVM model)
         {
-            var Alldistrict = await district.GetAll();
             try
             {
                 if (ModelState.IsValid)
                 {
+                    //Map PersonVM to Class CreatePerson
                     var donner = mapper.Map<CreatePerson>(model);
+                    //Create Donner 
                     var result = await userManager.CreateAsync(await Service.Add(donner, 2), model.PasswordHash);
+                    //Get Donner By UserName
                     var Donner = await servis.GetBYUserName(model.UserName);
+                    //Get Role Donner
                     var role = await roleManager.FindByNameAsync(AppRoles.Donner);
+                    //Add Donner in table Role
                     var result1 = await userManager.AddToRoleAsync(Donner, role.Name);
+                    //Send Message Success
                     if (result.Succeeded && result1.Succeeded)
                     {
                         TempData["Message"] = "saved Successfuly";
@@ -65,7 +69,7 @@ namespace SuperHero.PL.Controllers.Admin.Persons
                             ModelState.AddModelError("", item.Description);
                         }
                     }
-                    ViewBag.districtList = new SelectList(Alldistrict, "Id", "Name");
+                   
                     TempData["Message"] = null;
                     return View("CreateDonner", model);
                 }
@@ -75,7 +79,7 @@ namespace SuperHero.PL.Controllers.Admin.Persons
             {
                 TempData["error"] = ex.Message;
             }
-            ViewBag.districtList = new SelectList(Alldistrict, "Id", "Name");
+           
             TempData["Message"] = null;
             return View("CreateDonner", model);
         }
@@ -83,13 +87,14 @@ namespace SuperHero.PL.Controllers.Admin.Persons
 
         #endregion
 
-        #region Edite Patient
+        #region Edite Donner
         [HttpGet]
         public async Task<IActionResult> Edite(string ID)
         {
+            //Get Donner By Id
             var data = await person.GetByID(ID);
+            //Map Donner to PersonVM
             var result = mapper.Map<PersonVM>(data);
-            ViewBag.districtList = new SelectList(await district.GetAll(), "Id", "Name", data.districtID);
             TempData["Message"] = null;
             return View(result);
         }
@@ -100,17 +105,15 @@ namespace SuperHero.PL.Controllers.Admin.Persons
             {
                 if (ModelState.IsValid)
                 {
-                    var data = await person.GetByID(model.Id);
-                    model.Image = FileUploader.UploadFile("Imgs", model.ImageName);
+                    //Call Function To Update Donner 
                     await servis.Update(model);
+                    //send Message Sucess
                     TempData["Message"] = "saved Successfuly";
                     return RedirectToAction("GetAll", "Person");
                 }
 
                 else
                 {
-                    TempData["Message"] = null;
-                    ViewBag.districtList = new SelectList(await district.GetAll(), "Id", "Name");
                     TempData["Message"] = null;
                     return View(model);
                 }
@@ -125,5 +128,35 @@ namespace SuperHero.PL.Controllers.Admin.Persons
             return View(model);
         }
         #endregion
+
+        #region Registration 
+        [HttpGet]
+        public IActionResult Registration()
+        {
+            return PartialView("Registration");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Registration(CreatePerson model)
+        {
+            //Add Doctor
+            var result = await userManager.CreateAsync(await Service.Add(model, 2), model.PasswordHash);
+
+            if (result.Succeeded)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+            else
+            {
+                foreach (var item in result.Errors)
+                {
+                    ModelState.AddModelError("", item.Description);
+                }
+            }
+
+            return PartialView("Registration", model);
+        }
+        #endregion
+
     }
 }

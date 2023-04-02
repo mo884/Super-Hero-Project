@@ -1,4 +1,5 @@
 ﻿@model PersonVM
+@inject IServiesRep servis
 @{
     ViewData["Title"] = $"Donner";
     Layout = "~/Views/AdminLayout/_Layout.cshtml";
@@ -106,12 +107,33 @@
                         </div>
 
                     </div>
-                   
-                    <select class="form-select" aria-label="Default select example" asp-for="districtID" asp-items="(SelectList)ViewBag.districtList">
-                    </select>
 
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <select class="form-control select" id="GoverList">
+                                <option>Governate</option>
+                                @foreach (var item in await servis.GetGovAsync())
+                                {
 
-                    <span asp-validation-for="districtID" class="text-danger"></span>
+                                    <option value="@item.ID">@item.Name</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="col-sm-4">
+                            <select class="form-control select" id="CityList">
+                                <option>City</option>
+
+                            </select>
+                        </div>
+                        <div class="col-sm-4">
+                            <select asp-for="districtID" class="form-control select">
+                                <option>District</option>
+
+                            </select>
+                            <span class="text-danger" asp-validation-for="districtID"></span>
+                        </div>
+                    </div>
+
                     <br />
                  
                         <center>
@@ -147,5 +169,58 @@
             $('.form-select').select2();
         });
     </script>
-   
+    <script>
+        $(document).ready(function () {
+
+            $("#GoverList").change(function () {
+
+                var goverList = $("#GoverList option:selected").val();
+                $("#CityList").empty();
+
+                $.ajax({
+                    type: "post",
+                    url: "/Person/GetCityBtGonvId",
+                    data: { goverId: goverList },
+                    cash: false,
+
+                    success: function (res) {
+                        console.log(res);
+
+                        $.each(res, function (i, e) {
+                            if (typeof res == "string") {
+                                console.log(res.message);
+                            }
+                            $("#CityList").append("<option value='" + e.ID + "'>" + e.Name + "</option>")
+                        });
+                        $("select").selectpicker("refresh");
+                    },
+                    error: function (x, m, z) {
+
+                        console.log(x);
+                        console.log(m);
+                        console.log(z);
+                    }
+                });
+            });
+            $("#CityList").change(function () {
+
+                var Cityid = $("#CityList option:selected").val();
+                $("#districtID").empty();
+
+                $.ajax({
+                    type: "POST",
+                    url: "/Person/GetDistricByIdCity",
+                    data: { CityId: Cityid },
+                    success: function (res) {
+                        $.each(res, function (i, e) {
+                            $("#districtID").append("<option value='" + e.Id + "'>" + e.Name + "</option>")
+                        });
+                        $("select").selectpicker("refresh");
+                    }
+                });
+            });
+        });
+
+
+    </script>
 }
