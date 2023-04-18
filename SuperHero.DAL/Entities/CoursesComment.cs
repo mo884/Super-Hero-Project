@@ -1,0 +1,19 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace SuperHero.DAL.Entities
+{
+    public class CoursesComment
+    {
+        public int Id { get; set; }
+        public string Body { get; set; }
+        public DateTime CreateTime { get; set; }
+        [ForeignKey("course")]
+        public int courseId { get; set; }
+        public Course course{ get; set; }
+    }
+}

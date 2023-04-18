@@ -1,0 +1,125 @@
+@import url('https://fonts.googleapis.com/css2?family=Cuprum:wght@700&display=swap');
+
+*{
+    margin: 0;
+    padding: 0;
+}
+:root {
+    --primaryColor:#1EB2A6;
+    --secondary: #c8d6d6;
+    --thierd:#f0f0f0;
+    --forth:#363636b4;
+    --fifith:#2bc4b7;
+  
+  }
+body{
+    font-family: 'Cuprum', sans-serif;
+    background-color: var(--secondary);
+}
+.container{
+    width: 80%;
+    margin:  80px auto;
+}
+/* For Webkit-based browsers */
+::-webkit-scrollbar {
+    width: 8px; /* Width of the scrollbar */
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background-color: var(--primaryColor); /* Color of the scrollbar thumb */
+    border-radius: 4px; /* Border radius of the scrollbar thumb */
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: var(--thierd); /* Color of the scrollbar thumb on hover */
+  }
+  
+  /* For Firefox */
+  ::-moz-scrollbar {
+    width: 8px; /* Width of the scrollbar */
+  }
+  
+  ::-moz-scrollbar-thumb {
+    background-color: var(--fifith); /* Color of the scrollbar thumb */
+    border-radius: 4px; /* Border radius of the scrollbar thumb */
+  }
+  
+  ::-moz-scrollbar-thumb:hover {
+    background-color: var(--thierd); /* Color of the scrollbar thumb on hover */
+  }
+  
+
+.row{
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+}
+.col{
+    flex-basis: 50%;
+    min-width: 250px;
+}
+.feature_img{
+    width: 83%;
+    height: 450px;
+    margin: auto;
+    position: relative;
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.PlayList{
+    overflow-y: auto; 
+    /* Add vertical scrollbar */
+    max-height: 400px; 
+}
+.small-img-row{
+    display: flex;
+    margin: 20px 0;
+    width: 85%;
+    align-items: center;
+    background-color: var(--secondary);
+    border-radius: 6px;
+    overflow: hidden;
+}
+.small-img{
+    position: relative;
+}
+.small-img img{
+    width: 150px;
+    
+}
+.small-img-row p{
+    margin-left: 20px;
+    color: var(--forth);
+    line-height: 22px;
+    font-size: 15px;
+}
+.play-btn{
+    width: 60px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+    cursor: pointer;
+}
+.small-img .play-btn{
+    width: 35px;
+}
+.video-player{
+    width: 80%;
+    position: absolute;
+    left: 50%;
+    top: 48%;
+    transform: translate(-50%,-50%);
+    display: none;
+}
+video:focus{
+    outline: none;
+}
+.close-btn{
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 30px;
+    cursor: pointer;
+}

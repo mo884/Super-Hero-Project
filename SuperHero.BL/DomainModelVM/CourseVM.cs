@@ -28,7 +28,7 @@ namespace SuperHero.BL.DomainModelVM
 
         //Navegation  Property
         public IFormFile? ImageName { get; set; }
-
+        public string? PersonId { get; set; }
         public int? CategoryID { get; set; }
         [ForeignKey("CategoryID")]
         public Catogery? Catogery { get; set; } = null!;

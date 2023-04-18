@@ -5,7 +5,7 @@ using SuperHero.BL.Seeds;
 
 namespace SuperHero.PL.Controllers.Admin.Courses
 {
-    [Authorize(Roles = AppRoles.Admin)]
+    //[Authorize(Roles = AppRoles.Admin)]
     public class LessonController : Controller
     {
         #region prop

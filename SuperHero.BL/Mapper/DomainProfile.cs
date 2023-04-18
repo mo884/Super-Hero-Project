@@ -30,6 +30,9 @@ namespace SuperHero.BL.Mapper
             CreateMap<Course, CourseVM>();
             CreateMap<CourseVM, Course>();
 
+            CreateMap<Course, Courseview>();
+            CreateMap<Courseview, Course>();
+
             CreateMap<Lesson, LessonVM>();
             CreateMap<LessonVM, Lesson>();
 

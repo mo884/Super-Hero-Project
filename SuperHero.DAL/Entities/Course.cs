@@ -15,6 +15,7 @@ namespace SuperHero.DAL.Entities
         public int ID { get; set; }
         [Required]
         public string NameCourse { get; set; }
+        public string? Description { get; set; } = null!;
         public DateTime DateOfPuplish { get; set; }
         [Required]
         public int Hours { get; set; }
@@ -23,10 +24,14 @@ namespace SuperHero.DAL.Entities
         public bool IsDelete { get; set; }
         //Navegation  Property
 
-        public List<Lesson> Lessons { get; set; }
-        public List<PersonCourses> UserCourses { get; set; }
+        public List<Lesson>? Lessons { get; set; }
+        
+        public string? PersonId { get; set; }
+        [ForeignKey("PersonId")]
+        public Person? TrainerCourses { get; set; }
         public int? CategoryID { get; set; }
         [ForeignKey("CategoryID")]
         public Catogery? Catogery { get; set; }
+        public List<CoursesComment>? CoursesComments { get; set; }
     }
 }

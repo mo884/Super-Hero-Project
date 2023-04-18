@@ -313,5 +313,15 @@ namespace SuperHero.BL.Reposoratory
 
 
         #endregion
+
+        #region Get Lessons by Id
+        public async Task<IEnumerable<Lesson>> GetLessonByID(int id)
+        {
+            var lessons = await Db.Lessons
+                .Where(a => a.CourseID == id).ToListAsync();
+            return lessons;
+        }
+
+        #endregion
     }
 }

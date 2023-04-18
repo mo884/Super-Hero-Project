@@ -319,6 +319,9 @@ namespace SuperHero.DAL.Migrations
                     b.Property<DateTime>("DateOfPuplish")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("Hours")
                         .HasColumnType("int");
 
@@ -332,6 +335,9 @@ namespace SuperHero.DAL.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("PersonId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<DateTime?>("UpdateTime")
                         .HasColumnType("datetime2");
 
@@ -339,7 +345,34 @@ namespace SuperHero.DAL.Migrations
 
                     b.HasIndex("CategoryID");
 
+                    b.HasIndex("PersonId");
+
                     b.ToTable("Courses");
+                });
+
+            modelBuilder.Entity("SuperHero.DAL.Entities.CoursesComment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Body")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreateTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("courseId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("courseId");
+
+                    b.ToTable("coursesComments");
                 });
 
             modelBuilder.Entity("SuperHero.DAL.Entities.District", b =>
@@ -503,33 +536,6 @@ namespace SuperHero.DAL.Migrations
                     b.HasIndex("CourseID");
 
                     b.ToTable("Lessons");
-                });
-
-            modelBuilder.Entity("SuperHero.DAL.Entities.PersonCourses", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
-
-                    b.Property<int>("CourseID")
-                        .HasColumnType("int");
-
-                    b.Property<string>("PersonID")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("PersonType")
-                        .HasColumnType("int");
-
-                    b.HasKey("ID");
-
-                    b.HasIndex("CourseID");
-
-                    b.HasIndex("PersonID");
-
-                    b.ToTable("UserCourses");
                 });
 
             modelBuilder.Entity("SuperHero.DAL.Entities.PersonGroup", b =>
@@ -790,7 +796,24 @@ namespace SuperHero.DAL.Migrations
                         .WithMany("Courses")
                         .HasForeignKey("CategoryID");
 
+                    b.HasOne("SuperHero.DAL.Entities.Person", "TrainerCourses")
+                        .WithMany("Courses")
+                        .HasForeignKey("PersonId");
+
                     b.Navigation("Catogery");
+
+                    b.Navigation("TrainerCourses");
+                });
+
+            modelBuilder.Entity("SuperHero.DAL.Entities.CoursesComment", b =>
+                {
+                    b.HasOne("SuperHero.DAL.Entities.Course", "course")
+                        .WithMany("CoursesComments")
+                        .HasForeignKey("courseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("course");
                 });
 
             modelBuilder.Entity("SuperHero.DAL.Entities.District", b =>
@@ -842,25 +865,6 @@ namespace SuperHero.DAL.Migrations
                         .HasForeignKey("CourseID");
 
                     b.Navigation("Course");
-                });
-
-            modelBuilder.Entity("SuperHero.DAL.Entities.PersonCourses", b =>
-                {
-                    b.HasOne("SuperHero.DAL.Entities.Course", "Course")
-                        .WithMany("UserCourses")
-                        .HasForeignKey("CourseID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("SuperHero.DAL.Entities.Person", "Person")
-                        .WithMany("UserCourses")
-                        .HasForeignKey("PersonID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Course");
-
-                    b.Navigation("Person");
                 });
 
             modelBuilder.Entity("SuperHero.DAL.Entities.PersonGroup", b =>
@@ -941,9 +945,9 @@ namespace SuperHero.DAL.Migrations
 
             modelBuilder.Entity("SuperHero.DAL.Entities.Course", b =>
                 {
-                    b.Navigation("Lessons");
+                    b.Navigation("CoursesComments");
 
-                    b.Navigation("UserCourses");
+                    b.Navigation("Lessons");
                 });
 
             modelBuilder.Entity("SuperHero.DAL.Entities.District", b =>
@@ -972,11 +976,11 @@ namespace SuperHero.DAL.Migrations
                 {
                     b.Navigation("Comments");
 
+                    b.Navigation("Courses");
+
                     b.Navigation("Personsgroup");
 
                     b.Navigation("Posts");
-
-                    b.Navigation("UserCourses");
 
                     b.Navigation("doctor");
 
