@@ -28,11 +28,11 @@ namespace SuperHero.BL.DomainModelVM
         //Navegation  Property
         public IFormFile? ImageName { get; set; }
         public IEnumerable<Lesson>? lessons { get; set; } 
-        public List<CoursesComment>? commnts { get; set; }
+        public IEnumerable<CoursesComment>? commnts { get; set; }
         public int? CategoryID { get; set; }
         [ForeignKey("CategoryID")]
         public Catogery? Catogery { get; set; } = null!;
-
+        public CoursesComment? CoursesComment { get; set; } = null!;
         public string? PersonId { get; set; }
         public Person? trainer { get; set; }
     }

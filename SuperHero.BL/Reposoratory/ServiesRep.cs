@@ -203,6 +203,11 @@ namespace SuperHero.BL.Reposoratory
             var comments = await Db.Comments.Where(c => c.PostID == id).Include(include).Include(include1).ToListAsync();
             return comments;
         }
+        public async Task<IEnumerable<CoursesComment>> GetAllCoursesComment(int id, string include, string include1)
+        {
+            var comments = await Db.coursesComments.Where(c => c.courseId == id).Include(include).Include(include1).ToListAsync();
+            return comments;
+        }
         #endregion
 
         #region Get Person React with Post in table React Post

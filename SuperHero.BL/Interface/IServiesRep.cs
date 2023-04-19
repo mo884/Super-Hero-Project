@@ -35,5 +35,6 @@ namespace SuperHero.BL.Interface
         Task<IEnumerable<District>> GetDistAsync(Expression<Func<District, bool>> filter = null);
         Task<IEnumerable<Governorate>> GetGovAsync(Expression<Func<Governorate, bool>> filter = null);
         Task<IEnumerable<Lesson>> GetLessonByID(int id);
+        Task<IEnumerable<CoursesComment>> GetAllCoursesComment(int id, string include, string include1);
     }
 }
