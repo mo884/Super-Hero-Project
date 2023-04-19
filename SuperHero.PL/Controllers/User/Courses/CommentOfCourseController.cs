@@ -30,7 +30,8 @@ namespace SuperHero.PL.Controllers.User.Courses
                     var user = await signInManager.UserManager.FindByNameAsync(User.Identity.Name);
                     comment.CoursesComment.UserId = user.Id;
                     comment.CoursesComment.CreateTime = DateTime.Now;
-                    await comments.Create(comment.CoursesComment);
+                    comment.CoursesComment.courseId = comment.CoursesComment.courseId;
+                   await comments.Create(comment.CoursesComment);
                     return RedirectToAction("MyCourse", "CourseView", new {id=comment.CoursesComment.courseId});
 
                 }

@@ -23,7 +23,7 @@ namespace SuperHero.BL.DomainModelVM
         public DateTime? UpdateTime { get; set; }
         public bool IsDelete { get; set; }
 
-
+        public List<Lesson>? Lessons { get; set; } = null!;
         public string? Image { get; set; }
 
         //Navegation  Property

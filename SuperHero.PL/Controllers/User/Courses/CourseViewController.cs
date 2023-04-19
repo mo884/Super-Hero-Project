@@ -25,17 +25,18 @@ namespace SuperHero.PL.Controllers.User.Courses
             this.servise = servise;
         }
         #endregion
-        //public IActionResult GetALL()
-        //{
-        //    return View();
-        //}
+        public async Task<IActionResult> Course()
+        {
+            var data = await courses.FindAsync("TrainerCourses", "Catogery", "Lessons");
+            var course = mapper.Map<IEnumerable< CourseVM>>(data);
+            return View(course);
+        }
         public async Task<IActionResult> MyCourse(int id)
         {
             try
             {
                 var data = await courses.GetByID(id);
-                if (data !=null)
-                {
+               
                    
                     var model = mapper.Map<Courseview>(data);
                     model.lessons = await servise.GetLessonByID(id);
@@ -43,8 +44,8 @@ namespace SuperHero.PL.Controllers.User.Courses
                     model.commnts = await servise.GetAllCoursesComment(data.ID, "person", "course");
                     model.CoursesComment = model.commnts.FirstOrDefault();
                     return PartialView("MyCourse", model);
-                }
-                return PartialView("MyCourse");
+               
+                
                 //return RedirectToAction("MyCourse");
             }
             catch (Exception)

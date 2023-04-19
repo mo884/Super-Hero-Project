@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using SuperHero.BL.DomainModelVM;
 using SuperHero.BL.Seeds;
@@ -9,16 +10,19 @@ namespace SuperHero.PL.Controllers.Admin.Courses
     //[Authorize(Roles = AppRoles.Admin)]
     public class CourseController : Controller
     {
+       
 
         #region Prop
         private readonly IBaseRepsoratory<Course> courses;
         private readonly IBaseRepsoratory<Catogery> category;
         private readonly IMapper mapper;
+        private readonly SignInManager<Person> signInManager;
         #endregion
 
         #region Ctor
-        public CourseController(IBaseRepsoratory<Course> courses, IBaseRepsoratory<Catogery> category, IMapper mapper)
+        public CourseController(SignInManager<Person> signInManager,IBaseRepsoratory<Course> courses, IBaseRepsoratory<Catogery> category, IMapper mapper)
         {
+            this.signInManager = signInManager;
             this.courses = courses;
             this.category = category;
             this.mapper = mapper;
@@ -93,7 +97,8 @@ namespace SuperHero.PL.Controllers.Admin.Courses
                 if (ModelState.IsValid)
                 {
                     CourseVM.Image = FileUploader.UploadFile("Courses", CourseVM.ImageName);
-                    CourseVM.PersonId = "6261b626-c193-4d6e-a04c-ac3ba5a45d0d";
+                    var PersonProfile = await signInManager.UserManager.FindByNameAsync(User.Identity.Name);
+                    CourseVM.PersonId = PersonProfile.Id;
                     var result = mapper.Map<Course>(CourseVM);
                     await courses.Create(result);
                     TempData["Message"] = "saved Successfuly";

@@ -3,7 +3,7 @@
 @inject SignInManager<Person> signInManager
 @{
     var userinfo = await signInManager.UserManager.FindByNameAsync(User.Identity.Name);
-   
+
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -15,6 +15,7 @@
     <title>Course</title>
     <link rel="stylesheet" href="~/Dashboard/Lib/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="~/Course/CSS/style.css">
+    <link href="~/firstpage/image/flash.svg" rel="icon">
 </head>
 
 <body>
@@ -37,12 +38,12 @@
                             <img src="/files/Courses/@Model.Image" width="100%">
                             <img src="/Course/Images/play-button-icon-png-16.png" class="play-btn" onclick="playVideo('/files/Courses/@item.video')">
                         </div>
-                       
-                        <p> @item.Num - @Model.NameCourse - @item.Name</p>
-                       
+
+                        <p onclick="playVideo('/files/Courses/@item.video')"> @item.Num - @Model.NameCourse - @item.Name</p>
+
                     </div>
                 }
-               
+
             </div>
         </div>
     </div>
@@ -52,7 +53,7 @@
 
 
     <div class="video-player" id="videoPlayer">
-        <video width="100%" controls="controls"  id="myVideo">
+        <video width="100%" controls="controls" id="myVideo">
             <source src="/files/Courses/@Model.lessons.First().video" type="video/mp4" id="close">
         </video>
         <img src="/Course/Images/R.png" class="close-btn" onclick="stopVideo()">
@@ -65,7 +66,7 @@
             <div class="col-sm-5">
                 <h3>By : @Model.trainer.FullName</h3>
                 <p class="bold"> Course Hours : @Model.Hours</p>
-                <p>@Model</p>
+                <p>@Model.Description</p>
 
             </div>
             <div class="col-sm-6">
@@ -78,83 +79,88 @@
                                     {
                                         <div class="card-body">
                                             <div class="d-flex flex-start align-items-center">
-                                                <img class="rounded-circle shadow-1-strong me-3"
-                                                 src="/Files/Imgs/@item.person.Image" alt="avatar" width="60"
-                                                 height="60" />
+                                                <a asp-action="Profile" asp-controller="Profile" asp-route-id="@item.person.Id">
+                                                    <img class="rounded-circle shadow-1-strong me-3"
+                                                     src="/Files/Imgs/@item.person.Image" alt="avatar" width="60"
+                                                     height="60" />
+                                                </a>
                                                 <div>
-                                                    <h6 class="fw-bold text-primary mb-1">@item.person.FullName</h6>
+                                                    <h6 class="fw-bold text-primary mb-1"><a asp-action="Profile" asp-controller="Profile" asp-route-id="@item.person.Id" style="text-decoration:none">@item.person.FullName</a></h6>
+
                                                     <p class="text-muted small mb-0">
                                                         @item.CreateTime
                                                     </p>
                                                 </div>
+
                                             </div>
-
-                                            <p class="mt-3 mb-4 pb-2">
-                                                @item.Body </p>
-
-                                            
-                                        </div>
-                                        <hr />
-                                    }
-                                    <div class="card-footer py-3 border-0" style="background-color: #f8f9fa;">
-                                        <form method="post" asp-action="Create" asp-controller="CommentOfCourse">
-                                        <div class="d-flex flex-start w-100">
-                                            @if (signInManager.IsSignedIn(User))
-                                            {
-
-                                                if (@userinfo.Image == null)
-                                                {
-                                                    if (@userinfo.gender == 0)
-                                                    {
-                                                        <img class="rounded-circle shadow-1-strong me-3"
-                                                 src="/files/imgs/men.jpg" alt="avatar" width="40"
-                                                 height="40" />
-
-                                                    }
-                                                    else
-                                                    {
-                                                        <img class="rounded-circle shadow-1-strong me-3"
-                                                 src="/files/imgs/young-woman-avatar-cartoon-character-profile-picture-young-woman-wearing-blue-t-shirt-avatar-cartoon-character-vector-149732076.jpg" alt="avatar" width="40"
-                                                 height="40" />
-
-                                                    }
-                                                }
-                                                else
-                                                {
-                                                    <img class="rounded-circle shadow-1-strong me-3"
-                                                 src="/files/imgs/@userinfo.Image" alt="avatar" width="40"
-                                                 height="40" />
-
-                                                }
+                                           
+                                                <p class="mt-3 mb-4 pb-2">
+                                                    @item.Body
+                                                </p>
 
 
+                                            </div>
+                                            <hr />
                                             }
-                                           
-                                                <div class="form-outline w-100">
-                                                    <input type="hidden" asp-for="CoursesComment.courseId" />
-                                                    <textarea class="form-control" name="CoursesComment.Body" rows="4"
-                                                              style="background: #fff;"></textarea>
-                                                    <span asp-validation-for="CoursesComment.Body"></span>
-                                                </div>
-                                           
-                                            
+                                            <div class="card-footer py-3 border-0" style="background-color: #f8f9fa;">
+                                                <form method="post" asp-action="Create" asp-controller="CommentOfCourse">
+                                                    <div class="d-flex flex-start w-100">
+                                                        @if (signInManager.IsSignedIn(User))
+                                                        {
+
+                                                            if (@userinfo.Image == null)
+                                                            {
+                                                                if (@userinfo.gender == 0)
+                                                                {
+                                                                    <img class="rounded-circle shadow-1-strong me-3"
+                                                         src="/files/imgs/men.jpg" alt="avatar" width="40"
+                                                         height="40" />
+
+                                                                }
+                                                                else
+                                                                {
+                                                                    <img class="rounded-circle shadow-1-strong me-3"
+                                                         src="/files/imgs/young-woman-avatar-cartoon-character-profile-picture-young-woman-wearing-blue-t-shirt-avatar-cartoon-character-vector-149732076.jpg" alt="avatar" width="40"
+                                                         height="40" />
+
+                                                                }
+                                                            }
+                                                            else
+                                                            {
+                                                                <img class="rounded-circle shadow-1-strong me-3"
+                                                         src="/files/imgs/@userinfo.Image" alt="avatar" width="40"
+                                                         height="40" />
+
+                                                            }
+
+
+                                                        }
+
+                                                        <div class="form-outline w-100">
+                                                            <input type="hidden" asp-for="CoursesComment.courseId" />
+                                                            <textarea class="form-control" name="CoursesComment.Body" rows="4"
+                                                                  style="background: #fff;"></textarea>
+                                                            <span asp-validation-for="CoursesComment.Body"></span>
+                                                        </div>
+
+
+                                                    </div>
+                                                    <div class="float-end mt-2 pt-1">
+                                                        <input type="submit" style="background-color: #1EB2A6;border:none;color:white;padding: 6px;" class=" btn-sm">
+
+                                                    </div>
+                                                </form>
+                                            </div>
                                         </div>
-                                        <div class="float-end mt-2 pt-1">
-                                            <input type="submit" style="background-color: #1EB2A6;border:none;color:white;padding: 6px;" class=" btn-sm">
-                                           
-                                        </div>
-                                         </form>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                </section>
+                    </section>
+                </div>
             </div>
         </div>
-    </div>
 
-</body>
-<script src="~/Dashboard/Lib/bootstrap/js/bootstrap.min.js"></script>
-<script src="~/Course/JS/main.js"></script>
-</html>
+    </body>
+    <script src="~/Dashboard/Lib/bootstrap/js/bootstrap.min.js"></script>
+    <script src="~/Course/JS/main.js"></script>
+    </html>

@@ -98,7 +98,7 @@ namespace FRYMA_SuperHero.BL.Reposoratory
      
         #endregion
 
-        #region GetAll With Two Include
+            #region GetAll With Two Include
         public async Task<IEnumerable<T>> FindAsync(string include1 = null, string include2 = null)
             {
                 return await Db.Set<T>().Include(include1).Include(include2).ToListAsync();
