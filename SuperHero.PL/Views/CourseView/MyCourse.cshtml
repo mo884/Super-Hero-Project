@@ -36,7 +36,7 @@
                     <div class="small-img-row">
                         <div class="small-img">
                             <img src="/files/Courses/@Model.Image" width="100%">
-                            <img src="/Course/Images/play-button-icon-png-16.png" class="play-btn" onclick="playVideo('/files/Courses/@item.video')">
+                            <img src="/Course/Images/play-button-icon-png-16.png" class="play-btn" onclick="playVideo('/files/Courses/'+@item.video)">
                         </div>
 
                         <p onclick="playVideo('/files/Courses/@item.video')"> @item.Num - @Model.NameCourse - @item.Name</p>
@@ -137,7 +137,7 @@
                                                         }
 
                                                         <div class="form-outline w-100">
-                                                            <input type="hidden" asp-for="CoursesComment.courseId" />
+                                                            <input type="hidden" asp-for="CourseId" />
                                                             <textarea class="form-control" name="CoursesComment.Body" rows="4"
                                                                   style="background: #fff;"></textarea>
                                                             <span asp-validation-for="CoursesComment.Body"></span>

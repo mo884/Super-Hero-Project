@@ -21,7 +21,7 @@ namespace SuperHero.BL.DomainModelVM
         public int Hours { get; set; }
         public DateTime? UpdateTime { get; set; }
         public bool IsDelete { get; set; }
-
+        public int CourseId { get; set; } = 0;
         public string? Description { get; set; } = null!;
         public string? Image { get; set; }
 

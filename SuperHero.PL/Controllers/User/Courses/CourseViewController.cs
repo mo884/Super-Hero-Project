@@ -25,27 +25,38 @@ namespace SuperHero.PL.Controllers.User.Courses
             this.servise = servise;
         }
         #endregion
+
+        #region Get All Courses Ads
         public async Task<IActionResult> Course()
         {
+            //Get Course with include trainer and category and Lessons
             var data = await courses.FindAsync("TrainerCourses", "Catogery", "Lessons");
-            var course = mapper.Map<IEnumerable< CourseVM>>(data);
+            //Mapp course to CourseVM
+            var course = mapper.Map<IEnumerable<CourseVM>>(data);
             return View(course);
         }
+        #endregion
+
+        #region get Course with comment and PlayList and componant Course
+        #endregion
+
+        #region Get Course with PlayList with Comments 
         public async Task<IActionResult> MyCourse(int id)
         {
             try
             {
+                //Get
                 var data = await courses.GetByID(id);
-               
-                   
-                    var model = mapper.Map<Courseview>(data);
-                    model.lessons = await servise.GetLessonByID(id);
-                    model.trainer = await person.GetByID(model.PersonId);
-                    model.commnts = await servise.GetAllCoursesComment(data.ID, "person", "course");
-                    model.CoursesComment = model.commnts.FirstOrDefault();
-                    return PartialView("MyCourse", model);
-               
-                
+                var model = mapper.Map<Courseview>(data);
+                model.lessons = await servise.GetLessonByID(id);
+                model.CourseId = id;
+                model.trainer = await person.GetByID(model.PersonId);
+                model.commnts = await servise.GetAllCoursesComment(data.ID, "person", "course");
+                model.CoursesComment = model.commnts.FirstOrDefault();
+
+                return PartialView("MyCourse", model);
+
+
                 //return RedirectToAction("MyCourse");
             }
             catch (Exception)
@@ -53,7 +64,9 @@ namespace SuperHero.PL.Controllers.User.Courses
 
                 return RedirectToAction("GetALL");
             }
-            
+
         }
+        #endregion
+
     }
 }

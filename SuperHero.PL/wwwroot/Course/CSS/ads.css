@@ -18,16 +18,18 @@
     overflow: hidden;
     align-items: center;
     align-content: center;
-
+	
 
  }
-.image img{
-   width: 100px;
-   height: 100px;
-   position: absolute;
-   margin-left: 150px;
-   margin-top: 130px;
-}
+	.image img {
+		width: 100px;
+		height: 100px;
+		position: absolute;
+		left: 50%;
+		top: 50%;
+		margin-left: -32px; /* -1 * image width / 2 */
+		margin-top: -32px; /* -1 * image height / 2 */
+	}
 .play{
     opacity: none;
 }

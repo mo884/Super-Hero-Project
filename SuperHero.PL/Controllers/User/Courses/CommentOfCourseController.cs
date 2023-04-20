@@ -13,6 +13,7 @@ namespace SuperHero.PL.Controllers.User.Courses
         private readonly IBaseRepsoratory<CoursesComment> comments;
         private readonly SignInManager<Person> signInManager;
         #endregion
+
         #region Ctor
         public CommentOfCourseController(IBaseRepsoratory<CoursesComment>comments, SignInManager<Person> signInManager)
         {
@@ -20,20 +21,22 @@ namespace SuperHero.PL.Controllers.User.Courses
             this.signInManager = signInManager;
         }
         #endregion
+
+        #region Create Comment in Course
         [HttpPost]
         public async Task<IActionResult> Create(Courseview comment)
         {
             try
             {
+                //Check if User Sign In or No
                 if (signInManager.IsSignedIn(User))
                 {
+                    //Get User Sign In
                     var user = await signInManager.UserManager.FindByNameAsync(User.Identity.Name);
-                    comment.CoursesComment.UserId = user.Id;
-                    comment.CoursesComment.CreateTime = DateTime.Now;
-                    comment.CoursesComment.courseId = comment.CoursesComment.courseId;
-                   await comments.Create(comment.CoursesComment);
-                    return RedirectToAction("MyCourse", "CourseView", new {id=comment.CoursesComment.courseId});
-
+                    //Create Comment by using method get two parameter 1- object type of Courseview 2-User and return Comment
+                    await comments.Create(await Service.Createcomment(comment, user));
+                    //return to the get all comment 
+                    return RedirectToAction("MyCourse", "CourseView", new {id= comment.CourseId });
                 }
                     
                    
@@ -46,5 +49,6 @@ namespace SuperHero.PL.Controllers.User.Courses
             
             return RedirectToAction("MyCourse", "CourseView",new { id = comment.CoursesComment.courseId });
         }
+        #endregion
     }
 }

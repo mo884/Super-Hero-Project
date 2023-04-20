@@ -158,6 +158,14 @@ namespace SuperHero.BL.Helper
         }
         #endregion
 
-
+        #region Add Comment in Post
+        public static async Task<CoursesComment> Createcomment(Courseview comment, Person person)
+        {
+            comment.CoursesComment.UserId = person.Id;
+            comment.CoursesComment.CreateTime = DateTime.Now;
+            comment.CoursesComment.courseId = comment.CourseId;
+            return comment.CoursesComment;
+        }
+        #endregion
     }
 }
