@@ -1,0 +1,43 @@
+﻿@model DoctorRatingVM
+<div class="container1">
+    <div class="post">
+        <div class="text">Thanks for rating us!</div>
+
+    </div>
+    <form asp-action="ReatingStar" asp-controller="Reating">
+        <div class="star-widget">
+            <input type="radio" name="rate" value="5" class="radio" id="rate-5">
+            <input type="hidden" asp-for="star" name="star" value="0" id="price">
+            <label for="rate-5" class="fas fa-star"></label>
+            <input type="radio" value="4" class="radio" name="rate" id="rate-4">
+            <label for="rate-4" class="fas fa-star"></label>
+            <input type="radio" value="3" class="radio" name="rate" id="rate-3">
+            <label for="rate-3" class="fas fa-star"></label>
+            <input type="radio" value="2" class="radio" name="rate" id="rate-2">
+            <label for="rate-2" class="fas fa-star"></label>
+            <input type="radio" value="1" class="radio" name="rate" id="rate-1">
+            <label for="rate-1" class="fas fa-star"></label>
+
+            <header></header>
+            <div class="textarea">
+                <textarea asp-for="description" cols="30" placeholder="Describe your experience.."></textarea>
+                <input type="hidden" asp-for="DoctorId">
+            </div>
+            <div class="btn">
+                <button type="submit">Post</button>
+            </div>
+
+        </div>
+    </form>
+</div>
+
+<script src="~/course/js/jquery.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('.radio').click(function () {
+            document.getElementById('price').value = $(this).val();
+
+        });
+    });
+</script>

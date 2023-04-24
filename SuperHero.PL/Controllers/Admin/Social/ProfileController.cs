@@ -35,7 +35,9 @@ namespace SuperHero.PL.Controllers.Admin.Social
         {
 
             var data = await servies.GetPersonInclud("district", id);
+            var PersonProfile = await signInManager.UserManager.FindByNameAsync(User.Identity.Name);
             var result = mapper.Map<CreatePerson>(data);
+            result.doctorRating = await servies.DoctorRatingISTrue(PersonProfile.Id, id);
             return PartialView(result);
         }
 

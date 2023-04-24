@@ -167,5 +167,26 @@ namespace SuperHero.BL.Helper
             return comment.CoursesComment;
         }
         #endregion
+
+        #region calc rating
+        public static float  Calc(string num)
+        {
+            switch (num)
+            {
+                case "1":
+                    return 1;
+                case "2":
+                    return (float)(2 * 29 + 1 * 33)/(29 + 33);
+                case "3":
+                    return (float)(3 * 40 + 2 * 29 + 1 * 33) / (40 + 29 + 33);
+                case "4":
+                    return (float)(4 * 124 + 3 * 40 + 2 * 29 + 1 * 33) / (124 + 40 + 29 + 33);
+                case "5":
+                    return (float)(5 * 252 + 4 * 124 + 3 * 40 + 2 * 29 + 1 * 33) / (252 + 124 + 40 + 29 + 33);
+                default:
+                    return 0;
+            }
+        }
+        #endregion
     }
 }

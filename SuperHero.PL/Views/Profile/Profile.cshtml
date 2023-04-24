@@ -11,7 +11,7 @@
 
 }
 
-<div  class="container rounded bg-white mt-2 mb-5">
+<div class="container rounded bg-white mt-2 mb-5">
     <div class="row">
         <div class="col-sm-1"></div>
         <div class="col-sm-3 border-right" style="background:#c8d6d6b4">
@@ -19,7 +19,8 @@
                 <div class="rounded-circle mt-2 mb-1" style="background-image:url('/files/imgs/@(Model.Image == null ?(Model.gender == 0? "men.jpg" :"young-woman-avatar-cartoon-character-profile-picture-young-woman-wearing-blue-t-shirt-avatar-cartoon-character-vector-149732076.jpg"):$"{Model.Image}")') ; width:200px ; height:200px ; border-radius : 50%;background-size:cover; background-position:center; background-repeat:no-repeat ;border:4px solid #1EB2A6"></div>
                 <span class="font-weight-bold">@Model.FullName</span>
                 <span class="text-black-50">@Model.Email</span>
-                @if (Model.Id != userinfo.Id){
+                @if (Model.Id != userinfo.Id)
+                {
                     <div class="row mt-2">
                         <div class="col-sm-5">
 
@@ -30,14 +31,16 @@
                         </div>
                         <div class="col-sm-4"><a class="btn btn-light ">Send</a></div>
                     </div>
-                }else{
-                    <div class="row mt-2"> 
+                }
+                else
+                {
+                    <div class="row mt-2">
                         <div class="col-sm-8">
                             <a class="js-friends btn btn-primary" href="javascript:;" data-title="My Friends" data-url="/Profile/Friend/@userinfo.Id" data-update="true">Friends</a>
-                         </div>
+                        </div>
                     </div>
                 }
-              
+
 
             </div>
         </div>
@@ -98,6 +101,23 @@
 
 
 </div>
+@if (Model.personType.ToString().Equals(SuperHero.DAL.Enum.PersonType.Doctor.ToString()))
+{
+    @if (Model.doctorRating == null)
+    {
+        <a href="javascript:;" data-title="Reating" data-url="/Reating/Reating/@Model.Id" data-update="true" class="button js-render-modal"><i style="font-size: 20px;" class="uil uil-comment"></i>  </a>
+    }
+    else
+    {
+        @if (Model.doctorRating.PersonIsReating == false)
+        {
+            <a href="javascript:;" data-title="Reating" data-url="/Reating/Reating/@Model.Id" data-update="true" class="button js-render-modal"><i style="font-size: 20px;" class="uil uil-comment"></i>  </a>
+        }
+    }
+
+
+
+}
 
 @foreach (var post in Model.Posts)
 {
@@ -131,9 +151,10 @@
                         </div>
                         <div class="d-flex flex-row mt-1 ellipsis">
                             <small style="padding:10px;color:#363636b4" class="mr-2">@post.CreatedTime</small>
-                           
 
-                           @if (userinfo.Id == @post.person.Id ){
+
+                            @if (userinfo.Id == @post.person.Id)
+                            {
                                 <div>
                                     <a class="" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         <i style="font-size:30px;color:#363636b4" class="uil uil-elipsis-double-v-alt"></i>
@@ -185,20 +206,20 @@
 
 }
 
-    <partial name="~/views/post/Model.cshtml">
-        @section JS{
-            <partial name="~/views/post/scripts.cshtml">
-                <link href="~/dashboard/lib/style.bundle.css" rel="stylesheet" />
-               
-                <script src="~/dashboard/lib/plugins.bundle.js"></script>
-                <script src="~/dashboard/lib/sweetalert2/scripts.bundle.js"></script>
+<partial name="~/views/post/Model.cshtml">
+    @section JS{
+        <partial name="~/views/post/scripts.cshtml">
+            <link href="~/dashboard/lib/style.bundle.css" rel="stylesheet" />
+
+            <script src="~/dashboard/lib/plugins.bundle.js"></script>
+            <script src="~/dashboard/lib/sweetalert2/scripts.bundle.js"></script>
+
+        }
+        @section CSS{
+            <partial name="~/views/post/CSS.cshtml">
 
             }
-            @section CSS{
-                <partial name="~/views/post/CSS.cshtml">
-
-                }
-            @section JqueryValidation{
-                    <partial name="~/views/person/Partial/Script.cshtml" />
-                }
+        @section JqueryValidation{
+                <partial name="~/views/person/Partial/Script.cshtml" />
+            }
 

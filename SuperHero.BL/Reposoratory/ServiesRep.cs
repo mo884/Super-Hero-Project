@@ -1,4 +1,5 @@
-﻿using FRYMA_SuperHero.BL.Interface;
+﻿using AutoMapper;
+using FRYMA_SuperHero.BL.Interface;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using SuperHero.BL.DomainModelVM;
@@ -11,6 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -25,11 +27,12 @@ namespace SuperHero.BL.Reposoratory
         private readonly IBaseRepsoratory<UserInfo> user;
         private readonly IBaseRepsoratory<DonnerInfo> donner;
         private readonly IBaseRepsoratory<DoctorInfo> doctor;
+        private readonly IMapper mapper;
         private readonly IBaseRepsoratory<TrainerInfo> trainer;
         #endregion
 
         #region Ctor
-        public ServiesRep(ApplicationContext Db, IBaseRepsoratory<Comment> comment, IBaseRepsoratory<Person> person, IBaseRepsoratory<UserInfo> user, IBaseRepsoratory<DonnerInfo> donner, IBaseRepsoratory<DoctorInfo> doctor, IBaseRepsoratory<TrainerInfo> trainer)
+        public ServiesRep(ApplicationContext Db, IBaseRepsoratory<Comment> comment, IBaseRepsoratory<Person> person, IBaseRepsoratory<UserInfo> user, IBaseRepsoratory<DonnerInfo> donner, IBaseRepsoratory<DoctorInfo> doctor,IMapper mapper, IBaseRepsoratory<TrainerInfo> trainer)
         {
             this.Db = Db;
             this.comment = comment;
@@ -37,6 +40,7 @@ namespace SuperHero.BL.Reposoratory
             this.user = user;
             this.donner = donner;
             this.doctor = doctor;
+            this.mapper = mapper;
             this.trainer = trainer;
         }
         #endregion
@@ -327,6 +331,45 @@ namespace SuperHero.BL.Reposoratory
             return lessons;
         }
 
+        #endregion
+
+        #region Add Doctor Reating ❤ Radwa
+        public async Task<DoctorRatingVM> AddDoctorReating(DoctorRatingVM doctorRating, string PersonId, string DoctorId, float reating)
+        {
+
+            DoctorRatingVM rate = new DoctorRatingVM()
+            {
+                DoctorId = (string)DoctorId,
+                PersonID = PersonId,
+                IsReating = true,
+                reating = reating,
+                description = doctorRating.description
+
+            };
+            return rate;
+        }
+        #endregion
+
+        #region Add Doctor Reating ❤ Ameen
+        public async Task<DoctorRatingVM> DoctorRatingISTrue( string PersonId, string DoctorId)
+        {
+
+            var DoctorRating = await Db.DoctorRating.Where(a => a.DoctorId == DoctorId && a.PersonID == PersonId).FirstOrDefaultAsync();
+            var IsReat = mapper.Map<DoctorRatingVM>(DoctorRating);
+            if (IsReat != null)
+            {
+                IsReat.PersonIsReating = true;
+                return IsReat;
+            }
+
+            return null;
+          
+                
+
+            
+        }
+
+      
         #endregion
     }
 }

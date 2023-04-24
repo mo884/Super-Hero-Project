@@ -116,7 +116,8 @@ namespace SuperHero.PL.Controllers.Admin.Courses
         public async Task<IActionResult> Delete(int id)
         {
             var data = await lessons.GetByID(id);
-            var result = mapper.Map<CourseVM>(data);
+            var result = mapper.Map<LessonVM>(data);
+
 
             ViewBag.Delete = "Delete";
             ViewBag.ID = "Edite";

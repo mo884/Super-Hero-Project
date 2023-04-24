@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SuperHero.DAL.Database;
 
@@ -11,9 +12,11 @@ using SuperHero.DAL.Database;
 namespace SuperHero.DAL.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20230420053758_addRatingDoctor")]
+    partial class addRatingDoctor
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -422,8 +425,8 @@ namespace SuperHero.DAL.Migrations
                     b.Property<string>("DectorID")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<float?>("Rating")
-                        .HasColumnType("real");
+                    b.Property<int?>("Rating")
+                        .HasColumnType("int");
 
                     b.HasKey("ID");
 
@@ -455,9 +458,6 @@ namespace SuperHero.DAL.Migrations
 
                     b.Property<string>("description")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<float?>("reating")
-                        .HasColumnType("real");
 
                     b.HasKey("ID");
 

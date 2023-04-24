@@ -17,7 +17,7 @@ namespace SuperHero.DAL.Entities
         public string? CV { get; set; }
         public string? ClinicAdress { get; set; }
         public string? ClinicName { get; set; }
-        public int? Rating { get; set; }
+        public float? Rating { get; set; }
         //Nevegation Property
 
         public string? DectorID { get; set; }

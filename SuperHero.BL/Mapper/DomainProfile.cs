@@ -54,6 +54,9 @@ namespace SuperHero.BL.Mapper
             CreateMap<CommentServise, Comment>();
             CreateMap<Comment, CommentServise>();
 
+            CreateMap<DoctorRatingVM, DoctorRating>();
+            CreateMap<DoctorRating, DoctorRatingVM>();
+
             CreateMap<Group, GroupVM>();
             CreateMap<GroupVM, Group>();
             CreateMap<DoctorInfo, DoctorInfoVM>();

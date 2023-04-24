@@ -57,5 +57,7 @@ namespace SuperHero.DAL.Database
         public DbSet<ReactPost> ReactPosts { get; set; }
         public DbSet<CoursesComment> coursesComments { get; set; }
         public DbSet<PersonGroup> personGroups { get; set; }
+        public DbSet<DoctorRating> DoctorRating { get; set; }
+        
     }
 }
