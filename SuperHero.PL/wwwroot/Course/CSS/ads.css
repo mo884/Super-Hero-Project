@@ -21,12 +21,13 @@
 	
 
  }
-	.image img {
+	.cover a img {
 		width: 100px;
 		height: 100px;
 		position: absolute;
-		left: 50%;
+		left: 20%;
 		top: 50%;
+		z-index:399848;
 		margin-left: -32px; /* -1 * image width / 2 */
 		margin-top: -32px; /* -1 * image height / 2 */
 	}
@@ -140,4 +141,16 @@ body .progress-bg h3.raised {
 	padding: 0 25px 0 0;
   text-align: center;
   
+}
+@media (max-width: 780px) {
+	.cover a img {
+		width:50px;
+		height: 50px;
+		position: absolute;
+		left: 10%;
+		top: 50%;
+		z-index: 399848;
+		margin-left: -32px; /* -1 * image width / 2 */
+		margin-top: -32px; /* -1 * image height / 2 */
+	}
 }

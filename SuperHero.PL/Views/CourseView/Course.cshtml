@@ -5,60 +5,63 @@
 }
 
 
-                @foreach (var item in Model)
-                {
-
-               
-                    <div class="row">
-
-                        <div class="col-sm-12 "> 
-
-                            <div class="row Ads" style="opacity: .8;background-position: left;background-repeat: no-repeat;background-image: url('/Files/Courses/@item.Image');">
-                                <div class="cover"></div>
-                                <div class="col-lg-6 image">
-                                    @if (item.Lessons.Count() == 0)
-                                    {
-                                        <a class="play"><img src="~/Course/Images/play-button-icon-png-16.png"></a>
-
-                                    }
-                                    else
-                                    {
-                                        <a class="play" asp-action="MyCourse" asp-controller="CourseView" asp-route-id="@item.ID"><img src="~/Course/Images/play-button-icon-png-16.png"></a>
-
-                                    }
+@foreach (var item in Model)
+{
 
 
-                                </div>
-                                <div class="col-sm-6 conntent Ads">
+    <div class="row m-3">
 
-                                    <br>
-                                    <h1 class="mt-3">@item.NameCourse</h1>
-                                    <h4 class="fw-bold"> By : @item.TrainerCourses.FullName</h4>
-                                    <h4>@item.Catogery.CategoryName</h4>
-                                    <p>@item.Description</p>
-                                    <div class="progress-bg">
+        <div class="col-sm-12 ">
+
+            <div class="row Ads" style="opacity: .8;background-position: left;background-repeat: no-repeat;background-image: url('/Files/Courses/@item.Image');">
+                <div class="cover">
+                    @if (item.Lessons.Count() == 0)
+                    {
+                        <a class="play"><img src="~/Course/Images/play-button-icon-png-16.png"></a>
+
+                    }
+                    else
+                    {
+                        <a class="play" asp-action="MyCourse" asp-controller="CourseView" asp-route-id="@item.ID"><img src="~/Course/Images/play-button-icon-png-16.png"></a>
+
+                    }
+                </div>
+                <div class="col-sm-6 image">
+                    
+
+
+                </div>
+                <div class="col-sm-6 conntent Ads">
+
+                    <br>
+                    <h1 class="mt-3">@item.NameCourse</h1>
+                    <h4 class="fw-bold"> By : @item.TrainerCourses.FullName</h4>
+                    <br>
+                    <h4>@item.Catogery.CategoryName</h4>
+                    <br>
+                    <div class="progress-bg">
                         @{
                             decimal calc = Math.Truncate(((decimal)(item.Lessons.Where(a => a.CourseID == item.ID).Count()) / (item.Hours)) * 100m);
                         }
                         <div class="progress-bar" style="width:@(calc <25 ? "25" : $"{calc}")%">
-                                            <h5 class="raised">Lesson </h5>
-                                        </div>
+                            <h5 class="raised">Lesson </h5>
+                        </div>
 
                         <h4 class="goal">
-                            
+                             
                             @calc %
                         </h4>
                     </div>
-                                    <br>
-
-                                </div>
-                            </div>
-
-                        </div>
-
-
-                    </div>
                     <br>
-                }
-     
-   
+                    <br>
+                </div>
+            </div>
+
+        </div>
+
+
+    </div>
+    <br>
+}
+
+

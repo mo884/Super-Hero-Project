@@ -19,17 +19,20 @@
 </head>
 
 <body>
-
+   
     <div class="container">
 
-        <div class="row">
-
+        <div class="row ">
+            <!--Course First Video-->
             <div class="col">
                 <div class="feature_img">
                     <img src="/files/Courses/@Model.Image" width="100%">
                     <img src="/Course/Images/play-button-icon-png-16.png" class="play-btn" onclick="playVideo('/files/Courses/@Model.lessons.First().video')">
                 </div>
             </div>
+            <!--End Course First Video-->
+
+            <!--Course PlayList Video-->
             <div class="col PlayList">
                 @foreach (var item in Model.lessons)
                 {
@@ -42,16 +45,16 @@
                         <p onclick="playVideo('/files/Courses/@item.video')"> @item.Num - @Model.NameCourse - @item.Name</p>
 
                     </div>
+                   
+                    <br />
                 }
 
             </div>
+            <!-- End Course PlayList Video-->
         </div>
     </div>
 
-
-
-
-
+    <!--show video in Full Screen-->
     <div class="video-player" id="videoPlayer">
         <video width="100%" controls="controls" id="myVideo">
             <source src="/files/Courses/@Model.lessons.First().video" type="video/mp4" id="close">
@@ -59,41 +62,49 @@
         <img src="/Course/Images/R.png" class="close-btn" onclick="stopVideo()">
 
     </div>
+    <!--End show video in Full Screen-->
 
     <div style="margin-top: -300px;">
         <div class="row">
             <div class="col-sm-1"></div>
+
+            <!--Show Information of Course-->
             <div class="col-sm-5">
                 <h3>By : @Model.trainer.FullName</h3>
                 <p class="bold"> Course Hours : @Model.Hours</p>
                 <p>@Model.Description</p>
 
             </div>
+            <!--End Show Information of Course-->
+
+           <!--Comments-->
             <div class="col-sm-6">
                 <section style=" margin-top: 250px;">
                     <div class=" my-5 py-5">
                         <div class="row d-flex justify-content-center">
                             <div class="col-md-12 col-lg-12 col-xl-12">
+                                <!--Show Comment of Course-->
                                 <div class="card">
-                                    @foreach (var item in Model.commnts)
-                                    {
-                                        <div class="card-body">
-                                            <div class="d-flex flex-start align-items-center">
-                                                <a asp-action="Profile" asp-controller="Profile" asp-route-id="@item.person.Id">
-                                                    <img class="rounded-circle shadow-1-strong me-3"
-                                                     src="/Files/Imgs/@item.person.Image" alt="avatar" width="60"
-                                                     height="60" />
-                                                </a>
-                                                <div>
-                                                    <h6 class="fw-bold text-primary mb-1"><a asp-action="Profile" asp-controller="Profile" asp-route-id="@item.person.Id" style="text-decoration:none">@item.person.FullName</a></h6>
+                                    <div class="Comment">
+                                        @foreach (var item in Model.commnts)
+                                        {
+                                            <div class="card-body">
+                                                <div class="d-flex flex-start align-items-center">
+                                                    <a asp-action="Profile" asp-controller="Profile" asp-route-id="@item.person.Id">
+                                                        <img class="rounded-circle shadow-1-strong me-3"
+                                                         src="/Files/Imgs/@item.person.Image" alt="avatar" width="60"
+                                                         height="60" />
+                                                    </a>
+                                                    <div>
+                                                        <h6 class="fw-bold text-primary mb-1"><a asp-action="Profile" asp-controller="Profile" asp-route-id="@item.person.Id" style="text-decoration:none">@item.person.FullName</a></h6>
 
-                                                    <p class="text-muted small mb-0">
-                                                        @item.CreateTime
-                                                    </p>
+                                                        <p class="text-muted small mb-0">
+                                                            @item.CreateTime
+                                                        </p>
+                                                    </div>
+
                                                 </div>
 
-                                            </div>
-                                           
                                                 <p class="mt-3 mb-4 pb-2">
                                                     @item.Body
                                                 </p>
@@ -101,7 +112,9 @@
 
                                             </div>
                                             <hr />
-                                            }
+                                        }
+                                    </div>
+                                    
                                             <div class="card-footer py-3 border-0" style="background-color: #f8f9fa;">
                                                 <form method="post" asp-action="Create" asp-controller="CommentOfCourse">
                                                     <div class="d-flex flex-start w-100">
@@ -152,7 +165,9 @@
                                                 </form>
                                             </div>
                                         </div>
+                                <!--End Show Comment of Course-->
                                     </div>
+
                                 </div>
                             </div>
                     </section>

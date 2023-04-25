@@ -33,7 +33,7 @@ namespace SuperHero.PL.Controllers.User.Courses
                 {
                     //Get User Sign In
                     var user = await signInManager.UserManager.FindByNameAsync(User.Identity.Name);
-                    //Create Comment by using method get two parameter 1- object type of Courseview 2-User and return Comment
+                    //Create Comment by using method get two parameter 1- object type of Courseview 2-object of User and return Comment
                     await comments.Create(await Service.Createcomment(comment, user));
                     //return to the get all comment 
                     return RedirectToAction("MyCourse", "CourseView", new {id= comment.CourseId });

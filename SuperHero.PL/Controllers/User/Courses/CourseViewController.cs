@@ -37,20 +37,23 @@ namespace SuperHero.PL.Controllers.User.Courses
         }
         #endregion
 
-        #region get Course with comment and PlayList and componant Course
-        #endregion
 
-        #region Get Course with PlayList with Comments 
+        #region get Course with comment and PlayList and componant Course
         public async Task<IActionResult> MyCourse(int id)
         {
             try
             {
-                //Get
+                //Get Course By Id 
                 var data = await courses.GetByID(id);
+                //Mapper
                 var model = mapper.Map<Courseview>(data);
+                //Get All Lessons of Course(PlayList Lesson of Course)
                 model.lessons = await servise.GetLessonByID(id);
+                //Get CourseId
                 model.CourseId = id;
+                //Get Trainer By Course 
                 model.trainer = await person.GetByID(model.PersonId);
+                //Get Comments By Include Person , Course 
                 model.commnts = await servise.GetAllCoursesComment(data.ID, "person", "course");
                 model.CoursesComment = model.commnts.FirstOrDefault();
 
