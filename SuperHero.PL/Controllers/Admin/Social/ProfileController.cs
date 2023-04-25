@@ -32,6 +32,7 @@ namespace SuperHero.PL.Controllers.Admin.Social
         #region Get Profile By Id
         [Route("Profile")]
         public async Task<IActionResult> Profile(string id)
+        
         {
 
             var data = await servies.GetPersonInclud("district", id);

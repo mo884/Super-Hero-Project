@@ -105,13 +105,13 @@
 {
     @if (Model.doctorRating == null)
     {
-        <a href="javascript:;" data-title="Reating" data-url="/Reating/Reating/@Model.Id" data-update="true" class="button js-render-modal"><i style="font-size: 20px;" class="uil uil-comment"></i>  </a>
+        <a href="javascript:;"  data-url="/Reating/Reating/@Model.Id" data-update="true" class="button js-render-modal"><i style="font-size: 20px;" class="uil uil-comment"></i>  </a>
     }
     else
     {
         @if (Model.doctorRating.PersonIsReating == false)
         {
-            <a href="javascript:;" data-title="Reating" data-url="/Reating/Reating/@Model.Id" data-update="true" class="button js-render-modal"><i style="font-size: 20px;" class="uil uil-comment"></i>  </a>
+            <a href="javascript:;" data-url="/Reating/Reating/@Model.Id" data-update="true" class="button js-render-modal"><i style="font-size: 20px;" class="uil uil-comment"></i>  </a>
         }
     }
 
