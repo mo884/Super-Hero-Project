@@ -14,39 +14,44 @@ namespace SuperHero.PL.Controllers.User.DoctorsRating
       
         private readonly IBaseRepsoratory<DoctorRating> doctor;
         private readonly IServiesRep servies;
-        private readonly ApplicationContext db;
         private readonly IMapper mapper;
         private readonly SignInManager<Person> signInManager;
 
         #endregion
 
         #region ctor
-        public ReatingController(IBaseRepsoratory<DoctorRating> doctor, IServiesRep servies, ApplicationContext Db, IMapper mapper,SignInManager<Person> signInManager)
+        public ReatingController(IBaseRepsoratory<DoctorRating> doctor, IServiesRep servies, IMapper mapper,SignInManager<Person> signInManager)
         {
             this.doctor = doctor;
             this.servies = servies;
-            db = Db;
             this.mapper = mapper;
             this.signInManager = signInManager;
         }
         #endregion
 
-        public async Task< IActionResult> Reating(string id)
+        #region Reating view
+        public async Task<IActionResult> Reating(string id)
         {
+            // save the Doctor Id
             TempData["doctorId"] = id;
-            var PersonProfile = await signInManager.UserManager.FindByNameAsync(User.Identity.Name);
-            //var Istrue = await servies.DoctorRatingISTrue(PersonProfile.Id, id);
-            //if (Istrue != null)
-            //    return PartialView("Done");
-            return PartialView("Reating");  
+            //Go to PartialView Reating
+            return PartialView("Reating");
         }
-        public async Task< IActionResult > ReatingStar(DoctorRatingVM model )
+        #endregion
+
+        #region Add Doctor Reating
+        public async Task<IActionResult> ReatingStar(DoctorRatingVM model)
         {
+            //Get All data of SignIn Use
             var PersonProfile = await signInManager.UserManager.FindByNameAsync(User.Identity.Name);
+            //Use Method to DoctorReating by use UserId and DoctorID and Use Method To calc The average of reating
             var rate = await servies.AddDoctorReating(model, PersonProfile.Id, (string)TempData["doctorId"], Service.Calc(model.star));
+            //Mapping
             var DoctorReating = mapper.Map<DoctorRating>(rate);
+            //Add Doctor reating
             await doctor.Create(DoctorReating);
-            return RedirectToAction("Profile", "Profile", new {id= DoctorReating.DoctorId });
+            return RedirectToAction("Profile", "Profile", new { id = DoctorReating.DoctorId });
         }
+        #endregion
     }
 }
