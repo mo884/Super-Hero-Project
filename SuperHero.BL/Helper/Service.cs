@@ -197,6 +197,7 @@ namespace SuperHero.BL.Helper
         }
 
         #endregion
+
         #region Delete Course
         public static async Task<Course> Delete(Course course)
         {
@@ -205,5 +206,15 @@ namespace SuperHero.BL.Helper
         }
 
         #endregion
+
+        #region Delete Category
+        public static async Task<Catogery> Delete(Catogery catogery)
+        {
+            catogery.IsDelete = !catogery.IsDelete;
+            return catogery;
+        }
+
+        #endregion
+
     }
 }

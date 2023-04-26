@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SuperHero.BL.DomainModelVM;
+using SuperHero.BL.Interface;
 using SuperHero.BL.Seeds;
 
 namespace SuperHero.PL.Controllers.Admin.Courses
@@ -10,15 +11,17 @@ namespace SuperHero.PL.Controllers.Admin.Courses
     {
         #region prop
         private readonly IBaseRepsoratory<Lesson> lessons;
+        private readonly IServiesRep servies;
         private readonly IBaseRepsoratory<Course> courses;
         private readonly IMapper mapper;
         #endregion
 
         #region Ctor
-        public LessonController(IBaseRepsoratory<Lesson> lessons, IBaseRepsoratory<Course> courses, IMapper mapper)
+        public LessonController(IBaseRepsoratory<Lesson> lessons, IServiesRep servies , IBaseRepsoratory<Course> courses, IMapper mapper)
         {
             this.courses = courses;
             this.lessons = lessons;
+            this.servies = servies;
             this.mapper = mapper;
         }
         #endregion
@@ -39,11 +42,9 @@ namespace SuperHero.PL.Controllers.Admin.Courses
         {
             var data = await lessons.GetByID(id);
             var result = mapper.Map<LessonVM>(data);
-            ViewBag.ID = "Edite";
-
             ViewBag.courseList = new SelectList(await courses.GetAll(), "ID", "NameCourse");
             TempData["Message"] = null;
-            return View("Form", result);
+            return PartialView("Edite", result);
         }
         public async Task<IActionResult> Edite(LessonVM lessonVM)
         {
@@ -52,9 +53,7 @@ namespace SuperHero.PL.Controllers.Admin.Courses
 
                 if (ModelState.IsValid)
                 {
-                    lessonVM.video = FileUploader.UploadFile("Courses", lessonVM.videoName);
-                    var result = mapper.Map<Lesson>(lessonVM);
-                    await lessons.Update(result);
+                    await servies.EditeLessonByID(lessonVM);
                     TempData["Message"] = "saved Successfuly";
                     return RedirectToAction("GetAll");
                 }
@@ -67,9 +66,7 @@ namespace SuperHero.PL.Controllers.Admin.Courses
             //ModelState.Clear();
             TempData["Message"] = null;
             ViewBag.courseList = new SelectList(await courses.GetAll(), "ID", "NameCourse");
-
-            ViewBag.ID = "Edite";
-            return View("Form", lessonVM);
+            return PartialView("Edite", lessonVM);
         }
         #endregion
 
@@ -116,11 +113,7 @@ namespace SuperHero.PL.Controllers.Admin.Courses
         {
             var data = await lessons.GetByID(id);
             var result = mapper.Map<LessonVM>(data);
-
-
-            ViewBag.Delete = "Delete";
-            ViewBag.ID = "Edite";
-            return View("Form", result);
+            return PartialView("Delete", result);
         }
 
 

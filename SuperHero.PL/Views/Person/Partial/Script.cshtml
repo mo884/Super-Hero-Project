@@ -138,3 +138,48 @@
     });
 
 </script>
+<script>
+
+    $(document).ready(function () {
+        $('.js-category-status').on('click', function () {
+
+            var btn = $(this);
+            bootbox.confirm({
+                message: "Are you sure that you need to toggle this Person?",
+                buttons: {
+                    confirm: {
+                        label: 'Yes',
+                        className: 'btn-danger'
+                    },
+                    cancel: {
+                        label: 'No',
+                        className: 'btn-secondary'
+                    }
+                },
+                callback: function (result) {
+                    if (result) {
+
+                        $.post({
+                            url: '/Categories/Delete/' + btn.data('id'),
+
+                            success: function (lastUpdatedOn) {
+                                var row = btn.parents('tr');
+                                var status = row.find('.js-status');
+                                var newStatus = status.text().trim() === 'Deleted' ? 'Available' : 'Deleted';
+                                status.text(newStatus).toggleClass('bg-success bg-danger');
+                                row.find('.js-updated-on').html(lastUpdatedOn);
+                                row.addClass('animate__animated animate__flash');
+
+                                showSuccessMessage();
+                            },
+                            error: function () {
+                                showErrorMessage();
+                            }
+                        });
+                    }
+                }
+            });
+        });
+    });
+
+</script>

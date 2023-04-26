@@ -1,0 +1,60 @@
+﻿@model LessonVM
+<div class="card shadow-sm">
+
+    <div class="card-header">
+        <h3 class="card-title">Edit Lesson</h3>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-sm-2"></div>
+            <div class="col-md-8">
+                <a>@TempData["error"]</a>
+                <div asp-validation-summary="All"></div>
+                <form method="post" asp-controller="Lesson" enctype="multipart/form-data">
+                    <div class="mb-5">
+                        <div class="form-floating mb-2">
+                            <input type="text" class="form-control" placeholder="Num" asp-for="Num" />
+                            <label asp-for="Num"></label>
+                        </div>
+                        <span asp-validation-for="Num" class="text-danger"></span>
+                    </div>
+                    <div class="mb-5">
+                        <div class="form-floating mb-2">
+                            <input type="text" class="form-control" placeholder="Name" asp-for="Name" />
+                            <label asp-for="Name"></label>
+                        </div>
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+
+
+                    <br />
+                 
+
+
+                   
+
+                    <br />
+                   
+                        <center>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="uil uil-check"></i>Save
+                            </button>
+
+                            <a asp-action="GetAll" asp-controller="Lesson" class="btn btn-danger">return</a>
+                        </center>
+                    
+
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section CSS{
+    <partial name="~/views/person/Partial/css.cshtml" />
+
+}
+    @section JqueryValidation{
+    <partial name="~/views/person/Partial/Script.cshtml" />
+}

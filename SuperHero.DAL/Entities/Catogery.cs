@@ -14,7 +14,7 @@ namespace SuperHero.DAL.Entities
         public int ID { get; set; }
         [Required]
         public string CategoryName { get; set; }
-        public DateTime createdTime { get; set; }
+        public DateTime createdTime { get; set; } 
         public bool IsDelete { get; set; }
         public DateTime? UpdateTime { get; set; }
 

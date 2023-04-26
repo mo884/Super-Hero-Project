@@ -7,7 +7,7 @@
     <partial name="~/views/person/Partial/css.cshtml" />
     <partial name="~/views/post/CSS.cshtml">
 }
-    <a class="btn1 third col-sm-3  me-2 " asp-action="Create" asp-controller="Course"> &nbsp; &nbsp; &nbsp;<i class="uil uil-create-dashboard "></i> &nbsp; Create</a>
+        <a class="btn1 third col-sm-3  me-2 js-friends" data-url="/Course/Create" href="javascript:;"> &nbsp; &nbsp; &nbsp;<i class="uil uil-create-dashboard "></i> &nbsp; Create</a>
     <br />
     <br />
     <table id="example" class="table" style="width:100%;color:darkgrey">
@@ -76,10 +76,9 @@
                         </p>
 
                         <div class="dropdown-menu align-items-center " aria-labelledby="dropdownMenuLink">
-                            <a class="dropdown-item ancor btn btn-primary" asp-action="Edite" asp-controller="Course" asp-route-id="@item.ID">
+                                <a class="js-friends dropdown-item" href="javascript:;" data-url="/Course/Edite/@item.ID" data-update="true">Edite</a>
 
-                                Edite
-                            </a>
+
 
                                 <a class="js-friends dropdown-item" href="javascript:;"  data-url="/Lesson/Create/@item.ID" data-update="true">Add Lesson</a>
 
@@ -109,8 +108,7 @@
                     <partial name="~/views/post/scripts.cshtml">
 
                         <partial name="~/views/person/Partial/script.cshtml" />
-
-
+               <script src="~/dashboard/lib/bootbox.js/bootbox.min.js"></script>
 
                     }
          

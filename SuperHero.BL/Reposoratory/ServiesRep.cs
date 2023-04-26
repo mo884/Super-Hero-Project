@@ -369,7 +369,21 @@ namespace SuperHero.BL.Reposoratory
             
         }
 
-      
+
+        #endregion
+
+
+
+        #region Edite Lesson
+        public async Task EditeLessonByID(LessonVM lessonVM)
+        {
+            var lessons = await Db.Lessons
+                .Where(a => a. ID == lessonVM.ID).SingleOrDefaultAsync();
+            lessons.Num = lessonVM.Num;
+            lessons.Name = lessonVM.Name;
+
+            Db.SaveChanges();
+        }
         #endregion
     }
 }

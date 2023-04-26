@@ -47,11 +47,9 @@ namespace SuperHero.PL.Controllers.Admin.Courses
         {
             var data = await courses.GetByID(id);
             var result = mapper.Map<CourseVM>(data);
-            ViewBag.ID = "Edite";
-
             ViewBag.categoryList = new SelectList(await category.GetAll(), "ID", "CategoryName");
             TempData["Message"] = null;
-            return View("Form", result);
+            return PartialView("Edite", result);
         }
         public async Task<IActionResult> Edite(CourseVM courseVM)
         {
@@ -76,8 +74,6 @@ namespace SuperHero.PL.Controllers.Admin.Courses
             //ModelState.Clear();
             TempData["Message"] = null;
             ViewBag.categoryList = await category.GetAll();
-
-            ViewBag.ID = "Edite";
             return View("Form", courseVM);
         }
         #endregion
@@ -89,7 +85,7 @@ namespace SuperHero.PL.Controllers.Admin.Courses
             ViewBag.categoryList = new SelectList(await category.GetAll(), "ID", "CategoryName");
             ViewBag.ID = null;
             TempData["Message"] = null;
-            return View("Form");
+            return PartialView("Create");
         }
         public async Task<IActionResult> Create(CourseVM CourseVM)
         {

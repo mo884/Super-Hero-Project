@@ -6,8 +6,7 @@
 @section CSS{
     <partial name="~/views/person/Partial/css.cshtml" />
 }
-    <a class="btn1 third col-sm-3  me-2 " asp-action="Create" asp-controller="Lesson"> &nbsp; &nbsp; &nbsp;<i class="uil uil-create-dashboard "></i> &nbsp; Create</a>
-    <br />
+      <br />
     <br />
     <table id="example" class="table" style="width:100%;color:darkgrey">
         <thead>
@@ -64,14 +63,9 @@
                         </p>
 
                         <div class="dropdown-menu align-items-center " aria-labelledby="dropdownMenuLink">
-                            <a class="dropdown-item ancor btn btn-primary" asp-action="Edite" asp-controller="Lesson" asp-route-id="@item.ID">
+                            <a class="js-friends dropdown-item" href="javascript:;" data-url="/Lesson/Edite/@item.ID" data-update="true">Edite</a>
+                            <a class="js-friends dropdown-item" href="javascript:;" data-url="/Lesson/Delete/@item.ID" data-update="true">Delete</a>
 
-                                Edite
-                            </a>
-                            <a style="text-align: center" class="dropdown-item" asp-action="Delete" asp-controller="Lesson" asp-route-id="@item.ID">
-
-                                Delete
-                            </a>
 
 
                         </div>
@@ -88,3 +82,11 @@
     <partial name="~/views/person/Partial/script.cshtml" />
 
 }
+    <partial name="~/views/post/Model.cshtml">
+        @section JS{
+        <partial name="~/views/post/scripts.cshtml">
+
+          
+            <script src="~/dashboard/lib/bootbox.js/bootbox.min.js"></script>
+
+        }

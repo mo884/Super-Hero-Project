@@ -38,5 +38,6 @@ namespace SuperHero.BL.Interface
         Task<IEnumerable<CoursesComment>> GetAllCoursesComment(int id, string include, string include1);
         Task<DoctorRatingVM> AddDoctorReating(DoctorRatingVM doctorRating, string PersonId, string DoctorId, float reating);
         Task<DoctorRatingVM> DoctorRatingISTrue(string PersonId, string DoctorId);
+        Task EditeLessonByID(LessonVM lessonVM);
     }
 }

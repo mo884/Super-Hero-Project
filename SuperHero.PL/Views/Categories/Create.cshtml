@@ -1,0 +1,44 @@
+﻿@model CategoryVM
+<div class="card shadow-sm">
+
+  
+    <div class="card-body">
+        <div class="row">
+            <div class="col-sm-2"></div>
+            <div class="col-sm-8">
+                <a>@TempData["error"]</a>
+                <div asp-validation-summary="All"></div>
+                <form method="post" asp-controller="Categories" enctype="multipart/form-data">
+
+                    <div class="mb-5">
+                        <div class="form-floating mb-2">
+                            <input type="text" class="form-control" placeholder="Name" asp-for="CategoryName" />
+                            <label asp-for="CategoryName">Name</label>
+                        </div>
+                        <span asp-validation-for="CategoryName" class="text-danger"></span>
+                    </div>
+
+                    <br />
+                   
+                        <center>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="uil uil-check"></i>Save
+                            </button>
+
+                          
+                        </center>
+                   
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section CSS{
+    <partial name="~/views/person/Partial/css.cshtml" />
+
+}
+    @section JqueryValidation{
+    <partial name="~/views/person/Partial/Script.cshtml" />
+}

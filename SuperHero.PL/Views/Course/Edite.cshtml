@@ -1,0 +1,78 @@
+﻿@model CourseVM
+
+<div class="card shadow-sm">
+
+    <div class="card-header">
+        <h3 class="card-title">Edite Course</h3>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-sm-2"></div>
+            <div class="col-md-8">
+                <a>@TempData["error"]</a>
+                <div asp-validation-summary="All"></div>
+                <form method="post" asp-controller="Course" enctype="multipart/form-data">
+
+                    <div class="mb-5">
+                        <div class="form-floating mb-2">
+                            <input type="text" class="form-control" placeholder="Name" asp-for="NameCourse" />
+                            <label asp-for="NameCourse"></label>
+                        </div>
+                        <span asp-validation-for="NameCourse" class="text-danger"></span>
+                    </div>
+                    <div class="mb-5">
+                        <div class="form-floating mb-2">
+                            <input type="text" class="form-control" placeholder="Num Lesson" asp-for="Hours" />
+                            <label asp-for="Hours"></label>
+                        </div>
+                        <span asp-validation-for="Hours" class="text-danger"></span>
+                    </div>
+                   
+
+
+
+                   
+                        <div class="demo-checkbox">
+                            <input type="checkbox" asp-for="IsDelete" checked="checked">
+                            <label asp-for="IsDelete">IsActive</label>
+                            <span asp-validation-for="IsDelete" class="text-danger"></span>
+                        </div>
+                        <br />
+                        <label asp-for="ImageName" class="file-upload">
+                            <input asp-for="ImageName" class="input" type="file" multiple accept="image/*, video/*" />
+                            <span asp-for="ImageName" class="file-upload_button">Choose Files</span>
+
+                        </label>
+                        <output class="file-upload_result"></output>
+
+                        <br />
+                        <select class="form-select" aria-label="Default select example" asp-for="CategoryID" asp-items="(SelectList)ViewBag.categoryList">
+                        </select>
+                   
+
+
+                    <br />
+                  
+                   
+                        <center>
+                            <button type="submit" class="btn btn-primary w-50">
+                                <i class="uil uil-check"></i>Save
+                            </button>
+
+                      
+                        </center>
+                   
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section CSS{
+    <partial name="~/views/person/Partial/css.cshtml" />
+
+}
+    @section JqueryValidation{
+    <partial name="~/views/person/Partial/Script.cshtml" />
+}

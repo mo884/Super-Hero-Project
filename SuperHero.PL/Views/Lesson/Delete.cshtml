@@ -2,7 +2,7 @@
 <div class="card shadow-sm">
 
     <div class="card-header">
-        <h3 class="card-title">@(ViewBag.Delete == "Delete" ? "Delete" : (ViewBag.ID != null ? "Edit" : "Add")) Lesson</h3>
+        <h3 class="card-title">Delete</h3>
     </div>
     <div class="card-body">
         <div class="row">
@@ -25,47 +25,20 @@
                         </div>
                         <span asp-validation-for="Name" class="text-danger"></span>
                     </div>
-                     
-
-                    <br />
-                    @if (ViewBag.Delete != "Delete")
-                    {
-
-                        <br />
-                        <label asp-for="videoName" class="file-upload">
-                            <input asp-for="videoName" class="input" type="file" multiple accept="image/*, video/* ,.mp3" />
-                            <span asp-for="video" class="file-upload_button">Choose Video</span>
-
-                        </label>
-                        <output class="file-upload_result"></output>
-
-                        <br />
-                     
-                    }
 
 
                     <br />
-                    @if (ViewBag.Delete == "Delete")
-                    {
+                 
+
+
+                    <br />
+                   
                         <center>
                             <button type="submit" class="btn btn-danger" onclick="functionConfirm(this)">
                                 <i class="uil uil-exclamation-octagon"></i>  Delete
                             </button>
-
-                            <a asp-action="GetAll" asp-controller="Lesson" class="btn btn-primary">return</a>
                         </center>
-                    }
-                    else
-                    {
-                        <center>
-                            <button type="submit" class="btn btn-primary">
-                                <i class="uil uil-check"></i>Save
-                            </button>
-
-                            <a asp-action="GetAll" asp-controller="Lesson" class="btn btn-danger">return</a>
-                        </center>
-                    }
-
+                    
 
                 </form>
             </div>

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using SuperHero.BL.DomainModelVM;
+using SuperHero.BL.Helper;
 using SuperHero.DAL.Entities;
 
 namespace SuperHero.PL.Controllers.Admin.Courses
@@ -25,8 +26,9 @@ namespace SuperHero.PL.Controllers.Admin.Courses
         #region GetAll Category
         public async Task<IActionResult> GetALL()
         {
-
+            //Get All Category
             var data = await categories.GetAll();
+            //Mapper
             var result = mapper.Map<IEnumerable<CategoryVM>>(data);
             return View(result);
         }
@@ -36,11 +38,12 @@ namespace SuperHero.PL.Controllers.Admin.Courses
         [HttpGet]
         public async Task<IActionResult> Edite(int id)
         {
+            //Get Category by Id
             var data = await categories.GetByID(id);
+            //Mapper
             var result = mapper.Map<CategoryVM>(data);
-            ViewBag.ID = "Edite";
             TempData["Message"] = null;
-            return View("Form", result);
+            return PartialView("Edite", result);
         }
         public async Task<IActionResult> Edite(CategoryVM categoryVM)
         {
@@ -49,8 +52,11 @@ namespace SuperHero.PL.Controllers.Admin.Courses
 
                 if (ModelState.IsValid)
                 {
+                    //Make Update Time Now
                     categoryVM.UpdateTime = DateTime.Now;
+                    //Mapper
                     var result = mapper.Map<Catogery>(categoryVM);
+                    //Make Update
                     await categories.Update(result);
                     TempData["Message"] = "saved Successfuly";
                     return RedirectToAction("GetAll");
@@ -66,7 +72,7 @@ namespace SuperHero.PL.Controllers.Admin.Courses
 
 
             ViewBag.ID = "Edite";
-            return View("Form", categoryVM);
+            return RedirectToAction("GetAll");
         }
         #endregion
 
@@ -74,10 +80,8 @@ namespace SuperHero.PL.Controllers.Admin.Courses
         [HttpGet]
         public async Task<IActionResult> Create()
         {
-
-            ViewBag.ID = "Edite";
             TempData["Message"] = null;
-            return View("Form");
+            return PartialView("Create");
         }
         public async Task<IActionResult> Create(CategoryVM categoryVM)
         {
@@ -86,7 +90,11 @@ namespace SuperHero.PL.Controllers.Admin.Courses
 
                 if (ModelState.IsValid)
                 {
+                    //MAke Time of create Now
+                    categoryVM.createdTime = DateTime.Now;
+                    //Mapper
                     var result = mapper.Map<Catogery>(categoryVM);
+                    //Create Category
                     await categories.Create(result);
                     TempData["Message"] = "saved Successfuly";
                     return RedirectToAction("GetAll");
@@ -99,59 +107,25 @@ namespace SuperHero.PL.Controllers.Admin.Courses
 
             //ModelState.Clear();
             TempData["Message"] = null;
-
-
-            ViewBag.ID = "Edite";
-            return View("Form", categoryVM);
+            return RedirectToAction("GetAll");
         }
         #endregion
 
         #region Delete
 
-        [HttpGet]
+        [HttpPost]
         public async Task<IActionResult> Delete(int id)
         {
+            //Get Category By Id
             var data = await categories.GetByID(id);
-            var result = mapper.Map<CategoryVM>(data);
 
-            ViewBag.Delete = "Delete";
-            ViewBag.ID = null;
-            return View("Form", result);
-        }
-
-
-        [HttpPost]
-        [ActionName("Delete")]
-        public async Task<IActionResult> ConfirmDelete(CategoryVM obj)
-        {
-
-
-            try
-            {
-                if (ModelState.IsValid)
-                {
-
-                    var result = mapper.Map<Catogery>(obj);
-
-
-                    await categories.Delete(result.ID);
-                    return RedirectToAction("GetAll");
-                }
-
-            }
-            catch (Exception ex)
-            {
-                TempData["error"] = ex.Message;
-            }
-
-
-
-
-            var Dpt = await categories.GetAll();
-            ViewBag.Delete = "Delete";
-            ViewBag.ID = null;
-            return View("Form", obj);
-
+            if (data is null)
+                return NotFound();
+            //Make Is Deleted
+            var Course = await Service.Delete(data);
+            //Make Update
+            await categories.Update(Course);
+            return Ok();
         }
         #endregion
     }
