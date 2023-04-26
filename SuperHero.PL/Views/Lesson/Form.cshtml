@@ -1,10 +1,4 @@
 ﻿@model LessonVM
-@{
-    ViewData["Title"] = $"{(ViewBag.Delete == "Delete" ? "Delete" : (ViewBag.ID != null ? "Edit" : "Add"))} Lesson";
-    Layout = "~/Views/AdminLayout/_Layout.cshtml";
-}
-
-
 <div class="card shadow-sm">
 
     <div class="card-header">
@@ -12,7 +6,8 @@
     </div>
     <div class="card-body">
         <div class="row">
-            <div class="col-md-4">
+            <div class="col-sm-2"></div>
+            <div class="col-md-8">
                 <a>@TempData["error"]</a>
                 <div asp-validation-summary="All"></div>
                 <form method="post" asp-controller="Lesson" enctype="multipart/form-data">
@@ -30,24 +25,24 @@
                         </div>
                         <span asp-validation-for="Name" class="text-danger"></span>
                     </div>
+                     
 
+                    <br />
+                    @if (ViewBag.Delete != "Delete")
+                    {
 
-
-                    @if (ViewBag.Delete != "Delete"){
-                       
-                         <br />
+                        <br />
                         <label asp-for="videoName" class="file-upload">
-                            <input asp-for="videoName" class="input" type="file" multiple accept="image/*, video/*" />
-                            <span asp-for="video" class="file-upload_button">Choose Files</span>
+                            <input asp-for="videoName" class="input" type="file" multiple accept="image/*, video/* ,.mp3" />
+                            <span asp-for="video" class="file-upload_button">Choose Video</span>
 
                         </label>
                         <output class="file-upload_result"></output>
 
-                         <br />
-                        <select class="form-select" aria-label="Default select example" asp-for="CourseID" asp-items="(SelectList)ViewBag.courseList">
-                        </select>
+                        <br />
+                     
                     }
-                    
+
 
                     <br />
                     @if (ViewBag.Delete == "Delete")

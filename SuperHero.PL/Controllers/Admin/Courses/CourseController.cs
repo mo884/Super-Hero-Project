@@ -2,7 +2,9 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using SuperHero.BL.DomainModelVM;
+using SuperHero.BL.Helper;
 using SuperHero.BL.Seeds;
+using SuperHero.DAL.Entities;
 using System.Runtime.Intrinsics.Arm;
 
 namespace SuperHero.PL.Controllers.Admin.Courses
@@ -121,51 +123,20 @@ namespace SuperHero.PL.Controllers.Admin.Courses
 
         #region Delete
 
-        [HttpGet]
+        [HttpPost]
         public async Task<IActionResult> Delete(int id)
         {
             var data = await courses.GetByID(id);
-            var result = mapper.Map<CourseVM>(data);
 
-            ViewBag.Delete = "Delete";
-            ViewBag.ID = "Edite";
-            return View("Form", result);
+            if (data is null)
+                return NotFound();
+            var Course = await Service.Delete(data);
+            await courses.Update(Course);
+            return Ok();
         }
 
 
-        [HttpPost]
-        [ActionName("Delete")]
-        public async Task<IActionResult> ConfirmDelete(CourseVM obj)
-        {
-
-
-            try
-            {
-                if (ModelState.IsValid)
-                {
-
-                    var result = mapper.Map<Course>(obj);
-
-
-                    await courses.Delete(result.ID);
-                    return RedirectToAction("GetAll");
-                }
-
-            }
-            catch (Exception ex)
-            {
-                TempData["error"] = ex.Message;
-            }
-
-
-
-
-            var Dpt = await courses.GetAll();
-            ViewBag.Delete = "Delete";
-            ViewBag.ID = "Edite";
-            return View("Form", obj);
-
-        }
+       
         #endregion
     }
 }

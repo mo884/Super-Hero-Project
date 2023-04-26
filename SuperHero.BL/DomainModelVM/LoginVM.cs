@@ -17,6 +17,8 @@ namespace SuperHero.BL.DomainModelVM
       
         [DataType(DataType.Password)]
         public string Password { get; set; }
+        public string Message { get; set; } = "";
+        public string AccountNotFound { get; set; } = "";
         public string UserName { get; set; }
         public bool RemberMe { get; set; } = true;
     }

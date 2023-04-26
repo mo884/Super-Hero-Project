@@ -37,6 +37,10 @@
                                         <input asp-for="Password" type="password" class="input"  required>
                                         <label asp-for="Password" >Password</label>
                                         <span asp-validation-for="Password"></span>
+                                        @if (Model.AccountNotFound != "")
+                                        {
+                                            <div class="text-danger"> @Model.AccountNotFound</div>
+                                        }
                                     </div>
                                     <div class="input-field">
                                         <input type="submit" class="submit" value="Sign Up">
@@ -44,6 +48,11 @@
                                     </div>
                                     <div class="signin">
                                         <span>Already have an account? <a href="#">Register here</a></span>
+                                        @if (Model.Message != "" )
+                                        {
+                                            <div class="text-danger"> @Model.Message</div>
+                                        }
+                                        
                                     </div>
                                 </div>
                             </form>

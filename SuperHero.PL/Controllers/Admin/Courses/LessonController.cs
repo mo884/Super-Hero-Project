@@ -75,25 +75,28 @@ namespace SuperHero.PL.Controllers.Admin.Courses
 
         #region Create Category
         [HttpGet]
-        public async Task<IActionResult> Create()
+        public async Task<IActionResult> Create(int id)
         {
-            ViewBag.courseList = new SelectList(await courses.GetAll(), "ID", "NameCourse");
-            ViewBag.ID = null;
-            TempData["Message"] = null;
-            return View("Form");
+           
+            TempData["CourseID"] = id;
+            return PartialView("Create");
         }
-        public async Task<IActionResult> Create(LessonVM lessonVM)
+        [HttpPost]
+        public async Task<IActionResult> CreateLesson(LessonVM lessonVM)
         {
             try
             {
-
                 if (ModelState.IsValid)
                 {
+                    lessonVM.CourseID = (int)TempData["CourseID"];
+                    
                     lessonVM.video = FileUploader.UploadFile("Courses", lessonVM.videoName);
                     var result = mapper.Map<Lesson>(lessonVM);
+                   
+                    
                     await lessons.Create(result);
                     TempData["Message"] = "saved Successfuly";
-                    return RedirectToAction("GetAll");
+                    return RedirectToAction("GetAll", "Course");
                 }
             }
             catch (Exception ex)
@@ -101,12 +104,8 @@ namespace SuperHero.PL.Controllers.Admin.Courses
                 TempData["error"] = ex.Message;
             }
 
-            //ModelState.Clear();
-            TempData["Message"] = null;
-            ViewBag.courseList = new SelectList(await courses.GetAll(), "ID", "NameCourse");
 
-            ViewBag.ID = null;
-            return View("Form", lessonVM);
+            return RedirectToAction("GetAll", "Course");
         }
         #endregion
 
@@ -152,7 +151,7 @@ namespace SuperHero.PL.Controllers.Admin.Courses
 
 
 
-            var Dpt = await lessons.GetAll();
+            
             ViewBag.Delete = "Delete";
             ViewBag.ID = "Edite";
             return View("Form", obj);

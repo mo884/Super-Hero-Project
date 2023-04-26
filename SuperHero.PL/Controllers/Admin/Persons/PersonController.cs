@@ -1,6 +1,7 @@
 ﻿
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using SuperHero.BL.Enum;
 using SuperHero.BL.Helper;
 using SuperHero.BL.Interface;
@@ -51,7 +52,7 @@ namespace SuperHero.PL.Controllers.Admin.Persons
         }
         #endregion
 
-        #region
+        #region Edite
         public async Task<IActionResult> Edite(string id)
         {
             try
@@ -89,72 +90,23 @@ namespace SuperHero.PL.Controllers.Admin.Persons
 
         #endregion
 
-
         #region Delete
 
-        [HttpGet]
+        [HttpPost]
         public async Task<IActionResult> Delete(string id)
         {
             var data = await person.GetByID(id);
-            var result = mapper.Map<PersonVM>(data);
-            ViewBag.districtList = new SelectList(await district.GetAll(), "Id", "Name", data.districtID);
-            return View("Form", result);
+
+            if (data is null)
+                return NotFound();
+           var Person = await Service.Delete(data);
+            await person.Update(Person);
+            return Ok();
+           
+            
         }
 
 
-        [HttpPost]
-        [ActionName("Delete")]
-        public async Task<IActionResult> ConfirmDelete(PersonVM obj)
-        {
-            try
-            {
-                if (ModelState.IsValid)
-                {
-                    var data = await person.GetByID(obj.Id);
-
-                    var result = mapper.Map<Person>(obj);
-                    FileUploader.RemoveFile("Imgs", data.Image);
-                    if (data.PersonType == DAL.Enum.PersonType.Doctor)
-                    {
-                        var Doctor = await servis.GetDoctorBYID(obj.Id);
-                        data.doctor = Doctor;
-                    }
-                    else if (data.PersonType == DAL.Enum.PersonType.Trainer)
-                    {
-                        var Trainer = await servis.GetTrainerBYID(obj.Id);
-                        data.trainer = Trainer;
-                    }
-                    else if (data.PersonType == DAL.Enum.PersonType.Doner)
-                    {
-                        var Trainer = await servis.GetDonnerBYID(obj.Id);
-                        data.donner = Trainer;
-
-                    }
-                    else
-                    {
-                        var Patient = await servis.GetPatientBYID(obj.Id);
-                        await user.Delete(Patient.ID);
-                    }
-                    var Person = await servis.GetPersonInclud("district", obj.Id);
-                    await person.Delete(Person.Id);
-
-                    return RedirectToAction("GetAll");
-                }
-            }
-            catch (Exception ex)
-            {
-                TempData["error"] = ex.Message;
-            }
-
-
-
-            var dist = await district.GetAll();
-            ViewBag.districtList = new SelectList(dist, "Id", "Name", obj.districtID);
-            ViewBag.Delete = "Delete";
-            ViewBag.ID = "Edite";
-            return View("Form", obj);
-
-        }
         #endregion
 
         #region Create

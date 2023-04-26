@@ -32,15 +32,16 @@ namespace SuperHero.PL.Controllers.Admin.Social
         [HttpGet]
         public async Task<IActionResult> Comments(int id)
         {
-
+            //Get Comment With Include Person And Post
             var comment = await servies.GetAll(id, "person", "post");
+            //Mapper
             var comments = mapper.Map<IEnumerable<CommentVM>>(comment);
-            var data = new CommentServise
+            //Use Class To Send The PostId and The Comments To send to Partial View 
+            return PartialView("GetComments", new CommentServise
             {
                 PostID = id,
                 comment = comments
-            };
-            return PartialView("GetComments", data);
+            });
         }
         #endregion
 

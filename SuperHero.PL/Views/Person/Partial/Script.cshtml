@@ -50,31 +50,91 @@
 </script>
 <script>
 
-    $('#btnd').click(function () {
-        swal({
-            title: 'are you sur?',
-            text: "You will not be able to recover this item",
-            type: 'warning',
-            showCancelButton: true,
-            cancelButtonText: 'No',
-            cancelButtonClass: 'btn btn-danger',
-            showConfirmButton: true,
-            confirmButtonText: 'Yes',
-            confirmButtonClass: 'btn btn-success'
-        }, function (isConfirm) {
-            if (isConfirm) {
-                $('form').submit();
-                return true;
-            } else {
-                return false;
-            }
+    $(document).ready(function () {
+        $('.js-toggle-status').on('click', function () {
+
+            var btn = $(this);
+            bootbox.confirm({
+                message: "Are you sure that you need to toggle this Person?",
+                buttons: {
+                    confirm: {
+                        label: 'Yes',
+                        className: 'btn-danger'
+                    },
+                    cancel: {
+                        label: 'No',
+                        className: 'btn-secondary'
+                    }
+                },
+                callback: function (result) {
+                    if (result) {
+
+                        $.post({
+                            url: '/Person/Delete/' + btn.data('id'),
+
+                            success: function (lastUpdatedOn) {
+                                var row = btn.parents('tr');
+                                var status = row.find('.js-status');
+                                var newStatus = status.text().trim() === 'Deleted' ? 'Available' : 'Deleted';
+                                status.text(newStatus).toggleClass('bg-success bg-danger');
+                                row.find('.js-updated-on').html(lastUpdatedOn);
+                                row.addClass('animate__animated animate__flash');
+
+                                showSuccessMessage();
+                            },
+                            error: function () {
+                                showErrorMessage();
+                            }
+                        });
+                    }
+                }
+            });
         });
-        return false;
     });
 
-   
-    
-       
+</script>
+<script>
 
+    $(document).ready(function () {
+        $('.js-Course-status').on('click', function () {
 
-   </script> 
+            var btn = $(this);
+            bootbox.confirm({
+                message: "Are you sure that you need to toggle this Course?",
+                buttons: {
+                    confirm: {
+                        label: 'Yes',
+                        className: 'btn-danger'
+                    },
+                    cancel: {
+                        label: 'No',
+                        className: 'btn-secondary'
+                    }
+                },
+                callback: function (result) {
+                    if (result) {
+
+                        $.post({
+                            url: '/Course/Delete/' + btn.data('id'),
+
+                            success: function (lastUpdatedOn) {
+                                var row = btn.parents('tr');
+                                var status = row.find('.js-status');
+                                var newStatus = status.text().trim() === 'Deleted' ? 'Available' : 'Deleted';
+                                status.text(newStatus).toggleClass('bg-success bg-danger');
+                                row.find('.js-updated-on').html(lastUpdatedOn);
+                                row.addClass('animate__animated animate__flash');
+
+                                showSuccessMessage();
+                            },
+                            error: function () {
+                                showErrorMessage();
+                            }
+                        });
+                    }
+                }
+            });
+        });
+    });
+
+</script>

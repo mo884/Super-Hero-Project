@@ -63,7 +63,8 @@ namespace SuperHero.PL.Controllers
 
         public IActionResult Login()
         {
-            return View();
+            LoginVM log = new LoginVM();
+            return View(log);
         }
 
         [HttpPost]
@@ -82,22 +83,29 @@ namespace SuperHero.PL.Controllers
                 result = await signInManager.PasswordSignInAsync(userEmail, model.Password, model.RemberMe, false);
                 if (result.Succeeded)
                 {
-                   
+                    if (userEmail.ISDeleted)
+                    {
+                        model.Message = "You Are Deleted";
+                        return View(model);
+
+                    }
                     return RedirectToAction("GetAll", "Person");
+
                 }
 
 
                 else
                 {
-                    ModelState.AddModelError("", "Invalid UserName Or Password");
-
+                    model.AccountNotFound = "Wrong Email or Passward !";
+                    return View(model);
                 }
             }
 
 
             else
             {
-                ModelState.AddModelError("", "Invalid UserName Or Password");
+                model.AccountNotFound = "Wrong Email or Passward !";
+                return View(model);
 
             }
 

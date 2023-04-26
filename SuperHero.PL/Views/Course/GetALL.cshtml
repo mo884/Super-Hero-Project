@@ -5,6 +5,7 @@
 }
 @section CSS{
     <partial name="~/views/person/Partial/css.cshtml" />
+    <partial name="~/views/post/CSS.cshtml">
 }
     <a class="btn1 third col-sm-3  me-2 " asp-action="Create" asp-controller="Course"> &nbsp; &nbsp; &nbsp;<i class="uil uil-create-dashboard "></i> &nbsp; Create</a>
     <br />
@@ -21,6 +22,7 @@
 
                 <th>Category</th>
                 <th></th>
+                <th>IsDeleted</th>
                 <th>Action</th>
             </tr>
         </thead>
@@ -36,28 +38,37 @@
                 <td>@item.Hours</td>
                 <td>@item.Catogery.CategoryName</td>
 
-             @*   <td class="danger">
-                    <span style='color:@(item.IsDelete ? "#f1416c" : "#50cd89");background:@(item.IsDelete ? "#fff5f8" : "#e8fff3");font-size:15px;font-weight: bold'>
-                        @(item.IsDelete ? "Deleted" : "Available")
-                    </span>
+                @*   <td class="danger">
+            <span style='color:@(item.IsDelete ? "#f1416c" : "#50cd89");background:@(item.IsDelete ? "#fff5f8" : "#e8fff3");font-size:15px;font-weight: bold'>
+            @(item.IsDelete ? "Deleted" : "Available")
+            </span>
 
-                </td>
-*@
+            </td>
+            *@
                 <td>
-                    @if(@item.Image==null){
-                       
-                      
-                            <div class="Image" style="background-image:url('/files/Courses/no-book.jpg') ; width:90px ; height:90px ;background-size:cover; background-position:center; background-repeat:no-repeat ;">
-                            </div>
-                
-                    }else{
+                    @if (@item.Image == null)
+                    {
+
+
+                        <div class="Image" style="background-image:url('/files/Courses/no-book.jpg') ; width:90px ; height:90px ;background-size:cover; background-position:center; background-repeat:no-repeat ;">
+                        </div>
+
+                    }
+                    else
+                    {
                         <div class="Image" style="background-image:url('/files/Courses/@item.Image') ; width:90px ; height:90px ;background-size:cover; background-position:center; background-repeat:no-repeat ;">
                         </div>
-                       
+
                     }
 
 
+                </td>
+                <td class="danger">
+                    <span class="js-status  badge rounded-pill bg-@(item.IsDelete ? "success" : "danger")" style='color:white;'>
+                        @(item.IsDelete ? "Available" : "Deleted")
+                    </span>
 
+                </td>
                 <td>
                     <div class="dropdown show">
                         <p class="btn btn-outline-info" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -69,9 +80,14 @@
 
                                 Edite
                             </a>
-                            <a style="text-align: center" class="dropdown-item" asp-action="Delete" asp-controller="Course" asp-route-id="@item.ID">
 
-                                Delete
+                                <a class="js-friends dropdown-item" href="javascript:;"  data-url="/Lesson/Create/@item.ID" data-update="true">Add Lesson</a>
+
+                           
+
+                            <a style="text-align: center" class="dropdown-item js-Course-status" href="javascript:;" data-id="@item.ID">
+
+                                Toggel status
                             </a>
 
 
@@ -85,7 +101,16 @@
     </tbody>
 
 </table>
-@section DatatablesJS{
-    <partial name="~/views/person/Partial/script.cshtml" />
 
-}
+
+
+                <partial name="~/views/post/Model.cshtml">
+            @section JS{
+                    <partial name="~/views/post/scripts.cshtml">
+
+                        <partial name="~/views/person/Partial/script.cshtml" />
+
+
+
+                    }
+         

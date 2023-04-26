@@ -34,8 +34,9 @@ namespace SuperHero.PL.Controllers.User.DoctorsRating
         {
             // save the Doctor Id
             TempData["doctorId"] = id;
+            
             //Go to PartialView Reating
-            return PartialView("Reating");
+            return PartialView("Reating", new DoctorRatingVM());
         }
         #endregion
 

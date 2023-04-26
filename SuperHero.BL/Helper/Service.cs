@@ -6,7 +6,7 @@ using SuperHero.BL.Reposoratory;
 using SuperHero.DAL.Database;
 using SuperHero.DAL.Entities;
 using SuperHero.DAL.Enum;
-using SuperHero.DAL.Enum;
+
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -187,6 +187,23 @@ namespace SuperHero.BL.Helper
                     return 0;
             }
         }
+        #endregion
+
+        #region Delete Person
+        public static async Task<Person> Delete(Person person)
+        {
+            person.ISDeleted = !person.ISDeleted;
+            return person;
+        }
+
+        #endregion
+        #region Delete Course
+        public static async Task<Course> Delete(Course course)
+        {
+            course.IsDelete = !course.IsDelete;
+            return course;
+        }
+
         #endregion
     }
 }

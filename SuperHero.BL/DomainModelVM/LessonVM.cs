@@ -1,5 +1,6 @@
 ﻿
 using Microsoft.AspNetCore.Http;
+using SuperHero.DAL.Entities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -22,7 +23,7 @@ namespace SuperHero.BL.DomainModelVM
         public string? video { get; set; }
 
         //Navegation Property
-        public int? CourseID { get; set; }
+        public int? CourseID { get; set; } = null!;
         public IFormFile? videoName { get; set; }
         public CourseVM? Course { get; set; }
     }
