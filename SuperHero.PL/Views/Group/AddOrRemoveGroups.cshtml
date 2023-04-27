@@ -6,30 +6,81 @@
     Layout = "~/Views/AdminLayout/_Layout.cshtml";
 }
 
-<h1>AddOrRemoveGrops</h1>
+<h1></h1>
 
 
 <form method="post" class="form-group">
-
-    <div class="card-header">
-        <h2>Add Or Remove Group In Role</h2>
+    <div class="row">
+        <div class="col-sm-2"></div>
+        <div class="col-sm-8">
+            <input type="submit" value="Done" class="btn btn-primary w-75" />
+        </div>
+         <div class="col-sm-2"></div>
+        
     </div>
+    <br />
+    <br />
+    <table id="example" class="table" style="width:100%;color:darkgrey">
+        <thead>
+            <tr>
+                <th></th>
+                <th>Full Name</th>
+
+                <th>User Name</th>
+
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
 
 
-    @for (int i = 0; i < Model.Count; i++)
-    {
+            @for (int i = 0; i < Model.Count; i++)
+            {
+                <tr>
+            <td>
+                    @if (@Model[i].Image == null)
+                    {
+                        if (@Model[i].gender == 0)
+                        {
+                        <div class="Image" style="background-image:url('/files/imgs/men.jpg') ; width:50px ; height:50px ; border-radius : 50%;background-size:cover;margin:auto; background-position:center; background-repeat:no-repeat ;">
+                        </div>
 
-        <input asp-for="@Model[i].IsSelected" type="checkbox" class="filled-in">
-        <label asp-for="@Model[i].IsSelected">@Model[i].Name</label>
+                        }
+                        else
+                        {
+                        <div class="Image" style="background-image:url('/files/imgs/young-woman-avatar-cartoon-character-profile-picture-young-woman-wearing-blue-t-shirt-avatar-cartoon-character-vector-149732076.jpg') ; width:50px;margin:auto ; height:50px ; border-radius : 50%;background-size:cover; background-position:center; background-repeat:no-repeat ;">
+                        </div>
 
-        <input type="hidden" asp-for="@Model[i].Id" />
-        <input type="hidden" asp-for="@Model[i].Name" />
+                        }
+                    }
+                    else
+                    {
+                    <div class="Image" style="background-image:url('/files/imgs/@Model[i].Image') ; width:50px ; height:50px ; border-radius : 50%;background-size:cover;margin:auto; background-position:center; background-repeat:no-repeat ;">
+                    </div>
+                    }
 
-    }
 
-    <div class="card-footer">
-        <input type="submit" value="Edit" class="btn btn-primary" />
-    </div>
+            </td>
+            <td>
+                    @Model[i].FullName
+            </td>
+            <td>
+                <label asp-for="@Model[i].IsSelected">@Model[i].Name</label>
+            </td>
+            <td>
+                <input asp-for="@Model[i].IsSelected" type="checkbox" class="filled-in">
+
+
+                <input type="hidden" asp-for="@Model[i].Id" />
+                <input type="hidden" asp-for="@Model[i].Name" />
+            </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <br />
+    <br />
+   
 
 
 </form>

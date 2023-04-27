@@ -19,7 +19,7 @@
                 <th>createdTime</th>
 
                 <th>Hours</th>
-
+                <th>Lesson</th>
                 <th>Category</th>
                 <th></th>
                 <th>IsDeleted</th>
@@ -36,6 +36,7 @@
                 <td>@item.DateOfPuplish</td>
 
                 <td>@item.Hours</td>
+                    <td>@item.Lessons.Count</td>
                 <td>@item.Catogery.CategoryName</td>
 
                 @*   <td class="danger">
@@ -64,8 +65,8 @@
 
                 </td>
                 <td class="danger">
-                    <span class="js-status  badge rounded-pill bg-@(item.IsDelete ? "success" : "danger")" style='color:white;'>
-                        @(item.IsDelete ? "Available" : "Deleted")
+                        <span class="js-status  badge rounded-pill bg-@(item.IsDelete ? "danger" : "success")" style='color:white;'>
+                        @(item.IsDelete ? "Deleted" : "Available")
                     </span>
 
                 </td>

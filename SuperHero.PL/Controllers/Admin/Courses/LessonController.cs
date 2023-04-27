@@ -86,7 +86,8 @@ namespace SuperHero.PL.Controllers.Admin.Courses
                 if (ModelState.IsValid)
                 {
                     lessonVM.CourseID = (int)TempData["CourseID"];
-                    
+                    if (lessonVM.videoName == null)
+                        return RedirectToAction("GetAll", "Course");
                     lessonVM.video = FileUploader.UploadFile("Courses", lessonVM.videoName);
                     var result = mapper.Map<Lesson>(lessonVM);
                    
@@ -125,6 +126,7 @@ namespace SuperHero.PL.Controllers.Admin.Courses
 
             try
             {
+               
                 if (ModelState.IsValid)
                 {
 
@@ -141,13 +143,7 @@ namespace SuperHero.PL.Controllers.Admin.Courses
                 TempData["error"] = ex.Message;
             }
 
-
-
-
-            
-            ViewBag.Delete = "Delete";
-            ViewBag.ID = "Edite";
-            return View("Form", obj);
+            return RedirectToAction("GetAll");
 
         }
         #endregion

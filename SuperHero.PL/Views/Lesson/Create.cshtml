@@ -25,24 +25,24 @@
                         </div>
                         <span asp-validation-for="Name" class="text-danger"></span>
                     </div>
- <br />
-                        <label asp-for="videoName" class="file-upload">
-                            <input asp-for="videoName" class="input" type="file" multiple accept="image/*, video/* ,.mp3" />
-                            <span asp-for="video" class="file-upload_button">Choose Video</span>
+                    <br />
+                    <label asp-for="videoName" class="file-upload">
+                        <input asp-for="videoName" class="input" type="file" multiple accept="image/*, video/* ,.mp3" />
+                        <span asp-for="video" class="file-upload_button">Choose Video</span>
+                        <span asp-validation-for="videoName"></span>
+                    </label>
+                    <output class="file-upload_result"></output>
 
-                        </label>
-                        <output class="file-upload_result"></output>
+                    <br />
 
-                        <br />
-                   
-                        <center>
-                            <button type="submit" class="btn btn-primary m-3">
-                                <i class="uil uil-check"></i>Save
-                            </button>
+                    <center>
+                        <button type="submit" class="btn btn-primary m-3">
+                            <i class="uil uil-check"></i>Save
+                        </button>
 
-                           
-                        </center>
-                  
+
+                    </center>
+
 
 
                 </form>

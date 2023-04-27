@@ -35,7 +35,7 @@ namespace SuperHero.PL.Controllers.Admin.Courses
         public async Task<IActionResult> GetALL()
         {
 
-            var data = await courses.FindAsync("Catogery");
+            var data = await courses.FindAsync("Catogery", "Lessons");
             var result = mapper.Map<IEnumerable<CourseVM>>(data);
             return View(result);
         }

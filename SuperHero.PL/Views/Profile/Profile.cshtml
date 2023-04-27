@@ -22,6 +22,8 @@
                 @if (Model.Id != userinfo.Id)
                 {
                     <div class="row mt-2">
+
+                        <div class="col-sm-1"></div>
                         <div class="col-sm-5">
 
                             <a href="javascript:;" data-id="@Model.Id" class="js-Add   mr-3 btn @((Model.friends?.Where(c=>c.personId==userinfo.Id && c.FriendId == Model.Id)?.FirstOrDefault()?.IsFriend == null? "btn-dark": (Model.friends.Where(c=>c.personId==userinfo.Id).FirstOrDefault().IsFriend) == true ? "btn-primary" : "btn-dark"))">
@@ -29,7 +31,8 @@
                             </a>
 
                         </div>
-                        <div class="col-sm-4"><a class="btn btn-light ">Send</a></div>
+                        <div class="col-sm-5"><a class="btn btn-light ">Send</a></div>
+                        <div class="col-sm-1"></div>
                     </div>
                 }
                 else

@@ -8,7 +8,10 @@
     @section CSS{
         <partial name="~/views/person/Partial/css.cshtml" />
     }
-    <a class="btn1 third col-sm-3  me-2 " asp-action="Create" asp-controller="Group"> &nbsp; &nbsp; &nbsp;<i class="uil uil-create-dashboard "></i> &nbsp; Create</a>
+
+    <a class="btn1 third col-sm-3  me-2 js-friends" data-url="/Group/Create" href="javascript:;"> &nbsp; &nbsp; &nbsp;<i class="uil uil-create-dashboard "></i> &nbsp; Create</a>
+
+    
     <br />
     <br />
     <table id="example" class="table" style="width:100%;color:darkgrey">
@@ -38,11 +41,11 @@
                             </p>
 
                             <div class="dropdown-menu align-items-center " aria-labelledby="dropdownMenuLink">
-                                <a class="dropdown-item ancor btn btn-primary" asp-action="Edite" asp-controller="Group" asp-route-id="@item.ID">
+                            <a class="dropdown-item ancor btn btn-primary  js-friends" href="javascript:;" data-url="/Group/Edite/@item.ID" data-update="true">
 
                                     Edite
                                 </a>
-                                <a style="text-align: center" class="dropdown-item" asp-action="Delete" asp-controller="Group" asp-route-id="@item.ID">
+                            <a style="text-align: center" class="dropdown-item  js-friends" href="javascript:;" data-url="/Group/Delete/@item.ID" data-update="true">
 
                                     Delete
                                 </a>
@@ -61,8 +64,14 @@
         </tbody>
 
     </table>
-    @section DatatablesJS{
-        <partial name="~/views/person/Partial/script.cshtml" />
 
-    }
+
+<partial name="~/views/post/Model.cshtml">
+    @section JS{
+        <partial name="~/views/post/scripts.cshtml">
+
+            <partial name="~/views/person/Partial/script.cshtml" />
+            <script src="~/dashboard/lib/bootbox.js/bootbox.min.js"></script>
+
+        }
 

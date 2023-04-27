@@ -8,12 +8,12 @@
 @foreach (var item in Model)
 {
 
-    @if(item.IsDelete){
+    @if(!item.IsDelete){
         <div class="row m-3">
 
             <div class="col-sm-12 ">
 
-                <div class="row Ads" style="opacity: .8;background-position: left;background-repeat: no-repeat;background-image: url('/Files/Courses/@item.Image');">
+                <div class="row Ads" style="opacity: .8;  background-attachment: fixed;background-position: center;background-size: cover;background-repeat: no-repeat;background-image: url('/Files/Courses/@item.Image');">
                     <div class="cover">
                         @if (item.Lessons.Count() == 0)
                         {
@@ -62,5 +62,4 @@
     }
    
 }
-
 

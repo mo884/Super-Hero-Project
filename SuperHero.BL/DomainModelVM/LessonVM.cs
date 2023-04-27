@@ -23,7 +23,8 @@ namespace SuperHero.BL.DomainModelVM
         public string? video { get; set; }
 
         //Navegation Property
-        public int? CourseID { get; set; } 
+        public int? CourseID { get; set; }
+     
         public IFormFile? videoName { get; set; }
         public Course? Course { get; set; }
     }

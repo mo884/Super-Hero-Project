@@ -253,6 +253,16 @@ namespace SuperHero.BL.Reposoratory
             var data = await Db.personGroups.Where(a => a.PersonId == personId && a.Group == groupId).FirstOrDefaultAsync();
             return data;
         }
+        #region Delete Group
+        public async Task DeletePersonGroup(int id)
+        {
+            var persongroup = await Db.personGroups
+                .Where(a => a.Group == id).ExecuteDeleteAsync();
+            
+
+            Db.SaveChanges();
+        }
+        #endregion
         #endregion
 
         #region Friends
@@ -385,5 +395,7 @@ namespace SuperHero.BL.Reposoratory
             Db.SaveChanges();
         }
         #endregion
+
+       
     }
 }

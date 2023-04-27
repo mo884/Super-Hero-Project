@@ -44,7 +44,7 @@ namespace SuperHero.PL.Controllers.Admin.Social
         {
             ViewBag.ID = null;
             TempData["Message"] = null;
-            return View("Form");
+            return PartialView("Form");
         }
         public async Task<IActionResult> Create(GroupVM groupVM)
         {
@@ -54,6 +54,7 @@ namespace SuperHero.PL.Controllers.Admin.Social
                 if (ModelState.IsValid)
                 {
                     var result = mapper.Map<Group>(groupVM);
+                    result.CreatedTime = DateTime.Now.Date;
                     await groups.Create(result);
                     TempData["Message"] = "saved Successfuly";
                     return RedirectToAction("GetAll");
@@ -69,7 +70,7 @@ namespace SuperHero.PL.Controllers.Admin.Social
 
 
             ViewBag.ID = null;
-            return View("Form", groupVM);
+            return PartialView("Form", groupVM);
         }
         #endregion
 
@@ -79,9 +80,8 @@ namespace SuperHero.PL.Controllers.Admin.Social
         {
             var data = await groups.GetByID(id);
             var result = mapper.Map<GroupVM>(data);
-            ViewBag.ID = "Edite";
             TempData["Message"] = null;
-            return View("Form", result);
+            return PartialView("Form", result);
         }
         public async Task<IActionResult> Edite(GroupVM groupVM)
         {
@@ -117,10 +117,8 @@ namespace SuperHero.PL.Controllers.Admin.Social
         {
             var data = await groups.GetByID(id);
             var result = mapper.Map<GroupVM>(data);
-            ViewBag.Delete = "Delete";
-            ViewBag.ID = "Edite";
             TempData["Message"] = null;
-            return View("Form", result);
+            return PartialView("Delete", result);
         }
 
 
@@ -133,8 +131,9 @@ namespace SuperHero.PL.Controllers.Admin.Social
             try
             {
                 if (ModelState.IsValid)
-                {
+                {   
                     var result = mapper.Map<Group>(obj);
+                    await servis.DeletePersonGroup(result.ID);
                     await groups.Delete(result.ID);
                     return RedirectToAction("GetAll");
                 }
@@ -144,10 +143,7 @@ namespace SuperHero.PL.Controllers.Admin.Social
             {
                 TempData["error"] = ex.Message;
             }
-            var Dpt = await groups.GetAll();
-            ViewBag.Delete = "Delete";
-            ViewBag.ID = "Edite";
-            return View("Form", obj);
+            return PartialView("Delete", obj);
 
         }
         #endregion
@@ -167,7 +163,10 @@ namespace SuperHero.PL.Controllers.Admin.Social
                 var groupInRole = new GroupInRoleVM()
                 {
                     Id = use.Id,
-                    Name = use.UserName
+                    Name = use.UserName,
+                    FullName =use.FullName,
+                    Image = use.Image,
+                    gender = use.gender
                 };
 
                 if (await servis.GetAll(id, use.Id))
