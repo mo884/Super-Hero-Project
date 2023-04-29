@@ -1,0 +1,314 @@
+/*  import google fonts */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
+*{
+  margin: 0;
+  padding: 0;
+  outline: none;
+  border: none;
+  text-decoration: none;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+:root {
+    --primaryColor:#1EB2A6;
+    --secondary: #c8d6d6;
+    --thierd:#f0f0f0;
+    --forth:#363636b4;
+    --fifith:#2bc4b7;
+    --six:#fff;
+  --seven:rgb(220,229,238);
+  --eight:#67cac2;
+  }
+body{
+  background: rgb(179, 177, 177);
+}
+.container {
+    max-width: 1000px;
+    margin: auto;
+}
+/* For Webkit-based browsers */
+::-webkit-scrollbar {
+    width: 8px; /* Width of the scrollbar */
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: var(--primaryColor); /* Color of the scrollbar thumb */
+    border-radius: 4px; /* Border radius of the scrollbar thumb */
+}
+
+    ::-webkit-scrollbar-thumb:hover {
+        background-color: var(--thierd); /* Color of the scrollbar thumb on hover */
+    }
+
+/* For Firefox */
+::-moz-scrollbar {
+    width: 8px; /* Width of the scrollbar */
+}
+
+::-moz-scrollbar-thumb {
+    background-color: var(--fifith); /* Color of the scrollbar thumb */
+    border-radius: 4px; /* Border radius of the scrollbar thumb */
+}
+
+    ::-moz-scrollbar-thumb:hover {
+        background-color: var(--thierd); /* Color of the scrollbar thumb on hover */
+    }
+  
+header{
+    background-color: var(--primaryColor);
+    color:var(--six);
+    max-height: 60vh;
+}
+.navbar{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+}
+.navbar .menue_items a{
+    margin: 10px;
+    color: var(--six);
+    text-transform: capitalize;
+
+}
+.navbar_acc img{
+    height: 30px;
+    width: 30px;
+    border-radius: 50%;
+    cursor: pointer;
+    border:2px solid var(--secondary)
+}
+
+/* hero-section */
+.hero-section{
+    padding: 10px;
+    margin-top: 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.hero-section .acc-details{
+    display: flex;
+    align-items: center;
+}
+.hero-section .acc-details img{
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    margin-right: 1.5rem;
+    border:4px solid var(--secondary)
+}
+.hero-section .updates{
+    display: inline-flex;
+    align-items: center;
+}
+.acc-txt p{
+    font-size: 12px;
+    font-weight: bold;
+    color: var(--secondary);
+}
+.hero-section .updates .follower{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.hero-section .updates .follower a{
+    border: 2px solid var(--six);
+    margin-left: 10px;
+    padding: 10px;
+    color: var(--six);
+    border-radius: 7px;
+}
+.hero-section .updates .follower .activ{
+    background-color: var(--six);
+    color: var(--primaryColor);
+    border-radius: 7px;
+}
+
+/*Card section */
+.Card_Warp{
+    margin-top: 0.6rem;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.Card_Warp .card{
+    padding: 10px;
+    width: 300px;
+    background-color: var(--six);
+    border-radius: 10px;
+    color:#000;
+    box-shadow: 1px 1px var(--secondary);
+  
+}
+.Card_Warp .card .iconheader{
+    text-align: center;
+    position: relative;
+}
+.Card_Warp .card .iconheader i{
+    font-size: 2rem;
+    color:var(--eight);
+    position: absolute;
+    margin-top: -25px;
+    text-shadow: 2px 2px black;
+    left: 40%;
+}
+.Card_Warp .card .info{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+}
+.Card_Warp .card .info i{
+    padding: 10px;
+    background-color: var(--seven);
+    border-radius: 50%;
+    color:var(--primaryColor);
+    font-size: 1.5rem;
+
+}
+.Card_Warp .card .info .rank{
+color:var(--secondary)
+}
+.Card_Warp .card .detail{
+    margin-top: 1rem;
+    padding: 10px;
+}
+.Card_Warp .card .detail span{
+    font-size: 10px;
+}
+.Card_Warp .card .detail  h2 span{
+    color: var(--secondary);
+}
+.content{
+    margin-top: 80px;
+}
+.content .container .post{
+    padding: 10px;
+    margin: auto;
+    width: 95%;
+    margin-top: 20px;
+    background-color: var(--six);
+    border-radius: 10px;
+    color:#000;
+    box-shadow: 1px 1px var(--secondary);
+}
+.content .container .header{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+}
+.content .container .header .User,.content .container .header .detail{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.content .container .header .User img{
+    width:60px ;
+    height: 60px;
+    border-radius: 50%;
+}
+.content .container .header .User .user-details{
+    margin-left: 15px;
+    margin-top: 20px;
+}
+
+.content .container .header .User .user-details p.bold{
+    font-size: 12px;
+    font-weight: bold;
+}
+.content .container .header .User .user-details p.type{
+    font-weight:bold ;
+    font-size:10px;
+    margin-top: -8px;
+}
+.content .container .header .detail .time{
+    font-size:12px ;
+    color: #6d6d6d;
+    margin-left: 5px;
+    margin-top: 13px;
+
+}
+
+.dropbtn {
+
+    color: var(--eight);
+    padding: 2px;
+    margin-left: 10px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+  }
+  
+
+  .dropdown {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f1f1f1;
+    width: 80px;
+    overflow: auto;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+
+  }
+  
+  .dropdown-content a {
+    color: #6e6e6e;
+    padding: 12px 5px;
+    text-decoration: none;
+    display: block;
+    font-size: 13px;
+  }
+  .dropdown:hover .dropdown-content {
+    display: block;
+  }
+  
+  .dropdown a:hover {background-color: var(--fifith);color:white}
+  .dropdown a i{
+    margin-left: 10px;
+    font-size: 15px;
+  }
+  
+  .show {display: block;}
+ .Content-detailes .Post-body{
+    text-align: center;
+    font-size: 16px;
+    font-weight: 400;
+    color: #6d6d6d;
+    margin-top: 10px;
+ }
+ .social-react{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+    border-top: 2px solid var(--secondary);
+    padding: 10px 20px 5px 20px;
+ }
+@media only screen and (max-width: 750px) {
+    .container{
+        max-width: 750px;
+    }
+    .hero-section .updates .follower a{
+        margin-left: 1px;
+        padding: 5px;
+    }
+    .Card_Warp .card{
+        margin-left: 4px;
+    }
+    .navbar .navbar_logo h2{
+        font-size: 20px;
+    }
+    .navbar .menue_items a{
+        font-size: 10px;
+    }
+}

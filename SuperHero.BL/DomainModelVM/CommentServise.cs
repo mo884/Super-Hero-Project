@@ -12,7 +12,7 @@ namespace SuperHero.BL.DomainModelVM
     {
         public int ID { get; set; }
         [Required(ErrorMessage = ("*"))]
-        public string? Body { get; set; }
+        public string Body { get; set; }
         public DateTime? createdOn { get; set; }
 
         //Navegation Property

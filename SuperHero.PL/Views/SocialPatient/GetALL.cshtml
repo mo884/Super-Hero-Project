@@ -1,0 +1,250 @@
+﻿@model AuditViewModel
+@using Microsoft.AspNetCore.Identity;
+@inject SignInManager<Person> signInManager
+@{
+    ViewData["Title"] = "GetALL";
+    Layout = "~/Views/Shared/PatientLayout/_Layout.cshtml";
+      var userinfo = await signInManager.UserManager.FindByNameAsync(User.Identity.Name);
+    int num1 = 0;
+    int num2 = 0;
+}
+@foreach (var post in Model.post)
+{
+<div class="post">
+    <div class="header">
+        <div class="User">
+              
+
+                    @if (post.person.Image == null)
+                    {
+                    if (post.person.gender == 0)
+                        {
+                            <img src="/files/imgs/men.jpg" alt="" />
+                        }
+                        else
+                        {
+
+                            <img src="/files/imgs/young-woman-avatar-cartoon-character-profile-picture-young-woman-wearing-blue-t-shirt-avatar-cartoon-character-vector-149732076.jpg" alt="" />
+                        }
+                    }
+                    else
+                    {
+
+                    <img src="/files/imgs/@post.person.Image" alt="" />
+                    }
+                
+            <div class="user-details">
+                    <p class="bold">@post.person.FullName</p>
+                    <p class="type">@post.person.PersonType</p>
+            </div>
+
+        </div>
+        <div class="detail">
+            <p class="time">3 hours</p>
+
+            <div class="dropdown">
+                <i class="fa-solid fa-list dropbtn" onclick="myFunction()"></i>
+                <div id="myDropdown" class="dropdown-content">
+                    <a href="#home"><i class="fa-solid fa-spell-check"></i>Edit</a>
+                    <a href="#about"><i class="fa-solid fa-trash-can"></i> Delete</a>
+
+                </div>
+            </div>
+        </div>
+
+
+    </div> 
+    @if (post.Image != null)
+                    {
+    <div class="Image" style=" background-image: url(/files/imgs/@post.Image); background-repeat: no-repeat; background-position: center; background-size: cover;width: 100%;height:450px ;">
+    </div>
+                    }
+    <div class="Content-detailes">
+        <div class="Post-body">
+          @post.Body
+        </div>
+        <div class="social-react">
+                <i href="javascript:;" data-title="@post.Comments.Count() Comments  and  @post.Like Likes" data-url="/SocialPatient/Comments/@post.ID" data-update="true" class="fa-solid fa-comment btn btn-dark  js-render-modal"></i>
+                <i href="javascript:;" data-id="@post.ID" class="fa-solid js-love fa-heart btn @((post.ReactPosts?.Where(c=>c.PersonID==userinfo.Id)?.FirstOrDefault() == null ? "btn-light" : (post.ReactPosts.Where(c=>c.PersonID==userinfo.Id).FirstOrDefault().IsLike == true) ? "btn-light" : "btn-danger"))"></i>
+
+        </div>
+    </div>
+    </div>
+    num1++;
+    @if (num1 == 6)
+    {
+        <div id="carouselExampleControls" class="carousel slide" style="margin-top:30px" data-bs-ride="carousel" >
+            <div class="carousel-inner">
+                
+
+                    @foreach (var doctor in Model.nearDoctor)
+                    {
+                    
+                        @if (doctor.Id != userinfo.Id)
+                        {
+                        <div class="carousel-item  @(num2>0? " " : "active" )">
+                            <div class="card" style="width:350px;margin:auto;text-align:center;padding:30px">
+                                <img style="border-radius:50% ;margin:auto ;width:200px;height:200px" src="/files/imgs/@(doctor.Image == null ?(doctor.gender == 0 ? "men.jpg" : "young-woman-avatar-cartoon-character-profile-picture-young-woman-wearing-blue-t-shirt-avatar-cartoon-character-vector-149732076.jpg") : $"{@doctor.Image}")" class="d-block w-100" alt="...">
+
+                        <div class="card-body">
+                                    <h6>@doctor.FullName</h6>
+                                    <p>@doctor.district.Name</p>
+                                    <center>
+                                        <a style="text-decoration: none;" class="button3" asp-action="Profile" asp-controller="Profile" asp-route-id="@doctor.Id">
+                                            View Profile
+                                        </a>
+                                    </center>
+                        </div>
+                    </div>
+                        </div>
+                        num2++;
+                    }
+                    }
+               
+
+
+            </div>
+            <button class="carousel-control-prev " type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon " aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button  class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+                <span  class="carousel-control-next-icon " aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+    }
+
+}
+    
+
+
+<div>
+    <button onclick="topFunction()" id="myBtn" title="Go to top"><i class="fa-solid fa-arrow-up"></i></button>
+</div>
+<partial name="~/views/SocialPatient/Model.cshtml">
+   
+     
+@section CSS{
+        <partial name="~/views/post/CSS.cshtml">
+    <style>
+        #carousel-card .carousel-control-next,
+        #carousel-card .carousel-control-prev {
+            width: 5%;
+        }
+
+        #myBtn {
+            display: none;
+            position: fixed;
+            bottom: 20px;
+            right: 30px;
+            z-index: 564669079;
+            border: none;
+            outline: none;
+            border: 2px solid #1eb2a6;
+            cursor: pointer;
+            padding: 10px;
+            border-radius: 4px;
+            background:#1eb2a6
+        }
+
+            #myBtn i {
+                font-size: 40px;
+                color: #1EB2A6;
+            }
+
+                #myBtn:hover, #myBtn i {
+                  
+                    color: white
+                }
+                    button, .button3 {
+            background: transparent;
+            color: #1EB2A6;
+            border: 2px solid #1EB2A6;
+            border-radius: 5px;
+            padding: 5px 15px;
+            cursor: pointer;
+        }
+
+           .button3:hover {
+                background: #1EB2A6;
+                color: white;
+
+            }
+
+          
+
+    </style>
+      
+}
+@section JS{
+    <script src="~/dashboard/lib/jquery/jquery.min.js"></script>
+    <script src="~/dashboard/lib/plugins.bundle.js"></script>
+       
+
+        <script>
+            $(document).ready(function () {
+                $('.js-love').on('click', function () {
+                    var btn = $(this);
+
+                    $.post({
+                        url: '/Post/AddLike/' + btn.data('id'),
+                        success: function () {
+                            btn.toggleClass('btn-light btn-danger');
+                        }
+                    });
+                });
+            });
+           
+        </script>
+       
+    <script>
+        // Get the button
+        let mybutton = document.getElementById("myBtn");
+
+        // When the user scrolls down 20px from the top of the document, show the button
+        window.onscroll = function () { scrollFunction() };
+
+        function scrollFunction() {
+            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                mybutton.style.display = "block";
+            } else {
+                mybutton.style.display = "none";
+            }
+        }
+
+        // When the user clicks on the button, scroll to the top of the document
+        function topFunction() {
+            document.body.scrollTop = 0;
+            document.documentElement.scrollTop = 0;
+        }
+    </script>
+        <script>
+
+            $('.js-render-modal').on('click', function () {
+                var btn = $(this);
+                var modal = $('#exampleModal');
+                modal.find('#ModalLabel').text(btn.data('title'));
+
+                console.log(1);
+                $.get({
+                    url: btn.data('url'),
+                    success: function (form) {
+                        modal.find('.modal-body').html(form);
+                        $.validator.unobtrusive.parse(modal);
+                    },
+                    error: function () {
+                        showErrorMessage();
+                    }
+                });
+
+                modal.modal('show');
+            })
+
+        </script>
+      
+}
+        @section JqueryValidation{
+        <partial name="~/views/person/Partial/Script.cshtml" />
+    }
+      
