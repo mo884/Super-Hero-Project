@@ -1,11 +1,15 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SuperHero.BL.DomainModelVM;
 using SuperHero.BL.Helper;
+using SuperHero.BL.Seeds;
 using SuperHero.DAL.Entities;
+using System.Data;
 
 namespace SuperHero.PL.Controllers.Admin.Courses
 {
+    [Authorize(Roles = @$"{AppRoles.Admin},{AppRoles.Trainer}")]
     public class CategoriesController : Controller
     {
 

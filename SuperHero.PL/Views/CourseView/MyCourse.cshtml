@@ -20,20 +20,20 @@
 
 <body>
    
-    <div class="container">
+
 
         <div class="row ">
             <!--Course First Video-->
-            <div class="col">
+            <div class="col-sm-8">
                 <div class="feature_img">
-                    <img src="/files/Courses/@Model.Image" width="100%">
+                    <img src="/files/Courses/@Model.Image" height="600" width="100%">
                     <img src="/Course/Images/play-button-icon-png-16.png" class="play-btn" onclick="playVideo('/files/Courses/@Model.lessons.First().video')">
                 </div>
             </div>
             <!--End Course First Video-->
 
             <!--Course PlayList Video-->
-            <div class="col PlayList">
+            <div class="col-sm-4 PlayList">
                 @foreach (var item in Model.lessons)
                 {
                     <div class="small-img-row">
@@ -52,7 +52,7 @@
             </div>
             <!-- End Course PlayList Video-->
         </div>
-    </div>
+   
 
     <!--show video in Full Screen-->
     <div class="video-player" id="videoPlayer">
@@ -69,7 +69,8 @@
             <div class="col-sm-1"></div>
 
             <!--Show Information of Course-->
-            <div class="col-sm-5">
+            <div class="col-sm-4">
+                <h2>@Model.NameCourse</h2>
                 <h3>By : @Model.trainer.FullName</h3>
                 <p class="bold"> Course Hours : @Model.Hours</p>
                 <p>@Model.Description</p>
@@ -78,7 +79,7 @@
             <!--End Show Information of Course-->
 
            <!--Comments-->
-            <div class="col-sm-6">
+            <div class="col-sm-7">
                
                 <section >
                     <div class=" my-5 py-5">
