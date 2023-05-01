@@ -5,6 +5,7 @@ using SuperHero.DAL.Entities;
 
 namespace SuperHero.PL.Controllers.PatientProfile
 {
+    [Route("/api/Social")]
     public class SocialPatientController : Controller
     {
         #region Prop
@@ -34,19 +35,12 @@ namespace SuperHero.PL.Controllers.PatientProfile
         #endregion
 
         #region GetAll
+        [HttpGet("Communication")]
         public async Task<IActionResult> GetALL()
         {
             var PersonProfile = await signInManager.UserManager.FindByNameAsync(User.Identity.Name);
-            var data = await servies.GetALlPost("person", "Comments", "ReactPosts");
-            var post = mapper.Map<IEnumerable<PostVM>>(data);
-            var dataDoctor = await servies.GetPersonInclud("district", PersonProfile.Id);
-            var Patient = mapper.Map<CreatePerson>(dataDoctor);
-            var Doctor = await servies.GetDoctor(Patient.districtID, Patient.district.CityId, Patient.district.City.GovernorateID);
-            var Doctorvm = mapper.Map<IEnumerable<CreatePerson>>(Doctor);
-            var Friends = await servies.GetBYUserFriends(PersonProfile.Id);
-            var patient = await  servies.GetPersonInclud("patient", PersonProfile.Id);
-            var p = new AuditViewModel { post = post,person= patient, nearDoctor = Doctorvm, friends = Friends,Allfriends=await allfriends.GetAll() };
-            return View(p);
+            var SocialGetAll = await servies.GetAllSocial(PersonProfile);
+            return View(SocialGetAll);
         }
         #endregion
 
@@ -95,30 +89,7 @@ namespace SuperHero.PL.Controllers.PatientProfile
         }
         #endregion
 
-        #region Get Profile By Id
        
-        public async Task<IActionResult> Profile(string id)
-
-        {
-
-            var data = await servies.GetPersonInclud("district", id);
-            var PersonProfile = await signInManager.UserManager.FindByNameAsync(User.Identity.Name);
-            if (data.PersonType == DAL.Enum.PersonType.User)
-            {
-                var Reason = await servies.GetPatientBYID(id);
-                data.patient = Reason;
-            }
-            var result = mapper.Map<CreatePerson>(data);
-           
-            result.doctorRating = await servies.DoctorRatingISTrue(PersonProfile.Id, id);
-            var Friends = await servies.GetBYUserFriends(id);
-            result.Friends = Friends;
-            result.Allfriends = await allfriends.GetAll();
-
-            return View(result);
-        }
-
-        #endregion
 
     }
 }

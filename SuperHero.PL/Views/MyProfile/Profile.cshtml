@@ -33,7 +33,28 @@
     <div class="acc-txt">
         <h3>Never Give Up!</h3>
         <h6>@Model.FullName</h6>
-        <p>@Model.patient.Reason</p>
+        @if(Model.personType == 0){
+            <p>@Model.patient.Reason</p>
+        }else{
+            <p>@Model.personType</p>
+        }
+        @if (Model.personType.ToString().Equals(SuperHero.DAL.Enum.PersonType.Doctor.ToString()))
+        {
+            @if (Model.doctorRating == null)
+            {
+                <a href="javascript:;" data-url="/Reating/Reating/@Model.Id" data-update="true" class=" btn btn-light js-render-Rating"><i style="color:#f59f00" class="fa-solid fa-star"></i> <i style="color:#f59f00" class="fa-solid fa-star"></i> <i style="color:#f59f00" class="fa-solid fa-star"></i> </a>
+            }
+            else
+            {
+                @if (Model.doctorRating.PersonIsReating == false)
+                {
+                    <a href="javascript:;" data-url="/Reating/Reating/@Model.Id" data-update="true" class="button js-render-Rating"><i class="fa-solid fa-star-sharp-half-stroke"></i>  </a>
+                }
+            }
+
+
+
+        }
 
     </div>
 
@@ -47,7 +68,7 @@
     <div class="info">
         <i class="fa-solid fa-user-group"></i>
         <div class="rank">
-            Follower
+            Following
         </div>
     </div>
     <div style="color:black" class="detail">
@@ -65,7 +86,7 @@
     <div class="info">
         <i class="fa-solid fa-users"></i>
         <div class="rank">
-            Following
+            Follower
         </div>
     </div>
     <div class="detail">
@@ -91,7 +112,7 @@
     }
     @section Followers{
         @if(Model.Id != userinfo.Id){
-        <a href="javascript:;" data-id="@Model.Id" class="js-Add   mr-3 btn @((Model.friends?.Where(c=>c.personId==userinfo.Id && c.FriendId == Model.Id)?.FirstOrDefault()?.IsFriend == null? "btn-info": (Model.friends.Where(c=>c.personId==userinfo.Id).FirstOrDefault().IsFriend) == true ? "btn-primary" : "btn-info"))">
+        <a style="color:black" href="javascript:;" data-id="@Model.Id" class="js-Add   mr-3 btn @((Model.friends?.Where(c=>c.personId==userinfo.Id && c.FriendId == Model.Id)?.FirstOrDefault()?.IsFriend == null? "btn-info": (Model.friends.Where(c=>c.personId==userinfo.Id).FirstOrDefault().IsFriend) == true ? "btn-light" : "btn-info"))">
             @(((Model.friends?.Where(c => c.personId == userinfo.Id && c.FriendId == Model.Id)?.SingleOrDefault() == null) ? "Follow" : (Model.friends.Where(c => c.personId == userinfo.Id).FirstOrDefault().IsFriend) == true ? "UnFollow" : "Follow"))
         </a>
         <a class="btn btn-light " style="color:black">Send</a>
@@ -164,7 +185,7 @@
             </div>
             <div class="social-react">
                 <i href="javascript:;" data-title="@post.Comments.Count() Comments  and  @post.Like Likes" data-url="/SocialPatient/Comments/@post.ID" data-update="true" class="fa-solid fa-comment btn btn-dark  js-render-modal"></i>
-                <i href="javascript:;" data-id="@post.ID" class="fa-solid js-love2 fa-heart btn @((post.ReactPosts?.Where(c=>c.PersonID==Model.Id)?.FirstOrDefault() == null ? "btn-light" : (post.ReactPosts.Where(c=>c.PersonID==Model.Id).FirstOrDefault().IsLike == true) ? "btn-danger" : "btn-light"))"></i>
+                <i href="javascript:;" data-id="@post.ID" class="fa-solid js-love2 fa-heart btn @((post.ReactPosts?.Where(c=>c.PersonID==userinfo.Id)?.FirstOrDefault() == null ? "btn-light" : (post.ReactPosts.Where(c=>c.PersonID==userinfo.Id).FirstOrDefault().IsLike == true) ? "btn-danger" : "btn-light"))"></i>
 
             </div>
         </div>
@@ -183,7 +204,7 @@
     <button onclick="topFunction()" id="myBtn" title="Go to top"><i class="fa-solid fa-arrow-up"></i></button>
 </div>
 <partial name="~/views/SocialPatient/Model.cshtml">
-
+<partial name="~/views/SocialPatient/ModelRating.cshtml">
 
     @section CSS{
         <partial name="~/views/post/CSS.cshtml">
@@ -299,6 +320,29 @@
                 })
 
             </script>
+                <script>
+
+                    $('.js-render-Rating').on('click', function () {
+                        var btn = $(this);
+                        var modal = $('#modalRating');
+                        modal.find('#ModalLabel').text(btn.data('title'));
+                         
+                        console.log(1);
+                        $.get({
+                            url: btn.data('url'),
+                            success: function (form) {
+                                modal.find('.modal-body').html(form);
+                                $.validator.unobtrusive.parse(modal);
+                            },
+                            error: function () {
+                                showErrorMessage();
+                            }
+                        });
+
+                        modal.modal('show');
+                    })
+
+                </script>
             <script>
                 $(document).ready(function () {
                     $('.js-Add').on('click', function () {
@@ -308,7 +352,7 @@
                             url: '/Profile/AddFriends/' + btn.data('id'),
                             success: function () {
                                 var newtext = btn.text().trim() === 'UnFollow' ? 'Follow' : 'UnFollow';
-                                btn.text(newtext).toggleClass('btn-info btn-primary');
+                                btn.text(newtext).toggleClass('btn-info btn-light');
                             }
                         });
                     });

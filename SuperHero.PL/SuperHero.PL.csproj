@@ -23,4 +23,11 @@
     <Folder Include="wwwroot\Files\CVDoctors\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="Views\SocialPatient\ModelRating.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+
 </Project>

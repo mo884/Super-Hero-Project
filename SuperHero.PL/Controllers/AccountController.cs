@@ -89,7 +89,7 @@ namespace SuperHero.PL.Controllers
                         return View(model);
 
                     }
-                    return RedirectToAction("GetAll", "Person");
+                    return RedirectToAction("GetAll", "SocialPatient");
 
                 }
 
@@ -115,11 +115,11 @@ namespace SuperHero.PL.Controllers
         }
 
         #endregion
-   
+
         #region Sign Out
 
-        [HttpPost]
-        public async Task<IActionResult> LogOff()
+        [HttpGet]
+        public async Task<IActionResult> LogOff( string id)
         {
             await signInManager.SignOutAsync();
             return RedirectToAction("Login");

@@ -41,6 +41,8 @@ namespace SuperHero.BL.Interface
         Task<DoctorRatingVM> AddDoctorReating(DoctorRatingVM doctorRating, string PersonId, string DoctorId, float reating);
         Task<DoctorRatingVM> DoctorRatingISTrue(string PersonId, string DoctorId);
         Task EditeLessonByID(LessonVM lessonVM);
-     
+        Task<AuditViewModel> GetAllSocial(Person PersonProfile);
+
+
     }
 }

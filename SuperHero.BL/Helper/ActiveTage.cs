@@ -25,11 +25,11 @@ namespace SuperHero.BL.Helper
             {
                 if (output.Attributes.ContainsName("class"))
                 {
-                    output.Attributes.SetAttribute("class", $"{output.Attributes["class"].Value}active");
+                    output.Attributes.SetAttribute("class", $"{output.Attributes["class"].Value}active1");
                 }
                 else
                 {
-                    output.Attributes.SetAttribute("class", $"active");
+                    output.Attributes.SetAttribute("class", $"active1");
                 }
             }
         }

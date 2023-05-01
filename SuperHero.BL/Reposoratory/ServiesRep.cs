@@ -24,6 +24,7 @@ namespace SuperHero.BL.Reposoratory
         protected ApplicationContext Db;
         private readonly IBaseRepsoratory<Comment> comment;
         private readonly IBaseRepsoratory<Person> person;
+        private readonly IBaseRepsoratory<Friends> allfriends;
         private readonly IBaseRepsoratory<UserInfo> user;
         private readonly IBaseRepsoratory<DonnerInfo> donner;
         private readonly IBaseRepsoratory<DoctorInfo> doctor;
@@ -32,11 +33,12 @@ namespace SuperHero.BL.Reposoratory
         #endregion
 
         #region Ctor
-        public ServiesRep(ApplicationContext Db, IBaseRepsoratory<Comment> comment, IBaseRepsoratory<Person> person, IBaseRepsoratory<UserInfo> user, IBaseRepsoratory<DonnerInfo> donner, IBaseRepsoratory<DoctorInfo> doctor,IMapper mapper, IBaseRepsoratory<TrainerInfo> trainer)
+        public ServiesRep(ApplicationContext Db, IBaseRepsoratory<Comment> comment, IBaseRepsoratory<Person> person, IBaseRepsoratory<Friends> allfriends, IBaseRepsoratory<UserInfo> user, IBaseRepsoratory<DonnerInfo> donner, IBaseRepsoratory<DoctorInfo> doctor,IMapper mapper, IBaseRepsoratory<TrainerInfo> trainer)
         {
             this.Db = Db;
             this.comment = comment;
             this.person = person;
+            this.allfriends = allfriends;
             this.user = user;
             this.donner = donner;
             this.doctor = doctor;
@@ -404,6 +406,29 @@ namespace SuperHero.BL.Reposoratory
 
         #endregion
 
+        #region GetAll
+        public async Task<AuditViewModel>GetAllSocial(Person PersonProfile)
+        {
+            var data = await GetALlPost("person", "Comments", "ReactPosts");
+            var post = mapper.Map<IEnumerable<PostVM>>(data);
+            var dataDoctor = await GetPersonInclud("district", PersonProfile.Id);
+            var Patient = mapper.Map<CreatePerson>(dataDoctor);
+            var Doctor = await GetDoctor(Patient.districtID, Patient.district.CityId, Patient.district.City.GovernorateID);
+            var Doctorvm = mapper.Map<IEnumerable<CreatePerson>>(Doctor);
+            var Friends = await GetBYUserFriends(PersonProfile.Id);
 
-    }
+            var p = new AuditViewModel { post = post, nearDoctor = Doctorvm, friends = Friends, Allfriends = await allfriends.GetAll() };
+            if (PersonProfile.PersonType == 0)
+            {
+                var patient = await GetPersonInclud("patient", PersonProfile.Id);
+                p.person = patient;
+            }
+            else
+            {
+                p.person = PersonProfile;
+            }
+            return p;
+        }
+            #endregion
+        }
 }

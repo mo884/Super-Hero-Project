@@ -35,7 +35,12 @@
                     <div class="acc-txt">
                         <h3>Never Give Up!</h3>
                         <h6>@userinfo.FullName</h6>
-                        <p>@Model.person.patient.Reason</p>
+                        @if(Model.person.PersonType==0){
+                          <p>@Model.person.patient.Reason</p>
+                        }else{
+                          <p>@Model.person.PersonType</p>
+                        }
+                      
                         
                     </div>
     
@@ -48,7 +53,7 @@
     <div class="info">
         <i class="fa-solid fa-user-group"></i>
         <div class="rank">
-            Follower
+            Following
         </div>
     </div>
     <div class="detail">
@@ -63,7 +68,7 @@
                     <div class="info">
                         <i class="fa-solid fa-users"></i>
                         <div class="rank">
-                            Following
+                            Follower
                         </div>
                     </div>
                     <div class="detail">
@@ -96,8 +101,8 @@
 <div class="post">
     <div class="header">
         <div class="User">
-              
-                <a asp-action="Profile" asp-controller="SocialPatient" asp-route-id="@post.person.Id">
+
+                <a asp-action="Profile" asp-controller="MyProfile" asp-route-id="@post.person.Id">
                     @if (post.person.Image == null)
                     {
 
@@ -118,7 +123,7 @@
                     }
                 </a>
             <div class="user-details">
-                    <p class="bold"><a asp-action="Profile" asp-controller="SocialPatient" asp-route-id="@post.person.Id">@post.person.FullName</a> </p>
+                    <p class="bold"><a style="text-decoration:none;color:#1eb2a6" asp-action="Profile" asp-controller="MyProfile" asp-route-id="@post.person.Id">@post.person.FullName</a> </p>
                     <p class="type">@post.person.PersonType</p>
             </div>
 
@@ -153,7 +158,7 @@
         </div>
         <div class="social-react">
                 <i href="javascript:;" data-title="@post.Comments.Count() Comments  and  @post.Like Likes" data-url="/SocialPatient/Comments/@post.ID" data-update="true" class="fa-solid fa-comment btn btn-dark  js-render-modal"></i>
-                <i href="javascript:;" data-id="@post.ID" class="fa-solid js-love fa-heart btn @((post.ReactPosts?.Where(c=>c.PersonID==userinfo.Id)?.FirstOrDefault() == null ? "btn-light" : (post.ReactPosts.Where(c=>c.PersonID==userinfo.Id).FirstOrDefault().IsLike == true) ? "btn-danger" : "btn-light"))"></i>
+                <i href="javascript:;"  data-id="@post.ID" class="fa-solid js-love fa-heart btn @((post.ReactPosts?.Where(c=>c.PersonID==userinfo.Id)?.FirstOrDefault() == null ? "btn-light" : (post.ReactPosts.Where(c=>c.PersonID==userinfo.Id).FirstOrDefault().IsLike == true) ? "btn-danger" : "btn-light"))"></i>
 
         </div>
     </div>
@@ -176,9 +181,9 @@
 
                         <div class="card-body">
                                     <h6>@doctor.FullName</h6>
-                                    <p>@doctor.district.Name</p>
+                                    <p>@doctor.district.Name</p> 
                                     <center>
-                                        <a style="text-decoration: none;" class="button3" asp-action="Profile" asp-controller="Profile" asp-route-id="@doctor.Id">
+                                        <a style="text-decoration: none;" class="button3" asp-action="Profile" asp-controller="MyProfile" asp-route-id="@doctor.Id">
                                             View Profile
                                         </a>
                                     </center>
