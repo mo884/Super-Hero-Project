@@ -24,6 +24,7 @@ namespace SuperHero.BL.Interface
         Task<Person> GetPersonInclud(string includ, string id);
         Task<ReactPost> GetBYUserAndPost(string id,int postid);
         Task<Friends> GetBYUserFriends(string id, string personid);
+        Task<IEnumerable<Friends>> GetFollower(string id);
         Task<IEnumerable<Friends>> GetBYUserFriends( string personid);
         Task<bool> GetAll(int id, string personId);
         //Task<bool> FindByIdAsync(string personId, int groupId);
@@ -40,5 +41,6 @@ namespace SuperHero.BL.Interface
         Task<DoctorRatingVM> AddDoctorReating(DoctorRatingVM doctorRating, string PersonId, string DoctorId, float reating);
         Task<DoctorRatingVM> DoctorRatingISTrue(string PersonId, string DoctorId);
         Task EditeLessonByID(LessonVM lessonVM);
+     
     }
 }

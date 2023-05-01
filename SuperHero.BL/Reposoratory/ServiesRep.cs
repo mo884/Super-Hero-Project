@@ -274,6 +274,12 @@ namespace SuperHero.BL.Reposoratory
 
 
 
+        public async Task<IEnumerable<Friends> > GetFollower(string id)
+        {
+            var follwers = await Db.Friends.Where(a => a.FriendId == id).ToListAsync();
+            return follwers;
+        }
+
         public async Task<IEnumerable<Friends>> GetBYUserFriends(string personid)
         {
             var data = await Db.Friends.Where(a => a.personId == personid && a.IsFriend == true).Include("person").ToListAsync();
@@ -394,8 +400,10 @@ namespace SuperHero.BL.Reposoratory
 
             Db.SaveChanges();
         }
+
+
         #endregion
 
-       
+
     }
 }

@@ -8,7 +8,7 @@
 
 }
 
-<div style="background:#363636b4; color:white" class="row">
+<div style="background:white; color:#363636b4" class="row">
     <div class="col-md-12">
         <div class="people-nearby">
             @foreach (var item in Model)
@@ -17,20 +17,27 @@
                 var Friend = await servies.GetBYUserFriends(userinfo.Id, user.Id);
                 <div class="nearby-user">
                     <div class="row p-3">
-                        <div class="col-md-1 col-sm-1 pt-4">
-                            <a asp-action="Profile" asp-controller="Profile" asp-route-id="@user.Id"><img style=" height: 50px;width: 50px;border-radius: 50%;" src="/Files/Imgs/@(user.Image == null ?(user.gender == 0 ? "men.jpg" : "young-woman-avatar-cartoon-character-profile-picture-young-woman-wearing-blue-t-shirt-avatar-cartoon-character-vector-149732076.jpg") : $"{@user.Image}")" alt="user" class="profile-photo-lg"></a>
+                        <div class="col-md-1 col-sm-1 pt-5">
                         </div>
-                        <div class="col-md-7 col-sm-7 pt-5">
-                            <h5><a asp-action="Profile" asp-controller="Profile" asp-route-id="@user.Id" class="profile-link">@user.FullName</a></h5>
+                        <div  class="col-md-1 col-sm-1 pt-4 mt-3">
+                            <a style="text-decoration:none" asp-action="Profile" asp-controller="Profile" asp-route-id="@user.Id"><img style=" height: 70px;width: 70px;border-radius: 50%;" src="/Files/Imgs/@(user.Image == null ?(user.gender == 0 ? "men.jpg" : "young-woman-avatar-cartoon-character-profile-picture-young-woman-wearing-blue-t-shirt-avatar-cartoon-character-vector-149732076.jpg") : $"{@user.Image}")" alt="user" class="profile-photo-lg"></a>
+                        </div>
+                        <div style="border-bottom:1px solid #363636b4 " class="col-md-4 col-sm-5 pt-5">
+                            <h5><a style="text-decoration:none;color:#363636b4" asp-action="Profile" asp-controller="Profile" asp-route-id="@user.Id" class="profile-link">@user.FullName</a></h5>
                             <p>@user.PersonType</p>
                            
+                        </div>
+                        <div style="border-bottom:1px solid #363636b4 " class="col-md-3 col-sm-3 pt-5">
+                            </div>
+                        <div class="col-md-3 col-sm-3 pt-5">
+                            <a style="text-decoration:none" class="button3" asp-action="" asp-controller="">Profile</a>
                         </div>
 
                        
                         
                     </div>
                 </div>
-                <hr>
+               
             }
            
         </div>

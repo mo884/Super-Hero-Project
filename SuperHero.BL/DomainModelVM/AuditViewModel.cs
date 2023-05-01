@@ -28,6 +28,8 @@ namespace SuperHero.BL.DomainModelVM
         public List<ReactPost>? ReactPosts { get; set; }
         public string? PersonID { get; set; }
         public IEnumerable<CreatePerson>? nearDoctor { get; set; }
+        public IEnumerable<Friends>? friends { get; set; }
+        public IEnumerable<Friends>? Allfriends { get; set; }
         public List<CreatePerson>? Doctors { get; set; }
         [ForeignKey("PersonID")]
         public Person? person { get; set; }

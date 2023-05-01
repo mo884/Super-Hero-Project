@@ -48,6 +48,8 @@ namespace SuperHero.BL.DomainModelVM
         public DoctorInfoVM? doctor { get; set; }
         public IEnumerable<PostVM>? Posts { get; set; }
         public List<Friends>? friends { get; set; }
+     
+        public IEnumerable<Friends>? Allfriends { get; set; }
         public List<Comment>? Comments { get; set; }
         public List<PersonCourses>? UserCourses { get; set; }
         public List<PersonGroup>? Personsgroup { get; set; }

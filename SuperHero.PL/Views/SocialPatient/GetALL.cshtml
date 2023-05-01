@@ -7,16 +7,73 @@
       var userinfo = await signInManager.UserManager.FindByNameAsync(User.Identity.Name);
     int num1 = 0;
     int num2 = 0;
+    
 }
+@section PersonType{
+
+    <p>@Model.person.patient.Reason</p>
+}
+@section Follower{
+    <div class="iconheader">
+        <i class="fa-solid fa-share"></i>
+    </div>
+
+    <div class="info">
+        <i class="fa-solid fa-user-group"></i>
+        <div class="rank">
+            Follower
+        </div>
+    </div>
+    <div class="detail">
+        <span>Total amount</span>
+        <h2>@Model.friends.Count() <span> Following</span> </h2>
+    </div>
+}
+    @section Following{
+        <div class="iconheader">
+                        <i class="fa-solid fa-share fa-flip-horizontal"></i>
+                    </div>
+                    <div class="info">
+                        <i class="fa-solid fa-users"></i>
+                        <div class="rank">
+                            Following
+                        </div>
+                    </div>
+                    <div class="detail">
+                        <span>Total amount</span>
+        <h2>@Model.Allfriends.Where(a=> a.FriendId == userinfo.Id).ToList().Count <span>Follower</span> </h2>
+                    </div>
+    }
+    @section Post{
+        <div class="iconheader">
+                        <i class="fa-solid fa-thumbtack"></i>
+                    </div>
+                    <div class="info">
+                        <i class="fa-solid fa-photo-film"></i>
+                        <div class="rank">
+                            @Model.post.Count()
+                        </div>
+                    </div>
+                    <div class="detail">
+                        <span>Total amount</span>
+        <h2>@Model.post.Count() <span>Post</span> </h2>
+                    </div>
+    }
+    @section Followers{
+    <a style=" text-decoration: none;" href="javascript:;" data-url="/Profile/Friend/@userinfo.Id" data-update="true" class="activ btn-btn-sucess js-render-modal" >Following</a>
+    <a style=" text-decoration: none;" href="javascript:;" data-url="/Profile/Follower/@userinfo.Id" data-update="true" class=" js-render-modal">Follwers</a>
+
+    }
 @foreach (var post in Model.post)
 {
 <div class="post">
     <div class="header">
         <div class="User">
               
-
+            <a asp-action="Profile" asp-controller="SocialPatient" asp-route-data="@post.person.Id">
                     @if (post.person.Image == null)
                     {
+
                     if (post.person.gender == 0)
                         {
                             <img src="/files/imgs/men.jpg" alt="" />
@@ -32,14 +89,15 @@
 
                     <img src="/files/imgs/@post.person.Image" alt="" />
                     }
-                
+                </a>
             <div class="user-details">
-                    <p class="bold">@post.person.FullName</p>
+                    <p class="bold"><a asp-action="Profile" asp-controller="ProfilePatient" asp-route-data="@post.person.Id">@post.person.FullName</a> </p>
                     <p class="type">@post.person.PersonType</p>
             </div>
 
         </div>
-        <div class="detail">
+        @if(userinfo.Id == post.person.Id){
+             <div class="detail">
             <p class="time">3 hours</p>
 
             <div class="dropdown">
@@ -49,11 +107,14 @@
                     <a href="#about"><i class="fa-solid fa-trash-can"></i> Delete</a>
 
                 </div>
-            </div>
-        </div>
+         </div>
+          </div>
 
 
-    </div> 
+     
+        }
+       </div>
+       
     @if (post.Image != null)
                     {
     <div class="Image" style=" background-image: url(/files/imgs/@post.Image); background-repeat: no-repeat; background-position: center; background-size: cover;width: 100%;height:450px ;">
@@ -65,7 +126,7 @@
         </div>
         <div class="social-react">
                 <i href="javascript:;" data-title="@post.Comments.Count() Comments  and  @post.Like Likes" data-url="/SocialPatient/Comments/@post.ID" data-update="true" class="fa-solid fa-comment btn btn-dark  js-render-modal"></i>
-                <i href="javascript:;" data-id="@post.ID" class="fa-solid js-love fa-heart btn @((post.ReactPosts?.Where(c=>c.PersonID==userinfo.Id)?.FirstOrDefault() == null ? "btn-light" : (post.ReactPosts.Where(c=>c.PersonID==userinfo.Id).FirstOrDefault().IsLike == true) ? "btn-light" : "btn-danger"))"></i>
+                <i href="javascript:;" data-id="@post.ID" class="fa-solid js-love fa-heart btn @((post.ReactPosts?.Where(c=>c.PersonID==userinfo.Id)?.FirstOrDefault() == null ? "btn-light" : (post.ReactPosts.Where(c=>c.PersonID==userinfo.Id).FirstOrDefault().IsLike == true) ? "btn-danger" : "btn-light"))"></i>
 
         </div>
     </div>

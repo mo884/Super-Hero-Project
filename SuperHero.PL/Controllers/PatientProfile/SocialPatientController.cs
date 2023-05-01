@@ -9,6 +9,7 @@ namespace SuperHero.PL.Controllers.PatientProfile
     {
         #region Prop
         private readonly IBaseRepsoratory<Person> person;
+        private readonly IBaseRepsoratory<Friends> allfriends;
         private readonly IBaseRepsoratory<Comment> comment;
         private readonly IBaseRepsoratory<ReactPost> react;
         private readonly IBaseRepsoratory<Post> post;
@@ -19,9 +20,10 @@ namespace SuperHero.PL.Controllers.PatientProfile
 
 
         #region ctor
-        public SocialPatientController(IBaseRepsoratory<Person> person, IBaseRepsoratory<Comment> comment, IBaseRepsoratory<ReactPost> react, IBaseRepsoratory<Post> post, IMapper mapper, IServiesRep servies, SignInManager<Person> signInManager)
+        public SocialPatientController(IBaseRepsoratory<Person> person, IBaseRepsoratory<Friends> allfriends, IBaseRepsoratory<Comment> comment, IBaseRepsoratory<ReactPost> react, IBaseRepsoratory<Post> post, IMapper mapper, IServiesRep servies, SignInManager<Person> signInManager)
         {
             this.person = person;
+            this.allfriends = allfriends;
             this.comment = comment;
             this.react = react;
             this.post = post;
@@ -34,13 +36,16 @@ namespace SuperHero.PL.Controllers.PatientProfile
         #region GetAll
         public async Task<IActionResult> GetALL()
         {
+            var PersonProfile = await signInManager.UserManager.FindByNameAsync(User.Identity.Name);
             var data = await servies.GetALlPost("person", "Comments", "ReactPosts");
             var post = mapper.Map<IEnumerable<PostVM>>(data);
-            var dataDoctor = await servies.GetPersonInclud("district", (await signInManager.UserManager.FindByNameAsync(User.Identity.Name)).Id);
+            var dataDoctor = await servies.GetPersonInclud("district", PersonProfile.Id);
             var Patient = mapper.Map<CreatePerson>(dataDoctor);
             var Doctor = await servies.GetDoctor(Patient.districtID, Patient.district.CityId, Patient.district.City.GovernorateID);
             var Doctorvm = mapper.Map<IEnumerable<CreatePerson>>(Doctor);
-            var p = new AuditViewModel { post = post, nearDoctor = Doctorvm };
+            var Friends = await servies.GetBYUserFriends(PersonProfile.Id);
+            var patient = await  servies.GetPersonInclud("patient", PersonProfile.Id);
+            var p = new AuditViewModel { post = post,person= patient, nearDoctor = Doctorvm, friends = Friends,Allfriends=await allfriends.GetAll() };
             return View(p);
         }
         #endregion
