@@ -10,8 +10,35 @@
     
 }
 @section PersonType{
+      @if (signInManager.IsSignedIn(User))
+                    {
 
-    <p>@Model.person.patient.Reason</p>
+                       
+                        @if (@userinfo.Image == null)
+                        {
+                            if (@userinfo.gender == 0)
+                            {
+                                <img src="/files/imgs/men.jpg" alt="" />
+                            }
+                            else
+                            {
+
+                                <img src="/files/imgs/young-woman-avatar-cartoon-character-profile-picture-young-woman-wearing-blue-t-shirt-avatar-cartoon-character-vector-149732076.jpg" alt="" />
+                            }
+                        }
+                        else
+                        {
+
+                            <img src="/files/imgs/@userinfo.Image"  alt="" />
+                        }
+                    }
+                    <div class="acc-txt">
+                        <h3>Never Give Up!</h3>
+                        <h6>@userinfo.FullName</h6>
+                        <p>@Model.person.patient.Reason</p>
+                        
+                    </div>
+    
 }
 @section Follower{
     <div class="iconheader">
@@ -70,7 +97,7 @@
     <div class="header">
         <div class="User">
               
-            <a asp-action="Profile" asp-controller="SocialPatient" asp-route-data="@post.person.Id">
+                <a asp-action="Profile" asp-controller="SocialPatient" asp-route-id="@post.person.Id">
                     @if (post.person.Image == null)
                     {
 
@@ -91,7 +118,7 @@
                     }
                 </a>
             <div class="user-details">
-                    <p class="bold"><a asp-action="Profile" asp-controller="ProfilePatient" asp-route-data="@post.person.Id">@post.person.FullName</a> </p>
+                    <p class="bold"><a asp-action="Profile" asp-controller="SocialPatient" asp-route-id="@post.person.Id">@post.person.FullName</a> </p>
                     <p class="type">@post.person.PersonType</p>
             </div>
 

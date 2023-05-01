@@ -59,35 +59,8 @@
         <div class="container">
             <div class="hero-section">
                 <div class="acc-details">
-                   
-                    @if (signInManager.IsSignedIn(User))
-                    {
-
-                       
-                        @if (@userinfo.Image == null)
-                        {
-                            if (@userinfo.gender == 0)
-                            {
-                                <img src="/files/imgs/men.jpg" alt="" />
-                            }
-                            else
-                            {
-
-                                <img src="/files/imgs/young-woman-avatar-cartoon-character-profile-picture-young-woman-wearing-blue-t-shirt-avatar-cartoon-character-vector-149732076.jpg" alt="" />
-                            }
-                        }
-                        else
-                        {
-
-                            <img src="/files/imgs/@userinfo.Image"  alt="" />
-                        }
-                    }
-                    <div class="acc-txt">
-                        <h3>Never Give Up!</h3>
-                        <h6>@userinfo.FullName</h6>
-                        @RenderSection("PersonType",required:false)
-                        
-                    </div>
+                    @RenderSection("PersonType",required:false)
+                  
                 </div>
                 <div class="updates">
                     <div class="follower">

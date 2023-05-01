@@ -276,7 +276,7 @@ namespace SuperHero.BL.Reposoratory
 
         public async Task<IEnumerable<Friends> > GetFollower(string id)
         {
-            var follwers = await Db.Friends.Where(a => a.FriendId == id).ToListAsync();
+            var follwers = await Db.Friends.Where(a => a.FriendId == id&&a.IsFriend).ToListAsync();
             return follwers;
         }
 

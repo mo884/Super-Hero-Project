@@ -46,15 +46,17 @@ namespace SuperHero.BL.DomainModelVM
         public DoctorRatingVM? doctorRating { get; set; } 
         public int districtID { get; set; } = 0;
         public DoctorInfoVM? doctor { get; set; }
+       
         public IEnumerable<PostVM>? Posts { get; set; }
         public List<Friends>? friends { get; set; }
-     
+
+        public IEnumerable<Friends>? Friends { get; set; }
         public IEnumerable<Friends>? Allfriends { get; set; }
         public List<Comment>? Comments { get; set; }
         public List<PersonCourses>? UserCourses { get; set; }
         public List<PersonGroup>? Personsgroup { get; set; }
         public District? district { get; set; }
-        public UserInfoVM? patient { get; set; }
+        public UserInfo? patient { get; set; }
         public TrainerInfoVM? trainer { get; set; }
         public DonnerInfoVM? doner { get; set; }
     }

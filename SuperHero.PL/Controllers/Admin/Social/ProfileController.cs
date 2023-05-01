@@ -87,12 +87,12 @@ namespace SuperHero.PL.Controllers.Admin.Social
         public async Task<IActionResult> Friend(string id)
         {
             var Friends = await servies.GetBYUserFriends(id);
-            return PartialView("Friends", Friends);
+            return PartialView("Friends", Friends); 
         }
         public async Task<IActionResult> Follower(string id)
         {
             var Friends = await servies.GetFollower(id);
-            return PartialView("Friends", Friends);
+            return PartialView("Follower", Friends);
         }
         #endregion
 

@@ -67,6 +67,7 @@ namespace SuperHero.PL.Controllers.PatientProfile
         }
         #endregion
 
+
         #region Add Comment
         public async Task<IActionResult> Create(CommentServise model)
         {
@@ -94,6 +95,30 @@ namespace SuperHero.PL.Controllers.PatientProfile
         }
         #endregion
 
+        #region Get Profile By Id
+       
+        public async Task<IActionResult> Profile(string id)
+
+        {
+
+            var data = await servies.GetPersonInclud("district", id);
+            var PersonProfile = await signInManager.UserManager.FindByNameAsync(User.Identity.Name);
+            if (data.PersonType == DAL.Enum.PersonType.User)
+            {
+                var Reason = await servies.GetPatientBYID(id);
+                data.patient = Reason;
+            }
+            var result = mapper.Map<CreatePerson>(data);
+           
+            result.doctorRating = await servies.DoctorRatingISTrue(PersonProfile.Id, id);
+            var Friends = await servies.GetBYUserFriends(id);
+            result.Friends = Friends;
+            result.Allfriends = await allfriends.GetAll();
+
+            return View(result);
+        }
+
+        #endregion
 
     }
 }
