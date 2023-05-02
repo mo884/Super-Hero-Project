@@ -62,7 +62,7 @@
     @section Follower{
     <a style=" text-decoration: none;" href="javascript:;" data-url="/Profile/Friend/@Model.Id" data-update="true" class=" js-render-modal">
     <div class="iconheader">
-        <i class="fa-solid fa-share"></i>
+            <i class="fa-solid fa-share fa-beat"></i>
     </div>
 
     <div class="info">
@@ -184,7 +184,7 @@
                 @post.Body
             </div>
             <div class="social-react">
-                <i href="javascript:;" data-title="@post.Comments.Count() Comments  and  @post.Like Likes" data-url="/SocialPatient/Comments/@post.ID" data-update="true" class="fa-solid fa-comment btn btn-dark  js-render-modal"></i>
+                <i href="javascript:;" data-title="@post.Comments.Count() Comments  and  @post.Like Likes" data-url="/Comment/Comments/@post.ID" data-update="true" class="fa-solid fa-comment btn btn-dark  js-render-modal"></i>
                 <i href="javascript:;" data-id="@post.ID" class="fa-solid js-love2 fa-heart btn @((post.ReactPosts?.Where(c=>c.PersonID==userinfo.Id)?.FirstOrDefault() == null ? "btn-light" : (post.ReactPosts.Where(c=>c.PersonID==userinfo.Id).FirstOrDefault().IsLike == true) ? "btn-danger" : "btn-light"))"></i>
 
             </div>

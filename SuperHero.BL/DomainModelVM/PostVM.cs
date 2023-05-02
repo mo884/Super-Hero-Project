@@ -30,5 +30,6 @@ namespace SuperHero.BL.DomainModelVM
         public string? PersonID { get; set; }
         [ForeignKey("PersonID")]
         public Person? person { get; set; }
+        public CommentServise? CommentServise { get; set; }
     }
 }

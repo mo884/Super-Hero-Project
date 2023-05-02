@@ -24,6 +24,7 @@ namespace SuperHero.BL.DomainModelVM
         public int PostID { get; set; }
 
         public Post? post { get; set; }
+        public PostVM? postvm { get; set; }
         public IEnumerable<CommentVM>? comment { get; set; }
     }
 }

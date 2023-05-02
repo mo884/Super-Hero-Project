@@ -56,7 +56,7 @@ namespace SuperHero.PL.Controllers.Admin.Social
                 {
                     var result = mapper.Map<Comment>(Comment);
                     await comment.Create(result);  
-                    return RedirectToAction("GetAll", "Post");
+                    return RedirectToAction("Detailes", "Post", new {id = model.PostID});
                 }
             }
             catch (Exception ex)
@@ -67,5 +67,7 @@ namespace SuperHero.PL.Controllers.Admin.Social
             return View("GetComments", comment);
         }
         #endregion
+
+       
     }
 }

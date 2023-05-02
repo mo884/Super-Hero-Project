@@ -22,6 +22,6 @@ namespace SuperHero.DAL.Entities
         public Person? person { get; set; }
         public int PostID { get; set; }
         [ForeignKey("PostID")]
-        public Post post { get; set; }
+        public Post? post { get; set; }
     }
 }

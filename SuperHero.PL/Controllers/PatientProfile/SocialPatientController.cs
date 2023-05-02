@@ -45,7 +45,7 @@ namespace SuperHero.PL.Controllers.PatientProfile
         #endregion
 
         #region GetComment
-        [HttpGet]
+        [HttpGet("Comments")]
         public async Task<IActionResult> Comments(int id)
         {
             //Get Comment With Include Person And Post

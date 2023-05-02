@@ -169,5 +169,18 @@ namespace SuperHero.PL.Controllers.Admin.Social
         }
         #endregion
 
+        #region GetPost BY ID
+        public async Task<IActionResult> Detailes(int id)
+        {
+            var Postdata = await servies.GetPostById(id, "person", "Comments", "ReactPosts");
+            var post = mapper.Map<PostVM>(Postdata);
+            CommentServise commentServise = new CommentServise() { postvm = post,PostID=(int)post.ID };
+            return View(commentServise);
+        }
+        #endregion
+
+        #region GetPost BY ID
+       
+        #endregion
     }
 }

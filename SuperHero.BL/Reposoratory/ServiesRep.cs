@@ -194,11 +194,18 @@ namespace SuperHero.BL.Reposoratory
 
         #endregion
 
-        #region Post => GetAllPost  by three include and Descending
+        #region Post => GetAllPost  by three include and Descending and by id
 
         public async Task<IEnumerable<Post>> GetALlPost(string include, string include1, string include2)
         {
             var post = await Db.Posts.Include(include).Include(include1).Include(include2).OrderByDescending(d => d.CreatedTime).ToListAsync();
+            return post;
+        }
+        public async Task<Post> GetPostById(int id, string include1, string include2, string include3)
+        {
+            var post = await Db.Posts.Where(p=>p.ID==id).Include(include1).Include(include2).Include(include3).FirstOrDefaultAsync();
+            var Comments = await Db.Comments.Where(c => c.PostID == id).Include("person").ToListAsync();
+            post.Comments = Comments;
             return post;
         }
         #endregion
@@ -406,7 +413,7 @@ namespace SuperHero.BL.Reposoratory
 
         #endregion
 
-        #region GetAll
+        #region GetAllSocial
         public async Task<AuditViewModel>GetAllSocial(Person PersonProfile)
         {
             var data = await GetALlPost("person", "Comments", "ReactPosts");

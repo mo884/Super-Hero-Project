@@ -293,14 +293,17 @@ color:var(--secondary)
     color: #6d6d6d;
     margin-top: 10px;
  }
- .social-react{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 10px;
-    border-top: 2px solid var(--secondary);
-    padding: 10px 20px 5px 20px;
- }
+    .Content-detailes .Post-body a {
+        color: #6d6d6d;
+    }
+    .social-react {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 10px;
+        border-top: 2px solid var(--secondary);
+        padding: 10px 20px 5px 20px;
+    }
 @media only screen and (max-width: 750px) {
     .container{
         max-width: 750px;

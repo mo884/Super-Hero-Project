@@ -51,7 +51,7 @@ namespace SuperHero.PL.Controllers.User.DoctorsRating
             var DoctorReating = mapper.Map<DoctorRating>(rate);
             //Add Doctor reating
             await doctor.Create(DoctorReating);
-            return RedirectToAction("SocialPatient", "Profile", new { id = DoctorReating.DoctorId });
+            return RedirectToAction("Profile", "MyProfile", new { id = DoctorReating.DoctorId });
         }
         #endregion
     }
