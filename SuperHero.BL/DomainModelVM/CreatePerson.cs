@@ -46,6 +46,7 @@ namespace SuperHero.BL.DomainModelVM
         public DoctorRatingVM? doctorRating { get; set; } 
         public int districtID { get; set; } = 0;
         public DoctorInfoVM? doctor { get; set; }
+        public string? body { get; set; }
        
         public IEnumerable<PostVM>? Posts { get; set; }
         public List<Friends>? friends { get; set; }

@@ -31,13 +31,15 @@
         }
     
     <div class="acc-txt">
-        <h3>Never Give Up!</h3>
-        <h6>@Model.FullName</h6>
+        <h3 style="color:white">Never Give Up!</h3>
+        <h6 style="color:white">@Model.FullName</h6>
+
         @if(Model.personType == 0){
             <p>@Model.patient.Reason</p>
         }else{
             <p>@Model.personType</p>
         }
+        <p>@Model.district.Name / @Model.district.City.Name</p>
         @if (Model.personType.ToString().Equals(SuperHero.DAL.Enum.PersonType.Doctor.ToString()))
         {
             @if (Model.doctorRating == null)
@@ -51,11 +53,11 @@
                     <a href="javascript:;" data-url="/Reating/Reating/@Model.Id" data-update="true" class="button js-render-Rating"><i class="fa-solid fa-star-sharp-half-stroke"></i>  </a>
                 }
             }
-
+           
 
 
         }
-
+       
     </div>
 
 }
@@ -123,10 +125,11 @@
     <a style=" text-decoration: none;" href="javascript:;" data-url="/Profile/Follower/@Model.Id" data-update="true" class=" js-render-modal">Follwers</a>
     }
     }
+   
 @foreach (var post in Model.Posts)
 {
     <div class="post">
-        <div class="header">
+        <div class="header1">
             <div class="User">
 
                     @if (post.person.Image == null)
@@ -205,9 +208,10 @@
 </div>
 <partial name="~/views/SocialPatient/Model.cshtml">
 <partial name="~/views/SocialPatient/ModelRating.cshtml">
-
+      
     @section CSS{
         <partial name="~/views/post/CSS.cshtml">
+     
             <style>
                 #carousel-card .carousel-control-next,
                 #carousel-card .carousel-control-prev {
@@ -251,7 +255,8 @@
                         background: #1EB2A6;
                         color: white;
                     }
-
+                  
+                 
             </style>
 
         }
@@ -275,7 +280,7 @@
                 });
 
             </script>
-
+               
             <script>
                 // Get the button
                 let mybutton = document.getElementById("myBtn");

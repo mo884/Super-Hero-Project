@@ -202,44 +202,47 @@ color:var(--secondary)
     color:#000;
     box-shadow: 1px 1px var(--secondary);
 }
-.content .container .header{
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-
-}
+    .content .container .header, .content .container .header1 {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
 .content .container .header .User,.content .container .header .detail{
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
-.content .container .header .User img{
-    width:60px ;
-    height: 60px;
-    border-radius: 50%;
-}
-.content .container .header .User .user-details{
-    margin-left: 15px;
-    margin-top: 20px;
-}
+        .content .container .header1 .User, .content .container .header1 .detail {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .content .container .header .User img, .content .container .header1 .User img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+        }
+        .content .container .header .User .user-details, .content .container .header1 .User .user-details {
+            margin-left: 15px;
+            margin-top: 20px;
+        }
 
-.content .container .header .User .user-details p.bold{
-    font-size: 12px;
-    font-weight: bold;
-}
-.content .container .header .User .user-details p.type{
-    font-weight:bold ;
-    font-size:10px;
-    margin-top: -8px;
-}
-.content .container .header .detail .time{
-    font-size:12px ;
-    color: #6d6d6d;
-    margin-left: 5px;
-    margin-top: 13px;
-
-}
+            .content .container .header .User .user-details p.bold, .content .container .header1 .User .user-details p.bold {
+                font-size: 12px;
+                font-weight: bold;
+            }
+            .content .container .header .User .user-details p.type, .content .container .header1 .User .user-details p.type {
+                font-weight: bold;
+                font-size: 10px;
+                margin-top: -8px;
+            }
+        .content .container .header .detail .time, .content .container .header1 .detail .time {
+            font-size: 12px;
+            color: #6d6d6d;
+            margin-left: 5px;
+            margin-top: 13px;
+        }
 
 .dropbtn {
 

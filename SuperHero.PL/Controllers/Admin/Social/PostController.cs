@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Hosting;
 using SuperHero.BL.DomainModelVM;
 using SuperHero.BL.Helper;
 using SuperHero.BL.Interface;
@@ -179,8 +181,49 @@ namespace SuperHero.PL.Controllers.Admin.Social
         }
         #endregion
 
-        #region GetPost BY ID
-       
+        #region Hidden
+        [HttpPost]
+        public async Task<IActionResult> Hidden(int id)
+        {
+
+            var Post = await post.GetByID(id);
+            if (Post is null)
+                return NotFound();
+            var PersonProfile = await signInManager.UserManager.FindByNameAsync(User.Identity.Name);
+            var hidden = await servies.GetBYUserAndPost(PersonProfile.Id, id);
+            if (hidden is null)
+            {
+                var Addhidden = new ReactPost()
+                {
+                    IsLike = false,
+                    PersonID = PersonProfile.Id,
+                    PostID = id,
+                    Post = Post,
+                    IsHiden=true
+                };
+
+               
+               
+                await react.Create(Addhidden);
+                return Ok();
+            }
+
+            if (hidden.IsHiden == false)
+            {
+                hidden.IsHiden = true;
+                await react.Update(hidden);
+               
+                return Ok();
+            }
+            hidden.IsHiden = false;
+            await react.Update(hidden);
+            return Ok();
+
+        }
         #endregion
+
+
+     
     }
 }
+

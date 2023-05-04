@@ -23,6 +23,7 @@ namespace SuperHero.BL.DomainModelVM
         public string? Image { get; set; }
         public DateTime? CreatedTime { get; set; }
         public int? Like { get; set; } = 0;
+        public bool IsHiden { get; set; }
         public List<ReactPost>? ReactPosts { get; set; }
         //Navegation Property
         public IFormFile? ImageName { get; set; }

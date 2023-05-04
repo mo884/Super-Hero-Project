@@ -4,48 +4,51 @@
 @{
     ViewData["Title"] = "GetALL";
     Layout = "~/Views/Shared/PatientLayout/_Layout.cshtml";
-      var userinfo = await signInManager.UserManager.FindByNameAsync(User.Identity.Name);
+    var userinfo = await signInManager.UserManager.FindByNameAsync(User.Identity.Name);
     int num1 = 0;
     int num2 = 0;
-    
+
 }
 @section PersonType{
-      @if (signInManager.IsSignedIn(User))
-                    {
+    @if (signInManager.IsSignedIn(User))
+    {
 
-                       
-                        @if (@userinfo.Image == null)
-                        {
-                            if (@userinfo.gender == 0)
-                            {
-                                <img src="/files/imgs/men.jpg" alt="" />
-                            }
-                            else
-                            {
 
-                                <img src="/files/imgs/young-woman-avatar-cartoon-character-profile-picture-young-woman-wearing-blue-t-shirt-avatar-cartoon-character-vector-149732076.jpg" alt="" />
-                            }
-                        }
-                        else
-                        {
+        @if (@userinfo.Image == null)
+        {
+            if (@userinfo.gender == 0)
+            {
+                <img src="/files/imgs/men.jpg" alt="" />
+            }
+            else
+            {
 
-                            <img src="/files/imgs/@userinfo.Image"  alt="" />
-                        }
-                    }
-                    <div class="acc-txt">
-                        <h3>Never Give Up!</h3>
-                        <h6>@userinfo.FullName</h6>
-                        @if(Model.person.PersonType==0){
-                          <p>@Model.person.patient.Reason</p>
-                        }else{
-                          <p>@Model.person.PersonType</p>
-                        }
-                      
-                        
-                    </div>
-    
+                <img src="/files/imgs/young-woman-avatar-cartoon-character-profile-picture-young-woman-wearing-blue-t-shirt-avatar-cartoon-character-vector-149732076.jpg" alt="" />
+            }
+        }
+        else
+        {
+
+            <img src="/files/imgs/@userinfo.Image" alt="" />
+        }
+    }
+    <div class="acc-txt">
+        <h3>Never Give Up!</h3>
+        <h6>@userinfo.FullName</h6>
+        @if (Model.person.PersonType == 0)
+        {
+            <p>@Model.person.patient.Reason</p>
+        }
+        else
+        {
+            <p>@Model.person.PersonType</p>
+        }
+
+
+    </div>
+
 }
-@section Follower{
+    @section Follower{
     <div class="iconheader">
         <i class="fa-solid fa-share fa-beat"></i>
     </div>
@@ -62,138 +65,156 @@
     </div>
 }
     @section Following{
-        <div class="iconheader">
-                        <i class="fa-solid fa-share fa-flip-horizontal"></i>
-                    </div>
-                    <div class="info">
+    <div class="iconheader">
+        <i class="fa-solid fa-share fa-flip-horizontal"></i>
+    </div>
+    <div class="info">
         <i class="fa-solid fa-users fa-bounce"></i>
-                        <div class="rank">
-                            Follower
-                        </div>
-                    </div>
-                    <div class="detail">
-                        <span>Total amount</span>
+        <div class="rank">
+            Follower
+        </div>
+    </div>
+    <div class="detail">
+        <span>Total amount</span>
         <h2>@Model.Allfriends.Where(a=> a.FriendId == userinfo.Id  && a.IsFriend).ToList().Count <span>Follower</span> </h2>
-                    </div>
+    </div>
     }
     @section Post{
-        <div class="iconheader">
+    <div class="iconheader">
         <i class="fa-sharp fa-solid fa-thumbtack fa-bounce"></i>
-                    </div>
-                    <div class="info">
-                        <i class="fa-solid fa-photo-film"></i>
-                        <div class="rank">
-                            @Model.post.Count()
-                        </div>
-                    </div>
-                    <div class="detail">
-                        <span>Total amount</span>
+    </div>
+    <div class="info">
+        <i class="fa-solid fa-photo-film"></i>
+        <div class="rank">
+            @Model.post.Count()
+        </div>
+    </div>
+    <div class="detail">
+        <span>Total amount</span>
         <h2>@Model.post.Count() <span>Post</span> </h2>
-                    </div>
+    </div>
     }
     @section Followers{
-    <a style=" text-decoration: none;" href="javascript:;" data-url="/Profile/Friend/@userinfo.Id" data-update="true" class="activ btn-btn-sucess js-render-modal" >Following</a>
+    <a style=" text-decoration: none;" href="javascript:;" data-url="/Profile/Friend/@userinfo.Id" data-update="true" class="activ btn-btn-sucess js-render-modal">Following</a>
     <a style=" text-decoration: none;" href="javascript:;" data-url="/Profile/Follower/@userinfo.Id" data-update="true" class=" js-render-modal">Follwers</a>
 
     }
 @foreach (var post in Model.post)
 {
-<div class="post">
-    <div class="header">
-        <div class="User">
+    <table style="width:100%">
+        <tr style="width:100%">
+            <td style="width:100%">
+                <div id="Post" class="post js-Posthidden @((post.ReactPosts?.Where(c=>c.PersonID==userinfo.Id)?.FirstOrDefault() == null ? "d-block" : (post.ReactPosts.Where(c=>c.PersonID==userinfo.Id).FirstOrDefault().IsHiden == true) ? "d-none" : "d-block"))  ">
+                <div class="header">
+                    <div class="User">
 
-                <a asp-action="Profile" asp-controller="MyProfile" asp-route-id="@post.person.Id">
-                    @if (post.person.Image == null)
-                    {
+                        <a asp-action="Profile" asp-controller="MyProfile" asp-route-id="@post.person.Id">
+                            @if (post.person.Image == null)
+                            {
 
-                    if (post.person.gender == 0)
-                        {
-                            <img src="/files/imgs/men.jpg" alt="" />
-                        }
-                        else
-                        {
+                                if (post.person.gender == 0)
+                                {
+                                    <img src="/files/imgs/men.jpg" alt="" />
+                                }
+                                else
+                                {
 
-                            <img src="/files/imgs/young-woman-avatar-cartoon-character-profile-picture-young-woman-wearing-blue-t-shirt-avatar-cartoon-character-vector-149732076.jpg" alt="" />
-                        }
-                    }
-                    else
-                    {
+                                    <img src="/files/imgs/young-woman-avatar-cartoon-character-profile-picture-young-woman-wearing-blue-t-shirt-avatar-cartoon-character-vector-149732076.jpg" alt="" />
+                                }
+                            }
+                            else
+                            {
 
-                    <img src="/files/imgs/@post.person.Image" alt="" />
-                    }
-                </a>
-            <div class="user-details">
-                    <p class="bold"><a style="text-decoration:none;color:#1eb2a6" asp-action="Profile" asp-controller="MyProfile" asp-route-id="@post.person.Id">@post.person.FullName</a> </p>
-                    <p class="type">@post.person.PersonType</p>
-            </div>
+                                <img src="/files/imgs/@post.person.Image" alt="" />
+                            }
+                        </a>
+                        <div class="user-details">
+                            <p class="bold"><a style="text-decoration:none;color:#1eb2a6" asp-action="Profile" asp-controller="MyProfile" asp-route-id="@post.person.Id">@post.person.FullName</a> </p>
+                            <p class="type">@post.person.PersonType</p>
+                        </div>
 
-        </div>
-        @if(userinfo.Id == post.person.Id){
-             <div class="detail">
-            <p class="time">3 hours</p>
+                    </div>
 
-            <div class="dropdown">
-                <i class="fa-solid fa-list dropbtn" onclick="myFunction()"></i>
-                <div id="myDropdown" class="dropdown-content">
-                    <a href="#home"><i class="fa-solid fa-spell-check"></i>Edit</a>
-                    <a href="#about"><i class="fa-solid fa-trash-can"></i> Delete</a>
+                    <div class="detail">
+                        <p class="time">3 hours</p>
+
+                        <div class="dropdown">
+                            <i class="fa-solid fa-list dropbtn" onclick="myFunction()"></i>
+                            <div id="myDropdown" class="dropdown-content">
+                                @if (userinfo.Id != post.person.Id)
+                                {
+                                    <a href="javascript:;" data-id="@post.ID" class="js-hidden"><i class="fa-solid fa-spell-check"></i>Hidden Post</a>
+
+
+                                }
+                                else
+                                {
+                                    <a href="#home"><i class="fa-solid fa-spell-check"></i>Edit</a>
+                                    <a href="#about"><i class="fa-solid fa-trash-can"></i> Delete</a>
+                                }
+                            </div>
+                        </div>
+                    </div>
+
+
+
 
                 </div>
-         </div>
-          </div>
 
+                @if (post.Image != null)
+                {
+                    <div class="Image" style=" background-image: url(/files/imgs/@post.Image); background-repeat: no-repeat; background-position: center; background-size: cover;width: 100%;height:450px ;">
+                    </div>
+                }
+                <div class="Content-detailes">
+                    <div class="Post-body">
 
-     
-        }
-       </div>
-       
-    @if (post.Image != null)
-                    {
-    <div class="Image" style=" background-image: url(/files/imgs/@post.Image); background-repeat: no-repeat; background-position: center; background-size: cover;width: 100%;height:450px ;">
-    </div>
-                    }
-    <div class="Content-detailes">
-        <div class="Post-body">
-                <a style="text-decoration:none;font-size: 16px; font-weight: 400;  color: #6d6d6d;" asp-action="Detailes" asp-controller="Post" asp-route-id="@post.ID">@post.Body</a>
-        </div>
-        <div class="social-react">
-                <i href="javascript:;" data-title="@post.Comments.Count() Comments  and  @post.Like Likes" data-url="/Comment/Comments/@post.ID" data-update="true" class="fa-solid fa-comment btn btn-dark  js-render-modal"></i>
-                <i href="javascript:;"  data-id="@post.ID" class="fa-solid js-love fa-heart btn @((post.ReactPosts?.Where(c=>c.PersonID==userinfo.Id)?.FirstOrDefault() == null ? "btn-light" : (post.ReactPosts.Where(c=>c.PersonID==userinfo.Id).FirstOrDefault().IsLike == true) ? "btn-danger" : "btn-light"))"></i>
+                        <a style="text-decoration:none;font-size: 16px; font-weight: 400;  color: #6d6d6d;" asp-action="Detailes" asp-controller="Post" asp-route-id="@post.ID">@post.Body</a>
+                    </div>
+                    <div class="social-react">
+                        <i href="javascript:;" data-title="@post.Comments.Count() Comments  and  @post.Like Likes" data-url="/Comment/Comments/@post.ID" data-update="true" class="fa-solid fa-comment btn btn-dark  js-render-modal"></i>
+                        <i href="javascript:;" data-id="@post.ID" class="fa-solid js-love fa-heart btn @((post.ReactPosts?.Where(c=>c.PersonID==userinfo.Id)?.FirstOrDefault() == null ? "btn-light" : (post.ReactPosts.Where(c=>c.PersonID==userinfo.Id).FirstOrDefault().IsLike == true) ? "btn-danger" : "btn-light"))"></i>
 
-        </div>
-    </div>
-    </div>
+                    </div>
+                </div>
+            </div>
+            </td>
+        </tr>
+    </table>
+
+   
+    
     num1++;
-    @if (num1 == 6)
+    @if (num1 == 10)
     {
-        <div id="carouselExampleControls" class="carousel slide" style="margin-top:30px" data-bs-ride="carousel" >
+        <div id="carouselExampleControls" class="carousel slide" style="margin-top:30px;background:transparent" data-bs-ride="carousel">
             <div class="carousel-inner">
-                
 
-                    @foreach (var doctor in Model.nearDoctor)
+
+                @foreach (var doctor in Model.nearDoctor)
+                {
+
+                    @if (doctor.Id != userinfo.Id)
                     {
-                    
-                        @if (doctor.Id != userinfo.Id)
-                        {
-                        <div class="carousel-item  @(num2>0? " " : "active" )">
-                            <div class="card" style="width:350px;margin:auto;text-align:center;padding:30px">
-                                <img style="border-radius:50% ;margin:auto ;width:200px;height:200px" src="/files/imgs/@(doctor.Image == null ?(doctor.gender == 0 ? "men.jpg" : "young-woman-avatar-cartoon-character-profile-picture-young-woman-wearing-blue-t-shirt-avatar-cartoon-character-vector-149732076.jpg") : $"{@doctor.Image}")" class="d-block w-100" alt="...">
+                        <div style="background:transparent" class="carousel-item  @(num2>0? " " : "active" )">
+                            <div class="card" style="width:350px;margin:auto;text-align:center;padding:30px 60px ;background:transparent">
+                                <img style="border-radius:50% ;margin:auto ;width:150px;height:150px" src="/files/imgs/@(doctor.Image == null ?(doctor.gender == 0 ? "men.jpg" : "young-woman-avatar-cartoon-character-profile-picture-young-woman-wearing-blue-t-shirt-avatar-cartoon-character-vector-149732076.jpg") : $"{@doctor.Image}")" class="d-block w-100" alt="...">
 
-                        <div class="card-body">
+                                <div class="card-body">
                                     <h6>@doctor.FullName</h6>
-                                    <p>@doctor.district.Name</p> 
+                                    <p>@doctor.district.Name</p>
                                     <center>
                                         <a style="text-decoration: none;" class="button3" asp-action="Profile" asp-controller="MyProfile" asp-route-id="@doctor.Id">
                                             View Profile
                                         </a>
                                     </center>
-                        </div>
-                    </div>
+                                </div>
+                            </div>
                         </div>
                         num2++;
                     }
-                    }
-               
+                }
+
 
 
             </div>
@@ -201,143 +222,215 @@
                 <span class="carousel-control-prev-icon " aria-hidden="true"></span>
                 <span class="visually-hidden">Previous</span>
             </button>
-            <button  class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
-                <span  class="carousel-control-next-icon " aria-hidden="true"></span>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+                <span class="carousel-control-next-icon " aria-hidden="true"></span>
                 <span class="visually-hidden">Next</span>
             </button>
         </div>
     }
 
 }
-    
+
 
 
 <div>
     <button onclick="topFunction()" id="myBtn" title="Go to top"><i class="fa-solid fa-up-long fa-bounce"></i></button>
 </div>
 <partial name="~/views/SocialPatient/Model.cshtml">
-   
-     
-@section CSS{
+
+
+    @section CSS{
         <partial name="~/views/post/CSS.cshtml">
-    <style>
-        #carousel-card .carousel-control-next,
-        #carousel-card .carousel-control-prev {
-            width: 5%;
-        }
-
-        #myBtn {
-            display: none;
-            position: fixed;
-            bottom: 20px;
-            right: 30px;
-            z-index: 564669079;
-            border: none;
-            outline: none;
-            border: 2px solid #1eb2a6;
-            cursor: pointer;
-            padding: 10px;
-            border-radius: 4px;
-            background:#1eb2a6
-        }
-
-            #myBtn i {
-                font-size: 40px;
-                color: #1EB2A6;
-            }
-
-                #myBtn:hover, #myBtn i {
-                  
-                    color: white
+            <style>
+                #carousel-card .carousel-control-next,
+                #carousel-card .carousel-control-prev {
+                    width: 5%;
                 }
-                    button, .button3 {
-            background: transparent;
-            color: #1EB2A6;
-            border: 2px solid #1EB2A6;
-            border-radius: 5px;
-            padding: 5px 15px;
-            cursor: pointer;
-        }
 
-           .button3:hover {
-                background: #1EB2A6;
-                color: white;
+                #myBtn {
+                    display: none;
+                    position: fixed;
+                    bottom: 20px;
+                    right: 30px;
+                    z-index: 564669079;
+                    border: none;
+                    outline: none;
+                    border: 2px solid #1eb2a6;
+                    cursor: pointer;
+                    padding: 10px;
+                    border-radius: 4px;
+                    background:#1eb2a6
+                }
 
-            }
+                    #myBtn i {
+                        font-size: 40px;
+                        color: #1EB2A6;
+                    }
 
-          
+                        #myBtn:hover, #myBtn i {
 
-    </style>
-      
-}
-@section JS{
-    <script src="~/dashboard/lib/jquery/jquery.min.js"></script>
-    <script src="~/dashboard/lib/plugins.bundle.js"></script>
-       
-
-        <script>
-            $(document).ready(function () {
-                $('.js-love').on('click', function () {
-                    var btn = $(this);
-
-                    $.post({
-                        url: '/Post/AddLike/' + btn.data('id'),
-                        success: function () {
-                            btn.toggleClass('btn-light btn-danger');
+                            color: white
                         }
+                            button, .button3 {
+                    background: transparent;
+                    color: #1EB2A6;
+                    border: 2px solid #1EB2A6;
+                    border-radius: 5px;
+                    padding: 5px 15px;
+                    cursor: pointer;
+                }
+
+                   .button3:hover {
+                        background: #1EB2A6;
+                        color: white;
+
+                    }
+
+
+                      /* Start Override Bootbox */
+
+                .bootbox-close-button {
+                    position: absolute;
+                    top: 0;
+                    right: 0;
+                    padding: 0.2rem 0.5rem;
+                    z-index: 1;
+                    background-color: transparent;
+                    border: 2px solid #f0f0f0;
+                    font-size: 20px;
+                    margin-bottom: 10px;
+                    -webkit-appearance: none;
+                } 
+                .bootbox-close-button:hover{
+                    background-color:#f0f0f0
+                }
+                .bootbox  .modal-dialog  .modal-content{
+                    margin-top:100px;
+                    background-color:rgba(0,0,0,.5);
+                    padding:40px;
+                    min-height:200px
+                }
+                .bootbox-body{
+                    text-align:center;
+                    color:white;
+                    font-size: 20px;
+                    margin-top: 40px;
+                }
+                /* End Override Datatable */
+
+
+            </style>
+
+        }
+        @section JS{
+            <script src="~/dashboard/lib/jquery/jquery.min.js"></script>
+           
+            <script src="~/dashboard/lib/plugins.bundle.js"></script>
+            <script src="~/dashboard/lib/bootbox.js/bootbox.js"></script>
+            <script type="text/javascript">
+                $(document).ready(function () {
+                  
+                       
+                  
+                    $('.js-hidden').on('click', function () {
+                       
+                        var btn = $(this);
+                        bootbox.confirm({
+                            message: "Are you sure that you need to Hidden this Post?",
+                             className: 'rubberBand animated',
+                            buttons: {
+                                confirm: {
+                                    label: 'Yes',
+                                    className: 'btn-danger'
+                                },
+                                cancel: {
+                                    label: 'No',
+                                    className: 'btn-secondary'
+                                }
+                            },
+                            callback: function (result) {
+                                if (result) {
+                        $.post({
+                            url: '/Post/Hidden/' + btn.data('id'),
+                            success: function () {
+                                var row = btn.parents('tr');
+                                var status = row.find('.js-Posthidden');
+                                status.toggleClass('d-block d-none');
+                            } 
+                       ,
+                            error: function () {
+                                showErrorMessage();
+                            }
+                        });
+                    }
+                }
+            });
+                    });
+        });
+            </script>
+
+            <script>
+                $(document).ready(function () {
+                    $('.js-love').on('click', function () {
+                        var btn = $(this);
+
+                        $.post({
+                            url: '/Post/AddLike/' + btn.data('id'),
+                            success: function () {
+                                btn.toggleClass('btn-light btn-danger');
+                            }
+                        });
                     });
                 });
-            });
-           
-        </script>
-       
-    <script>
-        // Get the button
-        let mybutton = document.getElementById("myBtn");
 
-        // When the user scrolls down 20px from the top of the document, show the button
-        window.onscroll = function () { scrollFunction() };
+            </script>
 
-        function scrollFunction() {
-            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
-                mybutton.style.display = "block";
-            } else {
-                mybutton.style.display = "none";
-            }
-        }
+            <script>
+                // Get the button
+                let mybutton = document.getElementById("myBtn");
 
-        // When the user clicks on the button, scroll to the top of the document
-        function topFunction() {
-            document.body.scrollTop = 0;
-            document.documentElement.scrollTop = 0;
-        }
-    </script>
-        <script>
+                // When the user scrolls down 20px from the top of the document, show the button
+                window.onscroll = function () { scrollFunction() };
 
-            $('.js-render-modal').on('click', function () {
-                var btn = $(this);
-                var modal = $('#exampleModal');
-                modal.find('#ModalLabel').text(btn.data('title'));
-
-                console.log(1);
-                $.get({
-                    url: btn.data('url'),
-                    success: function (form) {
-                        modal.find('.modal-body').html(form);
-                        $.validator.unobtrusive.parse(modal);
-                    },
-                    error: function () {
-                        showErrorMessage();
+                function scrollFunction() {
+                    if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                        mybutton.style.display = "block";
+                    } else {
+                        mybutton.style.display = "none";
                     }
-                });
+                }
 
-                modal.modal('show');
-            })
+                // When the user clicks on the button, scroll to the top of the document
+                function topFunction() {
+                    document.body.scrollTop = 0;
+                    document.documentElement.scrollTop = 0;
+                }
+            </script>
+            <script>
 
-        </script>
-      
-}
+                $('.js-render-modal').on('click', function () {
+                    var btn = $(this);
+                    var modal = $('#exampleModal');
+                    modal.find('#ModalLabel').text(btn.data('title'));
+
+                    console.log(1);
+                    $.get({
+                        url: btn.data('url'),
+                        success: function (form) {
+                            modal.find('.modal-body').html(form);
+                            $.validator.unobtrusive.parse(modal);
+                        },
+                        error: function () {
+                            showErrorMessage();
+                        }
+                    });
+
+                    modal.modal('show');
+                })
+
+            </script>
+
+        }
         @section JqueryValidation{
-        <partial name="~/views/person/Partial/Script.cshtml" />
-    }
-      
+            <partial name="~/views/person/Partial/Script.cshtml" />
+        }

@@ -16,5 +16,6 @@ namespace SuperHero.DAL.Entities
         public int PostID { get; set; }
         public Post Post { get; set; }
         public string PersonID { get; set; }
+        public bool IsHiden { get; set; }
     }
 }

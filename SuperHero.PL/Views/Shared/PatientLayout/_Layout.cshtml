@@ -20,7 +20,7 @@
         <div class="container">
             <div class="navbar">
                 <div class="navbar_logo">
-                    <h2>super Hero</h2>
+                    <h2 style="color:white">super Hero</h2>
                 </div>
                 <div class="menue_items">
                     <a class="" active-when="MyProfile" style=" text-decoration: none;" asp-action="Profile" asp-controller="MyProfile" asp-route-id="@userinfo.Id">Profile</a>
@@ -85,11 +85,11 @@
         <div class="container">
             <div class="Card_Warp">
                 
-                <div class="card">
+                <div style="margin-right:5px"  class="card">
                     @RenderSection("Follower",required:false)
                    
                 </div>
-                <div class="card">
+                <div style="margin-right:5px" class="card">
                     @RenderSection("Post",required:false)
                     
                 </div>
@@ -110,7 +110,7 @@
     </section>
     <script src="~/dashboard/lib/jquery/jquery.min.js"></script>
     <script src="~/dashboard/lib/bootstrap/js/bootstrap.min.js"></script>
-
+   
     @RenderSection("DatatablesJS",required:false)
     @RenderSection("JS",required:false)
     @RenderSection("JqueryValidation",required:false)

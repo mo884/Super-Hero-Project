@@ -37,6 +37,7 @@ namespace SuperHero.PL.Controllers.PatientProfile
         #region GetAll
         [HttpGet("Communication")]
         public async Task<IActionResult> GetALL()
+        
         {
             var PersonProfile = await signInManager.UserManager.FindByNameAsync(User.Identity.Name);
             var SocialGetAll = await servies.GetAllSocial(PersonProfile);
