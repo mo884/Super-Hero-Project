@@ -80,16 +80,17 @@
                         <div class="col-sm-10">
                             <input type="hidden" asp-for="PostID" value="@Model.PostID" />
                             <textarea asp-for="Body" class="form-control" id="textAreaExample" rows="1" cols="40"
-                                      style="background:#ffffff;  padding: 24px 56px 16px 30px; border: none; resize: none; outline: none; color: #969696;"></textarea>
+                                      placeholder="Write Comment" style="background:#ffffff;  padding: 24px 56px 16px 30px; border: none; resize: none; outline: none; color: #969696;"></textarea>
 
                             <span class="text-danger" asp-validation-for="Body"></span>
+                            <button type="submit" style="background-color:white;color:#1EB2A6;padding:20px" class="btn w-100  btn-sm"> comment</button>
                         </div>
                     </div>
                    
                    
                     <center>
                         <div class="float-end mt-2 pt-1">
-                            <button type="submit" style="background-color:white;color:#1EB2A6;padding:20px" class="btn w-100  btn-sm"> comment</button>
+                           
                            
                        
                         </div>

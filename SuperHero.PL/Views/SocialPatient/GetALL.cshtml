@@ -58,7 +58,7 @@
     </div>
     <div class="detail">
         <span>Total amount</span>
-        <h2>@Model.friends.Count() <span> Following</span> </h2>
+        <h2>@Model.Allfriends.Where(a=> a.personId == userinfo.Id && a.IsFriend).ToList().Count <span> Following</span> </h2>
     </div>
 }
     @section Following{
@@ -73,7 +73,7 @@
                     </div>
                     <div class="detail">
                         <span>Total amount</span>
-        <h2>@Model.Allfriends.Where(a=> a.FriendId == userinfo.Id).ToList().Count <span>Follower</span> </h2>
+        <h2>@Model.Allfriends.Where(a=> a.FriendId == userinfo.Id  && a.IsFriend).ToList().Count <span>Follower</span> </h2>
                     </div>
     }
     @section Post{
@@ -213,7 +213,7 @@
 
 
 <div>
-    <button onclick="topFunction()" id="myBtn" title="Go to top"><i class="fa-solid fa-arrow-up"></i></button>
+    <button onclick="topFunction()" id="myBtn" title="Go to top"><i class="fa-solid fa-up-long fa-bounce"></i></button>
 </div>
 <partial name="~/views/SocialPatient/Model.cshtml">
    

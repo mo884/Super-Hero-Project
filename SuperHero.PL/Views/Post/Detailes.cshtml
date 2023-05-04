@@ -187,7 +187,7 @@
                             }
                         </div>
 
-                        <div class="card-footer py-3 border-0" style="background-color: #1EB2A6;">
+                        <div class="card-footer py-3 border-0" style="background-color: #c8d6d6;">
                             <form method="post" asp-action="Create" asp-controller="Comment">
                                 <div class="d-flex flex-start w-100">
                                     @if (signInManager.IsSignedIn(User))
@@ -223,7 +223,7 @@
 
                                     <div class="form-outline w-100">
                                         <input type="hidden" asp-for="PostID" />
-                                        <textarea class="form-control" name="Body" rows="4"
+                                        <textarea class="form-control" asp-for="Body" name="Body" rows="4"
                                                   style="background: #fff;"></textarea>
                                         <span asp-validation-for="Body"></span>
                                     </div>
@@ -231,7 +231,7 @@
 
                                 </div>
                                 <div class="float-end mt-2 pt-1">
-                                    <input value="Comment" type="submit" style="background-color:white ;border:none;color:#1EB2A6;padding: 6px;" class=" btn-sm">
+                                    <input value="Comment" type="submit" style="background-color:#1EB2A6 ;border:none;color:white;padding: 8px;" class=" btn-sm">
 
                                 </div>
                             </form>
@@ -250,6 +250,7 @@
 
         @section CSS{
             <partial name="~/views/post/CSS.cshtml">
+
                 <style>
                     #carousel-card .carousel-control-next,
                     #carousel-card .carousel-control-prev {

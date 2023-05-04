@@ -236,7 +236,7 @@ namespace SuperHero.BL.Reposoratory
         #region Group ❤ Youmna
         public async Task<bool> GetAll(int id, string personId)
         {
-            var data = await Db.personGroups.Where(g => g.PersonId == personId && g.Group == id).FirstOrDefaultAsync();
+            var data = await Db.personGroups.Where(g => g.PersonId == personId && g.Group == id).SingleOrDefaultAsync();
             if (data is null)
                 return false;
             return true;
@@ -245,8 +245,9 @@ namespace SuperHero.BL.Reposoratory
         {
             var data = await Db.personGroups.Where(g => g.Group == id && g.PersonId == personId).SingleOrDefaultAsync();
             if (data is null)
-                return false;
-            return true;
+                return true;
+            return false;
+           
         }
         public async Task<bool> Delete(int id, string personId)
         {

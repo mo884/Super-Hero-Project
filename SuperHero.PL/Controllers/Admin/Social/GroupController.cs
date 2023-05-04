@@ -194,24 +194,26 @@ namespace SuperHero.PL.Controllers.Admin.Social
             {
 
                 var user = await userManager.FindByIdAsync(model[i].Id);
-
-                if (model[i].IsSelected && !await servis.GetAll(group.ID, user.Id))
+                if(user != null)
                 {
-                    var result = new PersonGroup()
+                    if (model[i].IsSelected && !await servis.GetAll(group.ID, user.Id))
                     {
-                        PersonId = user.Id,
-                        Group = group.ID
+                        var result = new PersonGroup()
+                        {
+                            PersonId = user.Id,
+                            Group = group.ID
 
-                    };
+                        };
 
-                    await personGroup.Create(result);
+                        await personGroup.Create(result);
 
-                }
-                else if (!model[i].IsSelected && await servis.GetAll(group.ID,user.Id ))
-                {
-                    var result = await servis.FindById(user.Id, group.ID);
+                    }
+                    else if (!model[i].IsSelected && await servis.GetAll(group.ID, user.Id))
+                    {
+                        var result = await servis.FindById(user.Id, group.ID);
 
-                    await personGroup.Delete(result.ID);
+                        await personGroup.Delete(result.ID);
+                    }
                 }
                 else
                 {

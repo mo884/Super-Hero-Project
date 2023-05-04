@@ -76,29 +76,29 @@
 
 
                 </td>
-                <td>@item.UserName</td>
-                
-                <td>@item.personType</td>
+                <td style="padding-top:20px">@item.UserName</td>
 
-                <td class="danger">
+                <td style="padding-top:20px">@item.personType</td>
+
+                <td style="padding-top:20px" class="danger">
                     <span class="js-status  badge rounded-pill bg-@(item.ISDeleted ? "danger" : "success")" style='color:white;'>
                         @(item.ISDeleted ? "Deleted" : "Available")
                     </span>
                    
                 </td>
 
-                <td>
+                <td style="padding-top:20px">
                     @item.gender
                 </td>
 
 
-               
-               
-                <td>
+
+
+                <td style="padding-top:20px">
                    
                     @item.district.Name
                 </td>
-               <td>
+                <td style="padding-top:20px">
                     <div class="dropdown show">
                         <p class="btn btn-outline-dark" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="uil uil-angle-down"></i>
