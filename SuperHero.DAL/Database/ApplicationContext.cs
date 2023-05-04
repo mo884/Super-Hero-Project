@@ -58,6 +58,9 @@ namespace SuperHero.DAL.Database
         public DbSet<CoursesComment> coursesComments { get; set; }
         public DbSet<PersonGroup> personGroups { get; set; }
         public DbSet<DoctorRating> DoctorRating { get; set; }
-        
+        public DbSet<Analysis> Analyses { get; set; }
+        public DbSet<Radiology> Radiologies { get; set; }
+        public DbSet<Treatment> Treatments { get; set; }
+
     }
 }

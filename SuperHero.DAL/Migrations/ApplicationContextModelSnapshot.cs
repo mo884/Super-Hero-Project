@@ -228,6 +228,27 @@ namespace SuperHero.DAL.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("SuperHero.DAL.Entities.Analysis", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
+
+                    b.Property<string>("AnalysisPDF")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("personID")
+                        .HasColumnType("int");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("personID");
+
+                    b.ToTable("Analyses");
+                });
+
             modelBuilder.Entity("SuperHero.DAL.Entities.Catogery", b =>
                 {
                     b.Property<int>("ID")
@@ -633,6 +654,27 @@ namespace SuperHero.DAL.Migrations
                     b.ToTable("Posts");
                 });
 
+            modelBuilder.Entity("SuperHero.DAL.Entities.Radiology", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
+
+                    b.Property<string>("XRay")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("personID")
+                        .HasColumnType("int");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("personID");
+
+                    b.ToTable("Radiologies");
+                });
+
             modelBuilder.Entity("SuperHero.DAL.Entities.ReactPost", b =>
                 {
                     b.Property<int>("ID")
@@ -686,6 +728,30 @@ namespace SuperHero.DAL.Migrations
                         .HasFilter("[TrainerID] IS NOT NULL");
 
                     b.ToTable("TrainerInfos");
+                });
+
+            modelBuilder.Entity("SuperHero.DAL.Entities.Treatment", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("personID")
+                        .HasColumnType("int");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("personID");
+
+                    b.ToTable("Treatments");
                 });
 
             modelBuilder.Entity("SuperHero.DAL.Entities.UserInfo", b =>
@@ -800,6 +866,15 @@ namespace SuperHero.DAL.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("SuperHero.DAL.Entities.Analysis", b =>
+                {
+                    b.HasOne("SuperHero.DAL.Entities.UserInfo", "patient")
+                        .WithMany("Analyses")
+                        .HasForeignKey("personID");
+
+                    b.Navigation("patient");
                 });
 
             modelBuilder.Entity("SuperHero.DAL.Entities.City", b =>
@@ -950,6 +1025,15 @@ namespace SuperHero.DAL.Migrations
                     b.Navigation("person");
                 });
 
+            modelBuilder.Entity("SuperHero.DAL.Entities.Radiology", b =>
+                {
+                    b.HasOne("SuperHero.DAL.Entities.UserInfo", "patient")
+                        .WithMany("radiologies")
+                        .HasForeignKey("personID");
+
+                    b.Navigation("patient");
+                });
+
             modelBuilder.Entity("SuperHero.DAL.Entities.ReactPost", b =>
                 {
                     b.HasOne("SuperHero.DAL.Entities.Post", "Post")
@@ -968,6 +1052,15 @@ namespace SuperHero.DAL.Migrations
                         .HasForeignKey("SuperHero.DAL.Entities.TrainerInfo", "TrainerID");
 
                     b.Navigation("Person");
+                });
+
+            modelBuilder.Entity("SuperHero.DAL.Entities.Treatment", b =>
+                {
+                    b.HasOne("SuperHero.DAL.Entities.UserInfo", "patient")
+                        .WithMany("Treatments")
+                        .HasForeignKey("personID");
+
+                    b.Navigation("patient");
                 });
 
             modelBuilder.Entity("SuperHero.DAL.Entities.UserInfo", b =>
@@ -1027,6 +1120,15 @@ namespace SuperHero.DAL.Migrations
                     b.Navigation("Comments");
 
                     b.Navigation("ReactPosts");
+                });
+
+            modelBuilder.Entity("SuperHero.DAL.Entities.UserInfo", b =>
+                {
+                    b.Navigation("Analyses");
+
+                    b.Navigation("Treatments");
+
+                    b.Navigation("radiologies");
                 });
 
             modelBuilder.Entity("SuperHero.DAL.Entities.Person", b =>

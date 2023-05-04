@@ -1,6 +1,7 @@
 ﻿@*@model List<PersonVM>*@
 @using Microsoft.AspNetCore.Identity;
 @inject SignInManager<Person> signInManager
+ @{var userinfo = await signInManager.UserManager.FindByNameAsync(User.Identity.Name);}
 <div class="top">
     <i class="uil uil-bars sidebar-toggle"></i>
 @*
@@ -17,7 +18,7 @@
        @if (signInManager.IsSignedIn(User))
         {
 
-            var userinfo = await signInManager.UserManager.FindByNameAsync(User.Identity.Name);
+           
             @if (@userinfo.Image == null)
             {
                 if (@userinfo.gender == 0)
@@ -47,13 +48,10 @@
                     <i class="uil uil-edit"></i>
                     Edit
                 </a>
-                <a style="z-index:299499495959"href="#">
-                   
-                    <form  class="dropdown-item" style="display:inline-block" asp-controller="Account" asp-action="LogOff">
-                        <i class="uil uil-signout"></i>
-                        <input type="submit" value="Sign Out" class="btn btn-block" />
-                    </form>
+                <a class="dropdown-item"  asp-controller="Account" asp-action="LogOff" asp-route-id="@userinfo.Id">
+                    <i class="uil uil-signout"></i>Logout
                 </a>
+               
 
             </div>
         </div>

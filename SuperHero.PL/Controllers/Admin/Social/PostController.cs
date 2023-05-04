@@ -112,10 +112,21 @@ namespace SuperHero.PL.Controllers.Admin.Social
             try
             {
                 if (ModelState.IsValid)
+
                 {
-                    Post.Image = FileUploader.UploadFile("Imgs", Post.ImageName);
-                    var result = mapper.Map<Post>(Post);
-                    await post.Update(result);
+                    var oldPost = await post.GetByID((int)Post.ID);
+                    if (FileUploader.UploadFile("Imgs", Post.ImageName) == null)
+                    {
+                       
+                        Post.Image = oldPost.Image;
+                    }
+                    else
+                    {
+                        Post.Image = FileUploader.UploadFile("Imgs", Post.ImageName);
+                    }
+
+
+                    await servies.EditPost(Post);
                     return RedirectToAction("GetAll");
                 }
             }

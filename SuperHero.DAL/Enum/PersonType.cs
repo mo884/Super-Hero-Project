@@ -8,6 +8,6 @@ namespace SuperHero.DAL.Enum
 {
     public enum PersonType
     {
-        User, Doctor, Doner, Trainer, Admin           
+        User , Doctor , Doner , Trainer , Admin            
     }
 }

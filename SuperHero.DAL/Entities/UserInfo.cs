@@ -21,5 +21,8 @@ namespace SuperHero.DAL.Entities
         public string UserID { get; set; }
         [ForeignKey("UserID")]
         public Person Person { get; set; }
+        public List<Analysis> Analyses { get; set; }
+        public List<Treatment> Treatments { get; set; }
+        public List<Radiology> radiologies { get; set; }
     }
 }

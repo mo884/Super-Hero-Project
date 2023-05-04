@@ -37,21 +37,19 @@
     new FileUpload('.file-upload');
 </script>*@
 <partial name="~/views/datatable/_datatablescripts.cshtml" />
-<script>
 
-    $('table').DataTable({
-        dom: 'Bfrtip',
-        buttons: [
-            'copy', 'csv', 'excel', 'pdf', 'print'
-        ]
-    }
-    );
-    $('.btn-secondary').css('border-radius', '50%');
-  
-</script>
 <script>
 
     $(document).ready(function () {
+        $('table').DataTable({
+            dom: 'Bfrtip',
+            buttons: [
+                'copy', 'csv', 'excel', 'pdf', 'print'
+            ],
+         
+        }
+        );
+        $('.btn-secondary').css('border-radius', '50%');
         $('.js-toggle-status').on('click', function () {
 
             var btn = $(this);

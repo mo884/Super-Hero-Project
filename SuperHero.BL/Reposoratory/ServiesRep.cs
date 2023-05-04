@@ -208,6 +208,16 @@ namespace SuperHero.BL.Reposoratory
             post.Comments = Comments;
             return post;
         }
+        public async Task EditPost(PostVM postVM)
+        {
+            var data=  await Db.Posts.Where(post => post.ID == postVM.ID).SingleOrDefaultAsync();
+            var Person = await Db.Persons.Where(person => person.Id == postVM.PersonID).SingleOrDefaultAsync();
+            data.Image = postVM.Image;
+            data.Body = postVM.Body;
+            data.person = Person;
+            data.PersonID = postVM.PersonID;
+            Db.SaveChanges();
+        }
         #endregion
 
         #region GetAll Comment and Include

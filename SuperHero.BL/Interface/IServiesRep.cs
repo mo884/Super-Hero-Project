@@ -24,6 +24,7 @@ namespace SuperHero.BL.Interface
         Task<IEnumerable<Comment>> GetAll(int id, string include, string include1);
         Task<Person> GetPersonInclud(string includ, string id);
         Task<ReactPost> GetBYUserAndPost(string id,int postid);
+        Task EditPost(PostVM postVM);
         Task<Friends> GetBYUserFriends(string id, string personid);
         Task<IEnumerable<Friends>> GetFollower(string id);
         Task<IEnumerable<Friends>> GetBYUserFriends( string personid);
