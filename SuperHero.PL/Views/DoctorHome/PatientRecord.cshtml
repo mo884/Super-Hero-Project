@@ -1,7 +1,11 @@
 ﻿@model Person
+@using Microsoft.AspNetCore.Identity;
+@inject SignInManager<Person> signInManager
 @{
     ViewData["Title"] = "PatientRecord";
     Layout = "~/Views/AdminLayout/_Layout.cshtml";
+    var userinfo = await signInManager.UserManager.FindByNameAsync(User.Identity.Name);
+
 }
 <div class="page-content page-container" id="page-content">
     <div class="padding">
@@ -16,7 +20,7 @@
                                 </div>
                                 <h6 class="f-w-600">@Model.FullName</h6>
                                 <br />
-                                <i style="font-size:30px ;cursor: pointer;" class="fa-solid text-danger fa-check-to-slot m-t-10 f-16"></i>
+                                <a href="javascript:;" data-id="@Model.Id" class="js-Check @((Model.Recorder.Where(c=>c.DoctorID== userinfo.Id && c.PatientID == Model.Id)?.FirstOrDefault() == null ? "text-danger" : (Model.Recorder.Where(c=>c.DoctorID == userinfo.Id && c.PatientID == Model.Id).FirstOrDefault().IsCheck == true) ? "text-secondary" : "text-danger")) "> <i style="font-size:30px ;cursor: pointer;" class="fa-solid  fa-check-to-slot m-t-10 f-16"></i></a>
                                 
                             </div>
                         </div>
@@ -141,6 +145,21 @@
         })
 
     </script>
+        <script>
+            $(document).ready(function () {
+                $('.js-Check').on('click', function () {
+                    var btn = $(this);
+
+                    $.post({
+                        url: '/DoctorHome/IsCheck/' + btn.data('id'),
+                        success: function () {
+
+                            btn.toggleClass('text-secondary text-danger');
+                        }
+                    });
+                });
+            });
+        </script>
 }
 @section CSS{
     <style>

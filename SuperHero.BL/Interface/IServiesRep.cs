@@ -45,6 +45,7 @@ namespace SuperHero.BL.Interface
         Task EditeLessonByID(LessonVM lessonVM);
         Task<AuditViewModel> GetAllSocial(Person PersonProfile);
         Task SaveRecord(string PersonId, string DoctorId, Recorder record);
+        Task<Recorder> GetPatientRecordBYID(string DoctorId, string PatientId);
         Task<IEnumerable<Recorder>> GetAllPatientRecord(string DoctorId);
         Task<Person> GetPatientRecord(string PatientId);
         Task<List<Analysis>> GetAllAnalysisbyId(int userinfo);

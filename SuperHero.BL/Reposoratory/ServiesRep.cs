@@ -470,17 +470,21 @@ namespace SuperHero.BL.Reposoratory
             var data =await Db.Recorders.Where(a => a.DoctorID == DoctorId&& a.IsCheck ==false).Include("Patient").ToListAsync();
             return data;
         }
-
-
+        //Get Patient
+        public async Task<Recorder> GetPatientRecordBYID(string DoctorId , string PatientId)
+        {
+            var data = await Db.Recorders.Where(a => a.DoctorID == DoctorId && a.PatientID == PatientId).Include("Patient").FirstOrDefaultAsync();
+            return data;
+        }
         //Get Patient with info
         public async Task<Person> GetPatientRecord(string PatientId)
         {
             
-            var data = await Db.Persons.Where(a => a.Id == PatientId).Include("patient").Include("district").FirstOrDefaultAsync();
+            var data = await Db.Persons.Where(a => a.Id == PatientId).Include("patient").Include("district").Include("Recorder").FirstOrDefaultAsync();
             data.patient.Analyses =await GetAllAnalysisbyId(data.patient.ID);
             data.patient.Treatments = await GetAllTreatmentbyId(data.patient.ID);
             data.patient.radiologies = await GetAllRadiologybyId(data.patient.ID);
-
+            
             return data;
         }
         #endregion

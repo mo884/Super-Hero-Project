@@ -1,10 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SuperHero.BL.Interface;
+using SuperHero.DAL.Entities;
 
 namespace SuperHero.PL.Controllers.PrivateClinic
 {
     public class DoctorHomeController : Controller
     {
+        private readonly IBaseRepsoratory<Recorder> recoder;
         #region Prop
         private readonly IMapper mapper;
         private readonly IServiesRep servies;
@@ -13,10 +15,9 @@ namespace SuperHero.PL.Controllers.PrivateClinic
 
 
         #region ctor
-        public DoctorHomeController( IMapper mapper, IServiesRep servies, SignInManager<Person> signInManager)
+        public DoctorHomeController( IBaseRepsoratory<Recorder> recoder,IMapper mapper, IServiesRep servies, SignInManager<Person> signInManager)
         {
-           
-          
+            this.recoder = recoder;
             this.mapper = mapper;
             this.servies = servies;
             this.signInManager = signInManager;
@@ -37,5 +38,30 @@ namespace SuperHero.PL.Controllers.PrivateClinic
             var patient = await servies.GetPatientRecord(id);
             return View(patient);
         }
+        #region Check Patient
+        [HttpPost]
+        public async Task<IActionResult> IsCheck(string id)
+        {
+            var PersonProfile = await signInManager.UserManager.FindByNameAsync(User.Identity.Name);
+
+            var PatientRecord = await servies.GetPatientRecordBYID(PersonProfile.Id, id);
+
+           
+            
+              
+            if (PatientRecord.IsCheck == false)
+            {
+                PatientRecord.IsCheck = true;
+                await recoder.Update(PatientRecord);
+              
+                return Ok();
+            }
+            PatientRecord.IsCheck = false;
+            await recoder.Update(PatientRecord);
+
+            return Ok();
+
+        }
+        #endregion
     }
 }
