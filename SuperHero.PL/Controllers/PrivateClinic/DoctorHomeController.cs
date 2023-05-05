@@ -34,7 +34,6 @@ namespace SuperHero.PL.Controllers.PrivateClinic
         [HttpGet]
         public async Task<IActionResult> PatientRecord(string id)
         {
-
             var patient = await servies.GetPatientRecord(id);
             return View(patient);
         }

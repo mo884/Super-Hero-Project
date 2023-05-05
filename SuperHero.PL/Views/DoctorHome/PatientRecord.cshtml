@@ -83,15 +83,15 @@
         <div class="col-sm-4">
 
 
-            <button data-bs-toggle="modal" href="#exampleModalToggle" role="button">Analysis<i class="fa-sharp fa-solid fa-hospital-user fa-bounce"></i></button>
+            <button data-bs-toggle="modal" class="js-Analysis" href="javascript:;" data-title="Analysis" data-url="/Analysis/PatientAnalysis/@Model.patient.ID" data-update="true" role="button">Analysis<i class="fa-sharp fa-solid fa-hospital-user fa-bounce"></i></button>
 
 
         </div>
         <div class="col-sm-4">
-            <button>Radiology<i class="fa-solid fa-x-ray fa-bounce"></i></button>
+            <button data-bs-toggle="modal" class="js-Analysis" href="javascript:;" data-title="Analysis" data-url="/Radiology/PatientRadiology/@Model.patient.ID" data-update="true">Radiology<i class="fa-solid fa-x-ray fa-bounce"></i></button>
         </div>
         <div class="col-sm-4">
-            <button>Treatment<i class="fa-solid fa-capsules fa-bounce"></i></button>
+            <button data-bs-toggle="modal" class="js-Analysis" href="javascript:;" data-title="Analysis" data-url="/Treatment/PatientTreatment/@Model.patient.ID" data-update="true">Treatment<i class="fa-solid fa-capsules fa-bounce"></i></button>
         </div>
 
     </div>
@@ -116,6 +116,32 @@
 
     </div>
 </div>
+<partial name="~/views/Analysis/ModelClinic.cshtml">
+@section JS{
+    <script>
+
+        $('.js-Analysis').on('click', function () {
+            var btn = $(this);
+                var modal = $('#ClinicModel');
+            modal.find('#ModalLabel').text(btn.data('title'));
+
+            console.log(1);
+            $.get({
+                url: btn.data('url'),
+                success: function (form) {
+                    modal.find('.modal-body').html(form);
+                    $.validator.unobtrusive.parse(modal);
+                },
+                error: function () {
+                    showErrorMessage();
+                }
+            });
+
+            modal.modal('show');
+        })
+
+    </script>
+}
 @section CSS{
     <style>
         .user-card-full {

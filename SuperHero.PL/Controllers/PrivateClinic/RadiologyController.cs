@@ -3,8 +3,9 @@ using SuperHero.BL.Interface;
 
 namespace SuperHero.PL.Controllers.PrivateClinic
 {
-    public class AnalysisController : Controller
+    public class RadiologyController : Controller
     {
+
         #region Prop
         private readonly IMapper mapper;
         private readonly IServiesRep servies;
@@ -13,7 +14,7 @@ namespace SuperHero.PL.Controllers.PrivateClinic
 
 
         #region ctor
-        public AnalysisController(IMapper mapper, IServiesRep servies, SignInManager<Person> signInManager)
+        public RadiologyController(IMapper mapper, IServiesRep servies, SignInManager<Person> signInManager)
         {
 
 
@@ -22,11 +23,11 @@ namespace SuperHero.PL.Controllers.PrivateClinic
             this.signInManager = signInManager;
         }
         #endregion
-        public async Task<IActionResult> PatientAnalysis(int id)
+        public async Task<IActionResult> PatientRadiology(int id)
         {
-            var Analysis = await servies.GetAllAnalysisbyId(id);
-            var AnalysisVM = mapper.Map<List<AnalysisVM>>(Analysis);
-            return PartialView(AnalysisVM);
+            var Radiology = await servies.GetAllRadiologybyId(id);
+            var RadiologyVM = mapper.Map<List<RadiologyVM>>(Radiology);
+            return PartialView(RadiologyVM);
         }
     }
 }

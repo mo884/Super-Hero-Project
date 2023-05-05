@@ -1,0 +1,25 @@
+﻿@model List<RadiologyVM>
+
+@{
+    int x = 1;
+}
+    @foreach (var item in Model)
+    {
+
+        <div class="row">
+            <div class="col-sm-2"></div>
+            <div class="col-sm-7">
+                @x - Radiology
+                @{
+                    x++;
+                }
+            </div>
+            <div class="col-sm-2">  <a class="btn btn-primary" href="~/Files/Docs/@item.XRay" download="download">download</a></div>
+        </div>
+        <br />
+        <hr />
+    }
+
+   
+
+

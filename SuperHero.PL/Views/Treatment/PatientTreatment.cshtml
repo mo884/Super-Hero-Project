@@ -1,26 +1,25 @@
-﻿@model List<AnalysisVM>
+﻿@model List<TreatmentVM>
 
 @{
     int x = 1;
 }
 @foreach (var item in Model)
 {
-
-
-
-
+     
     <div class="row">
         <div class="col-sm-2"></div>
         <div class="col-sm-7">
-            @x - Analysis
+            @x - Treatment :
             @{
                 x++;
             }
         </div>
-        <div class="col-sm-2">  <a class="btn btn-primary" href="~/Files/Docs/@item.AnalysisPDF" download="download">download</a></div>
+        <div class="col-sm-2"> <p>@item.Name</p>  </div>
     </div>
     <br />
     <hr />
 }
+
+
 
 

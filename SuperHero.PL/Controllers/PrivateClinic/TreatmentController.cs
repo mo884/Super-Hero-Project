@@ -3,7 +3,7 @@ using SuperHero.BL.Interface;
 
 namespace SuperHero.PL.Controllers.PrivateClinic
 {
-    public class AnalysisController : Controller
+    public class TreatmentController : Controller
     {
         #region Prop
         private readonly IMapper mapper;
@@ -13,7 +13,7 @@ namespace SuperHero.PL.Controllers.PrivateClinic
 
 
         #region ctor
-        public AnalysisController(IMapper mapper, IServiesRep servies, SignInManager<Person> signInManager)
+        public TreatmentController(IMapper mapper, IServiesRep servies, SignInManager<Person> signInManager)
         {
 
 
@@ -22,11 +22,11 @@ namespace SuperHero.PL.Controllers.PrivateClinic
             this.signInManager = signInManager;
         }
         #endregion
-        public async Task<IActionResult> PatientAnalysis(int id)
+        public async Task<IActionResult> PatientTreatment(int id)
         {
-            var Analysis = await servies.GetAllAnalysisbyId(id);
-            var AnalysisVM = mapper.Map<List<AnalysisVM>>(Analysis);
-            return PartialView(AnalysisVM);
+            var Treatment = await servies.GetAllTreatmentbyId(id);
+            var TreatmentVM = mapper.Map<List<TreatmentVM>>(Treatment);
+            return PartialView(TreatmentVM);
         }
     }
 }
