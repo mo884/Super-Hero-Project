@@ -408,7 +408,68 @@ namespace SuperHero.BL.Reposoratory
 
         #endregion
 
+        #region Get analysis
+        public async Task<List<Analysis>> GetAllAnalysisbyId(int userinfo)
+        {
+            var data = await Db.Analyses.Where(a => a.personID == userinfo).ToListAsync();
+            return data;
+        }
+        #endregion
 
+        #region Get Treatment
+        public async Task<List<Treatment>> GetAllTreatmentbyId(int userinfo)
+        {
+            var data = await Db.Treatments.Where(a => a.personID == userinfo).ToListAsync();
+            return data;
+        }
+        #endregion
+
+        #region Get Radiology
+        public async Task<List<Radiology>> GetAllRadiologybyId(int userinfo)
+        {
+            var data = await Db.Radiologies.Where(a => a.personID == userinfo).ToListAsync();
+            return data;
+        }
+        #endregion
+       
+
+        #region Record && Clicnic 
+        public async Task SaveRecord(string PersonId, string DoctorId, Recorder record)
+        {
+            var person = await Db.Persons.Where(a => a.Id == PersonId).FirstOrDefaultAsync();
+            var data = new Recorder()
+            {
+                PatientID = PersonId,
+                DoctorID = DoctorId,
+                IsCheck = false,
+                Patient=person,
+                RecodDate = record.RecodDate,
+            };
+           
+            Db.Recorders.Add(data);
+            Db.SaveChanges();
+        }
+
+        //Get All Patient Record
+        public async Task<IEnumerable<Recorder>> GetAllPatientRecord(string DoctorId)
+        {
+            var data =await Db.Recorders.Where(a => a.DoctorID == DoctorId&& a.IsCheck ==false).Include("Patient").ToListAsync();
+            return data;
+        }
+
+
+        //Get Patient with info
+        public async Task<Person> GetPatientRecord(string PatientId)
+        {
+            
+            var data = await Db.Persons.Where(a => a.Id == PatientId).Include("patient").Include("district").FirstOrDefaultAsync();
+            data.patient.Analyses =await GetAllAnalysisbyId(data.patient.ID);
+            data.patient.Treatments = await GetAllTreatmentbyId(data.patient.ID);
+            data.patient.radiologies = await GetAllRadiologybyId(data.patient.ID);
+
+            return data;
+        }
+        #endregion
 
         #region Edite Lesson
         public async Task EditeLessonByID(LessonVM lessonVM)

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SuperHero.DAL.Database;
 
@@ -11,9 +12,11 @@ using SuperHero.DAL.Database;
 namespace SuperHero.DAL.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20230505004713_addrecordertable")]
+    partial class addrecordertable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -720,14 +723,9 @@ namespace SuperHero.DAL.Migrations
 
                     b.Property<string>("PatientID")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<DateTime>("RecodDate")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ID");
-
-                    b.HasIndex("PatientID");
 
                     b.ToTable("Recorders");
                 });
@@ -1074,17 +1072,6 @@ namespace SuperHero.DAL.Migrations
                     b.Navigation("Post");
                 });
 
-            modelBuilder.Entity("SuperHero.DAL.Entities.Recorder", b =>
-                {
-                    b.HasOne("SuperHero.DAL.Entities.Person", "Patient")
-                        .WithMany("Recorder")
-                        .HasForeignKey("PatientID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Patient");
-                });
-
             modelBuilder.Entity("SuperHero.DAL.Entities.TrainerInfo", b =>
                 {
                     b.HasOne("SuperHero.DAL.Entities.Person", "Person")
@@ -1182,8 +1169,6 @@ namespace SuperHero.DAL.Migrations
                     b.Navigation("Personsgroup");
 
                     b.Navigation("Posts");
-
-                    b.Navigation("Recorder");
 
                     b.Navigation("doctor");
 

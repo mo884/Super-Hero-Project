@@ -41,6 +41,7 @@ namespace SuperHero.DAL.Entities
         public List<Friends> friends { get; set; }
         public List<Post> Posts { get; set; }
         public List<Comment> Comments { get; set; }
+        public List<Recorder> Recorder { get; set; }
         public List<Course> Courses { get; set; }
         public List<PersonGroup> Personsgroup { get; set; }
         public List<DoctorRating> DoctorRating { get; set; }

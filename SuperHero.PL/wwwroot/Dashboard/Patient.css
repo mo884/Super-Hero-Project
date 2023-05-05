@@ -1,0 +1,244 @@
+
+:root {
+    --primaryColor:#1EB2A6;
+    --secondary: #c8d6d6;
+    --thierd:#f0f0f0;
+    --forth:#363636b4;
+    --fifith:#2bc4b7;
+    --six:#fff;
+  --seven:rgb(220,229,238);
+  --eight:#67cac2;
+  }
+.Infobutton{
+    margin-top: 80px;
+}
+.Infobutton button{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 30px;
+    background-color: transparent;
+    background-image: linear-gradient(270deg, #f5f5f527 0%, #2bc4b7 75%);
+    border-radius: 10px;
+    border: none;
+    box-shadow: 2px 2px var( --primaryColor);
+  
+}
+.Infobutton button{
+    color:var(--six);
+    font-size: 1.5rem;
+    font-weight: bold;
+  
+}
+.Infobutton button i{
+    padding: 10px;
+    background-color: var(--six);
+    border-radius: 50%;
+    color:var(--primaryColor);
+    font-size: 2rem;
+
+}
+.Infobutton button:hover{
+    background-image: linear-gradient(90deg, #f5f5f527 0%, #2bc4b7 75%);
+    color:#69c2ba;
+    text-shadow: 2px 2px var(--six);
+   
+}
+input[type="text"] {
+    width: 100%;
+    border: 2px solid #aaa;
+    border-radius: 4px;
+    margin: 8px 0;
+    outline: none;
+    padding: 8px;
+    box-sizing: border-box;
+    transition: 0.3s;
+  }
+  
+  input[type="text"]:focus {
+    border-color: var(--primaryColor);
+    box-shadow: 0 0 8px 0 var(--primaryColor);
+  }
+  
+  .inputWithIcon input[type="text"] {
+    padding-left: 40px;
+  }
+  
+  .inputWithIcon {
+    position: relative;
+   
+
+  }
+  .content-body{
+    display: flex;
+  
+   
+  }
+.plus{
+    margin-top: 10px;
+    background-color: #22e0d1;
+    padding: 8px;
+    border-radius: 10px;
+    margin-left: -20px;
+}
+.plus i{
+    color: white;
+    font-size: 1.5rem;
+    font-weight: bold;
+    cursor: pointer;
+}
+.plus:hover{
+    background-color:var(--primaryColor);
+   
+}
+  .inputWithIcon i {
+    position: absolute;
+    left: 0;
+    top: 12px;
+    padding: 9px 8px;
+    color: #aaa;
+    transition: 0.3s;
+  }
+  
+  .inputWithIcon input[type="text"]:focus + i {
+    color: var(--primaryColor);
+  }
+  
+  .inputWithIcon.inputIconBg i {
+    background-color: #aaa;
+    color: #fff;
+    padding: 9px 4px;
+    border-radius: 4px 0 0 4px;
+  }
+  
+  .inputWithIcon.inputIconBg input[type="text"]:focus + i {
+    color: #fff;
+    background-color: var(--fifith);
+  }
+
+  .row label {
+    font-size: 1rem;
+    font-weight: 300;
+    cursor: pointer;
+    outline: 0;
+    user-select: none;
+    border-color: rgb(216, 216, 216) rgb(209, 209, 209) rgb(186, 186, 186);
+    border-style: solid;
+    border-radius: 4px;
+    border-width: 1px;
+    background-color: hsl(0, 0%, 100%);
+    color: hsl(0, 0%, 29%);
+    padding-left: 16px;
+    padding-right: 16px;
+    padding-top: 16px;
+    padding-bottom: 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .row input[type='file'] {
+    display: none
+  }
+  
+  .row > label:hover {
+    border-color: hsl(0, 0%, 21%);
+  }
+  
+  .row > label:active {
+    background-color: hsl(0, 0%, 96%);
+  }
+  
+  .row > label > i {
+    padding-right: 5px;
+  }
+  
+  
+  
+  .file--uploading > label {
+    color: var(--eight);
+    border-color: var(--primaryColor);
+    
+    justify-content: space-between;
+    align-items: center;
+    color:var(--primaryColor);
+   
+ 
+  }
+  
+  .file--uploading > label > i {
+    animation: pulse 5s infinite;
+  
+    color:var(--primaryColor);
+    font-size: 1.5rem;
+  }
+  
+  .file--uploading > label:hover {
+    border-color: var(--primaryColor);
+    background-color: var(--six);
+  }
+  
+  .file--uploading > label:active {
+    background-color: var(--six);
+  }
+
+input[type="date"] {
+    display: block;
+    position: relative;
+    padding: 1rem 3.5rem 1rem 0.75rem;
+    font-size: 1rem;
+    font-family: monospace;
+    border: 4px solid var(--primaryColor);
+    border-radius: 0.25rem;
+    background: white url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='22' viewBox='0 0 20 22'%3E%3Cg fill='none' fill-rule='evenodd' stroke='%23688EBB' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' transform='translate(1 1)'%3E%3Crect width='18' height='18' y='2' rx='2'/%3E%3Cpath d='M13 0L13 4M5 0L5 4M0 8L18 8'/%3E%3C/g%3E%3C/svg%3E") right 1rem center no-repeat;
+    cursor: pointer;
+    width:100%
+}
+
+    input[type="date"]:focus {
+        outline: none;
+        border-color: var(--fifith);
+        box-shadow: 0 0 0 0.25rem var(--seven);
+    }
+
+::-webkit-datetime-edit {
+}
+
+::-webkit-datetime-edit-fields-wrapper {
+}
+
+::-webkit-datetime-edit-month-field:hover,
+::-webkit-datetime-edit-day-field:hover,
+::-webkit-datetime-edit-year-field:hover {
+    background: rgba(0, 120, 250, 0.1);
+}
+
+::-webkit-datetime-edit-text {
+    opacity: 0;
+}
+
+::-webkit-clear-button,
+::-webkit-inner-spin-button {
+    display: none;
+}
+
+::-webkit-calendar-picker-indicator {
+    position: absolute;
+    width: 2.5rem;
+    height: 100%;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    opacity: 0;
+    cursor: pointer;
+    color: rgba(0, 120, 250, 1);
+    background: var(--primaryColor);
+}
+
+input[type="date"]:hover::-webkit-calendar-picker-indicator {
+    opacity: 0.05;
+}
+
+    input[type="date"]:hover::-webkit-calendar-picker-indicator:hover {
+        opacity: 0.15;
+    }

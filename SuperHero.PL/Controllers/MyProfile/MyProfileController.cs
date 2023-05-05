@@ -1,9 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SuperHero.BL.Interface;
+using System.Data;
 
 namespace SuperHero.PL.Controllers.MyProfile
 {
-    [Route("/api/Profile")]
+    //[Route("/api/Profile")]
     public class MyProfileController : Controller
     {
         #region Prop
@@ -57,6 +58,25 @@ namespace SuperHero.PL.Controllers.MyProfile
             return View(result);
         }
 
+        #endregion
+
+        #region Record
+        [HttpGet]
+        public async Task<IActionResult> Record(string id)
+        {
+            var data = new Recorder()
+            {
+                DoctorID = id
+            };
+            return PartialView("Record", data);
+        }
+        public async Task<IActionResult> Record(Recorder record)
+        {
+            var PersonProfile = await signInManager.UserManager.FindByNameAsync(User.Identity.Name);
+
+            await servies.SaveRecord(PersonProfile.Id, record.DoctorID, record) ;
+            return RedirectToAction("Profile", "MyProfile", new {id = record.DoctorID });
+        }
         #endregion
     }
 }

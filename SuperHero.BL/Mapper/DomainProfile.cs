@@ -65,6 +65,9 @@ namespace SuperHero.BL.Mapper
             CreateMap<CityVM, City>();
             CreateMap<City, CityVM>();
 
+
+            CreateMap<Recorder, RecorderVM>();
+            CreateMap<RecorderVM, Recorder>();
         }
     }
 }

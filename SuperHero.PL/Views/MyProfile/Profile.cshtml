@@ -42,6 +42,7 @@
         <p>@Model.district.Name / @Model.district.City.Name</p>
         @if (Model.personType.ToString().Equals(SuperHero.DAL.Enum.PersonType.Doctor.ToString()))
         {
+
             @if (Model.doctorRating == null)
             {
                 <a href="javascript:;" data-url="/Reating/Reating/@Model.Id" data-update="true" class=" btn btn-light js-render-Rating"><i style="color:#f59f00" class="fa-solid fa-star"></i> <i style="color:#f59f00" class="fa-solid fa-star"></i> <i style="color:#f59f00" class="fa-solid fa-star"></i> </a>
@@ -53,7 +54,8 @@
                     <a href="javascript:;" data-url="/Reating/Reating/@Model.Id" data-update="true" class="button js-render-Rating"><i class="fa-solid fa-star-sharp-half-stroke"></i>  </a>
                 }
             }
-           
+
+            <a  href="javascript:;" data-url="/MyProfile/Record/@Model.Id" data-update="true" class=" btn btn-light js-Record-modal"><i style="color:#1EB2A6" class="fa-solid fa-clipboard fa-flip"></i></a>
 
 
         }
@@ -62,7 +64,7 @@
 
 }
     @section Follower{
-    <a style=" text-decoration: none;" href="javascript:;" data-url="/Profile/Friend/@Model.Id" data-update="true" class=" js-render-modal">
+    <a style=" text-decoration: none;"  href="javascript:;" data-url="/Profile/Friend/@Model.Id" data-update="true" class=" js-render-modal">
     <div class="iconheader">
             <i class="fa-solid fa-share fa-beat"></i>
     </div>
@@ -206,6 +208,7 @@
 <div>
     <button onclick="topFunction()" id="myBtn" title="Go to top"><i class="fa-solid fa-arrow-up"></i></button>
 </div>
+<partial name="~/views/Analysis/ModelClinic.cshtml">
 <partial name="~/views/SocialPatient/Model.cshtml">
 <partial name="~/views/SocialPatient/ModelRating.cshtml">
       
@@ -302,6 +305,30 @@
                     document.documentElement.scrollTop = 0;
                 }
             </script>
+                   
+                    <script>
+
+                        $('.js-Record-modal').on('click', function () {
+                            var btn = $(this);
+                            var modal = $('#ClinicModel');
+                            modal.find('#ModalLabel').text(btn.data('title'));
+
+                           
+                            $.get({
+                                url: btn.data('url'),
+                                success: function (form) {
+                                    modal.find('.modal-body').html(form);
+                                    $.validator.unobtrusive.parse(modal);
+                                },
+                                error: function () {
+                                    showErrorMessage();
+                                }
+                            });
+
+                            modal.modal('show');
+                        })
+
+                    </script>
             <script>
 
                 $('.js-render-modal').on('click', function () {

@@ -44,7 +44,13 @@ namespace SuperHero.BL.Interface
         Task<DoctorRatingVM> DoctorRatingISTrue(string PersonId, string DoctorId);
         Task EditeLessonByID(LessonVM lessonVM);
         Task<AuditViewModel> GetAllSocial(Person PersonProfile);
-
-
+        Task SaveRecord(string PersonId, string DoctorId, Recorder record);
+        Task<IEnumerable<Recorder>> GetAllPatientRecord(string DoctorId);
+        Task<Person> GetPatientRecord(string PatientId);
+        Task<List<Analysis>> GetAllAnalysisbyId(int userinfo);
+        Task<List<Treatment>> GetAllTreatmentbyId(int userinfo);
+        Task<List<Radiology>> GetAllRadiologybyId(int userinfo);
+       
+        
     }
 }
