@@ -16,7 +16,7 @@
                                 </div>
                                 <h6 class="f-w-600">@Model.FullName</h6>
                                 <br />
-                                <i style="font-size:30px ;cursor: pointer;" class="fa-solid fa-check-to-slot m-t-10 f-16"></i>
+                                <i style="font-size:30px ;cursor: pointer;" class="fa-solid text-danger fa-check-to-slot m-t-10 f-16"></i>
                                 
                             </div>
                         </div>
@@ -53,7 +53,7 @@
                                 <div class="row">
                                     <div class="col-sm-4">
                                         <p class="m-b-10 f-w-600">Analysis</p>
-                                        <h6 class="text-muted f-w-400">@Model.patient.Analyses.Count()  </h6>
+                                        <h6 class="text-muted f-w-400">@Model.patient.Analyses.Where(a=> a.AnalysisPDF != null).Count()  </h6>
                                     </div>
                                     <div class="col-sm-4">
                                        

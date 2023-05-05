@@ -39,7 +39,7 @@ namespace SuperHero.PL.Controllers.PrivateClinic
         {
             analysisVM.personID = (int)TempData["PatientId"];
             await servies.Create(analysisVM);
-            return RedirectToAction("PatientRecord", "DoctorHome", new { id = analysisVM.personID });
+            return RedirectToAction("PatientRecord", "DoctorHome", new { id = analysisVM.patient.UserID });
         }
     }
 }
