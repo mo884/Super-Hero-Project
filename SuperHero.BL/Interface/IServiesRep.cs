@@ -48,6 +48,7 @@ namespace SuperHero.BL.Interface
         Task<IEnumerable<Recorder>> GetAllPatientRecord(string DoctorId);
         Task<Person> GetPatientRecord(string PatientId);
         Task<List<Analysis>> GetAllAnalysisbyId(int userinfo);
+        Task Create(DoctorAnalysis analysis);
         Task<List<Treatment>> GetAllTreatmentbyId(int userinfo);
         Task<List<Radiology>> GetAllRadiologybyId(int userinfo);
        

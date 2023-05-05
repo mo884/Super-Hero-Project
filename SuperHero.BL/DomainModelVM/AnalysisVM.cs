@@ -13,7 +13,7 @@ namespace SuperHero.BL.DomainModelVM
     {
         [Key]
         public int ID { get; set; }
-
+        public string? Name { get; set; }
         public string? AnalysisPDF { get; set; }
         public int? personID { get; set; }
 

@@ -68,6 +68,8 @@ namespace SuperHero.BL.Mapper
             CreateMap<Analysis, AnalysisVM>();
             CreateMap<AnalysisVM, Analysis>();
 
+            CreateMap<Analysis, DoctorAnalysis>();
+            CreateMap<DoctorAnalysis, Analysis>();
             CreateMap<Radiology, RadiologyVM>();
             CreateMap<RadiologyVM, Radiology>();
 

@@ -11,6 +11,7 @@ namespace SuperHero.BL.DomainModelVM
     public class RadiologyVM
     {
         public int ID { get; set; }
+        public string? Name { get; set; }
         public string? XRay { get; set; }
         public int? personID { get; set; }
 
