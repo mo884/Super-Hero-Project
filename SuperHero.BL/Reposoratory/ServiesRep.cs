@@ -414,7 +414,7 @@ namespace SuperHero.BL.Reposoratory
             var data = await Db.Analyses.Where(a => a.personID == userinfo).ToListAsync();
             return data;
         }
-        public async Task Create(DoctorAnalysis analysis)
+        public async Task Create(DoctorAnalysis analysis,string DoctorId)
         {
             analysis.patient = await Db.UserInfos.Where(a => a.ID == analysis.personID).FirstOrDefaultAsync();
 
@@ -422,7 +422,9 @@ namespace SuperHero.BL.Reposoratory
             {
                 Name = analysis.Name,
                 personID = analysis.personID,
-                patient = analysis.patient
+                patient = analysis.patient,
+                DoctorID = DoctorId,
+                IsAdd = false
             };
 
              Db.Analyses.Add(data);
@@ -461,7 +463,7 @@ namespace SuperHero.BL.Reposoratory
             var data = await Db.Radiologies.Where(a => a.personID == userinfo).ToListAsync();
             return data;
         }
-        public async Task CreateRadiology(DoctorRadiology Radiology)
+        public async Task CreateRadiology(DoctorRadiology Radiology,string DoctorId)
         {
             Radiology.patient = await Db.UserInfos.Where(a => a.ID == Radiology.personID).FirstOrDefaultAsync();
 
@@ -469,7 +471,9 @@ namespace SuperHero.BL.Reposoratory
             {
                 Name = Radiology.Name,
                 personID = Radiology.personID,
-                patient = Radiology.patient
+                patient = Radiology.patient,
+                DoctorID = DoctorId,
+                IsAdd=false,
             };
 
             Db.Radiologies.Add(data);

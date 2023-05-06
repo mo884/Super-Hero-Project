@@ -1,11 +1,12 @@
 ﻿@model CreatePerson
 @using Microsoft.AspNetCore.Identity;
 @inject SignInManager<Person> signInManager
+@inject IServiesRep servies
 @{
     ViewData["Title"] = "Profile";
     Layout = "~/Views/Shared/PatientLayout/_Layout.cshtml";
     var userinfo = await signInManager.UserManager.FindByNameAsync(User.Identity.Name);
-
+    var Ischeck = await servies.GetPatientRecordBYID(Model.Id, userinfo.Id);
 }
 
 @section PersonType{
@@ -54,9 +55,19 @@
                     <a href="javascript:;" data-url="/Reating/Reating/@Model.Id" data-update="true" class="button js-render-Rating"><i class="fa-solid fa-star-sharp-half-stroke"></i>  </a>
                 }
             }
+            @if(Ischeck ==null){
+                                    <a href="javascript:;" data-url="/MyProfile/Record/@Model.Id" data-update="true" class=" btn btn-light js-Record-modal"><i style="color:#1EB2A6" class="fa-solid fa-clipboard fa-flip"></i></a>
 
-            <a  href="javascript:;" data-url="/MyProfile/Record/@Model.Id" data-update="true" class=" btn btn-light js-Record-modal"><i style="color:#1EB2A6" class="fa-solid fa-clipboard fa-flip"></i></a>
+            }else{
+                @if (Ischeck.IsCheck)
+                {
 
+                }
+            }
+              
+
+            
+      
 
         }
        

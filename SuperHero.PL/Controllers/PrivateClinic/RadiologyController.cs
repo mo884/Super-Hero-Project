@@ -39,7 +39,8 @@ namespace SuperHero.PL.Controllers.PrivateClinic
         public async Task<IActionResult> Create(DoctorRadiology Radiology)
         {
             Radiology.personID = (int)TempData["PatientId"];
-            await servies.CreateRadiology(Radiology);
+            var user = await signInManager.UserManager.FindByNameAsync(User.Identity.Name);
+            await servies.CreateRadiology(Radiology,user.Id);
             return RedirectToAction("PatientRecord", "DoctorHome", new { id = Radiology.patient.UserID });
         }
     }
