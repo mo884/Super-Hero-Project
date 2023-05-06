@@ -23,6 +23,7 @@ namespace SuperHero.BL.Interface
         Task<Post> GetPostById(int id, string include1, string include2, string include3);
         Task<IEnumerable<Comment>> GetAll(int id, string include, string include1);
         Task<Person> GetPersonInclud(string includ, string id);
+        Task<Person> GetPatientProfile(string id);
         Task<ReactPost> GetBYUserAndPost(string id,int postid);
         Task EditPost(PostVM postVM);
         Task<Friends> GetBYUserFriends(string id, string personid);

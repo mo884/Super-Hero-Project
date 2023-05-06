@@ -1,6 +1,7 @@
 ﻿@model CreatePerson
 @using Microsoft.AspNetCore.Identity;
 @inject SignInManager<Person> signInManager
+@inject IBaseRepsoratory<Person> Person
 @inject IServiesRep servies
 @{
     ViewData["Title"] = "Profile";
@@ -10,34 +11,37 @@
 }
 
 @section PersonType{
-   
 
 
-        @if (@Model.Image == null)
-        {
+
+    @if (@Model.Image == null)
+    {
         if (@Model.gender == 0)
-            {
-                <img src="/files/imgs/men.jpg" alt="" />
-            }
-            else
-            {
-
-                <img src="/files/imgs/young-woman-avatar-cartoon-character-profile-picture-young-woman-wearing-blue-t-shirt-avatar-cartoon-character-vector-149732076.jpg" alt="" />
-            }
+        {
+            <img src="/files/imgs/men.jpg" alt="" />
         }
         else
         {
 
-        <img src="/files/imgs/@Model.Image" alt="" />
+            <img src="/files/imgs/young-woman-avatar-cartoon-character-profile-picture-young-woman-wearing-blue-t-shirt-avatar-cartoon-character-vector-149732076.jpg" alt="" />
         }
-    
+    }
+    else
+    {
+
+        <img src="/files/imgs/@Model.Image" alt="" />
+    }
+
     <div class="acc-txt">
         <h3 style="color:white">Never Give Up!</h3>
         <h6 style="color:white">@Model.FullName</h6>
 
-        @if(Model.personType == 0){
+        @if (Model.personType == 0)
+        {
             <p>@Model.patient.Reason</p>
-        }else{
+        }
+        else
+        {
             <p>@Model.personType</p>
         }
         <p>@Model.district.Name / @Model.district.City.Name</p>
@@ -55,59 +59,63 @@
                     <a href="javascript:;" data-url="/Reating/Reating/@Model.Id" data-update="true" class="button js-render-Rating"><i class="fa-solid fa-star-sharp-half-stroke"></i>  </a>
                 }
             }
-            @if(Ischeck ==null){
-                                    <a href="javascript:;" data-url="/MyProfile/Record/@Model.Id" data-update="true" class=" btn btn-light js-Record-modal"><i style="color:#1EB2A6" class="fa-solid fa-clipboard fa-flip"></i></a>
+            @if (Ischeck == null)
+            {
+                <a href="javascript:;" data-url="/MyProfile/Record/@Model.Id" data-update="true" class=" btn btn-light js-Record-modal"><i style="color:#1EB2A6" class="fa-solid fa-clipboard fa-flip"></i></a>
 
-            }else{
+            }
+            else
+            {
                 @if (Ischeck.IsCheck)
                 {
+                    <a href="javascript:;" data-url="/MyProfile/Record/@Model.Id" data-update="true" class=" btn btn-light js-Record-modal"><i style="color:#1EB2A6" class="fa-solid fa-clipboard fa-flip"></i></a>
 
                 }
             }
-              
 
-            
-      
+
+
+
 
         }
-       
+
     </div>
 
 }
     @section Follower{
-    <a style=" text-decoration: none;"  href="javascript:;" data-url="/Profile/Friend/@Model.Id" data-update="true" class=" js-render-modal">
-    <div class="iconheader">
+    <a style=" text-decoration: none;" href="javascript:;" data-url="/Profile/Friend/@Model.Id" data-update="true" class=" js-render-modal">
+        <div class="iconheader">
             <i class="fa-solid fa-share fa-beat"></i>
-    </div>
-
-    <div class="info">
-        <i class="fa-solid fa-user-group"></i>
-        <div class="rank">
-            Following
         </div>
-    </div>
-    <div style="color:black" class="detail">
-        <span>Total amount</span>
-        <h2>@Model.Friends.Count() <span> Following</span> </h2>
-    </div>
+
+        <div class="info">
+            <i class="fa-solid fa-user-group"></i>
+            <div class="rank">
+                Following
+            </div>
+        </div>
+        <div style="color:black" class="detail">
+            <span>Total amount</span>
+            <h2>@Model.Friends.Count() <span> Following</span> </h2>
+        </div>
     </a>
 }
     @section Following{
-            <a style=" text-decoration: none;" href="javascript:;" data-url="/Profile/Follower/@Model.Id" data-update="true" class=" js-render-modal">
+    <a style=" text-decoration: none;" href="javascript:;" data-url="/Profile/Follower/@Model.Id" data-update="true" class=" js-render-modal">
 
-    <div class="iconheader">
-        <i class="fa-solid fa-share fa-flip-horizontal"></i>
-    </div>
-    <div class="info">
-        <i class="fa-solid fa-users"></i>
-        <div class="rank">
-            Follower
+        <div class="iconheader">
+            <i class="fa-solid fa-share fa-flip-horizontal"></i>
         </div>
-    </div>
-    <div class="detail">
-        <span>Total amount</span>
-        <h2>@Model.Allfriends.Where(a=> a.FriendId == Model.Id&& a.IsFriend).ToList().Count <span>Follower</span> </h2>
-    </div>
+        <div class="info">
+            <i class="fa-solid fa-users"></i>
+            <div class="rank">
+                Follower
+            </div>
+        </div>
+        <div class="detail">
+            <span>Total amount</span>
+            <h2>@Model.Allfriends.Where(a=> a.FriendId == Model.Id&& a.IsFriend).ToList().Count <span>Follower</span> </h2>
+        </div>
     </a>
     }
     @section Post{
@@ -117,33 +125,320 @@
     <div class="info">
         <i class="fa-solid fa-photo-film"></i>
         <div class="rank">
-            @Model.Posts.Count()
+            @if (Model.personType == 0)
+            {
+                @Model.patient.Analyses.Where(a=> (bool)a.IsAdd == true).Count()
+            }
+            else
+            {
+                @Model.Posts.Count()
+            }
+
         </div>
     </div>
     <div class="detail">
-        <span>Total amount</span>
-        <h2>@Model.Posts.Count() <span>Post</span> </h2>
+        @if (Model.personType == 0)
+        {
+            <span>Total amount</span>
+            <h2>@Model.patient.Analyses.Count() <span>Analysis</span> </h2>
+        }
+        else
+        {
+            <span>Total amount</span>
+            <h2>@Model.Posts.Count() <span>Post</span> </h2>
+        }
+
     </div>
     }
     @section Followers{
-        @if(Model.Id != userinfo.Id){
+    @if (Model.Id != userinfo.Id)
+    {
         <a style="color:black" href="javascript:;" data-id="@Model.Id" class="js-Add   mr-3 btn @((Model.friends?.Where(c=>c.personId==userinfo.Id && c.FriendId == Model.Id)?.FirstOrDefault()?.IsFriend == null? "btn-info": (Model.friends.Where(c=>c.personId==userinfo.Id).FirstOrDefault().IsFriend) == true ? "btn-light" : "btn-info"))">
             @(((Model.friends?.Where(c => c.personId == userinfo.Id && c.FriendId == Model.Id)?.SingleOrDefault() == null) ? "Follow" : (Model.friends.Where(c => c.personId == userinfo.Id).FirstOrDefault().IsFriend) == true ? "UnFollow" : "Follow"))
         </a>
         <a class="btn btn-light " style="color:black">Send</a>
-        }else{
+    }
+    else
+    {
 
-    
-    <a style=" text-decoration: none;" href="javascript:;" data-url="/Profile/Friend/@Model.Id" data-update="true" class="activ btn-btn-sucess js-render-modal">Following</a>
-    <a style=" text-decoration: none;" href="javascript:;" data-url="/Profile/Follower/@Model.Id" data-update="true" class=" js-render-modal">Follwers</a>
+
+        <a style=" text-decoration: none;" href="javascript:;" data-url="/Profile/Friend/@Model.Id" data-update="true" class="activ btn-btn-sucess js-render-modal">Following</a>
+        <a style=" text-decoration: none;" href="javascript:;" data-url="/Profile/Follower/@Model.Id" data-update="true" class=" js-render-modal">Follwers</a>
     }
     }
-   
-@foreach (var post in Model.Posts)
+@if (Model.personType == 0)
 {
-    <div class="post">
-        <div class="header1">
-            <div class="User">
+    <div class="container">
+        <div class="row Infobutton">
+
+            <div class="col-sm-4">
+
+
+                <button id="btn">Analysis<i class="fa-sharp fa-solid fa-hospital-user fa-bounce"></i></button>
+
+
+            </div>
+            <div class="col-sm-4">
+                <button id="btn1" >Radiology<i class="fa-solid fa-x-ray fa-bounce"></i></button>
+            </div>
+            <div class="col-sm-4">
+                <button id="btn2" >Treatment<i class="fa-solid fa-capsules fa-bounce"></i></button>
+            </div>
+
+        </div>
+    </div>
+    @if (Model.Id == userinfo.Id)
+    {
+        <div class="container" style="margin-top:20px">
+            <div class="row Infobutton">
+
+                <div class="col-sm-4">
+
+
+                    <button data-bs-toggle="modal" class="js-Analysis" href="javascript:;" data-title="Analysis" data-url="/Analysis/PatientAnalysis/@Model.patient.ID" data-update="true" role="button">My Analysis<i class="fa-sharp fa-solid fa-hospital-user fa-bounce"></i></button>
+
+
+                </div>
+                <div class="col-sm-4">
+                    <button data-bs-toggle="modal" class="js-Analysis" href="javascript:;" data-title="Analysis" data-url="/Radiology/PatientRadiology/@Model.patient.ID" data-update="true">My Radiology<i class="fa-solid fa-x-ray fa-bounce"></i></button>
+                </div>
+                <div class="col-sm-4">
+                    <button data-bs-toggle="modal" class="js-Analysis" href="javascript:;" data-title="Analysis" data-url="/Treatment/PatientTreatment/@Model.patient.ID" data-update="true">My Treatment<i class="fa-solid fa-capsules fa-bounce"></i></button>
+                </div>
+
+            </div>
+        </div>
+    }
+    <!--Patient Analysis-->
+    
+
+<div style="display:none" id="Create">
+    <table id="example" class="table" style="width:100%;color:darkgrey;">
+        <thead>
+            <tr>
+               
+                <th>Name</th>
+                <th>Analysis</th>
+               
+                    <th></th>
+                     <th></th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var item in Model.patient.Analyses)
+            {
+                @if(Model.Id != userinfo.Id){
+                        @if (item.IsAdd == true)
+                        {
+                            <tr>
+
+                                <td style="color:black">@item.Name</td>
+                                
+                                <td>
+                                    @if(item.AnalysisPDF != null){
+                                      <a style="color:var(--six); font-weight: bold;background-image: linear-gradient(90deg, #f5f5f527 0%, #2bc4b7 75%);width:100%;width:60px ;padding: 10px;border: none; border-radius: 4px;" href="~/Files/PDF/@item.AnalysisPDF" download="download"><i class="fa-solid fa-download fa-bounce"></i></a>
+
+                                    }
+                                    </td>
+                                <td></td>
+                                <td></td>
+
+
+
+
+
+
+
+
+                            </tr>
+                        }
+                }else{
+                        @if (item.IsAdd == false)
+                        {
+                            <tr class="dd" >
+
+                                <td style="color:black">@item.Name</td>
+                                @{
+                                    var doctor = await Person.GetByID(item.DoctorID);
+                                }
+                                <td> <a asp-action="Profile" asp-controller="MyProfile" asp-route-id="@doctor.Id" style="text-decoration:none;padding:5px" class="buttons-check"> Dr :@doctor.FullName</a>  </td>
+
+
+
+                                <td></td>
+                                <td><a style="text-decoration:none;padding:5px" href="javascript:;" data-id="@item.ID" class="buttons-check  js-AddAnalysis"><i class="fa-sharp fa-solid fa-plus"></i></a></td>
+
+
+                            </tr>
+                        }
+                }
+              
+
+            }
+
+
+        </tbody>
+
+    </table>
+</div>
+
+<!--End Patient Analysis-->
+
+
+  <!--Patient Radiology-->
+    
+
+<div style="display:none" id="Create1">
+    <table id="example" class="table" style="width:100%;color:darkgrey;">
+        <thead>
+            <tr>
+               
+                <th>Name</th>
+                <th>Radiology</th>
+               
+                    <th></th>
+                     <th></th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var item in Model.patient.radiologies)
+            {
+                @if(Model.Id != userinfo.Id){
+                        @if (item.IsAdd == true)
+                        {
+                            <tr>
+
+                                <td style="color:black">@item.Name</td>
+                                
+                                <td>
+                                    @if(item.XRay !=null){
+                                    <a style="color:var(--six); font-weight: bold;background-image: linear-gradient(90deg, #f5f5f527 0%, #2bc4b7 75%);width:100%;width:60px ;padding: 10px;border: none; border-radius: 4px;" href="~/Files/PDF/@item.XRay" download="download"><i class="fa-solid fa-download fa-bounce"></i></a>
+
+                                    }
+                                </td>
+                                <td></td>
+                                <td></td>
+
+
+
+
+
+
+
+
+                            </tr>
+                        }
+                }else{
+                        @if (item.IsAdd == false)
+                        {
+                            <tr class="dd" >
+
+                                <td style="color:black">@item.Name</td>
+                                @{
+                                    var doctor = await Person.GetByID(item.DoctorID);
+                                }
+                                <td> <a asp-action="Profile" asp-controller="MyProfile" asp-route-id="@doctor.Id" style="text-decoration:none;padding:5px" class="buttons-check"> Dr :@doctor.FullName</a>  </td>
+
+
+
+                                <td></td>
+                                <td><a style="text-decoration:none;padding:5px" href="javascript:;" data-id="@item.ID" class="buttons-check js-AddRadiology"><i class="fa-sharp fa-solid fa-plus"></i></a></td>
+
+
+                            </tr>
+                        }
+                }
+              
+
+            }
+
+
+        </tbody>
+
+    </table>
+</div>
+
+<!--End Patient Radiology-->
+
+ <!--Patient Treatment-->
+    
+
+<div style="display:none" id="Create2">
+    <table id="example" class="table" style="width:100%;color:darkgrey;">
+        <thead>
+            <tr>
+               
+                <th>Name</th>
+                
+               
+                    <th></th>
+                    <th></th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var item in Model.patient.Treatments)
+            {
+                @if(Model.Id != userinfo.Id){
+                        @if (item.IsAdd == true)
+                        {
+                            <tr>
+
+                                <td style="color:black">@item.Name</td>
+                                
+                                <td></td>
+
+                                <td></td>
+
+
+
+
+
+
+
+                            </tr>
+                        }
+                }else{
+                        @if (item.IsAdd == false)
+                        {
+                            <tr class="dd" >
+
+                                <td style="color:black">@item.Name</td>
+                                @{
+                                    var doctor = await Person.GetByID(item.DoctorID);
+                                }
+                                <td> <a asp-action="Profile" asp-controller="MyProfile" asp-route-id="@doctor.Id" style="text-decoration:none;padding:5px" class="buttons-check"> Dr :@doctor.FullName</a>  </td>
+
+
+
+                              
+                                <td><a style="text-decoration:none;padding:5px" href="javascript:;" data-id="@item.ID" class="buttons-check js-AddTreatment"><i class="fa-sharp fa-solid fa-plus"></i></a></td>
+
+
+                            </tr>
+                        }
+                }
+              
+
+            }
+
+
+        </tbody>
+
+    </table>
+</div>
+
+<!--End Patient Radiology-->
+}
+else
+{
+    @foreach (var post in Model.Posts)
+    {
+        <div class="post">
+            <div class="header1">
+                <div class="User">
 
                     @if (post.person.Image == null)
                     {
@@ -163,55 +458,57 @@
 
                         <img src="/files/imgs/@post.person.Image" alt="" />
                     }
-                
-                <div class="user-details">
-                    <p class="bold">@post.person.FullName </p>
-                    <p class="type">@post.person.PersonType</p>
+
+                    <div class="user-details">
+                        <p class="bold">@post.person.FullName </p>
+                        <p class="type">@post.person.PersonType</p>
+                    </div>
+
                 </div>
+                @if (userinfo.Id == post.person.Id)
+                {
+                    <div class="detail">
+                        <p class="time">3 hours</p>
 
-            </div>
-            @if (userinfo.Id == post.person.Id)
-            {
-                <div class="detail">
-                    <p class="time">3 hours</p>
+                        <div class="dropdown">
+                            <i class="fa-solid fa-list dropbtn" onclick="myFunction()"></i>
+                            <div id="myDropdown" class="dropdown-content">
+                                <a href="#home"><i class="fa-solid fa-spell-check"></i>Edit</a>
+                                <a href="#about"><i class="fa-solid fa-trash-can"></i> Delete</a>
 
-                    <div class="dropdown">
-                        <i class="fa-solid fa-list dropbtn" onclick="myFunction()"></i>
-                        <div id="myDropdown" class="dropdown-content">
-                            <a href="#home"><i class="fa-solid fa-spell-check"></i>Edit</a>
-                            <a href="#about"><i class="fa-solid fa-trash-can"></i> Delete</a>
-
+                            </div>
                         </div>
                     </div>
+
+
+
+                }
+            </div>
+
+            @if (post.Image != null)
+            {
+                <div class="Image" style=" background-image: url(/files/imgs/@post.Image); background-repeat: no-repeat; background-position: center; background-size: cover;width: 100%;height:450px ;">
                 </div>
-
-
-
             }
-        </div>
+            <div class="Content-detailes">
+                <div class="Post-body">
+                    @post.Body
+                </div>
+                <div class="social-react">
+                    <i href="javascript:;" data-title="@post.Comments.Count() Comments  and  @post.Like Likes" data-url="/Comment/Comments/@post.ID" data-update="true" class="fa-solid fa-comment btn btn-dark  js-render-modal"></i>
+                    <i href="javascript:;" data-id="@post.ID" class="fa-solid js-love2 fa-heart btn @((post.ReactPosts?.Where(c=>c.PersonID==userinfo.Id)?.FirstOrDefault() == null ? "btn-light" : (post.ReactPosts.Where(c=>c.PersonID==userinfo.Id).FirstOrDefault().IsLike == true) ? "btn-danger" : "btn-light"))"></i>
 
-        @if (post.Image != null)
-        {
-            <div class="Image" style=" background-image: url(/files/imgs/@post.Image); background-repeat: no-repeat; background-position: center; background-size: cover;width: 100%;height:450px ;">
-            </div>
-        }
-        <div class="Content-detailes">
-            <div class="Post-body">
-                @post.Body
-            </div>
-            <div class="social-react">
-                <i href="javascript:;" data-title="@post.Comments.Count() Comments  and  @post.Like Likes" data-url="/Comment/Comments/@post.ID" data-update="true" class="fa-solid fa-comment btn btn-dark  js-render-modal"></i>
-                <i href="javascript:;" data-id="@post.ID" class="fa-solid js-love2 fa-heart btn @((post.ReactPosts?.Where(c=>c.PersonID==userinfo.Id)?.FirstOrDefault() == null ? "btn-light" : (post.ReactPosts.Where(c=>c.PersonID==userinfo.Id).FirstOrDefault().IsLike == true) ? "btn-danger" : "btn-light"))"></i>
-
+                </div>
             </div>
         </div>
-    </div>
-   
 
 
-            
+
+
     }
 
+
+}
 
 
 
@@ -220,103 +517,269 @@
     <button onclick="topFunction()" id="myBtn" title="Go to top"><i class="fa-solid fa-arrow-up"></i></button>
 </div>
 <partial name="~/views/Analysis/ModelClinic.cshtml">
-<partial name="~/views/SocialPatient/Model.cshtml">
-<partial name="~/views/SocialPatient/ModelRating.cshtml">
-      
-    @section CSS{
-        <partial name="~/views/post/CSS.cshtml">
-     
-            <style>
-                #carousel-card .carousel-control-next,
-                #carousel-card .carousel-control-prev {
-                    width: 5%;
-                }
+    <partial name="~/views/Analysis/ModelClinic.cshtml">
+    <partial name="~/views/SocialPatient/Model.cshtml">
+        <partial name="~/views/SocialPatient/ModelRating.cshtml">
+           
+            @section CSS{
 
-                #myBtn {
-                    display: none;
-                    position: fixed;
-                    bottom: 20px;
-                    right: 30px;
-                    z-index: 564669079;
-                    border: none;
-                    outline: none;
-                    border: 2px solid #1eb2a6;
-                    cursor: pointer;
-                    padding: 10px;
-                    border-radius: 4px;
-                    background: #1eb2a6
-                }
+                <partial name="~/views/post/CSS.cshtml">
+                    <partial name="~/views/person/Partial/css.cshtml" />
+                    <link href="~/dashboard/patient.css" rel="stylesheet" />
+                    <style>
+                        #carousel-card .carousel-control-next,
+                        #carousel-card .carousel-control-prev {
+                            width: 5%;
+                        }
 
-                    #myBtn i {
-                        font-size: 40px;
-                        color: #1EB2A6;
-                    }
+                        #myBtn {
+                            display: none;
+                            position: fixed;
+                            bottom: 20px;
+                            right: 30px;
+                            z-index: 564669079;
+                            border: none;
+                            outline: none;
+                            border: 2px solid #1eb2a6;
+                            cursor: pointer;
+                            padding: 10px;
+                            border-radius: 4px;
+                            background: #1eb2a6
+                        }
 
-                    #myBtn:hover, #myBtn i {
-                        color: white
-                    }
-
-                button, .button3 {
-                    background: transparent;
-                    color: #1EB2A6;
-                    border: 2px solid #1EB2A6;
-                    border-radius: 5px;
-                    padding: 5px 15px;
-                    cursor: pointer;
-                }
-
-                    .button3:hover {
-                        background: #1EB2A6;
-                        color: white;
-                    }
-                  
-                 
-            </style>
-
-        }
-        @section JS{
-            <script src="~/dashboard/lib/jquery/jquery.min.js"></script>
-            <script src="~/dashboard/lib/plugins.bundle.js"></script>
-
-
-            <script>
-                $(document).ready(function () {
-                    $('.js-love2').on('click', function () {
-                        var btn = $(this);
-
-                        $.post({
-                            url: '/Post/AddLike/' + btn.data('id'),
-                            success: function () {
-                                btn.toggleClass('btn-light btn-danger');
+                            #myBtn i {
+                                font-size: 40px;
+                                color: #1EB2A6;
                             }
+
+                            #myBtn:hover, #myBtn i {
+                                color: white
+                            }
+
+                        .paging_simple_numbers, .dataTables_info, .dataTables_filter {
+                            display:none
+                        }
+                        button, .button3 {
+                            background: transparent;
+                            color: #1EB2A6;
+                            border: 2px solid #1EB2A6;
+                            border-radius: 5px;
+                            padding: 5px 15px;
+                            cursor: pointer;
+                        }
+
+                            .button3:hover {
+                                background: #1EB2A6;
+                                color: white;
+                            }
+                                      .bootbox-close-button {
+                            position: absolute;
+                            top: 0;
+                            right: 0;
+                            padding: 0.2rem 0.5rem;
+                            z-index: 1;
+                            background-color: transparent;
+                            border: 2px solid #f0f0f0;
+                            font-size: 20px;
+                            margin-bottom: 10px;
+                            -webkit-appearance: none;
+                            display:none
+                        }
+
+                        .bootbox-accept{
+                            background-color: #1EB2A6;
+                            border: 2px solid #1EB2A6;
+
+                        }
+
+                            .bootbox-accept:hover{
+                                background-color: #1EB2A6;
+                                border: 2px solid #1EB2A6;
+                            }
+                        .bootbox  .modal-dialog  .modal-content{
+                            margin-top:100px;
+                            background-color:rgba(0,0,0,.5);
+                            padding:40px;
+                            min-height:200px
+                        }
+                        .bootbox-body{
+                            text-align:center;
+                            color:white;
+                            font-size: 20px;
+                            margin-top: 40px;
+                        }
+                        /* End Override Datatable */
+                    </style>
+
+}
+
+
+
+
+                @section JS{
+                    <script src="~/dashboard/lib/jquery/jquery.min.js"></script>
+                    <script src="~/dashboard/lib/plugins.bundle.js"></script>
+                    <script src="~/dashboard/lib/bootbox.js/bootbox.js"></script>
+                    <script type="text/javascript">
+                        $(document).ready(function () {
+                            $("#btn").click(function () {
+                                $("#Create").toggle();
+                            });
+                             $("#btn1").click(function () {
+                                $("#Create1").toggle();
+                            });
+                             $("#btn2").click(function () {
+                                $("#Create2").toggle();
+                            });
                         });
-                    });
-                });
+                    </script>
 
-            </script>
-               
-            <script>
-                // Get the button
-                let mybutton = document.getElementById("myBtn");
+                    <script>
+                        $(document).ready(function () {
+                            $('.js-love2').on('click', function () {
+                                var btn = $(this);
 
-                // When the user scrolls down 20px from the top of the document, show the button
-                window.onscroll = function () { scrollFunction() };
+                                $.post({
+                                    url: '/Post/AddLike/' + btn.data('id'),
+                                    success: function () {
+                                        btn.toggleClass('btn-light btn-danger');
+                                    }
+                                });
+                            });
+                        });
 
-                function scrollFunction() {
-                    if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
-                        mybutton.style.display = "block";
-                    } else {
-                        mybutton.style.display = "none";
-                    }
-                }
+                    </script>
+                    <script type="text/javascript">
+                        $(document).ready(function () {
 
-                // When the user clicks on the button, scroll to the top of the document
-                function topFunction() {
-                    document.body.scrollTop = 0;
-                    document.documentElement.scrollTop = 0;
-                }
-            </script>
-                   
+
+
+                            $('.js-AddAnalysis').on('click', function () {
+
+                                var btn = $(this);
+                                bootbox.confirm({
+                                        message: "Are you sure that you Add this Analysis In Your Profile? And You Must uploaded it in Your Profile",
+                                    className: 'rubberBand animated',
+                                    buttons: {
+                                        confirm: {
+                                            label: 'Yes',
+                                            className: 'btn-danger'
+                                        },
+                                        cancel: {
+                                            label: 'No',
+                                            className: 'btn-secondary'
+                                        }
+                                    },
+                                    callback: function (result) {
+                                        if (result) {
+                                            $.post({
+                                                url: '/Analysis/AddByPatient/' + btn.data('id'),
+                                                success: function () {
+                                                    var row = btn.parents('tr');
+
+                                                    row.toggleClass('dd d-none');
+                                                }
+                                                ,
+                                                error: function () {
+                                                    showErrorMessage();
+                                                }
+                                            });
+                                        }
+                                    }
+                                });
+                            });
+                                $('.js-AddRadiology').on('click', function () {
+
+                                    var btn = $(this);
+                                    bootbox.confirm({
+                                        message: "Are you sure that you Add this Radiology In Your Profile? And You Must uploaded it in Your Profile",
+                                        className: 'rubberBand animated',
+                                        buttons: {
+                                            confirm: {
+                                                label: 'Yes',
+                                                className: 'btn-danger'
+                                            },
+                                            cancel: {
+                                                label: 'No',
+                                                className: 'btn-secondary'
+                                            }
+                                        },
+                                        callback: function (result) {
+                                            if (result) {
+                                                $.post({
+                                                    url: '/Radiology/AddByPatient/' + btn.data('id'),
+                                                    success: function () {
+                                                        var row = btn.parents('tr');
+
+                                                        row.toggleClass('dd d-none');
+                                                    }
+                                                    ,
+                                                    error: function () {
+                                                        showErrorMessage();
+                                                    }
+                                                });
+                                            }
+                                        }
+                                    });
+                                });
+                                 $('.js-AddTreatment').on('click', function () {
+
+                                    var btn = $(this);
+                                    bootbox.confirm({
+                                        message: "Are you sure that you Add this Treatment In Your Profile? And You Must Buy it ",
+                                        className: 'rubberBand animated',
+                                        buttons: {
+                                            confirm: {
+                                                label: 'Yes',
+                                                className: 'btn-danger'
+                                            },
+                                            cancel: {
+                                                label: 'No',
+                                                className: 'btn-secondary'
+                                            }
+                                        },
+                                        callback: function (result) {
+                                            if (result) {
+                                                $.post({
+                                                    url: '/Treatment/AddByPatient/' + btn.data('id'),
+                                                    success: function () {
+                                                        var row = btn.parents('tr');
+
+                                                        row.toggleClass('dd d-none');
+                                                    }
+                                                    ,
+                                                    error: function () {
+                                                        showErrorMessage();
+                                                    }
+                                                });
+                                            }
+                                        }
+                                    });
+                                });
+                        });
+                    </script>
+                    <script>
+                        // Get the button
+                        let mybutton = document.getElementById("myBtn");
+
+                        // When the user scrolls down 20px from the top of the document, show the button
+                        window.onscroll = function () { scrollFunction() };
+
+                        function scrollFunction() {
+                            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                                mybutton.style.display = "block";
+                            } else {
+                                mybutton.style.display = "none";
+                            }
+                        }
+
+                        // When the user clicks on the button, scroll to the top of the document
+                        function topFunction() {
+                            document.body.scrollTop = 0;
+                            document.documentElement.scrollTop = 0;
+                        }
+                    </script>
+
                     <script>
 
                         $('.js-Record-modal').on('click', function () {
@@ -324,7 +787,7 @@
                             var modal = $('#ClinicModel');
                             modal.find('#ModalLabel').text(btn.data('title'));
 
-                           
+
                             $.get({
                                 url: btn.data('url'),
                                 success: function (form) {
@@ -340,70 +803,94 @@
                         })
 
                     </script>
-            <script>
+                    <script>
 
-                $('.js-render-modal').on('click', function () {
-                    var btn = $(this);
-                    var modal = $('#exampleModal');
-                    modal.find('#ModalLabel').text(btn.data('title'));
+                        $('.js-render-modal').on('click', function () {
+                            var btn = $(this);
+                            var modal = $('#exampleModal');
+                            modal.find('#ModalLabel').text(btn.data('title'));
 
-                    console.log(1);
-                    $.get({
-                        url: btn.data('url'),
-                        success: function (form) {
-                            modal.find('.modal-body').html(form);
-                            $.validator.unobtrusive.parse(modal);
-                        },
-                        error: function () {
-                            showErrorMessage();
-                        }
-                    });
+                            console.log(1);
+                            $.get({
+                                url: btn.data('url'),
+                                success: function (form) {
+                                    modal.find('.modal-body').html(form);
+                                    $.validator.unobtrusive.parse(modal);
+                                },
+                                error: function () {
+                                    showErrorMessage();
+                                }
+                            });
 
-                    modal.modal('show');
-                })
+                            modal.modal('show');
+                        })
 
-            </script>
-                <script>
+                    </script>
+                    <script>
 
-                    $('.js-render-Rating').on('click', function () {
-                        var btn = $(this);
-                        var modal = $('#modalRating');
-                        modal.find('#ModalLabel').text(btn.data('title'));
-                         
-                        console.log(1);
-                        $.get({
-                            url: btn.data('url'),
-                            success: function (form) {
-                                modal.find('.modal-body').html(form);
-                                $.validator.unobtrusive.parse(modal);
-                            },
-                            error: function () {
-                                showErrorMessage();
-                            }
+                        $('.js-render-Rating').on('click', function () {
+                            var btn = $(this);
+                            var modal = $('#modalRating');
+                            modal.find('#ModalLabel').text(btn.data('title'));
+
+                            console.log(1);
+                            $.get({
+                                url: btn.data('url'),
+                                success: function (form) {
+                                    modal.find('.modal-body').html(form);
+                                    $.validator.unobtrusive.parse(modal);
+                                },
+                                error: function () {
+                                    showErrorMessage();
+                                }
+                            });
+
+                            modal.modal('show');
+                        })
+
+                    </script>
+                    <script>
+                        $(document).ready(function () {
+                            $('.js-Add').on('click', function () {
+                                var btn = $(this);
+
+                                $.post({
+                                    url: '/Profile/AddFriends/' + btn.data('id'),
+                                    success: function () {
+                                        var newtext = btn.text().trim() === 'UnFollow' ? 'Follow' : 'UnFollow';
+                                        btn.text(newtext).toggleClass('btn-info btn-light');
+                                    }
+                                });
+                            });
                         });
+                    </script>
+                        <script>
 
-                        modal.modal('show');
-                    })
+                            $('.js-Analysis').on('click', function () {
+                                var btn = $(this);
+                                var modal = $('#ClinicModel');
+                                modal.find('#ModalLabel').text(btn.data('title'));
 
-                </script>
-            <script>
-                $(document).ready(function () {
-                    $('.js-Add').on('click', function () {
-                        var btn = $(this);
+                                console.log(1);
+                                $.get({
+                                    url: btn.data('url'),
+                                    success: function (form) {
+                                        modal.find('.modal-body').html(form);
+                                        $.validator.unobtrusive.parse(modal);
+                                    },
+                                    error: function () {
+                                        showErrorMessage();
+                                    }
+                                });
 
-                        $.post({
-                            url: '/Profile/AddFriends/' + btn.data('id'),
-                            success: function () {
-                                var newtext = btn.text().trim() === 'UnFollow' ? 'Follow' : 'UnFollow';
-                                btn.text(newtext).toggleClass('btn-info btn-light');
-                            }
-                        });
-                    });
-                });
-            </script>
-        }
-        @section JqueryValidation{
-            <partial name="~/views/person/Partial/Script.cshtml" />
-        }
+                                modal.modal('show');
+                            })
+
+                        </script>
+                }
+             
 
 
+                    @section JqueryValidation{
+                        <partial name="~/views/person/Partial/Script.cshtml" />
+                    }

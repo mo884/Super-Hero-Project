@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SuperHero.BL.Interface;
+using SuperHero.DAL.Entities;
 
 namespace SuperHero.PL.Controllers.PrivateClinic
 {
@@ -7,17 +8,19 @@ namespace SuperHero.PL.Controllers.PrivateClinic
     {
         #region Prop
         private readonly IMapper mapper;
+        private readonly IBaseRepsoratory<Treatment> treatment;
         private readonly IServiesRep servies;
         private readonly SignInManager<Person> signInManager;
         #endregion
 
 
         #region ctor
-        public TreatmentController(IMapper mapper, IServiesRep servies, SignInManager<Person> signInManager)
+        public TreatmentController(IMapper mapper, IBaseRepsoratory<Treatment> treatment, IServiesRep servies, SignInManager<Person> signInManager)
         {
 
 
             this.mapper = mapper;
+            this.treatment = treatment;
             this.servies = servies;
             this.signInManager = signInManager;
         }
@@ -42,6 +45,14 @@ namespace SuperHero.PL.Controllers.PrivateClinic
             var user = await signInManager.UserManager.FindByNameAsync(User.Identity.Name);
             await servies.CreateTreatment(treatment,user.Id);
             return RedirectToAction("PatientRecord", "DoctorHome", new { id = treatment.patient.UserID });
+        }
+        [HttpPost]
+        public async Task<IActionResult> AddByPatient(int id)
+        {
+            var data = await treatment.GetByID(id);
+            data.IsAdd = true;
+            await treatment.Update(data);
+            return Ok();
         }
     }
 }

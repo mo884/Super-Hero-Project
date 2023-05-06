@@ -170,6 +170,15 @@ namespace SuperHero.BL.Reposoratory
             var user = Db.Persons.Where(a => a.Id == id).FirstOrDefaultAsync();
             return await user;
         }
+        public async Task<Person> GetPatientProfile(string id)
+        {
+            var user =await Db.Persons.Where(a => a.Id == id).Include("district").Include("patient").FirstOrDefaultAsync();
+            user.district.City = await Db.Cities.Where(a => a.ID == user.district.CityId).SingleOrDefaultAsync();
+            user.patient.Treatments = await GetAllTreatmentbyId(user.patient.ID);
+            user.patient.Analyses = await GetAllAnalysisbyId(user.patient.ID);
+            user.patient.radiologies = await GetAllRadiologybyId(user.patient.ID);
+            return  user;
+        }
         #endregion
 
         #region Get Person By UserName
@@ -411,7 +420,7 @@ namespace SuperHero.BL.Reposoratory
         #region Get analysis
         public async Task<List<Analysis>> GetAllAnalysisbyId(int userinfo)
         {
-            var data = await Db.Analyses.Where(a => a.personID == userinfo).ToListAsync();
+            var data = await Db.Analyses.Where(a => a.personID == userinfo).Include("patient").ToListAsync();
             return data;
         }
         public async Task Create(DoctorAnalysis analysis,string DoctorId)

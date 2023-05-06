@@ -1,25 +1,63 @@
-﻿@model List<AnalysisVM>
-
+﻿@model PatientInfo
 @{
     int x = 1;
 }
-@foreach (var item in Model)
+@foreach (var item in Model.AnalysisVMs)
 {
 
 
 
     @if (item.IsAdd ==true)
     {
+       
         <div class="row">
             <div class="col-sm-2"></div>
             <div class="col-sm-6">
 
-                @x - Analysis
+                @x - @item.Name
+
                 @{
                     x++;
                 }
             </div>
-            <div class="col-sm-4">  <a style="color:var(--six); font-weight: bold;background-image: linear-gradient(90deg, #f5f5f527 0%, #2bc4b7 75%);width:100%;width:60px ;padding: 10px;border: none; border-radius: 4px;" href="~/Files/Docs/@item.AnalysisPDF" download="download"><i class="fa-solid fa-download fa-bounce"></i></a></div>
+
+            @if (item.AnalysisPDF != null){
+                <div class="col-sm-4">  <a style="color:var(--six); font-weight: bold;background-image: linear-gradient(90deg, #f5f5f527 0%, #2bc4b7 75%);width:100%;width:60px ;padding: 10px;border: none; border-radius: 4px;" href="~/Files/Docs/@item.AnalysisPDF" download="download"><i class="fa-solid fa-download fa-bounce"></i></a></div>
+
+            }
+        </div>
+       
+         <div id="Create" class="row">
+        @if (item.AnalysisPDF == null)
+        {
+           @if(Model.User.PersonType == SuperHero.DAL.Enum.PersonType.User){
+                    @if (Model.patient.ID == item.personID)
+                    {
+
+                        <form asp-action="Edit" asp-controller="Analysis" enctype="multipart/form-data">
+
+                            <div class="col-sm-12">
+                                <div class='file file--uploading'>
+                                    <label class="label" for='input-file'>
+                                        <i class="fa-solid fa-x-ray fa-bounce"></i>
+                                        Upload Radiology
+                                        <button style="color:var(--six); font-weight: bold;background-image: linear-gradient(90deg, #f5f5f527 0%, #2bc4b7 75%);width:100%;width:60px ;padding: 10px;border: none; border-radius: 4px;" type="submit"><i class="fa-solid fa-upload"></i></button>
+
+                                    </label>
+                                    <input id='input-file' asp-for="uploade" type='file' />
+                                </div>
+                                <span class="text-danger" asp-validation-for="uploade"></span>
+                            </div>
+
+
+                            <input type="hidden" value="@item.ID" asp-for="ID" />
+
+                        </form>
+
+                    }
+           }
+            
+        }
         </div>
         <br />
         <hr />
@@ -28,4 +66,8 @@
    
 }
 
+  @section JqueryValidation{
+            <partial name="~/views/person/Partial/Script.cshtml" />
+        }
 
+                  

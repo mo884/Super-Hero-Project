@@ -21,6 +21,7 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\Files\CVDoctors\" />
+    <Folder Include="wwwroot\Files\PDF\" />
   </ItemGroup>
 
   <ItemGroup>

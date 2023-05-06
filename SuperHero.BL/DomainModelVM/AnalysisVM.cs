@@ -6,6 +6,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 
 namespace SuperHero.BL.DomainModelVM
 {
@@ -22,5 +23,6 @@ namespace SuperHero.BL.DomainModelVM
 
         [ForeignKey("personID")]
         public UserInfo? patient { get; set; }
+        public IFormFile? uploade { get; set; }
     }
 }

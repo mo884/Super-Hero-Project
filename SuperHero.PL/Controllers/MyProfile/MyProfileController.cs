@@ -39,23 +39,35 @@ namespace SuperHero.PL.Controllers.MyProfile
 
         {
 
-            var data = await servies.GetPersonInclud("district", id);
+            var Profile = await person.GetByID(id);
             var PersonProfile = await signInManager.UserManager.FindByNameAsync(User.Identity.Name);
-            if (data.PersonType == DAL.Enum.PersonType.User)
+            if (Profile.PersonType == 0)
             {
-                var Reason = await servies.GetPatientBYID(id);
-                data.patient = Reason;
+                var Patient = await servies.GetPatientProfile( id);
+                var Patientresult = mapper.Map<CreatePerson>(Patient);
+
+                Patientresult.doctorRating = await servies.DoctorRatingISTrue(PersonProfile.Id, id);
+                var PatientFriends = await servies.GetBYUserFriends(id);
+                Patientresult.Friends = PatientFriends;
+                Patientresult.Allfriends = await allfriends.GetAll();
+                return View(Patientresult);
             }
+            else
+            {
+                var data = await servies.GetPersonInclud("district", id);
+                var result = mapper.Map<CreatePerson>(data);
+
+                result.doctorRating = await servies.DoctorRatingISTrue(PersonProfile.Id, id);
+                var Friends = await servies.GetBYUserFriends(id);
+                result.Friends = Friends;
+                result.Allfriends = await allfriends.GetAll();
+                return View(result);
+            }
+           
 
 
-            var result = mapper.Map<CreatePerson>(data);
+           
 
-            result.doctorRating = await servies.DoctorRatingISTrue(PersonProfile.Id, id);
-            var Friends = await servies.GetBYUserFriends(id);
-            result.Friends = Friends;
-            result.Allfriends = await allfriends.GetAll();
-
-            return View(result);
         }
 
         #endregion
