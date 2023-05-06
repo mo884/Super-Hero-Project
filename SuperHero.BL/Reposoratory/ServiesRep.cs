@@ -436,6 +436,23 @@ namespace SuperHero.BL.Reposoratory
             var data = await Db.Treatments.Where(a => a.personID == userinfo).ToListAsync();
             return data;
         }
+        public async Task CreateTreatment(DoctorTreatment Treatment,string DoctorId)
+        {
+            Treatment.patient = await Db.UserInfos.Where(a => a.ID == Treatment.personID).FirstOrDefaultAsync();
+
+            var data = new Treatment()
+            {
+                Name = Treatment.Name,
+                Description = Treatment.Description,
+                personID = Treatment.personID,
+                patient = Treatment.patient,
+                DoctorID = DoctorId,
+                IsAdd =false,
+            };
+
+            Db.Treatments.Add(data);
+            Db.SaveChanges();
+        }
         #endregion
 
         #region Get Radiology
@@ -444,8 +461,22 @@ namespace SuperHero.BL.Reposoratory
             var data = await Db.Radiologies.Where(a => a.personID == userinfo).ToListAsync();
             return data;
         }
+        public async Task CreateRadiology(DoctorRadiology Radiology)
+        {
+            Radiology.patient = await Db.UserInfos.Where(a => a.ID == Radiology.personID).FirstOrDefaultAsync();
+
+            var data = new Radiology()
+            {
+                Name = Radiology.Name,
+                personID = Radiology.personID,
+                patient = Radiology.patient
+            };
+
+            Db.Radiologies.Add(data);
+            Db.SaveChanges();
+        }
         #endregion
-       
+
 
         #region Record && Clicnic 
         public async Task SaveRecord(string PersonId, string DoctorId, Recorder record)
@@ -467,7 +498,7 @@ namespace SuperHero.BL.Reposoratory
         //Get All Patient Record
         public async Task<IEnumerable<Recorder>> GetAllPatientRecord(string DoctorId)
         {
-            var data =await Db.Recorders.Where(a => a.DoctorID == DoctorId&& a.IsCheck ==false).Include("Patient").ToListAsync();
+            var data =await Db.Recorders.Where(a => a.DoctorID == DoctorId).Include("Patient").ToListAsync();
             return data;
         }
         //Get Patient

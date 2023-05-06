@@ -45,7 +45,7 @@
     text-shadow: 2px 2px var(--six);
    
 }
-input[type="text"] {
+input[type="text"],textarea {
     width: 100%;
     border: 2px solid #aaa;
     border-radius: 4px;
@@ -55,15 +55,15 @@ input[type="text"] {
     box-sizing: border-box;
     transition: 0.3s;
   }
-  
-  input[type="text"]:focus {
-    border-color: var(--primaryColor);
-    box-shadow: 0 0 8px 0 var(--primaryColor);
-  }
-  
-  .inputWithIcon input[type="text"] {
+
+    input[type="text"]:focus, textarea:focus {
+        border-color: var(--primaryColor);
+        box-shadow: 0 0 8px 0 var(--primaryColor);
+    }
+
+.inputWithIcon input[type="text"], textarea {
     padding-left: 40px;
-  }
+}
   
   .inputWithIcon {
     position: relative;

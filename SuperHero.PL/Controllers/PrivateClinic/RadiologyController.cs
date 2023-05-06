@@ -29,5 +29,18 @@ namespace SuperHero.PL.Controllers.PrivateClinic
             var RadiologyVM = mapper.Map<List<RadiologyVM>>(Radiology);
             return PartialView(RadiologyVM);
         }
+        [HttpGet]
+        public async Task<IActionResult> Create(int id)
+        {
+            TempData["PatientId"] = id;
+            return PartialView();
+        }
+        [HttpPost]
+        public async Task<IActionResult> Create(DoctorRadiology Radiology)
+        {
+            Radiology.personID = (int)TempData["PatientId"];
+            await servies.CreateRadiology(Radiology);
+            return RedirectToAction("PatientRecord", "DoctorHome", new { id = Radiology.patient.UserID });
+        }
     }
 }

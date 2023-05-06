@@ -15,6 +15,9 @@ namespace SuperHero.BL.DomainModelVM
         public int ID { get; set; }
         public string? Name { get; set; }
         public string? AnalysisPDF { get; set; }
+        public bool? IsAdd { get; set; }
+        public string? DoctorID { get; set; }
+        public Person ?Doctor { get; set; }
         public int? personID { get; set; }
 
         [ForeignKey("personID")]
