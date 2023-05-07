@@ -28,8 +28,10 @@
         }
         else
         {
+            <a data-fslightbox href="~/files/imgs/@userinfo.Image">
+                <img src="/files/imgs/@userinfo.Image" alt="" />
+            </a>
 
-            <img src="/files/imgs/@userinfo.Image" alt="" />
         }
     }
     <div class="acc-txt">
@@ -105,85 +107,88 @@
         <tr style="width:100%">
             <td style="width:100%">
                 <div id="Post" class="post js-Posthidden @((post.ReactPosts?.Where(c=>c.PersonID==userinfo.Id)?.FirstOrDefault() == null ? "d-block" : (post.ReactPosts.Where(c=>c.PersonID==userinfo.Id).FirstOrDefault().IsHiden == true) ? "d-none" : "d-block"))  ">
-                <div class="header">
-                    <div class="User">
+                    <div class="header">
+                        <div class="User">
 
-                        <a asp-action="Profile" asp-controller="MyProfile" asp-route-id="@post.person.Id">
-                            @if (post.person.Image == null)
-                            {
-
-                                if (post.person.gender == 0)
+                            <a asp-action="Profile" asp-controller="MyProfile" asp-route-id="@post.person.Id">
+                                @if (post.person.Image == null)
                                 {
-                                    <img src="/files/imgs/men.jpg" alt="" />
+
+                                    if (post.person.gender == 0)
+                                    {
+                                        <img src="/files/imgs/men.jpg" alt="" />
+                                    }
+                                    else
+                                    {
+
+                                        <img src="/files/imgs/young-woman-avatar-cartoon-character-profile-picture-young-woman-wearing-blue-t-shirt-avatar-cartoon-character-vector-149732076.jpg" alt="" />
+                                    }
                                 }
                                 else
                                 {
 
-                                    <img src="/files/imgs/young-woman-avatar-cartoon-character-profile-picture-young-woman-wearing-blue-t-shirt-avatar-cartoon-character-vector-149732076.jpg" alt="" />
+                                    <img src="/files/imgs/@post.person.Image" alt="" />
                                 }
-                            }
-                            else
-                            {
+                            </a>
+                            <div class="user-details">
+                                <p class="bold"><a style="text-decoration:none;color:#1eb2a6" asp-action="Profile" asp-controller="MyProfile" asp-route-id="@post.person.Id">@post.person.FullName</a> </p>
+                                <p class="type">@post.person.PersonType</p>
+                            </div>
 
-                                <img src="/files/imgs/@post.person.Image" alt="" /> 
-                            }
-                        </a>
-                        <div class="user-details">
-                            <p class="bold"><a style="text-decoration:none;color:#1eb2a6" asp-action="Profile" asp-controller="MyProfile" asp-route-id="@post.person.Id">@post.person.FullName</a> </p>
-                            <p class="type">@post.person.PersonType</p>
                         </div>
 
-                    </div>
+                        <div class="detail">
+                            <p class="time fs-7">@post.CreatedTime.Value.ToString("dd MMM ,yyy")</p>
 
-                    <div class="detail">
-                        <p class="time">3 hours</p>
-
-                        <div class="dropdown">
-                            <i class="fa-solid fa-list dropbtn" onclick="myFunction()"></i>
-                            <div id="myDropdown" class="dropdown-content">
-                                @if (userinfo.Id != post.person.Id)
-                                {
-                                    <a href="javascript:;" data-id="@post.ID" class="js-hidden"><i class="fa-solid fa-spell-check"></i>Hidden Post</a>
+                            <div class="dropdown">
+                                <i class="fa-solid fa-list dropbtn" onclick="myFunction()"></i>
+                                <div id="myDropdown" class="dropdown-content">
+                                    @if (userinfo.Id != post.person.Id)
+                                    {
+                                        <a href="javascript:;" data-id="@post.ID" class="js-hidden"><i class="fa-solid fa-spell-check"></i>Hidden Post</a>
 
 
-                                }
-                                else
-                                {
-                                    <a href="#home"><i class="fa-solid fa-spell-check"></i>Edit</a>
-                                    <a href="#about"><i class="fa-solid fa-trash-can"></i> Delete</a>
-                                }
+                                    }
+                                    else
+                                    {
+                                        <a href="#home"><i class="fa-solid fa-spell-check"></i>Edit</a>
+                                        <a href="#about"><i class="fa-solid fa-trash-can"></i> Delete</a>
+                                    }
+                                </div>
                             </div>
                         </div>
+
+
+
+
                     </div>
 
+                    @if (post.Image != null)
+                    {
+                        <a data-fslightbox href="~/files/imgs/@post.Image">
+                            <div class="Image" style=" background-image: url(/files/imgs/@post.Image); background-repeat: no-repeat; background-position: center; background-size: cover;width: 100%;height:450px ;">
+                            </div>
+                        </a>
 
+                    }
+                    <div class="Content-detailes">
+                        <div class="Post-body">
 
+                            <a style="text-decoration:none;font-size: 16px; font-weight: 400;  color: #6d6d6d;" asp-action="Detailes" asp-controller="Post" asp-route-id="@post.ID">@post.Body</a>
+                        </div>
+                        <div class="social-react">
+                            <i href="javascript:;" data-title="@post.Comments.Count() Comments  and  @post.Like Likes" data-url="/Comment/Comments/@post.ID" data-update="true" class="fa-solid fa-comment btn btn-dark  js-render-modal"></i>
+                            <i href="javascript:;" data-id="@post.ID" class="fa-solid js-love fa-heart btn @((post.ReactPosts?.Where(c=>c.PersonID==userinfo.Id)?.FirstOrDefault() == null ? "btn-light" : (post.ReactPosts.Where(c=>c.PersonID==userinfo.Id).FirstOrDefault().IsLike == true) ? "btn-danger" : "btn-light"))"></i>
 
+                        </div>
+                    </div>
                 </div>
-
-                @if (post.Image != null)
-                {
-                    <div class="Image" style=" background-image: url(/files/imgs/@post.Image); background-repeat: no-repeat; background-position: center; background-size: cover;width: 100%;height:450px ;">
-                    </div>
-                }
-                <div class="Content-detailes">
-                    <div class="Post-body">
-
-                        <a style="text-decoration:none;font-size: 16px; font-weight: 400;  color: #6d6d6d;" asp-action="Detailes" asp-controller="Post" asp-route-id="@post.ID">@post.Body</a>
-                    </div>
-                    <div class="social-react">
-                        <i href="javascript:;" data-title="@post.Comments.Count() Comments  and  @post.Like Likes" data-url="/Comment/Comments/@post.ID" data-update="true" class="fa-solid fa-comment btn btn-dark  js-render-modal"></i>
-                        <i href="javascript:;" data-id="@post.ID" class="fa-solid js-love fa-heart btn @((post.ReactPosts?.Where(c=>c.PersonID==userinfo.Id)?.FirstOrDefault() == null ? "btn-light" : (post.ReactPosts.Where(c=>c.PersonID==userinfo.Id).FirstOrDefault().IsLike == true) ? "btn-danger" : "btn-light"))"></i>
-
-                    </div>
-                </div>
-            </div>
             </td>
         </tr>
     </table>
 
-   
-    
+
+
     num1++;
     @if (num1 == 10)
     {
@@ -198,7 +203,11 @@
                     {
                         <div style="background:transparent" class="carousel-item  @(num2>0? " " : "active" )">
                             <div class="card" style="width:350px;margin:auto;text-align:center;padding:30px 60px ;background:transparent">
-                                <img style="border-radius:50% ;margin:auto ;width:150px;height:150px" src="/files/imgs/@(doctor.Image == null ?(doctor.gender == 0 ? "men.jpg" : "young-woman-avatar-cartoon-character-profile-picture-young-woman-wearing-blue-t-shirt-avatar-cartoon-character-vector-149732076.jpg") : $"{@doctor.Image}")" class="d-block w-100" alt="...">
+
+                                <a data-fslightbox href="~/files/imgs/@doctor.Image">
+                                    <img style="border-radius:50% ;margin:auto ;width:150px;height:150px" src="/files/imgs/@(doctor.Image == null ?(doctor.gender == 0 ? "men.jpg" : "young-woman-avatar-cartoon-character-profile-picture-young-woman-wearing-blue-t-shirt-avatar-cartoon-character-vector-149732076.jpg") : $"{@doctor.Image}")" class="d-block w-100" alt="...">
+
+                                </a>
 
                                 <div class="card-body">
                                     <h6>@doctor.FullName</h6>
@@ -259,7 +268,7 @@
                     cursor: pointer;
                     padding: 10px;
                     border-radius: 4px;
-                    background:#1eb2a6
+                    background: #1eb2a6
                 }
 
                     #myBtn i {
@@ -267,11 +276,11 @@
                         color: #1EB2A6;
                     }
 
-                        #myBtn:hover, #myBtn i {
+                    #myBtn:hover, #myBtn i {
+                        color: white
+                    }
 
-                            color: white
-                        }
-                            button, .button3 {
+                button, .button3 {
                     background: transparent;
                     color: #1EB2A6;
                     border: 2px solid #1EB2A6;
@@ -280,14 +289,13 @@
                     cursor: pointer;
                 }
 
-                   .button3:hover {
+                    .button3:hover {
                         background: #1EB2A6;
                         color: white;
-
                     }
 
 
-                      /* Start Override Bootbox */
+                /* Start Override Bootbox */
 
                 .bootbox-close-button {
                     position: absolute;
@@ -300,28 +308,29 @@
                     font-size: 20px;
                     margin-bottom: 10px;
                     -webkit-appearance: none;
-                    display:none
+                    display: none
                 }
 
-                .bootbox-accept{
+                .bootbox-accept {
                     background-color: #1EB2A6;
                     border: 2px solid #1EB2A6;
-
                 }
 
-                    .bootbox-accept:hover{
+                    .bootbox-accept:hover {
                         background-color: #1EB2A6;
                         border: 2px solid #1EB2A6;
                     }
-                .bootbox  .modal-dialog  .modal-content{
-                    margin-top:100px;
-                    background-color:rgba(0,0,0,.5);
-                    padding:40px;
-                    min-height:200px
+
+                .bootbox .modal-dialog .modal-content {
+                    margin-top: 100px;
+                    background-color: rgba(0,0,0,.5);
+                    padding: 40px;
+                    min-height: 200px
                 }
-                .bootbox-body{
-                    text-align:center;
-                    color:white;
+
+                .bootbox-body {
+                    text-align: center;
+                    color: white;
                     font-size: 20px;
                     margin-top: 40px;
                 }
@@ -333,20 +342,20 @@
         }
         @section JS{
             <script src="~/dashboard/lib/jquery/jquery.min.js"></script>
-           
+
             <script src="~/dashboard/lib/plugins.bundle.js"></script>
             <script src="~/dashboard/lib/bootbox.js/bootbox.js"></script>
             <script type="text/javascript">
                 $(document).ready(function () {
-                  
-                       
-                  
+
+
+
                     $('.js-hidden').on('click', function () {
-                       
+
                         var btn = $(this);
                         bootbox.confirm({
                             message: "Are you sure that you need to Hidden this Post?",
-                             className: 'rubberBand animated',
+                            className: 'rubberBand animated',
                             buttons: {
                                 confirm: {
                                     label: 'Yes',
@@ -359,23 +368,23 @@
                             },
                             callback: function (result) {
                                 if (result) {
-                        $.post({
-                            url: '/Post/Hidden/' + btn.data('id'),
-                            success: function () {
-                                var row = btn.parents('tr');
-                                var status = row.find('.js-Posthidden');
-                                status.toggleClass('d-block d-none');
-                            } 
-                       ,
-                            error: function () {
-                                showErrorMessage();
+                                    $.post({
+                                        url: '/Post/Hidden/' + btn.data('id'),
+                                        success: function () {
+                                            var row = btn.parents('tr');
+                                            var status = row.find('.js-Posthidden');
+                                            status.toggleClass('d-block d-none');
+                                        }
+                                        ,
+                                        error: function () {
+                                            showErrorMessage();
+                                        }
+                                    });
+                                }
                             }
                         });
-                    }
-                }
-            });
                     });
-        });
+                });
             </script>
 
             <script>

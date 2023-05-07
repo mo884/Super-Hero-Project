@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using NuGet.DependencyResolver;
 using SuperHero.BL.Helper;
 using SuperHero.BL.Interface;
 using SuperHero.BL.Seeds;
@@ -129,6 +130,53 @@ namespace SuperHero.PL.Controllers.Admin.Persons
             TempData["Message"] = null;
             ViewBag.districtList = new SelectList(await district.GetAll(), "Id", "Name");
             return View(model);
+        }
+        #endregion
+
+        #region Registration 
+        [HttpGet]
+        public IActionResult Registration()
+        {
+            return PartialView("Registration");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Registration(CreatePerson model)
+        {
+            try
+            {
+                //Add Trainer Image
+                model.Image = FileUploader.UploadFile("Imgs", model.ImageName);
+                //Add Trainer
+                var result = await userManager.CreateAsync(await Service.Add(model, 3), model.PasswordHash);
+                //Get Trainer By Name
+                var trainer = await servis.GetBYUserName(model.UserName);
+                //Add Trainer Role
+                var role = await roleManager.FindByNameAsync(AppRoles.User);
+                //Add Trainer in table Role
+                var result1 = await userManager.AddToRoleAsync(trainer, role.Name);
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("Login", "Account");
+                }
+                else
+                {
+                    foreach (var item in result.Errors)
+                    {
+                        ModelState.AddModelError("", item.Description);
+                    }
+                }
+
+
+                return PartialView("Registration", model);
+            }
+         
+             catch (Exception)
+            {
+
+                return PartialView("Registration", model);
+            }
+
         }
         #endregion
     }

@@ -1,0 +1,287 @@
+﻿@model CreatePerson
+@inject IServiesRep servis
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="~/registration/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lobster&family=Oswald:wght@500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" />
+    <!----===== Iconscout CSS ===== -->
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css" />
+
+
+
+    <link href="~/registration/main.css" rel="stylesheet" />
+    <link href="~/firstpage/image/flash.svg" rel="icon">
+    <link href="~/dashboard/patient.css" rel="stylesheet" />
+
+    <title>Registration</title>
+</head>
+<body style="background:white">
+    <div class="row Reg">
+        <div class="col-sm-1"></div>
+        <div class="col-sm-10">
+            <div class="row ">
+                <div class="col-sm-6">
+                    <div class="content1  ">
+                        <h2>
+                            <span class="fast-flicker"> Trainer </span>
+                        </h2>
+                        <p>
+                            Rem id rerum. Debitis deserunt quidem delectus expedita ducimus dolor.
+                            Aut iusto ipsa. Eos ipsum nobis ipsa soluta itaque perspiciatis fuga ipsum perspiciatis
+                            Aut iusto ipsa. Eos ipsum nobis ipsa soluta itaque perspiciatis fuga
+                        </p>
+
+                        <div class="words word-1">
+                            <span>S </span>
+                            <span>U </span>
+                            <span>P </span>
+                            <span>E </span>
+                            <span>R </span>
+                        </div>
+
+
+
+                        <div class="words word-2">
+                            <span>H </span>
+                            <span>E </span>
+                            <span>R </span>
+                            <span>O </span>
+                            <span>E</span>
+                            <span>S </span>
+
+                        </div>
+                        <div class="words word-2">
+                            <span>T</span>
+                            <span>R </span>
+                            <span>A </span>
+                            <span>I </span>
+                            <span>N</span>
+                            <span>E </span>
+                            <span>R </span>
+                        </div>
+                        <div class="words word-2">
+                            <span>N</span>
+                            <span>E </span>
+                            <span>V </span>
+                            <span>E </span>
+                            <span>R</span>
+
+                        </div>
+                        <div class="words word-2">
+                            <span>G</span>
+                            <span>I </span>
+                            <span>V </span>
+                            <span>E </span>
+
+
+                        </div>
+                        <div class="words word-2">
+                            <span>U</span>
+                            <span>P </span>
+
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="content1 ">
+                        <form class="login d-flex " asp-controller="Trainer" enctype="multipart/form-data" asp-action="Registration">
+
+                            <div class="formcontent ">
+                                <h2>
+                                    <span> Registration</span>
+                                </h2>
+                                <div class="row">
+                                    <div class="col-md-3 ">
+                                    </div>
+                                    <div class="col-md-6 ">
+                                        <img asp-for="ImageName" id="Preview" style="width:100%;height:250px ;border-radius:50%" src="~/Files/Imgs/Men.jpg" />
+                                    </div>
+                                    <div class="col-md-3 ">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-5 ">
+                                    </div>
+                                    <div class="col-md-2 ">
+                                        <div asp-for="ImageName" class='file file--uploading'>
+                                            <label class="label" for='input-file'>
+                                                <i class="fa-solid fa-upload"></i>
+
+
+                                            </label>
+                                            <input onchange="document.getElementById('Preview').src = window.URL.createObjectURL(this.files[0])" id='input-file' asp-for="ImageName" type='file' />
+                                        </div>
+                                        <span asp-validation-for="ImageName" class="text-danger d-block"></span>
+                                    </div>
+                                    <div class="col-md-5 ">
+                                    </div>
+                                </div>
+                                <div class="row">
+
+                                    <div class="col-sm-6">
+                                        <input type="text" asp-for="FullName" class="form-control" placeholder="Full Name">
+                                        <span class="text-danger" asp-validation-for="FullName"></span>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <input type="text" asp-for="UserName" class="form-control" placeholder="User Name" required="">
+                                        <span class="text-danger" asp-validation-for="UserName"></span>
+                                    </div>
+                                </div>
+
+                                <input type="email" asp-for="Email" class="form-control" placeholder="Email" required="">
+                                <span class="text-danger" asp-validation-for="Email"></span>
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <input type="password" asp-for="PasswordHash" class="form-control" placeholder="password" required="">
+                                        <span class="text-danger" asp-validation-for="PasswordHash"></span>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <input type="password" asp-for="ConfirmPassword" class="form-control" placeholder="Confirm password" required="">
+                                        <span class="text-danger" asp-validation-for="ConfirmPassword"></span>
+                                    </div>
+                                </div>
+
+
+                                <br />
+
+                                <input asp-for="trainer.Graduation" class="form-control" placeholder="Graduation">
+
+                                <span class="text-danger" asp-validation-for="trainer.Graduation"></span>
+                                <br />
+                                <div class="row"></div>
+                                <select asp-for="gender" class="form-select" aria-label="Default select example">
+                                    <option value="0">Male</option>
+                                    <option value="1">Female</option>
+                                </select>
+                                <span class="text-danger" asp-validation-for="gender"></span>
+                                <br>
+
+                                <div class="row">
+                                    <div class="col-sm-4">
+                                        <select class="form-control select" id="GoverList">
+                                            <option>Governate</option>
+                                            @foreach (var item in await servis.GetGovAsync())
+                                            {
+
+                                                <option value="@item.ID">@item.Name</option>
+                                            }
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <select class="form-control select" id="CityList">
+                                            <option>City</option>
+
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <select asp-for="districtID" class="form-control select">
+                                            <option>District</option>
+
+                                        </select>
+                                        <span class="text-danger" asp-validation-for="districtID"></span>
+                                    </div>
+                                </div>
+
+
+                                <br>
+
+
+                                <div class="sent-message">Your quote request has been sent successfully. Thank you!</div>
+                                <button type="submit">Get a quote</button>
+
+                            </div>
+                        </form>
+                        <div asp-validation-summary="All"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-1"></div>
+    </div>
+
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js" integrity="sha512-pumBsjNRGGqkPzKHndZMaAG+bir374sORyzM3uulLV14lN5LyykqNk8eEeUlUkB3U0M4FApyaHraT65ihJhDpQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="~/registration/bootstrap/js/bootstrap.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+
+            $("#GoverList").change(function () {
+
+                var goverList = $("#GoverList option:selected").val();
+                $("#CityList").empty();
+
+                $.ajax({
+                    type: "post",
+                    url: "/Person/GetCityBtGonvId",
+                    data: { goverId: goverList },
+                    cash: false,
+
+                    success: function (res) {
+                        console.log(res);
+
+                        $.each(res, function (i, e) {
+                            if (typeof res == "string") {
+                                console.log(res.message);
+                            }
+                            $("#CityList").append("<option value='" + e.ID + "'>" + e.Name + "</option>")
+                        });
+                        $("select").selectpicker("refresh");
+                    },
+                    error: function (x, m, z) {
+
+                        console.log(x);
+                        console.log(m);
+                        console.log(z);
+                    }
+                });
+            });
+            $("#CityList").change(function () {
+
+                var Cityid = $("#CityList option:selected").val();
+                $("#districtID").empty();
+
+                $.ajax({
+                    type: "POST",
+                    url: "/Person/GetDistricByIdCity",
+                    data: { CityId: Cityid },
+                    success: function (res) {
+                        $.each(res, function (i, e) {
+                            $("#districtID").append("<option value='" + e.Id + "'>" + e.Name + "</option>")
+                        });
+                        $("select").selectpicker("refresh");
+                    }
+                });
+            });
+        });
+
+
+    </script>
+
+    <script src="~/dashboard/lib/jquery/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="~/jquery-validation/additional-methods.js"></script>
+    <script src="~/jquery-validation/jquery.validate.js"></script>
+    <script src="~/identity/js/validation-styling.js"></script>
+    <script src="~/jquery-validation/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

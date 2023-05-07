@@ -89,7 +89,11 @@ namespace SuperHero.PL.Controllers
                         return View(model);
 
                     }
-                    return RedirectToAction("GetAll", "SocialPatient");
+                    if(userEmail.PersonType == DAL.Enum.PersonType.User || userEmail.PersonType == DAL.Enum.PersonType.Doner)
+                        return RedirectToAction("GetAll", "SocialPatient");
+                    else
+                        return RedirectToAction("GetAll", "Post");
+
 
                 }
 

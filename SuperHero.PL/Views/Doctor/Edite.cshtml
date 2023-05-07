@@ -1,4 +1,5 @@
 ﻿@model PersonVM
+@inject IServiesRep servis
 @{
     ViewData["Title"] = "Doctor";
     Layout = "~/Views/AdminLayout/_Layout.cshtml";
@@ -19,47 +20,58 @@
                     <div class="mb-5">
                         <div class="form-floating mb-2">
                             <input type="text" class="form-control" placeholder="Name" asp-for="FullName" />
-                            <label>Full Name</label>
+                           
                         </div>
                         <span asp-validation-for="FullName" class="text-danger"></span>
                     </div>
                     <div class="mb-5">
                         <div class="form-floating mb-2">
                             <input type="text" class="form-control" placeholder="Email" asp-for="Email" />
-                            <label asp-for="Email"></label>
+                            
                         </div>
                         <span asp-validation-for="Email" class="text-danger"></span>
                     </div>
 
                     <div class="mb-5">
-                        <div class="form-floating mb-2">
-                            <input type="Name" class="form-control" placeholder="ClinicName" asp-for="doctor.ClinicName" />
-                            <label>Clinic</label>
-                        </div>
-                        <span asp-validation-for="doctor.ClinicName" class="text-danger"></span>
+                       
+                          
+                       
+                            <input type="text" asp-for="doctor.ClinicName" class="form-control" placeholder="Clinic Name" required="">
+                            <span class="text-danger" asp-validation-for="doctor.ClinicName"></span>
+                      
                     </div>
 
                     <div class="mb-5">
-                        <div class="form-floating mb-2">
-                            <input type="Name" class="form-control" placeholder="ClinicAdress" asp-for="doctor.ClinicAdress" />
-                            <label>Doctor Clinic</label>
-                        </div>
-                        <span asp-validation-for="doctor.ClinicAdress" class="text-danger"></span>
+
+
+
+                        <input type="text" asp-for="doctor.ClinicAdress" class="form-control" placeholder="Clinic Adress" required="">
+                        <span class="text-danger" asp-validation-for="doctor.ClinicAdress"></span>
+                      
+                    </div>
+                   
+
+                    <div asp-for="doctor.Cv_Name" class='file file--uploading'>
+                        <label class="label" for='input-file'>
+                            <i class="fa-solid fa-upload"></i>
+
+                           CV
+                        </label>
+                        <input id='input-file' asp-for="doctor.Cv_Name" type='file' />
                     </div>
 
-                    <div class="mb-5">
-                        <div class="form-floating mb-2">
-                            <input type="file" class="form-control" placeholder="ClinicAdress" asp-for="doctor.Cv_Name" />
-                            <label>CV</label>
-                        </div>
-                        <span asp-validation-for="doctor.Cv_Name" class="text-danger"></span>
-                    </div>
+                   
                     <br />
-                    
-                   <label asp-for="ImageName" class="file-upload">
-                      <input asp-for="ImageName" class="input" type="file" multiple accept="image/*, video/*" />
-                      <span asp-for="ImageName" class="file-upload_button"><label asp-for="ImageName"></label><i class="uil uil-camera-plus"></i></span>
-                   </label>
+                    <div asp-for="ImageName" class='file file--uploading'>
+                        <label class="label" for='input-file'>
+                            <i class="fa-solid fa-upload"></i>
+
+                            Change Image
+                        </label>
+                        <input id='input-file' asp-for="ImageName" type='file' />
+                    </div>
+
+                 
                       <output class="file-upload_result"></output>
                     <br />
                     <div class="mb-5">
@@ -73,6 +85,34 @@
 
                     </div>
 
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <select class="form-control select" id="GoverList">
+                                <option>Governate</option>
+                                @foreach (var item in await servis.GetGovAsync())
+                                {
+
+                                    <option value="@item.ID">@item.Name</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="col-sm-4">
+                            <select class="form-control select" id="CityList">
+                                <option>City</option>
+
+                            </select>
+                        </div>
+                        <div class="col-sm-4">
+                            <select asp-for="districtID" class="form-control select">
+                                <option>District</option>
+
+                            </select>
+                            <span class="text-danger" asp-validation-for="districtID"></span>
+                        </div>
+                    </div>
+
+
+                    <br>
 
                     <br />
 
@@ -124,10 +164,66 @@
     </div>
 </div>
 
+
 @section CSS{
     <partial name="~/views/person/Partial/css.cshtml" />
 
 }
     @section JqueryValidation{
     <partial name="~/views/person/Partial/Script.cshtml" />
+    
+<script>
+    $(document).ready(function () {
+
+        $("#GoverList").change(function () {
+
+            var goverList = $("#GoverList option:selected").val();
+            $("#CityList").empty();
+
+            $.ajax({
+                type: "post",
+                url: "/Person/GetCityBtGonvId",
+                data: { goverId: goverList },
+                cash: false,
+
+                success: function (res) {
+                    console.log(res);
+
+                    $.each(res, function (i, e) {
+                        if (typeof res == "string") {
+                            console.log(res.message);
+                        }
+                        $("#CityList").append("<option value='" + e.ID + "'>" + e.Name + "</option>")
+                    });
+                    $("select").selectpicker("refresh");
+                },
+                error: function (x, m, z) {
+
+                    console.log(x);
+                    console.log(m);
+                    console.log(z);
+                }
+            });
+        });
+        $("#CityList").change(function () {
+
+            var Cityid = $("#CityList option:selected").val();
+            $("#districtID").empty();
+
+            $.ajax({
+                type: "POST",
+                url: "/Person/GetDistricByIdCity",
+                data: { CityId: Cityid },
+                success: function (res) {
+                    $.each(res, function (i, e) {
+                        $("#districtID").append("<option value='" + e.Id + "'>" + e.Name + "</option>")
+                    });
+                    $("select").selectpicker("refresh");
+                }
+            });
+        });
+    });
+
+
+</script>
 }

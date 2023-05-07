@@ -14,7 +14,7 @@ using System.Security.Cryptography;
 
 namespace SuperHero.PL.Controllers.Admin.Persons
 {
-    [Authorize(Roles = $"{AppRoles.Doctor}, {AppRoles.Admin}")]
+    //[Authorize(Roles = $"{AppRoles.Doctor}, {AppRoles.Admin}")]
 
     public class PersonController : Controller
     {

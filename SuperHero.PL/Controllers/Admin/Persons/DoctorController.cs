@@ -156,22 +156,41 @@ namespace SuperHero.PL.Controllers.Admin.Persons
         [HttpPost]
         public async Task<IActionResult> Registration(CreatePerson model)
         {
-            //Add Doctor
-            var result = await userManager.CreateAsync(await Service.Add(model, 1), model.PasswordHash);
+            try
+            {
+                //Add Doctor Image
+                model.Image = FileUploader.UploadFile("Imgs", model.ImageName);
+                //Add Doctor
+                var result = await userManager.CreateAsync(await Service.Add(model, 1), model.PasswordHash);
+                //Get Doctor By Name
+                var Doctor = await servis.GetBYUserName(model.UserName);
+                //Get Role Doctor
+                var role = await roleManager.FindByNameAsync(AppRoles.Doctor);
+                //Add Doctor in table Role
+                var result1 = await userManager.AddToRoleAsync(Doctor, role.Name);
 
-            if (result.Succeeded)
-            {
-                return RedirectToAction("Login", "Account");
-            }
-            else
-            {
-                foreach (var item in result.Errors)
+
+                if (result.Succeeded)
                 {
-                    ModelState.AddModelError("", item.Description);
+                    return RedirectToAction("Login", "Account");
                 }
+                else
+                {
+                    foreach (var item in result.Errors)
+                    {
+                        ModelState.AddModelError("", item.Description);
+                    }
+                }
+
+                return PartialView("Registration", model);
+
+            }
+            catch (Exception)
+            {
+
+                return PartialView("Registration", model);
             }
 
-            return PartialView("Registration", model);
         }
         #endregion
 

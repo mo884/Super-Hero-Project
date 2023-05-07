@@ -1,10 +1,14 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using SuperHero.BL.Helper;
 using SuperHero.BL.Interface;
+using SuperHero.BL.Seeds;
 using SuperHero.DAL.Entities;
+using System.Data;
 
 namespace SuperHero.PL.Controllers.PatientProfile
 {
+    //[Authorize(Roles = $"{AppRoles.User}")]
     [Route("/api/Social")]
     public class SocialPatientController : Controller
     {

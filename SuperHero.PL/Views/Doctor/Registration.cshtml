@@ -10,12 +10,17 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lobster&family=Oswald:wght@500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" />
     <!----===== Iconscout CSS ===== -->
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css" />
-    <link href="~/dashboard/lib/style.bundle.css" rel="stylesheet" />
+
+
+
     <link href="~/registration/main.css" rel="stylesheet" />
     <link href="~/firstpage/image/flash.svg" rel="icon">
-    <title>Document</title>
+    <link href="~/dashboard/patient.css" rel="stylesheet" />
+
+    <title>Registration</title>
 </head>
 <body style="background:white">
     <div class="row Reg">
@@ -25,7 +30,7 @@
                 <div class="col-sm-6">
                     <div class="content1  ">
                         <h2>
-                            <span class="fast-flicker"> Doctor</span>
+                            <span class="fast-flicker"> Patient</span>
                         </h2>
                         <p>
                             Rem id rerum. Debitis deserunt quidem delectus expedita ducimus dolor.
@@ -61,45 +66,62 @@
                             <span>R </span>
                            
                         </div>
+                        <div class="words word-2">
+                            <span>N</span>
+                            <span>E </span>
+                            <span>V </span>
+                            <span>E </span>
+                            <span>R</span>
+
+                        </div>
+                        <div class="words word-2">
+                            <span>G</span>
+                            <span>I </span>
+                            <span>V </span>
+                            <span>E </span>
+
+
+                        </div>
+                        <div class="words word-2">
+                            <span>U</span>
+                            <span>P </span>
+
+
+                        </div>
                     </div>
                 </div>
                 <div class="col-sm-6">
                     <div class="content1 ">
-                        <form class="login d-flex " asp-controller="Doctor" asp-action="Registration">
+                        <form class="login d-flex " asp-controller="Doctor" enctype="multipart/form-data" asp-action="Registration">
 
                             <div class="formcontent ">
                                 <h2>
                                     <span> Registration</span>
                                 </h2>
                                 <div class="row">
-                                    <div class="col-md-4"></div>
-                                    <div class="col-md-4 ">
-                                        <div class="image-input image-input-empty mb-10" data-kt-image-input="true" style="background-image:url(/files/imgs/men.jpg);margin:auto">
-                                            <div class="image-input-wrapper w-250px h-250px"></div>
-                                            <label class="btn btn-icon btn-circle btn-color-muted btn-active-color-primary w-25px h-25px bg-body shadow"
-                                                   data-kt-image-input-action="change"
-                                                   data-bs-dismiss="click">
-                                                <i class="uil uil-pen"></i>
+                                    <div class="col-md-3 ">
+                                    </div>
+                                    <div class="col-md-6 ">
+                                        <img asp-for="ImageName" id="Preview" style="width:100%;height:250px ;border-radius:50%" src="~/Files/Imgs/Men.jpg" />
+                                    </div>
+                                    <div class="col-md-3 ">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-5 ">
+                                    </div>
+                                    <div class="col-md-2 ">
+                                        <div asp-for="ImageName" class='file file--uploading'>
+                                            <label class="label" for='input-file'>
+                                                <i class="fa-solid fa-upload"></i>
 
-                                                <input type="file" asp-for="ImageName" accept=".png, .jpg, .jpeg" />
-                                                <input type="hidden" asp-for="ImageName" name="avatar_remove" />
 
                                             </label>
-
-                                            <span class="btn btn-icon btn-circle btn-color-muted btn-active-color-primary w-25px h-25px bg-body shadow"
-                                                  data-kt-image-input-action="cancel"
-                                                  data-bs-dismiss="click">
-                                                <i class="uil uil-times-circle"></i>
-                                            </span>
-
-                                            <span class="btn btn-icon btn-circle btn-color-muted btn-active-color-primary w-25px h-25px bg-body shadow"
-                                                  data-kt-image-input-action="remove"
-                                                  data-bs-dismiss="click">
-                                                <i class="bi bi-x fs-2"></i>
-                                            </span>
-
+                                            <input onchange="document.getElementById('Preview').src = window.URL.createObjectURL(this.files[0])" id='input-file' asp-for="ImageName" type='file' />
                                         </div>
-                                        <span asp-validation-for="Image" class="text-danger d-block"></span>
+                                        <span asp-validation-for="ImageName" class="text-danger d-block"></span>
+                                    </div>
+                                    <div class="col-md-5 ">
                                     </div>
                                 </div>
                                 <div class="row">
@@ -126,25 +148,24 @@
                                         <span class="text-danger" asp-validation-for="ConfirmPassword"></span>
                                     </div>
                                 </div>
-
-
                                 <br />
                                 <div class="row">
+
                                     <div class="col-sm-6">
-                                        <input type="file" asp-for="doctor.Cv_Name" />
-                                        <span class="text-danger" asp-validation-for="doctor.Cv_Name"></span>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <input type="text" asp-for="doctor.ClinicName" class="form-control" placeholder="ClinicName" required="">
+                                        <input type="text" asp-for="doctor.ClinicName" class="form-control" placeholder="Clinic Name" required="">
                                         <span class="text-danger" asp-validation-for="doctor.ClinicName"></span>
                                     </div>
+                                    <div class="col-sm-6">
+                                        <input type="text" asp-for="doctor.ClinicAdress" class="form-control" placeholder="Clinic Adress" required="">
+                                        <span class="text-danger" asp-validation-for="doctor.ClinicAdress"></span>
+                                    </div>
                                 </div>
-                               <br />
-                                <input type="text" asp-for="doctor.ClinicAdress" class="form-control" placeholder="ClinicAdress" required="">
-                                <span class="text-danger" asp-validation-for="doctor.ClinicAdress"></span>
+
+                                <br />
+
                               
-                             
-                              <br />
+                              
+                                <br />
                                 <div class="row"></div>
                                 <select asp-for="gender" class="form-select" aria-label="Default select example">
                                     <option value="0">Male</option>
@@ -171,7 +192,7 @@
                                         </select>
                                     </div>
                                     <div class="col-sm-4">
-                                        <select asp-for="districtID" class="form-control select" >
+                                        <select asp-for="districtID" class="form-control select">
                                             <option>District</option>
 
                                         </select>
@@ -188,6 +209,7 @@
 
                             </div>
                         </form>
+                        <div asp-validation-summary="All"></div>
                     </div>
                 </div>
             </div>
@@ -213,7 +235,7 @@
                     url: "/Person/GetCityBtGonvId",
                     data: { goverId: goverList },
                     cash: false,
-                    
+
                     success: function (res) {
                         console.log(res);
 
@@ -225,7 +247,7 @@
                         });
                         $("select").selectpicker("refresh");
                     },
-                    error:function(x,m,z){
+                    error: function (x, m, z) {
 
                         console.log(x);
                         console.log(m);
@@ -254,10 +276,22 @@
 
 
     </script>
+
+    <script src="~/dashboard/lib/jquery/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="~/jquery-validation/additional-methods.js"></script>
     <script src="~/jquery-validation/jquery.validate.js"></script>
     <script src="~/identity/js/validation-styling.js"></script>
     <script src="~/jquery-validation/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
-    <script src="~/dashboard/lib/plugins.bundle.js"></script>
+
+
+
+
+
+
+
+
+
+
 </body>
 </html>
