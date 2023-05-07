@@ -51,6 +51,7 @@ namespace SuperHero.BL.Interface
         Task<Person> GetPatientRecord(string PatientId);
         Task<List<Analysis>> GetAllAnalysisbyId(int userinfo);
         Task Create(DoctorAnalysis analysis, string DoctorId);
+        Task CreateBYUser(DoctorAnalysis analysis);
         Task<List<Treatment>> GetAllTreatmentbyId(int userinfo);
         Task CreateTreatment(DoctorTreatment Treatment, string DoctorId);
         Task<List<Radiology>> GetAllRadiologybyId(int userinfo);

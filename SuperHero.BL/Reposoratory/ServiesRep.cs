@@ -439,6 +439,22 @@ namespace SuperHero.BL.Reposoratory
              Db.Analyses.Add(data);
              Db.SaveChanges();
         }
+        public async Task CreateBYUser(DoctorAnalysis analysis)
+        {
+            analysis.patient = await Db.UserInfos.Where(a => a.ID == analysis.personID).FirstOrDefaultAsync();
+
+            var data = new Analysis()
+            {
+                Name = analysis.Name,
+                personID = analysis.personID,
+                patient = analysis.patient,
+                AnalysisPDF = analysis.AnalysisPDF,
+                IsAdd = true
+            };
+
+            Db.Analyses.Add(data);
+            Db.SaveChanges();
+        }
         #endregion
 
         #region Get Treatment

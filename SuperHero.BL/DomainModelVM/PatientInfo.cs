@@ -21,5 +21,7 @@ namespace SuperHero.BL.DomainModelVM
         public List<RadiologyVM>? RadiologyVMs { get; set; }
         [Required(ErrorMessage ="Upload File")]
         public IFormFile uploade { get; set; }
+        
+        public string? Name { get; set; }
     }
 }

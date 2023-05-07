@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using SuperHero.BL.DomainModelVM;
 using SuperHero.BL.Interface;
 using SuperHero.DAL.Entities;
 
@@ -52,6 +53,21 @@ namespace SuperHero.PL.Controllers.PrivateClinic
             var user = await signInManager.UserManager.FindByNameAsync(User.Identity.Name);
             await servies.Create(analysisVM,user.Id);
             return RedirectToAction("PatientRecord", "DoctorHome", new { id = analysisVM.patient.UserID });
+        }
+        [HttpPost]
+        public async Task<IActionResult> CreateBYUser(PatientInfo analysisVM)
+        {
+           
+            var user = await signInManager.UserManager.FindByNameAsync(User.Identity.Name);
+            var Patient = await servies.GetPatientBYID(user.Id);
+            var Data = new DoctorAnalysis {
+                AnalysisPDF = FileUploader.UploadFile("PDF", analysisVM.uploade),
+                Name = analysisVM.Name,
+                personID = Patient.ID
+            };
+
+            await servies.CreateBYUser(Data);
+            return RedirectToAction("Profile", "MyProfile", new { id = user.Id });
         }
         [HttpPost]
         public async Task<IActionResult> AddByPatient(int id)
