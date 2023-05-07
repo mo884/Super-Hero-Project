@@ -89,6 +89,10 @@
         "js/select2.min.js",
         "css/select2.min.css"
       ]
+    },
+    {
+      "library": "fslightbox@3.4.1",
+      "destination": "wwwroot/Dashboard/Lib/fslightbox/"
     }
   ]
 }

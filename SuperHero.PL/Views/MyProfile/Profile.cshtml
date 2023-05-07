@@ -47,31 +47,34 @@
         <p>@Model.district.Name / @Model.district.City.Name</p>
         @if (Model.personType.ToString().Equals(SuperHero.DAL.Enum.PersonType.Doctor.ToString()))
         {
-
-            @if (Model.doctorRating == null)
-            {
-                <a href="javascript:;" data-url="/Reating/Reating/@Model.Id" data-update="true" class=" btn btn-light js-render-Rating"><i style="color:#f59f00" class="fa-solid fa-star"></i> <i style="color:#f59f00" class="fa-solid fa-star"></i> <i style="color:#f59f00" class="fa-solid fa-star"></i> </a>
-            }
-            else
-            {
-                @if (Model.doctorRating.PersonIsReating == false)
+            if(Model.Id != userinfo.Id){
+                @if (Model.doctorRating == null)
                 {
-                    <a href="javascript:;" data-url="/Reating/Reating/@Model.Id" data-update="true" class="button js-render-Rating"><i class="fa-solid fa-star-sharp-half-stroke"></i>  </a>
+                    <a href="javascript:;" data-url="/Reating/Reating/@Model.Id" data-update="true" class=" btn btn-light js-render-Rating"><i style="color:#f59f00" class="fa-solid fa-star"></i> <i style="color:#f59f00" class="fa-solid fa-star"></i> <i style="color:#f59f00" class="fa-solid fa-star"></i> </a>
                 }
-            }
-            @if (Ischeck == null)
-            {
-                <a href="javascript:;" data-url="/MyProfile/Record/@Model.Id" data-update="true" class=" btn btn-light js-Record-modal"><i style="color:#1EB2A6" class="fa-solid fa-clipboard fa-flip"></i></a>
-
-            }
-            else
-            {
-                @if (Ischeck.IsCheck)
+                else
+                {
+                    @if (Model.doctorRating.PersonIsReating == false)
+                    {
+                        <a href="javascript:;" data-url="/Reating/Reating/@Model.Id" data-update="true" class="button js-render-Rating"><i class="fa-solid fa-star-sharp-half-stroke"></i>  </a>
+                    }
+                }
+                @if (Ischeck == null)
                 {
                     <a href="javascript:;" data-url="/MyProfile/Record/@Model.Id" data-update="true" class=" btn btn-light js-Record-modal"><i style="color:#1EB2A6" class="fa-solid fa-clipboard fa-flip"></i></a>
 
                 }
+                else
+                {
+                    @if (Ischeck.IsCheck)
+                    {
+                        <a href="javascript:;" data-url="/MyProfile/Record/@Model.Id" data-update="true" class=" btn btn-light js-Record-modal"><i style="color:#1EB2A6" class="fa-solid fa-clipboard fa-flip"></i></a>
+
+                    }
+                }
             }
+
+          
 
 
 

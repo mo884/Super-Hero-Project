@@ -504,24 +504,63 @@ namespace SuperHero.BL.Reposoratory
             Db.Radiologies.Add(data);
             Db.SaveChanges();
         }
+        public async Task CreateRadiologyBYPatient(DoctorRadiology Radiology)
+        {
+            Radiology.patient = await Db.UserInfos.Where(a => a.ID == Radiology.personID).FirstOrDefaultAsync();
+
+            var data = new Radiology()
+            {
+                Name = Radiology.Name,
+                personID = Radiology.personID,
+                patient = Radiology.patient, 
+                XRay = Radiology.XRay, 
+                IsAdd = true,
+            };
+
+            Db.Radiologies.Add(data);
+            Db.SaveChanges();
+        }
         #endregion
 
 
         #region Record && Clicnic 
         public async Task SaveRecord(string PersonId, string DoctorId, Recorder record)
         {
+            var Record =await Db.Recorders.Where(a => a.DoctorID == DoctorId && PersonId == a.PatientID).FirstOrDefaultAsync();
             var person = await Db.Persons.Where(a => a.Id == PersonId).FirstOrDefaultAsync();
-            var data = new Recorder()
+            if (Record == null)
             {
-                PatientID = PersonId,
-                DoctorID = DoctorId,
-                IsCheck = false,
-                Patient=person,
-                RecodDate = record.RecodDate,
-            };
+                var data = new Recorder()
+                {
+                    PatientID = PersonId,
+                    DoctorID = DoctorId,
+                    IsCheck = false,
+                    Patient = person,
+                    RecodDate = record.RecodDate,
+                };
+
+                Db.Recorders.Add(data);
+                Db.SaveChanges();
+            }
+            else
+            {
+                if (Record.IsCheck)
+                {
+                    Record.IsCheck = false;
+                    Record.RecodDate = record.RecodDate;
+                   
+                }
+                else
+                {
+                    Record.IsCheck = true;
+                    Record.RecodDate = record.RecodDate;
+
+                }
+                Db.Recorders.Update(Record);
+                Db.SaveChanges();
+            }
            
-            Db.Recorders.Add(data);
-            Db.SaveChanges();
+          
         }
 
         //Get All Patient Record

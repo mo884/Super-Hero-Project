@@ -64,6 +64,22 @@ namespace SuperHero.PL.Controllers.PrivateClinic
             return RedirectToAction("PatientRecord", "DoctorHome", new { id = Radiology.patient.UserID });
         }
         [HttpPost]
+        public async Task<IActionResult> CreateBYUser(PatientInfo analysisVM)
+        {
+
+            var user = await signInManager.UserManager.FindByNameAsync(User.Identity.Name);
+            var Patient = await servies.GetPatientBYID(user.Id);
+            var Data = new DoctorRadiology
+            {
+                XRay = FileUploader.UploadFile("PDF", analysisVM.uploade),
+                Name = analysisVM.Name,
+                personID = Patient.ID
+            };
+
+            await servies.CreateRadiologyBYPatient(Data);
+            return RedirectToAction("Profile", "MyProfile", new { id = user.Id });
+        }
+        [HttpPost]
         public async Task<IActionResult> Edit(PatientInfo patientInfo)
         {
             var data = await radiology.GetByID(patientInfo.ID);
