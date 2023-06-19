@@ -172,7 +172,7 @@ namespace SuperHero.BL.Reposoratory
         }
         public async Task<Person> GetPatientProfile(string id)
         {
-            var user =await Db.Persons.Where(a => a.Id == id).Include("district").Include("patient").FirstOrDefaultAsync();
+            var user =await Db.Persons.Where(a => a.Id == id).Include("district").Include("friends").Include("patient").FirstOrDefaultAsync();
             user.district.City = await Db.Cities.Where(a => a.ID == user.district.CityId).SingleOrDefaultAsync();
             user.patient.Treatments = await GetAllTreatmentbyId(user.patient.ID);
             user.patient.Analyses = await GetAllAnalysisbyId(user.patient.ID);

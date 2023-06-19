@@ -6,7 +6,7 @@ using SuperHero.DAL.Entities;
 
 namespace SuperHero.PL.Controllers.Admin
 {
-    [Authorize(Roles = AppRoles.Admin)]
+    
     public class RolesController : Controller
     {
         #region prop

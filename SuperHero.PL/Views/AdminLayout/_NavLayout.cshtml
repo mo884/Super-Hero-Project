@@ -1,7 +1,14 @@
 ﻿@*@model List<PersonVM>*@
 @using Microsoft.AspNetCore.Identity;
 @inject SignInManager<Person> signInManager
- @{var userinfo = await signInManager.UserManager.FindByNameAsync(User.Identity.Name);}
+@{
+    dynamic userinfo = null;
+    if( signInManager.IsSignedIn(User))
+    {
+         userinfo = await signInManager.UserManager.FindByNameAsync(User.Identity.Name);
+    }
+   
+}
 <div class="top">
     <i class="uil uil-bars sidebar-toggle"></i>
 @*
@@ -17,7 +24,7 @@
             <a class="" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
        @if (signInManager.IsSignedIn(User))
         {
-
+             
            
             @if (@userinfo.Image == null)
             {
@@ -47,12 +54,14 @@
                 <a class="dropdown-item" href="#">
                     <i class="uil uil-edit"></i>
                     Edit
-                </a>
+                </a> 
+                @if( !signInManager.IsSignedIn(User))
+                {
                 <a class="dropdown-item"  asp-controller="Account" asp-action="LogOff" asp-route-id="@userinfo.Id">
                     <i class="uil uil-signout"></i>Logout
                 </a>
                
-
+                }
             </div>
         </div>
        @* <div class="dropdown-menu mt-3 w-25 " aria-labelledby="dropdownMenuLink">

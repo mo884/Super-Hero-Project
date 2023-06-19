@@ -44,7 +44,7 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
     });
 
 
-builder.Services.AddIdentityCore<Person>(options => options.SignIn.RequireConfirmedAccount = false)
+builder.Services.AddIdentityCore<Person>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationContext>()
                 .AddTokenProvider<DataProtectorTokenProvider<Person>>(TokenOptions.DefaultProvider);

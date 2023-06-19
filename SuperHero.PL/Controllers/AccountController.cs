@@ -1,8 +1,11 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using SuperHero.BL.DomainModelVM;
+using SuperHero.BL.Helper;
 using SuperHero.BL.Seeds;
 using SuperHero.DAL.Entities;
+using System.Configuration;
 using static System.Net.Mime.MediaTypeNames;
 
 namespace SuperHero.PL.Controllers
@@ -13,12 +16,14 @@ namespace SuperHero.PL.Controllers
         private readonly UserManager<Person> userManager;
         private readonly SignInManager<Person> signInManager;
         #endregion
+       
 
         #region Ctor
         public AccountController(UserManager<Person> userManager, SignInManager<Person> signInManager)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
+           
         }
         #endregion
 
@@ -45,6 +50,9 @@ namespace SuperHero.PL.Controllers
 
             if (result.Succeeded)
             {
+              
+               
+             
                 return RedirectToAction("Login");
             }
             else
@@ -75,17 +83,20 @@ namespace SuperHero.PL.Controllers
 
             dynamic result;
 
+            TempData["OFMessage"] = null;
 
 
-
-            if (userEmail != null)
+            if (userEmail != null && userEmail.EmailConfirmed)
             {
                 result = await signInManager.PasswordSignInAsync(userEmail, model.Password, model.RemberMe, false);
                 if (result.Succeeded)
                 {
                     if (userEmail.ISDeleted)
                     {
+
                         model.Message = "You Are Deleted";
+                        TempData["OFMessage"] = "You Are Deleted";
+                        TempData["modelShow"] = "false";
                         return View(model);
 
                     }
@@ -101,6 +112,8 @@ namespace SuperHero.PL.Controllers
                 else
                 {
                     model.AccountNotFound = "Wrong Email or Passward !";
+                    TempData["OFMessage"] = "Wrong Email or Passward !";
+                    TempData["modelShow"] = "false";
                     return View(model);
                 }
             }
@@ -109,13 +122,15 @@ namespace SuperHero.PL.Controllers
             else
             {
                 model.AccountNotFound = "Wrong Email or Passward !";
+                TempData["OFMessage"] = "Wrong Email or Passward !";
+                TempData["modelShow"] = "false";
                 return View(model);
 
             }
 
 
 
-            return View(model);
+
         }
 
         #endregion
@@ -131,5 +146,8 @@ namespace SuperHero.PL.Controllers
 
         #endregion
 
+
+
+      
     }
 }

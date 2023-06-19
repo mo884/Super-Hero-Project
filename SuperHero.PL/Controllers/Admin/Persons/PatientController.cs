@@ -7,6 +7,7 @@ using SuperHero.BL.Helper;
 using SuperHero.BL.Interface;
 using SuperHero.BL.Seeds;
 using SuperHero.DAL.Entities;
+using System.Configuration;
 
 namespace SuperHero.PL.Controllers.Admin.Persons
 {
@@ -22,11 +23,12 @@ namespace SuperHero.PL.Controllers.Admin.Persons
         private readonly RoleManager<IdentityRole> roleManager;
         private readonly IServiesRep servis;
         private readonly IBaseRepsoratory<District> district;
-        
+
         #endregion
+        private IConfiguration Configuration;
 
         #region Ctor
-        public PatientController(UserManager<Person> userManager, SignInManager<Person> signInManager, IBaseRepsoratory<Person> person, IMapper mapper, RoleManager<IdentityRole> roleManager, IServiesRep servis, IBaseRepsoratory<District> district)
+        public PatientController(UserManager<Person> userManager, SignInManager<Person> signInManager, IBaseRepsoratory<Person> person, IMapper mapper, RoleManager<IdentityRole> roleManager, IServiesRep servis, IBaseRepsoratory<District> district, IConfiguration configuration)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
@@ -35,8 +37,10 @@ namespace SuperHero.PL.Controllers.Admin.Persons
             this.roleManager = roleManager;
             this.servis = servis;
             this.district = district;
+            Configuration = configuration;
         }
         #endregion
+
 
         #region Create Person
         [HttpGet]
@@ -151,6 +155,10 @@ namespace SuperHero.PL.Controllers.Admin.Persons
                 var result1 = await userManager.AddToRoleAsync(Patient, role.Name);
                 if (result.Succeeded)
                 {
+                    if (await SendConfitmEmail(model.Email))
+                    {
+                        return RedirectToAction("SuccessRegistration");
+                    }
                     return RedirectToAction("Login", "Account");
                 }
                 else
@@ -174,7 +182,78 @@ namespace SuperHero.PL.Controllers.Admin.Persons
         }
         #endregion
 
-       
+        #region ConfirmEmail
+
+        public IActionResult SuccessRegistration()
+        {
+            return View();
+        }
+        [HttpGet]
+        public async Task<IActionResult> ConfirmEmail(string token, string email)
+        {
+            var user = await userManager.FindByEmailAsync(email);
+            if (user != null)
+            {
+
+                var res = await userManager.ConfirmEmailAsync(user, token);
+                return View();
+            }
+            else
+            {
+                return RedirectToAction(nameof(AccessDenied));
+            }
+
+
+        }
+        #endregion
+
+        #region AccessDenied
+        [AllowAnonymous]
+        public IActionResult AccessDenied()
+        {
+            return View();
+        }
+        #endregion
+        #region Private Methods
+
+        private async Task<bool> SendConfitmEmail(string Email)
+        {
+            var usr = await userManager.FindByEmailAsync(Email);
+            if (usr != null)
+            {
+                var host = Configuration.GetValue<string>("Smtp:Server");
+                var Port = Configuration.GetValue<int>("Smtp:Port");
+                var fromEmail = Configuration.GetValue<string>("Smtp:UserName");
+                var Password = Configuration.GetValue<string>("Smtp:Password");
+
+
+                var token = await userManager.GenerateEmailConfirmationTokenAsync(usr);
+                var confiramtionLink = Url.Action(nameof(ConfirmEmail), "Patient", new { token, email = usr.Email }, Request.Scheme);
+                EmailSetting email = new EmailSetting
+                {
+                    ToEmail = usr.Email,
+                    Name = usr.FullName,
+                    Subject="COfirm Email",
+
+                };
+                var TempHtml = $"<a href='{confiramtionLink}'>ConfrmLink</a>";
+                var res = MaullSetting.MailSender(host, Port, fromEmail, Password, email, TempHtml);
+                if (res != null)
+                {
+
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                return false;
+            }
+        }
+        #endregion
 
     }
 }
