@@ -62,5 +62,6 @@ namespace SuperHero.DAL.Database
         public DbSet<Radiology> Radiologies { get; set; }
         public DbSet<Treatment> Treatments { get; set; }
         public DbSet<Recorder> Recorders { get; set; }
+        public DbSet<MedicalSyndicate> MedicalSyndicates { get; set; }
     }
 }

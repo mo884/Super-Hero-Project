@@ -58,7 +58,7 @@ namespace SuperHero.BL.Interface
 
         Task CreateRadiology(DoctorRadiology Radiology, string DoctorId);
         Task CreateRadiologyBYPatient(DoctorRadiology Radiology);
-
+        Task<bool> GetMedicalSyndicate(string NummberSyndicate);
 
     }
 }

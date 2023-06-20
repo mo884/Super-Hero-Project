@@ -625,6 +625,16 @@ namespace SuperHero.BL.Reposoratory
             }
             return p;
         }
-            #endregion
+        #endregion
+
+        #region GetMedicalSyndicate
+        public async Task<bool> GetMedicalSyndicate(string NummberSyndicate)
+        {
+            var ISFound = await Db.MedicalSyndicates.Where(a => a.NUMMBERSYNDICATE == NummberSyndicate).FirstOrDefaultAsync();
+            if (ISFound == null)
+                return false;
+            return  true;
         }
+        #endregion
+    }
 }

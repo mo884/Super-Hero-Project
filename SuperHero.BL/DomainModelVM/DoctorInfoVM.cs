@@ -17,7 +17,7 @@ namespace SuperHero.BL.DomainModelVM
         public string? CV { get; set; } = null!;
         public string? ClinicAdress { get; set; }
         public string? ClinicName { get; set; }
-     
+        public string? MedicalSyndicate { get; set; }
         public int? Rating { get; set; }
         //Nevegation Property
         public IFormFile? Cv_Name { get; set; }

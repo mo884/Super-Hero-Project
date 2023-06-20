@@ -102,7 +102,7 @@
                                     <div class="col-md-3 ">
                                     </div>
                                     <div class="col-md-6 ">
-                                        <img asp-for="ImageName" id="Preview" style="width:100%;height:250px ;border-radius:50%" src="~/Files/Imgs/Men.jpg" />
+                                        <img asp-for="ImageName" id="Preview" style="width:100%;height:200px ;border-radius:50%;border:2px solid #1EB2A6" src="~/Dashboard/Images/Doctor.jpg" />
                                     </div>
                                     <div class="col-md-3 ">
                                     </div>
@@ -166,7 +166,12 @@
                               
                               
                                 <br />
-                                <div class="row"></div>
+                                <div class="row">
+                                   
+                                        <input type="text" asp-for="doctor.MedicalSyndicate" class="form-control" placeholder="Clinic Name" required="">
+                                    <span class="text-danger" asp-validation-for="doctor.MedicalSyndicate"></span>
+                                   
+                                </div>
                                 <select asp-for="gender" class="form-select" aria-label="Default select example">
                                     <option value="0">Male</option>
                                     <option value="1">Female</option>
