@@ -186,7 +186,7 @@ namespace SuperHero.PL.Controllers.Admin.Persons
 
         public IActionResult SuccessRegistration()
         {
-            return View();
+            return PartialView("SuccessRegistration");
         }
         [HttpGet]
         public async Task<IActionResult> ConfirmEmail(string token, string email)
@@ -196,7 +196,7 @@ namespace SuperHero.PL.Controllers.Admin.Persons
             {
 
                 var res = await userManager.ConfirmEmailAsync(user, token);
-                return View();
+                return RedirectToAction("Login","Account");
             }
             else
             {
@@ -233,7 +233,8 @@ namespace SuperHero.PL.Controllers.Admin.Persons
                 {
                     ToEmail = usr.Email,
                     Name = usr.FullName,
-                    Subject="COfirm Email",
+                  
+                    
 
                 };
                 var TempHtml = $"<a href='{confiramtionLink}'>ConfrmLink</a>";

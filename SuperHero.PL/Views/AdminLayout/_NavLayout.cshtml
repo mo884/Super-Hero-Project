@@ -55,7 +55,7 @@
                     <i class="uil uil-edit"></i>
                     Edit
                 </a> 
-                @if( !signInManager.IsSignedIn(User))
+                @if( signInManager.IsSignedIn(User))
                 {
                 <a class="dropdown-item"  asp-controller="Account" asp-action="LogOff" asp-route-id="@userinfo.Id">
                     <i class="uil uil-signout"></i>Logout
