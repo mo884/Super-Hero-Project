@@ -1,4 +1,15 @@
-﻿<header>
+﻿@{
+    var Culture = System.Threading.Thread.CurrentThread.CurrentCulture.Name;
+}
+@if (Culture == "ar-EG")
+{
+    <link href="~/Ar.css" rel="stylesheet" />
+}
+else
+{
+    <link href="~/En.css" rel="stylesheet" />
+}
+<header>
     <div id="logo">
         <a style=" text-decoration:none;" href="#">
             <span id="span1">Super</span><span id="span2">Heros</span>
@@ -9,12 +20,49 @@
             <i class="fa fa-times" aria-hidden="true" onclick="toggle()"></i>
         </div>
         <ul>
-            <li><a style=" text-decoration:none;" href="#">home</a></li>
-            <li><a style=" text-decoration:none;" href="#">Problem</a></li>
-            <li><a style=" text-decoration:none;" href="#">about</a></li>
-            <li><a style=" text-decoration:none;" href="#">contact</a></li>
-           
-            <li><a style=" text-decoration:none;" class="Register" data-toggle="modal" data-target="#exampleModal" style="text-decoration:none">Login</a></li>
+            <li><a style=" text-decoration:none;" href="#"> @SharedLocalizer["Home"]</a></li>
+            <li><a style=" text-decoration:none;" href="#"> @SharedLocalizer["Problem"]</a></li>
+            <li><a style=" text-decoration:none;" href="#"> @SharedLocalizer["about"]</a></li>
+            <li><a style=" text-decoration:none;" href="#"> @SharedLocalizer["contact"]</a></li>
+            <li>
+                <div class="dropdown">
+                    <i class="fa-solid fa-list dropbtn" onclick="myFunction()"></i>
+                    <div style="text-align:center" id="myDropdown" class="dropdown-content">
+
+                        @if (Culture == "ar-EG")
+                        {
+                            
+                                <a class="dropdown-item d-flex justify-content-between"
+                                   href="@Url.Action("SetLanguage", "Language", new {
+                                                                          culture = "en-US",
+                                                                          returnUrl = Context.Request.Path + Context.Request.QueryString
+                                                                      })">
+
+                                 @SharedLocalizer["English"]
+                                </a>
+                            
+                                    }
+                        else
+                        {
+                            
+                                <a class="dropdown-item d-flex justify-content-between"
+                                   href="@Url.Action("SetLanguage", "Language", new {
+                                                                          culture = "ar-EG",
+                                                                          returnUrl = Context.Request.Path + Context.Request.QueryString
+                                                                      })">
+
+                                    @SharedLocalizer["Arabic"]
+                                </a>
+                            
+                        }
+                            @*<a style=""><i class="fa-solid fa-spell-check"></i>Arabic</a>
+                            <a ><i class="fa-solid fa-trash-can"></i> English</a>
+                       *@
+                    </div>
+                </div>
+            </li>
+
+            <li><a style=" text-decoration:none;" class="Register" data-toggle="modal" data-target="#exampleModal" style="text-decoration:none"> @SharedLocalizer["Login"]</a></li>
 
         </ul>
     </nav>
