@@ -156,6 +156,9 @@
   <data name="Adress" xml:space="preserve">
     <value>العنوان </value>
   </data>
+  <data name="AimoftheWeb" xml:space="preserve">
+    <value>مساعدة ذوي الاحتياجات الخاصة على التعلم والتطور وتقديم كل المساعدة اللازمة لهؤلاء الأشخاص. أماكن مخصصة للتبرع والمساعدة المادية لهؤلاء الأشخاص ، بالإضافة إلى توفير محادثات جماعية لهؤلاء الأشخاص للتواصل مع بعضهم البعض أو مع الأطباء المشرفين عليهم.</value>
+  </data>
   <data name="Analytics" xml:space="preserve">
     <value>تحليلات</value>
   </data>
