@@ -1,0 +1,120 @@
+﻿@model BankAccountVM
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="~/Payment/Index.css">
+    <link href="~/firstpage/image/flash.svg" rel="icon">
+    <title>Payment Form - Sager Developer</title>
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.8/css/line.css">
+
+</head> 
+<body>
+    <div class="Pay">
+        <div class="wrapper">
+            <h2>Payment Form</h2>
+            <form asp-action="Pay" asp-controller="Payment"  method="post">
+                <!--Account Information Start-->
+                <h4>Account</h4>
+                <div class="input_group">
+                    <div class="input_box">
+                        <input type="text" placeholder="Full Name" asp-for="FullName" required class="name">
+                        <i class="uil uil-user icon"></i>
+                    </div>
+                    <div class="input_box">
+                        <input type="text" placeholder="Name On Card" asp-for="NameOnCard" required class="name">
+                        <i class="uil uil-user icon"></i>
+                    </div>
+                </div>
+                <div class="input_group">
+                    <div class="input_box">
+                        <input type="email" placeholder="Email Address" asp-for="EmailAddress" required class="name">
+                        <i class="uil uil-envelope icon"></i>
+
+
+                    </div>
+                </div>
+
+                <div class="input_group">
+                    <div class="input_box">
+                        <input type="text" placeholder="Address" asp-for="Address" required class="name">
+                        <i class="uil uil-location-pin-alt icon"></i>
+                    </div>
+                </div>
+                <div class="input_group">
+                    <div class="input_box">
+                        <input type="text" asp-for="City" placeholder="City" required class="name">
+
+                        <i class="uil uil-archway icon" aria-hidden="true"></i>
+                    </div>
+                </div>
+                <!--Account Information End-->
+                <!--DO8 & Gender Start-->
+                <div class="input_group">
+                    <div class="input_box">
+                        <h4>Date Of Birth</h4>
+                        <input type="text" placeholder="DD" asp-for="DD" required class="dob">
+                        <input type="text" placeholder="MM" asp-for="MM" required class="dob">
+                        <input type="text" placeholder="YYYY" asp-for="YYYY" required class="dob">
+                    </div>
+
+                    
+                </div>
+                <!--DO8 & Gender End-->
+                <!--Payment Details Start-->
+                <div class="input_group">
+                    <!-- <div class="input_box">
+                        <h4>Payment Details</h4>
+                        <input type="radio" name="pay" class="radio" id="bc1" checked>
+                        <label for="bc1">
+                          <span>
+                             Credit Card
+                           </span>
+                        </label>
+
+
+                    </div>-->
+                </div>
+                <div class="input_group">
+                    <div class="input_box">
+                        <input type="tel" asp-for="CardNumber" class="name" placeholder="Card Number 1111-2222-3333-4444" required>
+                        <i class="uil uil-credit-card icon"></i>
+                    </div>
+                </div>
+                <div class="input_group">
+                    <div class="input_box">
+                        <input type="tel" asp-for="CardCVC" class="name" placeholder="Card CVC 632" required>
+                        <i class="uil uil-user icon"></i>
+                    </div>
+                </div>
+                <div class="input_group">
+                    <div class="input_box">
+                        <input type="number" asp-for="ExpMonth" class="name" placeholder="Exp Month" required>
+                        <i class="uil uil-calender icon"></i>
+                    </div>
+                </div>
+                <div class="input_group">
+                    <div class="input_box">
+                        <input type="number" asp-for="ExpYear" class="name" placeholder="Exp Year" required>
+                        <i class="uil uil-calendar-alt icon"></i>
+                    </div>
+                </div>
+                <div class="input_box">
+                    <input type="number" asp-for="EnterAmount" class="name" placeholder="Enter Amount" required>
+                    <i class="uil uil-money-withdrawal icon"></i>
+                </div>
+                <div class="input_group">
+                    <div class="input_box">
+                        <button type="submit"> Pay Now</button>
+                    </div>
+                </div>
+                <!--Payment Details End-->
+            </form>
+        </div>
+    </div>
+
+    <div class="Cover"></div>
+</body>
+</html>

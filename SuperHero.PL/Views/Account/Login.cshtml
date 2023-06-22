@@ -30,12 +30,12 @@
                                     <span class="text-danger" asp-validation-for="UserName"></span>
                                     </div>*@
                                         <div class="input-field">
-                                            <input asp-for="Email" type="email" class="input" required autocomplete="off">
+                                            <input style="color:#1EB2A6" asp-for="Email" type="email" class="input" required autocomplete="off">
                                             <label asp-for="Email">Email</label>
                                             <span asp-validation-for="Email"></span>
                                         </div>
                                         <div class="input-field">
-                                            <input asp-for="Password" type="password" class="input" required>
+                                            <input style="color:#1EB2A6" asp-for="Password" type="password" class="input" required>
                                             <label asp-for="Password">Password</label>
                                             <span asp-validation-for="Password"></span>
                                             @if (Model.AccountNotFound != "")
