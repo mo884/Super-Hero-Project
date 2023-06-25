@@ -13,6 +13,7 @@ using SuperHero.BL.Reposoratory;
 using SuperHero.BL.Seeds;
 using SuperHero.DAL.Database;
 using SuperHero.DAL.Entities;
+using SuperHero.PL.Hubs;
 using SuperHero.PL.Languages;
 using System.Globalization;
 
@@ -43,6 +44,11 @@ builder.Services.AddAutoMapper(x => x.AddProfile(new DomainProfile()));
 builder.Services.AddScoped(typeof(IBaseRepsoratory<>), typeof(BaseRepsoratory<>));
 builder.Services.AddScoped(typeof(IServiesRep), typeof(ServiesRep));
 // Identity Configuration
+
+//SignalR
+//builder.Services.AddControllersWithViews();
+
+builder.Services.AddSignalR();
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
 .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme,
@@ -101,6 +107,9 @@ app.UseRequestLocalization(new RequestLocalizationOptions
                 new CookieRequestCultureProvider()
                 }
 });
+
+//AddSignalR
+app.MapHub<ChatHub>("/chatHub");
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();

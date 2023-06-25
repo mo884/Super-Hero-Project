@@ -1,0 +1,90 @@
+﻿@using Microsoft.AspNetCore.Identity;
+@inject SignInManager<Person> signInManager
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/AdminLayout/_Layout.cshtml";
+    var userinfo = await signInManager.UserManager.FindByNameAsync(User.Identity.Name);
+}
+ 
+@*<div class="container" style="padding-top:80px;">
+    <div class="row">
+        <div class="col-md-6">
+           
+            <input hidden type="text" value="@userinfo.FullName" id="txtUser" /><br />
+            <span> Enter Your Message : </span><br />
+            <textarea rows="10" cols="40" id="txtMessage"></textarea><br />
+            <button type="submit" id="btnSend" class="btn btn-info">Send Message</button><br /><br />
+
+         
+            <input type="text" id="txtgroup" />
+            <button type="submit" id="btngroup" class="btn btn-info" >Join</button><br />
+           
+            <br />
+            <button type="submit" id="txtSendGroup" class="btn btn-info" >Send To Group</button><br />
+            
+        </div>
+
+        <div class="col-md-6">
+            <h3>Message List : </h3>
+            <ul id="list" class="alert alert-info"> 
+            </ul>
+        </div>
+    </div>
+
+</div>*@
+<section style="background-color: #eee;">
+    <div class="container py-5">
+
+        <div class="row d-flex justify-content-center">
+            <div class="col-md-11 col-lg-11 col-xl-11">
+
+                <div class="card" id="chat1" style="border-radius: 15px;">
+                    <div class="card-header d-flex justify-content-between align-items-center p-3 bg-info text-white border-bottom-0"
+                         style="border-top-left-radius: 15px; border-top-right-radius: 15px;">
+                        <i class="fas fa-angle-left"></i>
+                        <p class="mb-0 fw-bold">Live chat</p>
+                        <i class="fas fa-times"></i>
+                    </div>
+                    <div class="card-body">
+
+                        <div class="d-flex flex-row justify-content-start mb-4">
+                            @*<img style= src="~/Files/Imgs/@userinfo.Image"
+                                 alt="avatar 1" style="width: 45px; height: 100%;" id="imgPath">*@
+                            <div class="p-3 ms-3" style="border-radius: 15px; background-color: rgba(57, 192, 237,.2);">
+                                <p id="list" class="small mb-0">
+                                  
+                                </p>
+                            </div>
+                        </div>
+
+                        
+
+                        <div class="form-outline">
+                            <div class="row">
+                                <div class="col-sm-1">
+
+                                </div>
+                                <div class="col-sm-8">
+                                    <textarea class="form-control" id="txtMessage" rows="4"></textarea>
+                                </div>
+                                <div class="col-sm-3">
+                                    <button type="submit" id="btnSend" class="btn btn-info">Send Message</button>
+                                </div>
+                            </div>
+                            <input hidden type="text" value="@userinfo.FullName" id="txtUser" />
+                            
+                            <input hidden type="text" value="/files/imgs/@userinfo.Image" id="imgPath" />
+                        </div>
+                      
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</section>
+<script src="~/datatable/lib/jquery/dist/jquery.js"></script>
+<script src="~/chat/lib/microsoft/signalr/dist/browser/signalr.js"></script>
+
+<script src="~/chat/js/admin.js"></script>
