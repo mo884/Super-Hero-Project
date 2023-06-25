@@ -1,19 +1,38 @@
-﻿var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
+﻿var UserId = document.getElementById("UserId").value;
+console.log(`SenderId: ${UserId}`);
+var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
 
 /*start SendMessage*/
-connection.on("ReceiveMessage", function (user, message, Path) {
+connection.on("ReceiveMessage", function (user, message, Path,UserID) {
     var dateMsg = new Date();
     var dateMean = dateMsg.getHours() + ":" + dateMsg.getMinutes() + ":" + dateMsg.getUTCDate();
-    var ImgPath = document.getElementById("imgPath").value;
-    var msg = `<div class="alert alert-primary" role="alert"><img src='${Path}' style='    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    margin-right: 10px;'/>
- <b> ${user}</b> : ${message} &ensp; ${dateMean}
-</div>`;
+    //var ImgPath = document.getElementById("imgPath").value;
+    console.log(`ResverId: ${UserId}`);
+    if (UserId != UserID) {
+
+
+   
+        var msg = 
+           ` <div class="d-flex flex-row justify-content-end mb-4" >
+                                <div class="p-3 me-3 border" style="border-radius: 15px; background-color: #fbfbfb;">
+                                    <p class="small mb-0">${message}</p>
+                                </div>
+                                <img src="${Path}"
+                                     alt="avatar 1" style="width: 45px; height: 100%;">
+                            </div>
+    `;
+    } else {
+        var msg = ` <div class="d-flex flex-row justify-content-start mb-4">
+                                <img src="${Path}"
+                                     alt="avatar 1" style="width: 45px; height: 100%;">
+                                <div class="p-3 ms-3" style="border-radius: 15px; background-color: rgba(57, 192, 237,.2);">
+                                    <p class="small mb-0">
+                                       ${message}
+                                    </p>
+                                </div>
+                            </div>`;
+    }
+  
   
 
 
@@ -26,7 +45,8 @@ $("#btnSend").on("click", function () {
     var user = $("#txtUser").val();
     var message = $("#txtMessage").val();
     var Path = $("#imgPath").val();
-    connection.invoke("SendMessage", user, message,Path);
+    var UserId = $("#UserId").val();
+    connection.invoke("SendMessage", user, message, Path, UserId);
     $("#txtMessage").val('');
 });
 

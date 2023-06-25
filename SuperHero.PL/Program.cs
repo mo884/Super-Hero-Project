@@ -64,6 +64,9 @@ builder.Services.AddIdentityCore<Person>(options => options.SignIn.RequireConfir
                 .AddEntityFrameworkStores<ApplicationContext>()
                 .AddTokenProvider<DataProtectorTokenProvider<Person>>(TokenOptions.DefaultProvider);
 
+builder.Services.AddSession(opt =>
+opt.IdleTimeout = TimeSpan.FromMinutes(100)
+);
 
 
 // Password and user name configuration
@@ -108,7 +111,9 @@ app.UseRequestLocalization(new RequestLocalizationOptions
                 }
 });
 
+app.UseSession();
 //AddSignalR
+
 app.MapHub<ChatHub>("/chatHub");
 
 app.UseHttpsRedirection();

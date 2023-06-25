@@ -4,6 +4,8 @@
     ViewData["Title"] = "Index";
     Layout = "~/Views/AdminLayout/_Layout.cshtml";
     var userinfo = await signInManager.UserManager.FindByNameAsync(User.Identity.Name);
+
+    var UserId = Context.Session.GetInt32("UserId");
 }
  
 @*<div class="container" style="padding-top:80px;">
@@ -47,24 +49,18 @@
                     </div>
                     <div class="card-body">
 
-                        <div class="d-flex flex-row justify-content-start mb-4">
-                            @*<img style= src="~/Files/Imgs/@userinfo.Image"
-                                 alt="avatar 1" style="width: 45px; height: 100%;" id="imgPath">*@
-                            <div class="p-3 ms-3" style="border-radius: 15px; background-color: rgba(57, 192, 237,.2);">
-                                <p id="list" class="small mb-0">
-                                  
-                                </p>
-                            </div>
+                        <div id="list">
+                           
                         </div>
 
-                        
+                         
 
                         <div class="form-outline">
                             <div class="row">
                                 <div class="col-sm-1">
 
                                 </div>
-                                <div class="col-sm-8">
+                                <div class="col-sm-8 ">
                                     <textarea class="form-control" id="txtMessage" rows="4"></textarea>
                                 </div>
                                 <div class="col-sm-3">
@@ -74,6 +70,7 @@
                             <input hidden type="text" value="@userinfo.FullName" id="txtUser" />
                             
                             <input hidden type="text" value="/files/imgs/@userinfo.Image" id="imgPath" />
+                            <input hidden type="text" value="@UserId" id="UserId" />
                         </div>
                       
                     </div>
