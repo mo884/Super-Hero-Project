@@ -18,6 +18,8 @@
     <link rel="stylesheet"href="https://unicons.iconscout.com/release/v4.0.0/css/line.css" />
     <!-- Font Awesome Cdn Link -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" />
+   
+
     <!--Bootstrap-->
     <link href="~/datatable/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
     <!--Sweet alert-->
@@ -26,6 +28,7 @@
     <link href="~/dashboard/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
     <link href="~/course/css/ads.css" rel="stylesheet" />
     <link href="~/dashboard/patient.css" rel="stylesheet" />
+    <link href="~/dashboard/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
 <link href="~/datatable/datatables.net-buttons-bs5/buttons.bootstrap5.min.css" rel="stylesheet" />
 @RenderSection("CSS",required:false)
 <title>@ViewData["Title"]</title>
@@ -34,17 +37,19 @@
     <partial name="~/views/adminlayout/_sidelayout.cshtml" />
     <section class="dashboard">
         <partial name="~/views/adminlayout/_Navlayout.cshtml" />
+
         <div class="dash-content "> 
+           
             @RenderBody()
             <span id="Message" class="d-none"> @TempData["Message"]</span>
         </div>
     </section>
-    
-   
+
+    <script src="~/dashboard/lib/jquery/jquery.min.js"></script>
   <partial name="~/views/adminlayout/_ScriptsLayout.cshtml" />
     @RenderSection("DatatablesJS",required:false)
     @RenderSection("JS",required:false)
     @RenderSection("JqueryValidation",required:false)
-
+    <script src="~/dashboard/lib/bootstrap/js/bootstrap.min.js"></script>
 </body>
 </html>

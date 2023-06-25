@@ -3,7 +3,7 @@ console.log(`SenderId: ${UserId}`);
 var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
 
 /*start SendMessage*/
-connection.on("ReceiveMessage", function (user, message, Path,UserID) {
+connection.on("ReceiveMessage", function (user, message, Path,UserID,GroupId,PersonID) {
     var dateMsg = new Date();
     var dateMean = dateMsg.getHours() + ":" + dateMsg.getMinutes() + ":" + dateMsg.getUTCDate();
     //var ImgPath = document.getElementById("imgPath").value;
@@ -25,7 +25,7 @@ connection.on("ReceiveMessage", function (user, message, Path,UserID) {
         var msg = ` <div class="d-flex flex-row justify-content-start mb-4">
                                 <img src="${Path}"
                                      alt="avatar 1" style="width: 45px; height: 100%;">
-                                <div class="p-3 ms-3" style="border-radius: 15px; background-color: rgba(57, 192, 237,.2);">
+                                <div class="p-3 me-3" style="border-radius: 15px; background-color: rgba(57, 192, 237,.2);">
                                     <p class="small mb-0">
                                        ${message}
                                     </p>
@@ -46,7 +46,9 @@ $("#btnSend").on("click", function () {
     var message = $("#txtMessage").val();
     var Path = $("#imgPath").val();
     var UserId = $("#UserId").val();
-    connection.invoke("SendMessage", user, message, Path, UserId);
+    var Userinfo = $("#UserInfoID").val();
+    var GroupId = $("#groupID").val();
+    connection.invoke("SendMessage", user, message, Path, UserId, GroupId, Userinfo);
     $("#txtMessage").val('');
 });
 

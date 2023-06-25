@@ -15,5 +15,6 @@ namespace SuperHero.DAL.Entities
         public DateTime CreatedTime { get; set; }
         //Nevegation Property
         public List<PersonGroup> Personsgroup { get; set; }
+        public List<ChatGroup>? ChatGroup { get; set; }
     }
 }

@@ -636,5 +636,14 @@ namespace SuperHero.BL.Reposoratory
             return  true;
         }
         #endregion
+
+        #region Chat
+        public async Task<IEnumerable<ChatGroup>> GetAllChatGroup(int GroupId)
+        {
+            var Chat = await Db.ChatGroups.Where(a => a.groupId == GroupId).Include("Person").Include("group").ToListAsync();
+            return Chat;
+        }
+
+        #endregion
     }
 }

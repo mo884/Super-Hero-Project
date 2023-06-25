@@ -78,7 +78,7 @@ namespace FRYMA_SuperHero.BL.Reposoratory
         {
             var data = await Db.Set<T>().FindAsync(id);
             return data;
-        }
+        } 
         public async Task<T> GetByID(int id)
         {
             var data = await Db.Set<T>().FindAsync(id);

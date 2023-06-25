@@ -45,6 +45,7 @@ namespace SuperHero.DAL.Entities
         public List<Course> Courses { get; set; }
         public List<PersonGroup> Personsgroup { get; set; }
         public List<DoctorRating> DoctorRating { get; set; }
+        public List<ChatGroup>? ChatGroup { get; set; }
         public District? district { get; set; }
         [ForeignKey("district")]
         public int? districtID { get; set; }
