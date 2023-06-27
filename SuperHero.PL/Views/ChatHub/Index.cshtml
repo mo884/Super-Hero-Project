@@ -3,12 +3,18 @@
 @inject SignInManager<Person> signInManager
 @{
     ViewData["Title"] = "Index";
-    Layout = "~/Views/AdminLayout/_Layout.cshtml";
+    Layout = "~/Views/Shared/PatientLayout/_Layout.cshtml";
     var userinfo = await signInManager.UserManager.FindByNameAsync(User.Identity.Name);
 
     var UserId = Context.Session.GetInt32("UserId");
 }
- 
+ @section CSS{
+     <style>
+        .Card_Warp .card{
+            display:none
+        }
+     </style>
+ }
 @*<div class="container" style="padding-top:80px;">
     <div class="row">
         <div class="col-md-6">
@@ -35,6 +41,39 @@
     </div>
 
 </div>*@
+@section PersonType{
+    @if (signInManager.IsSignedIn(User))
+    {
+
+
+        @if (@userinfo.Image == null)
+        {
+            if (@userinfo.gender == 0)
+            {
+                <img src="/files/imgs/men.jpg" alt="" />
+            }
+            else
+            {
+
+                <img src="/files/imgs/young-woman-avatar-cartoon-character-profile-picture-young-woman-wearing-blue-t-shirt-avatar-cartoon-character-vector-149732076.jpg" alt="" />
+            }
+        }
+        else
+        {
+            <a data-fslightbox href="~/files/imgs/@userinfo.Image">
+                <img src="/files/imgs/@userinfo.Image" alt="" />
+            </a>
+
+        }
+    }
+    <div class="acc-txt">
+        <h3>Never Give Up!</h3>
+        <h6>@userinfo.FullName</h6>
+       
+
+    </div>
+
+}
 <section style="background-color: #eee;">
     <div class="container py-5">
 
@@ -42,7 +81,7 @@
             <div class="col-md-11 col-lg-11 col-xl-11">
 
                 <div class="card" id="chat1" style="border-radius: 15px;">
-                    <div class="card-header d-flex justify-content-between align-items-center p-3 bg-info text-white border-bottom-0"
+                    <div style="background:#1eb2a6" class="card-header d-flex justify-content-between align-items-center p-3  text-white border-bottom-0"
                          style="border-top-left-radius: 15px; border-top-right-radius: 15px;">
                         <i class="fas fa-angle-left"></i>
                         <p class="mb-0 fw-bold">@TempData["GroupName"]</p>
