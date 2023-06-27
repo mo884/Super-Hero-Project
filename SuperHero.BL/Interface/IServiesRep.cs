@@ -33,6 +33,7 @@ namespace SuperHero.BL.Interface
         //Task<bool> FindByIdAsync(string personId, int groupId);
         Task<PersonGroup> FindById(string personId, int groupId);
         Task DeletePersonGroup(int id);
+        Task<IEnumerable<PersonGroup>> FindAllGroupById(string PersonId);
         Task<bool> Create(int id, string personId);
         Task<bool> Delete(int id, string personId);
         Task<IEnumerable<Person>> GetDoctor(int Districtid, int cityid, int GovernorateID);

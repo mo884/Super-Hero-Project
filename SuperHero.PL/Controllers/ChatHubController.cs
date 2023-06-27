@@ -21,13 +21,21 @@ namespace SuperHero.PL.Controllers
             HttpContext.Session.SetInt32("UserId", RnadomSession);
             var PersonProfile = await signInManager.UserManager.FindByNameAsync(User.Identity.Name);
             var FindIn =await serviesRep.FindById(PersonProfile.Id, id);
-            if (FindIn != null)
+            var data = await serviesRep.FindAllGroupById(PersonProfile.Id);
+            if (data.Count() != 0)
             {
-                var Chat = await serviesRep.GetAllChatGroup(id);
-                var GroupName = await Group.GetByID(id);
-                TempData["GroupName"] = GroupName.Name;
-                TempData["GroupID"] = GroupName.ID;
-                return View(Chat);
+                if (FindIn != null)
+                {
+                    var Chat = await serviesRep.GetAllChatGroup(id);
+                    var GroupName = await Group.GetByID(id);
+                    TempData["GroupName"] = GroupName.Name;
+                    TempData["GroupID"] = GroupName.ID;
+                    ListGroupVM listGroupVM = new ListGroupVM()
+                    {Chat = Chat,
+                    Groups =data
+                    };
+                    return View(listGroupVM);
+                }
             }
             return RedirectToAction("GetAll", "Person");
             

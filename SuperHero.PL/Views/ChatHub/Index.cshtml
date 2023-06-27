@@ -1,4 +1,4 @@
-﻿@model IEnumerable<ChatGroup>
+﻿@model ListGroupVM
 @using Microsoft.AspNetCore.Identity;
 @inject SignInManager<Person> signInManager
 @{
@@ -74,6 +74,12 @@
     </div>
 
 }
+<div>
+    @foreach (var item in Model.Groups)
+    {
+        <a asp-action="Index" asp-controller="ChatHub" asp-route-id="@item.Group">@item.group.Name</a>
+    }
+</div>
 <section style="background-color: #eee;">
     <div class="container py-5">
 
@@ -89,7 +95,7 @@
                     </div>
                     <div class="card-body">
 
-                      @foreach (var item in Model)
+                      @foreach (var item in Model.Chat)
                      {
                             if(userinfo.Id != item.PersonId)
                             {

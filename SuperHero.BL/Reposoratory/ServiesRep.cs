@@ -282,6 +282,12 @@ namespace SuperHero.BL.Reposoratory
             var data = await Db.personGroups.Where(a => a.PersonId == personId && a.Group == groupId).FirstOrDefaultAsync();
             return data;
         }
+        public async Task<IEnumerable<PersonGroup>> FindAllGroupById(string personId)
+        {
+
+            var data = await Db.personGroups.Where(a => a.PersonId == personId).Include("Person").Include("group").ToListAsync();
+            return data;
+        }
         #region Delete Group
         public async Task DeletePersonGroup(int id)
         {
