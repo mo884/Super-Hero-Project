@@ -56,6 +56,7 @@ namespace SuperHero.PL.Controllers.Admin.Social
                     var result = mapper.Map<Group>(groupVM);
                     result.CreatedTime = DateTime.Now.Date;
                     await groups.Create(result);
+
                     TempData["Message"] = "saved Successfuly";
                     return RedirectToAction("GetAll");
                 }

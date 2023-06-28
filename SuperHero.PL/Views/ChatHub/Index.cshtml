@@ -72,88 +72,116 @@
        
 
     </div>
-
+    
 }
-<div>
-    @foreach (var item in Model.Groups)
-    {
-        <a asp-action="Index" asp-controller="ChatHub" asp-route-id="@item.Group">@item.group.Name</a>
-    }
-</div>
-<section style="background-color: #eee;">
-    <div class="container py-5">
+@if (Model ==null)
+{
+    <div class="alert alert-info" role="alert">
+        You Not Have Any Group ,Please send To Admin about gmail  To Join Group
+    </div>
+}
+else
+{
+    <div style="display:flex;justify-content:center;align-content:center">
+        @foreach (var item in Model.Groups)
+        {
+            <a asp-action="GetMessage" asp-controller="ChatHub" style="margin-left:6px;text-decoration:none;font-size:18px; color:#1eb2a6" asp-route-id="@item.Group">
+                <div class="" style="width: 60px; height:60px; border-radius:50%; border: 2px solid #1eb2a6; padding: 1px;">
+                    @if (item.group.Image == null)
+                    {
+                        <img src="~/Files/Imgs/r.jfif" alt="..." class="img-fluid rounded-circle">
 
-        <div class="row d-flex justify-content-center">
-            <div class="col-md-11 col-lg-11 col-xl-11">
+                    }
+                    else
+                    {
+                        <img src="~/Files/Imgs/@item.group.Image" alt="..." class="img-fluid rounded-circle">
 
-                <div class="card" id="chat1" style="border-radius: 15px;">
-                    <div style="background:#1eb2a6" class="card-header d-flex justify-content-between align-items-center p-3  text-white border-bottom-0"
-                         style="border-top-left-radius: 15px; border-top-right-radius: 15px;">
-                        <i class="fas fa-angle-left"></i>
-                        <p class="mb-0 fw-bold">@TempData["GroupName"]</p>
-                        <i class="fas fa-times"></i>
-                    </div>
-                    <div class="card-body">
+                    }
 
-                      @foreach (var item in Model.Chat)
-                     {
-                            if(userinfo.Id != item.PersonId)
+
+                </div>
+                <div class="m-2 text-small">@item.group.Name</div>
+
+
+            </a>
+        }
+    </div>
+    <section style="background-color: #eee;">
+        <div class="container py-5">
+
+            <div class="row d-flex justify-content-center">
+                <div class="col-md-11 col-lg-11 col-xl-11">
+
+                    <div class="card" id="chat1" style="border-radius: 15px;">
+                        <div style="background:#1eb2a6" class="card-header d-flex justify-content-between align-items-center p-3  text-white border-bottom-0"
+                             style="border-top-left-radius: 15px; border-top-right-radius: 15px;">
+                            <i class="fas fa-angle-left"></i>
+                            <p class="mb-0 fw-bold">@TempData["GroupName"]</p>
+                            <i class="fas fa-times"></i>
+                        </div>
+                        <div class="card-body">
+
+                            @foreach (var item in Model.Chat)
                             {
-                                <div class="d-flex flex-row justify-content-end mb-4">
-                                    <div class="p-3 me-3 border" style="border-radius: 15px; background-color: #fbfbfb;">
-                                        <p class="small mb-0">@item.Message</p>
+                                if (userinfo.Id != item.PersonId)
+                                {
+                                    <div class="d-flex flex-row justify-content-end mb-4">
+                                        <div class="p-3 me-3 border" style="border-radius: 15px; background-color: #fbfbfb;">
+                                            <p class="small mb-0">@item.Message</p>
+                                        </div>
+                                        <img src="~/Files/Imgs/@item.Person.Image"
+                                             alt="avatar 1" style="width: 45px; height: 100%;">
                                     </div>
-                                    <img src="~/Files/Imgs/@item.Person.Image"
-                                         alt="avatar 1" style="width: 45px; height: 100%;">
-                                </div>
-                            }else{
-                                <div class="d-flex flex-row justify-content-start mb-4">
-                                    <img src="~/Files/Imgs/@item.Person.Image"
-                                         alt="avatar 1" style="width: 45px; height: 100%;">
-                                    <div class="p-3 ms-3" style="border-radius: 15px; background-color: rgba(57, 192, 237,.2);">
-                                        <p class="small mb-0">
-                                            @item.Message
-                                        </p>
+                                }
+                                else
+                                {
+                                    <div class="d-flex flex-row justify-content-start mb-4">
+                                        <img src="~/Files/Imgs/@item.Person.Image"
+                                             alt="avatar 1" style="width: 45px; height: 100%;">
+                                        <div class="p-3 ms-3" style="border-radius: 15px; background-color: rgba(57, 192, 237,.2);">
+                                            <p class="small mb-0">
+                                                @item.Message
+                                            </p>
+                                        </div>
                                     </div>
-                                </div>
+                                }
+
+
                             }
-
-                              
-                     }
-                        <div id="list">
-                           
-                        </div>
-
-                         
-
-                        <div class="form-outline">
-                            <div class="row">
-                                <div class="col-sm-1">
-
-                                </div>
-                                <div class="col-sm-8 ">
-                                    <textarea class="form-control" id="txtMessage" rows="4"></textarea>
-                                </div>
-                                <div class="col-sm-3">
-                                    <button type="submit" id="btnSend" class="btn btn-info">Send Message</button>
-                                </div>
+                            <div id="list">
                             </div>
-                            <input hidden type="text" value="@userinfo.FullName" id="txtUser" />
-                            
-                            <input hidden type="text" value="/files/imgs/@userinfo.Image" id="imgPath" />
-                            <input hidden type="text" value="@UserId" id="UserId" />
-                            <input hidden type="text" value="@userinfo.Id" id="UserInfoID" />
-                            <input hidden type="text" value="@TempData["GroupID"]" id="groupID" />
+
+
+
+                            <div class="form-outline">
+                                <div class="row">
+                                    <div class="col-sm-1">
+                                    </div>
+                                    <div class="col-sm-8 ">
+                                        <textarea class="form-control" id="txtMessage" rows="4"></textarea>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <button type="submit" id="btnSend" style="margin-top:40px; border:2px solid #1eb2a6 ; border-radius:10px ;color:white;height:30px; background:#1eb2a6">Send Message</button>
+                                    </div>
+                                </div>
+                                <input hidden type="text" value="@userinfo.FullName" id="txtUser" />
+
+                                <input hidden type="text" value="/files/imgs/@userinfo.Image" id="imgPath" />
+                                <input hidden type="text" value="@UserId" id="UserId" />
+                                <input hidden type="text" value="@userinfo.Id" id="UserInfoID" />
+                                <input hidden type="text" value="@TempData["GroupID"]" id="groupID" />
+                            </div>
+
                         </div>
-                      
                     </div>
                 </div>
+
             </div>
 
         </div>
+    </section>
+}
 
-    </div>
-</section>
 <script src="~/datatable/lib/jquery/dist/jquery.js"></script>
 <script src="~/chat/lib/microsoft/signalr/dist/browser/signalr.js"></script>
 

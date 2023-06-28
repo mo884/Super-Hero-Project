@@ -1,0 +1,14 @@
+﻿@using Microsoft.AspNetCore.Identity;
+@inject SignInManager<Person> signInManager
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/PatientLayout/_Layout.cshtml";
+    var userinfo = await signInManager.UserManager.FindByNameAsync(User.Identity.Name);
+
+    var UserId = Context.Session.GetInt32("UserId");
+}
+z
+<script src="~/datatable/lib/jquery/dist/jquery.js"></script>
+<script src="~/chat/lib/microsoft/signalr/dist/browser/signalr.js"></script>
+
+<script src="~/chat/js/z.js"></script>

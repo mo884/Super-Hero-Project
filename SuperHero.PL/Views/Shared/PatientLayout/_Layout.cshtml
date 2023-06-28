@@ -16,6 +16,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" />
     <link href="~/dashboard/userdashboard.css" rel="stylesheet" />
 </head>
+@if (signInManager.IsSignedIn(User))
+                        {
 <body style="background-color: rgb(223, 220, 220);">
     <header>
         <div class="container">
@@ -24,17 +26,21 @@
                     <h2 style="color:white">super Hero</h2>
                 </div>
                 <div class="menue_items">
-                    <a class="" active-when="MyProfile" style=" text-decoration: none;" asp-action="Profile" asp-controller="MyProfile" asp-route-id="@userinfo.Id">Profile</a>
-                    <a class="" active-when="SocialPatient" style=" text-decoration: none;" asp-action="GetAll" asp-controller="SocialPatient">Social</a>
-                    <a class="" style=" text-decoration: none;" href="#">Problem</a>
-                    <a class="" active-when="PatientCourse" style=" text-decoration: none;" asp-action="Course" asp-controller="PatientCourse">Course</a>
-                    <a class="" style=" text-decoration: none;" href="#">Contact</a>
+                    <a active-when="MyProfile" style=" text-decoration: none;" asp-action="Profile" asp-controller="MyProfile" asp-route-id="@userinfo.Id">Profile</a>
+                    <a  active-when="SocialPatient" style=" text-decoration: none;" asp-action="GetAll" asp-controller="SocialPatient">Social</a>
+                    <a  style=" text-decoration: none;" href="#">Problem</a>
+                    <a  active-when="PatientCourse" style=" text-decoration: none;" asp-action="Course" asp-controller="PatientCourse">Course</a>
+                    <a  active-when="ChatHub" asp-action="Index" asp-controller="ChatHub" style=" text-decoration: none;">Contact</a>
+                        @if (@userinfo.PersonType == SuperHero.DAL.Enum.PersonType.Trainer)
+                        {
+                            <a active-when="Course" asp-action="GetALL" asp-controller="Course" style=" text-decoration: none;">Update Course</a>
+
+                        }
                 </div>
                 
                 <div class="dropdown">
                     <div class="navbar_acc  ">
-                        @if (signInManager.IsSignedIn(User))
-                        {
+                        
 
 
                             @if (@userinfo.Image == null)
@@ -54,7 +60,7 @@
 
                                 <img class="dropbtn"  src="/files/imgs/@userinfo.Image" style="width:60px;height:60px" alt="" />
                             }
-                        }
+                        
 
                     </div>
                     
@@ -119,4 +125,5 @@
  
     <script src="~/dashboard/lib/fslightbox/index.min.js"></script>
 </body>
+}
 </html>

@@ -13,6 +13,7 @@ namespace SuperHero.DAL.Entities
         [Required]
         public string Name { get; set; }
         public DateTime CreatedTime { get; set; }
+        public string? Image { get; set; }
         //Nevegation Property
         public List<PersonGroup> Personsgroup { get; set; }
         public List<ChatGroup>? ChatGroup { get; set; }

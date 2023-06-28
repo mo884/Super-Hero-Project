@@ -20,6 +20,10 @@ namespace SuperHero.PL.Hubs
             _context.SaveChanges();
             await Clients.All.SendAsync("ReceiveMessage", user, message, Path, ID);
         }
+        //public async Task sendMessageToUser(string ConnectionId , string Message)
+        //{
+        //    return await Clients.Clients(ConnectionId).SendAsync("ReceiveMessage", Message);
+        //}
 
         public async Task JoinGroup(string group, string name)
         {
@@ -29,7 +33,17 @@ namespace SuperHero.PL.Hubs
         public async Task SendToGroup(string group, string name, string message)
         {
             await Clients.All.SendAsync("GroupSendToMessage", name, group, message);
+           
         }
-
+        public override Task OnConnectedAsync()
+        {
+            Groups.AddToGroupAsync(Context.ConnectionId, Context.User.Identity.Name);
+            return base.OnConnectedAsync();
+        }
+       
+        public Task SendMessageToGroup(string sender, string receiver, string message)
+        {
+            return Clients.Group(receiver).SendAsync("ReceiveMessage", sender, message);
+        }
     }
 }
