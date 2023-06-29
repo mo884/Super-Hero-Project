@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using SuperHero.BL.DomainModelVM;
 using SuperHero.BL.Interface;
 
@@ -9,11 +10,14 @@ namespace SuperHero.PL.Controllers
         private readonly IServiesRep serviesRep;
         private readonly SignInManager<Person> signInManager;
         private readonly IBaseRepsoratory<Group> Group;
-        public ChatHubController(IServiesRep serviesRep, SignInManager<Person> signInManager, IBaseRepsoratory<Group> Group) 
+        private readonly IBaseRepsoratory<Person> _userManager;
+      
+        public ChatHubController(IServiesRep serviesRep, IBaseRepsoratory<Person> _userManager, SignInManager<Person> signInManager, IBaseRepsoratory<Group> Group) 
         { 
             this.serviesRep = serviesRep;
             this.signInManager = signInManager;
             this.Group = Group;
+            this._userManager = _userManager;
         }
         public async Task<IActionResult>Index()
         {
@@ -72,6 +76,24 @@ namespace SuperHero.PL.Controllers
         {
             TempData["PersonId"] = Id;
             return View();
+        }
+        
+
+        public async Task<IActionResult> Chat(string Id)
+        {
+            
+            var user = await _userManager.GetByID(Id);
+            var PersonProfile = await signInManager.UserManager.FindByNameAsync(User.Identity.Name);
+            
+            var Chat = await serviesRep.GetAllPrivateChat(PersonProfile.Id, Id);
+            if (user == null)
+                return NotFound();
+
+            PrivateChatVM privateChatVM = new PrivateChatVM() { 
+                Chats = Chat,
+                Reciver = user
+            };
+            return View(privateChatVM);
         }
     }
 }

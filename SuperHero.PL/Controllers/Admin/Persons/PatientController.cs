@@ -176,7 +176,7 @@ namespace SuperHero.PL.Controllers.Admin.Persons
             {
 
                 return PartialView("Registration", model);
-            }
+            } 
 
            
         }

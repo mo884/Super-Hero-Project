@@ -649,7 +649,11 @@ namespace SuperHero.BL.Reposoratory
             var Chat = await Db.ChatGroups.Where(a => a.groupId == GroupId).Include("Person").Include("group").ToListAsync();
             return Chat;
         }
-
+        public async Task<IEnumerable<PrivateChat>> GetAllPrivateChat(string SenderID ,string ReciverID )
+        {
+            var Chat = await Db.PrivateChats.Where(a => (a.SenderID == SenderID && a.RecivierID == ReciverID) || (a.SenderID == ReciverID && a.RecivierID == SenderID)).Include("Sender").ToListAsync();
+            return Chat;
+        }
         #endregion
     }
 }

@@ -1,0 +1,146 @@
+﻿@model PrivateChatVM
+@using Microsoft.AspNetCore.Identity;
+@inject SignInManager<Person> signInManager
+@{
+    ViewData["Title"] = "Chat";
+    Layout = "~/Views/Shared/PatientLayout/_Layout.cshtml";
+    var userinfo = await signInManager.UserManager.FindByNameAsync(User.Identity.Name);
+
+} 
+
+@section PersonType{
+    @if (signInManager.IsSignedIn(User))
+    {
+
+
+        @if (@userinfo.Image == null)
+        {
+            if (@userinfo.gender == 0)
+            {
+                <img src="/files/imgs/men.jpg" alt="" />
+            }
+            else
+            {
+
+                <img src="/files/imgs/young-woman-avatar-cartoon-character-profile-picture-young-woman-wearing-blue-t-shirt-avatar-cartoon-character-vector-149732076.jpg" alt="" />
+            }
+        }
+        else
+        {
+            <a data-fslightbox href="~/files/imgs/@userinfo.Image">
+                <img src="/files/imgs/@Model.Reciver.Image" alt="" />
+            </a>
+
+        }
+    }
+    <div class="acc-txt">
+        <h3>Never Give Up!</h3>
+        <h6>@Model.Reciver.FullName</h6>
+
+
+    </div>
+
+}
+
+
+<section style="background-color: #eee;">
+    <div class="container py-5">
+
+        <div class="row d-flex justify-content-center">
+            <div class="col-md-11 col-lg-11 col-xl-11">
+
+                <div class="card" id="chat1" style="border-radius: 15px;">
+                    <div style="background:#1eb2a6" class="card-header d-flex justify-content-between align-items-center p-3  text-white border-bottom-0"
+                         style="border-top-left-radius: 15px; border-top-right-radius: 15px;">
+                        <i class="fas fa-angle-left"></i>
+                        <p class="mb-0 fw-bold">@Model.Reciver.FullName</p>
+                        
+                        <i class="fas fa-times"></i>
+                    </div>
+                    <div class="card-body">
+
+                       @foreach (var item in Model.Chats)
+                        {
+                            if (userinfo.Id != item.SenderID)
+                            {
+                                <div class="d-flex flex-row justify-content-end mb-4">
+                                    <div class="p-3 me-3 border" style="border-radius: 15px; background-color: #fbfbfb;">
+                                        <p class="small mb-0">@item.Message</p>
+                                    </div>
+                                    <img src="~/Files/Imgs/@item.Sender.Image"
+                                         alt="avatar 1" style="width: 45px; height: 100%;">
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="d-flex flex-row justify-content-start mb-4">
+                                    <img src="~/Files/Imgs/@item.Sender.Image"
+                                         alt="avatar 1" style="width: 45px; height: 100%;">
+                                    <div class="p-3 ms-3" style="border-radius: 15px; background-color: rgba(57, 192, 237,.2);">
+                                        <p class="small mb-0">
+                                            @item.Message
+                                        </p>
+                                    </div>
+                                </div>
+                            }
+
+
+                        }
+                        <div id="list">
+                        </div>
+
+
+
+                        <div class="form-outline">
+                            <div class="row">
+                                <div class="col-sm-1">
+                                </div>
+                                <div class="col-sm-8 ">
+                                    <textarea class="form-control" id="message-input" rows="4"></textarea>
+                                </div>
+                                <div class="col-sm-3">
+                                    <button type="submit" id="send-button" style="margin-top:40px; border:2px solid #1eb2a6 ; border-radius:10px ;color:white;height:30px; background:#1eb2a6">Send Message</button>
+                                </div>
+                            </div>
+                            <input hidden type="text" value="@userinfo.FullName" id="txtUser" />
+
+                            <input hidden type="text" value="/files/imgs/@userinfo.Image" id="imgPath" />
+
+                            <input id="SenderID" hidden value="@userinfo.Id" type="text" />
+                            <input id="UserId" hidden value="@Model.Reciver.Id" type="text" />
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</section>
+@*<input id="message-input" type="text" />
+<input id="SenderID" hidden value="@userinfo.Id" type="text" />
+<button id="send-button">Send</button>
+<div id="list"></div>*@
+<script src="~/datatable/lib/jquery/dist/jquery.js"></script>
+<script src="~/chat/lib/microsoft/signalr/dist/browser/signalr.js"></script>
+
+<script src="~/chat/js/site.js"></script>
+
+<script>
+    var userId = "@Model.Reciver.Id";
+    var SenderID = document.getElementById("SenderID");
+    var messageInput = document.getElementById("message-input");
+    var PathImage = document.getElementById("imgPath");
+    var sendButton = document.getElementById("send-button");
+
+    sendButton.addEventListener("click", function () {
+        var message = messageInput.value;
+        var Sender = SenderID.value;
+        var Path = PathImage.value;
+        sendToMessage(userId, message, Sender, Path);
+        messageInput.value = "";
+    });
+</script>
+

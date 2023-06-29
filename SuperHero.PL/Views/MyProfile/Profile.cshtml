@@ -159,7 +159,7 @@
         <a style="color:black" href="javascript:;" data-id="@Model.Id" class="js-Add   mr-3 btn @((Model.friends?.Where(c=>c.personId==userinfo.Id && c.FriendId == Model.Id)?.FirstOrDefault()?.IsFriend == null? "btn-info": (Model.friends.Where(c=>c.personId==userinfo.Id).FirstOrDefault().IsFriend) == true ? "btn-light" : "btn-info"))">
             @(((Model.friends?.Where(c => c.personId == userinfo.Id && c.FriendId == Model.Id)?.SingleOrDefault() == null) ? "Follow" : (Model.friends.Where(c => c.personId == userinfo.Id).FirstOrDefault().IsFriend) == true ? "UnFollow" : "Follow"))
         </a>
-        <a class="btn btn-light " style="color:black">Send</a>
+        <a class="btn btn-light " asp-action="Chat" asp-controller="ChatHub" asp-route-id="@Model.Id" style="color:black">Send</a>
     }
     else
     {

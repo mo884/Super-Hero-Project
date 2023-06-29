@@ -61,5 +61,6 @@ namespace SuperHero.BL.Interface
         Task CreateRadiologyBYPatient(DoctorRadiology Radiology);
         Task<bool> GetMedicalSyndicate(string NummberSyndicate);
         Task<IEnumerable<ChatGroup>> GetAllChatGroup(int GroupId);
+        Task<IEnumerable<PrivateChat>> GetAllPrivateChat(string SenderID, string ReciverID);
     }
 }

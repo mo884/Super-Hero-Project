@@ -1,65 +1,58 @@
-﻿"use strict";
+﻿var UserId = document.getElementById("UserId").value;
+var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
 
-var connection = new signalR.HubConnectionBuilder()
-    .withUrl("/messages", {
-        accessTokenFactory: () => "testing"
-    })
-    .build();
+connection.on("ReceiveUser", function (userId, message, SenderID, Path) {
+    // Handle received message
+    if (UserId == SenderID) {
+       
+        if (userId != SenderID) {
 
-connection.on("ReceiveMessage", function (message) {
-    var msg = message.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-    var div = document.createElement("div");
-    div.innerHTML = msg + "<hr/>";
-    document.getElementById("messages").appendChild(div);
-});
 
-connection.on("UserConnected", function (connectionId) {
-    var groupElement = document.getElementById("group");
-    var option = document.createElement("option");
-    option.text = connectionId;
-    option.value = connectionId;
-    groupElement.add(option);
-});
 
-connection.on("UserDisconnected", function (connectionId) {
-    var groupElement = document.getElementById("group");
-    for (var i = 0; i < groupElement.length; i++) {
-        if (groupElement.options[i].value == connectionId) {
-            groupElement.remove(i);
+            var msg =
+                ` <div class="d-flex flex-row justify-content-end mb-4" >
+                                <div class="p-3 me-3 border" style="border-radius: 15px; background-color: #fbfbfb;">
+                                    <p class="small mb-0">${message}</p>
+                                </div>
+                                <img src="${Path}"
+                                     alt="avatar 1" style="width: 45px; height: 100%;">
+                            </div>
+    `;
+        } else {
+            var msg = ` <div class="d-flex flex-row justify-content-start mb-4">
+                                <img src="${Path}"
+                                     alt="avatar 1" style="width: 45px; height: 100%;">
+                                <div class="p-3 me-3" style="border-radius: 15px; background-color: rgba(57, 192, 237,.2);">
+                                    <p class="small mb-0">
+                                       ${message}
+                                    </p>
+                                </div>
+                            </div>`;
         }
+
+    } 
+    if (userId == UserId) {
+        var msg = ` <div class="d-flex flex-row justify-content-start mb-4">
+                                <img src="${Path}"
+                                     alt="avatar 1" style="width: 45px; height: 100%;">
+                                <div class="p-3 me-3" style="border-radius: 15px; background-color: rgba(57, 192, 237,.2);">
+                                    <p class="small mb-0">
+                                       ${message}
+                                    </p>
+                                </div>
+                            </div>`;
     }
+    
+
+    $("#list").append(msg);
 });
 
 connection.start().catch(function (err) {
-    return console.error(err.toString());
+    console.error(err.toString());
 });
 
-document.getElementById("sendButton").addEventListener("click", function (event) {
-    var message = document.getElementById("message").value;
-    var groupElement = document.getElementById("group");
-    var groupValue = groupElement.options[groupElement.selectedIndex].value;
-
-    if (groupValue === "All" || groupValue === "Myself") {
-        var method = groupValue === "All" ? "SendMessageToAll" : "SendMessageToCaller";
-        connection.invoke(method, message).catch(function (err) {
-            return console.error(err.toString());
-        });
-    } else if (groupValue === "PrivateGroup") {
-        connection.invoke("SendMessageToGroup", "PrivateGroup", message).catch(function (err) {
-            return console.error(err.toString());
-        });
-    } else {
-        connection.invoke("SendMessageToUser", groupValue, message).catch(function (err) {
-            return console.error(err.toString());
-        });
-    }
-
-    event.preventDefault();
-});
-
-document.getElementById("joinGroup").addEventListener("click", function (event) {
-    connection.invoke("JoinGroup", "PrivateGroup").catch(function (err) {
-        return console.error(err.toString());
+function sendToMessage(userId, message, SenderID, Path) {
+    connection.invoke("SendToMessage", userId, message, SenderID,Path).catch(function (err) {
+        console.error(err.toString());
     });
-    event.preventDefault();
-});
+}
