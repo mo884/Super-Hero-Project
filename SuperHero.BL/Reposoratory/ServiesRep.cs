@@ -15,6 +15,7 @@ using System.Linq.Expressions;
 using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace SuperHero.BL.Reposoratory
 {
@@ -654,6 +655,18 @@ namespace SuperHero.BL.Reposoratory
             var Chat = await Db.PrivateChats.Where(a => (a.SenderID == SenderID && a.RecivierID == ReciverID) || (a.SenderID == ReciverID && a.RecivierID == SenderID)).Include("Sender").ToListAsync();
             return Chat;
         }
+        #endregion
+
+        #region Search
+        public async Task<IEnumerable<Person>> Search(string query)
+        {
+            var searchResults = await Db.Persons
+             .Where(p => p.FullName.Contains(query) )
+            .ToListAsync();
+            return searchResults;
+        }
+        
+
         #endregion
     }
 }

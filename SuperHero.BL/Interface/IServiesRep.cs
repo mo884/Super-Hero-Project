@@ -62,5 +62,6 @@ namespace SuperHero.BL.Interface
         Task<bool> GetMedicalSyndicate(string NummberSyndicate);
         Task<IEnumerable<ChatGroup>> GetAllChatGroup(int GroupId);
         Task<IEnumerable<PrivateChat>> GetAllPrivateChat(string SenderID, string ReciverID);
+        Task<IEnumerable<Person>> Search(string query);
     }
 }

@@ -1,0 +1,129 @@
+﻿@model List<Person>
+
+
+@if (Model.Count > 0)
+{
+    <div class="scrollable-container">
+        <div class="scrollable-content">
+            <div id="search-container" class="search-container">
+
+                <ul id="profile-list">
+                    @foreach (var item in Model)
+                    {
+                        <div class="profile">
+                            <div class="profile-image">
+                                @if (@item.Image == null)
+                                {
+                                    if (@item.gender == 0)
+                                    {
+                                        <img class="dropbtn" src="/files/imgs/men.jpg" alt="" />
+                                    }
+                                    else
+                                    {
+
+                                        <img class="dropbtn" src="/files/imgs/young-woman-avatar-cartoon-character-profile-picture-young-woman-wearing-blue-t-shirt-avatar-cartoon-character-vector-149732076.jpg" alt="" />
+                                    }
+                                }
+                                else
+                                {
+
+                                    <img src="~/Files/Imgs/@item.Image" alt="Profile 1">
+                                }
+                                
+                            </div>
+                            <div class="profile-details">
+                                <h3 style="color:#5f5d5d"><strong>@item.FullName </strong><i style="color:#1EB2A6" class="fas fa-check-circle"></i></h3>
+                                <p style="color:#757474">@item.PersonType</p>
+
+                            </div>
+                            <a asp-action="Profile" style="color:white;" asp-controller="MyProfile" asp-route-id="@item.Id" class="profile-viwer">Profile</a>
+                        </div>
+                        <br />
+
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <div style="text-align:center" class="alert alert-success" role="alert">
+       No results found.
+    </div>
+}
+<style>
+    .search-container {
+        max-width: 400px;
+        margin: 0 auto;
+
+    }
+
+    #search-input {
+        width: 100%;
+        padding: 8px;
+        margin-bottom: 10px;
+        font-size: 16px;
+        border:none;
+        background:white
+    }
+
+    #profile-list {
+        list-style-type: none;
+        padding: 0;
+    }
+
+    .profile {
+        display: flex;
+        align-items: center;
+        padding: 10px;
+        border: 1px solid #ccc;
+        margin-bottom: 5px;
+        background:white;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4); /* Add box shadow effect */
+    }
+
+    .profile-image {
+        width: 80px;
+        height: 80px;
+        margin-right: 10px;
+    }
+
+    .profile-viwer{
+        text-decoration:none;
+        color:white;
+        padding:7px;
+        background: #1EB2A6;
+        border-radius:10px
+    }
+        .profile-image img {
+            width: 90%;
+            height: 90%;
+            object-fit: cover;
+            border-radius: 50%;
+        border: 2px solid #1EB2A6
+        }
+
+    .profile-details {
+        flex: 1;
+    }
+
+    .profile h3 {
+        margin: 0;
+        font-size: 18px;
+    }
+
+    .profile p {
+        margin: 5px 0;
+        font-size: 14px;
+    }
+
+    .scrollable-container {
+        max-height: 300px; /* Set the maximum height of the container */
+        overflow-y: auto; /* Enable vertical scroll */
+    }
+
+    .scrollable-content {
+        padding: 10px;
+    }
+</style>
