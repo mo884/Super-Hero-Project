@@ -680,6 +680,33 @@ namespace SuperHero.DAL.Migrations
                     b.ToTable("MedicalSyndicates");
                 });
 
+            modelBuilder.Entity("SuperHero.DAL.Entities.NotificationMessage", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Notification")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ReciverID")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SenderId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<bool>("Show")
+                        .HasColumnType("bit");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SenderId");
+
+                    b.ToTable("NotificationMessages");
+                });
+
             modelBuilder.Entity("SuperHero.DAL.Entities.Payment", b =>
                 {
                     b.Property<int>("Id")
@@ -1205,6 +1232,15 @@ namespace SuperHero.DAL.Migrations
                     b.Navigation("Course");
                 });
 
+            modelBuilder.Entity("SuperHero.DAL.Entities.NotificationMessage", b =>
+                {
+                    b.HasOne("SuperHero.DAL.Entities.Person", "person")
+                        .WithMany("notificationMessages")
+                        .HasForeignKey("SenderId");
+
+                    b.Navigation("person");
+                });
+
             modelBuilder.Entity("SuperHero.DAL.Entities.PersonGroup", b =>
                 {
                     b.HasOne("SuperHero.DAL.Entities.Group", "group")
@@ -1382,6 +1418,8 @@ namespace SuperHero.DAL.Migrations
                     b.Navigation("donner");
 
                     b.Navigation("friends");
+
+                    b.Navigation("notificationMessages");
 
                     b.Navigation("patient");
 

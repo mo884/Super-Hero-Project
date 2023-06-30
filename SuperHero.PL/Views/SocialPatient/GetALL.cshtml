@@ -104,7 +104,7 @@
 <form style="display:flex;margin-top:20px; justify-content:center;align-content:center" id="searchForm">
     <input style="border:none;" type="text" id="query" name="query" />
     <button style="margin-left:10px" type="submit"><i class="fa-sharp fa-solid fa-magnifying-glass"></i></button>
-    <a style="color:rgb(252, 3, 3);margin-left:60px;cursor:pointer;margin-left:4px;height:53px;border-radius:5px; padding:11px ;border:2px solid rgb(252, 3, 3) ;" id="hid"><i style="font-size:30px;" class="fa-sharp fa-solid fa-trash fa-bounce"></i></a>
+    <a style="color:#dc3545;margin-left:60px;cursor:pointer;margin-left:4px;height:53px;border-radius:5px; padding:11px ;border:2px solid rgb(252, 3, 3) ;" id="hid"><i style="font-size:30px;" class="fa-sharp fa-solid fa-trash "></i></a>
 
 </form>
 <div id="searchResults"></div>
@@ -158,8 +158,8 @@
                                     }
                                     else
                                     {
-                                        <a href="#home"><i class="fa-solid fa-spell-check"></i>Edit</a>
-                                        <a href="#about"><i class="fa-solid fa-trash-can"></i> Delete</a>
+                                        <a asp-controller="Post" asp-action="Edite" asp-route-id="@post.ID"><i class="fa-solid fa-spell-check"></i>Edit</a>
+                                        <a asp-controller="Post" asp-action="Delete" asp-route-id="@post.ID"><i class="fa-solid fa-trash-can"></i> Delete</a>
                                     }
                                 </div>
                             </div>
@@ -348,9 +348,10 @@
 
         }
         @section JS{
+            
             <script src="~/dashboard/lib/jquery/jquery.min.js"></script>
 
-            <script src="~/dashboard/lib/plugins.bundle.js"></script>
+          @*  <script src="~/dashboard/lib/plugins.bundle.js"></script>*@
             <script src="~/dashboard/lib/bootbox.js/bootbox.js"></script>
             <script type="text/javascript">
                 $(document).ready(function () {

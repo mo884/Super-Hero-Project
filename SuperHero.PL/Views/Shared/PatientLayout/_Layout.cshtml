@@ -21,6 +21,7 @@
 <body style="background-color: rgb(223, 220, 220);">
     <header>
         <div class="container">
+                <span hidden aria-label="@userinfo.Id" id="btn_id"></span>
             <div class="navbar">
                 <div class="navbar_logo">
                     <h2 style="color:white">super Hero</h2>
@@ -36,6 +37,21 @@
                             <a active-when="Course" asp-action="GetALL" asp-controller="Course" style=" text-decoration: none;">Update Course</a>
 
                         }
+                        <div class="dropdown"> 
+                            <div class="navbar_acc  ">
+
+
+                                <i style="cursor:pointer" class="fa-sharp fa-solid fa-bell  fa-lg mm"></i><strong><sup style="font-size:15px" id="NumberCount"></sup></strong>
+
+                            </div>
+                            <div style="width:500px" id="myDropdown" class="dropdown-content">
+
+                                <ul id="Notifcation" class="list-group" style="width:500px">
+                                </ul>
+                            </div>
+                    
+                        </div>
+                        
                 </div>
                 
                 <div class="dropdown">
@@ -117,13 +133,21 @@
     </section>
     <script src="~/dashboard/lib/jquery/jquery.min.js"></script>
     <script src="~/dashboard/lib/bootstrap/js/bootstrap.min.js"></script>
-   
+        @if (signInManager.IsSignedIn(User))
+        {
+
+            <script src="~/chat/js/notification.js"></script>
+        }
+       
     @RenderSection("DatatablesJS",required:false)
     @RenderSection("JS",required:false)
     @RenderSection("JqueryValidation",required:false)
 
  
     <script src="~/dashboard/lib/fslightbox/index.min.js"></script>
+       
+  
+        
 </body>
 }
 </html>

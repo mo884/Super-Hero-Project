@@ -34,7 +34,7 @@ namespace SuperHero.BL.Reposoratory
         #endregion
 
         #region Ctor
-        public ServiesRep(ApplicationContext Db, IBaseRepsoratory<Comment> comment, IBaseRepsoratory<Person> person, IBaseRepsoratory<Friends> allfriends, IBaseRepsoratory<UserInfo> user, IBaseRepsoratory<DonnerInfo> donner, IBaseRepsoratory<DoctorInfo> doctor,IMapper mapper, IBaseRepsoratory<TrainerInfo> trainer)
+        public ServiesRep(ApplicationContext Db, IBaseRepsoratory<Comment> comment, IBaseRepsoratory<Person> person, IBaseRepsoratory<Friends> allfriends, IBaseRepsoratory<UserInfo> user, IBaseRepsoratory<DonnerInfo> donner, IBaseRepsoratory<DoctorInfo> doctor, IMapper mapper, IBaseRepsoratory<TrainerInfo> trainer)
         {
             this.Db = Db;
             this.comment = comment;
@@ -77,7 +77,7 @@ namespace SuperHero.BL.Reposoratory
                         var olduserData = await GetDoctorBYID(OldData.Id);
                         DoctorInfo doctorInfo = new DoctorInfo()
                         {
-                           
+
                             CV = FileUploader.UploadFile("CVDoctors", obj.doctor.Cv_Name),
                             ClinicAdress = obj.doctor.ClinicAdress,
                             ClinicName = obj.doctor.ClinicName,
@@ -93,16 +93,16 @@ namespace SuperHero.BL.Reposoratory
                     if (obj.trainer.Cv_Name != null)
                     {
                         var olduserData = await GetTrainerBYID(OldData.Id);
-                        
+
                         var Trainer = new TrainerInfo()
                         {
-                          
+
                             CV = FileUploader.UploadFile("CVDoctors", obj.trainer.Cv_Name),
                             Graduation = obj.trainer.Graduation,
                             TrainerID = OldData.Id,
                             Person = OldData,
                         };
-                       
+
                         await trainer.Create(Trainer);
                         await trainer.Delete(olduserData.ID);
                     }
@@ -116,7 +116,7 @@ namespace SuperHero.BL.Reposoratory
                         var olduserData = await GetDonnerBYID(OldData.Id);
                         OldData.donner = new DonnerInfo()
                         {
-                            
+
                             DonationType = obj.doner.DonationType,
                             DonnerID = obj.Id
 
@@ -173,12 +173,12 @@ namespace SuperHero.BL.Reposoratory
         }
         public async Task<Person> GetPatientProfile(string id)
         {
-            var user =await Db.Persons.Where(a => a.Id == id).Include("district").Include("friends").Include("patient").FirstOrDefaultAsync();
+            var user = await Db.Persons.Where(a => a.Id == id).Include("district").Include("friends").Include("patient").FirstOrDefaultAsync();
             user.district.City = await Db.Cities.Where(a => a.ID == user.district.CityId).SingleOrDefaultAsync();
             user.patient.Treatments = await GetAllTreatmentbyId(user.patient.ID);
             user.patient.Analyses = await GetAllAnalysisbyId(user.patient.ID);
             user.patient.radiologies = await GetAllRadiologybyId(user.patient.ID);
-            return  user;
+            return user;
         }
         #endregion
 
@@ -213,14 +213,14 @@ namespace SuperHero.BL.Reposoratory
         }
         public async Task<Post> GetPostById(int id, string include1, string include2, string include3)
         {
-            var post = await Db.Posts.Where(p=>p.ID==id).Include(include1).Include(include2).Include(include3).FirstOrDefaultAsync();
+            var post = await Db.Posts.Where(p => p.ID == id).Include(include1).Include(include2).Include(include3).FirstOrDefaultAsync();
             var Comments = await Db.Comments.Where(c => c.PostID == id).Include("person").ToListAsync();
             post.Comments = Comments;
             return post;
         }
         public async Task EditPost(PostVM postVM)
         {
-            var data=  await Db.Posts.Where(post => post.ID == postVM.ID).SingleOrDefaultAsync();
+            var data = await Db.Posts.Where(post => post.ID == postVM.ID).SingleOrDefaultAsync();
             var Person = await Db.Persons.Where(person => person.Id == postVM.PersonID).SingleOrDefaultAsync();
             data.Image = postVM.Image;
             data.Body = postVM.Body;
@@ -267,7 +267,7 @@ namespace SuperHero.BL.Reposoratory
             if (data is null)
                 return true;
             return false;
-           
+
         }
         public async Task<bool> Delete(int id, string personId)
         {
@@ -294,7 +294,7 @@ namespace SuperHero.BL.Reposoratory
         {
             var persongroup = await Db.personGroups
                 .Where(a => a.Group == id).ExecuteDeleteAsync();
-            
+
 
             Db.SaveChanges();
         }
@@ -310,9 +310,9 @@ namespace SuperHero.BL.Reposoratory
 
 
 
-        public async Task<IEnumerable<Friends> > GetFollower(string id)
+        public async Task<IEnumerable<Friends>> GetFollower(string id)
         {
-            var follwers = await Db.Friends.Where(a => a.FriendId == id&&a.IsFriend).ToListAsync();
+            var follwers = await Db.Friends.Where(a => a.FriendId == id && a.IsFriend).ToListAsync();
             return follwers;
         }
 
@@ -350,7 +350,7 @@ namespace SuperHero.BL.Reposoratory
             if (filter != null)
             {
                 return
-                  await Db.District.Where(filter) 
+                  await Db.District.Where(filter)
                                .ToListAsync();
             }
             else
@@ -403,7 +403,7 @@ namespace SuperHero.BL.Reposoratory
         #endregion
 
         #region Add Doctor Reating ❤ Ameen
-        public async Task<DoctorRatingVM> DoctorRatingISTrue( string PersonId, string DoctorId)
+        public async Task<DoctorRatingVM> DoctorRatingISTrue(string PersonId, string DoctorId)
         {
 
             var DoctorRating = await Db.DoctorRating.Where(a => a.DoctorId == DoctorId && a.PersonID == PersonId).FirstOrDefaultAsync();
@@ -415,10 +415,10 @@ namespace SuperHero.BL.Reposoratory
             }
 
             return null;
-          
-                
 
-            
+
+
+
         }
 
 
@@ -430,7 +430,7 @@ namespace SuperHero.BL.Reposoratory
             var data = await Db.Analyses.Where(a => a.personID == userinfo).Include("patient").ToListAsync();
             return data;
         }
-        public async Task Create(DoctorAnalysis analysis,string DoctorId)
+        public async Task Create(DoctorAnalysis analysis, string DoctorId)
         {
             analysis.patient = await Db.UserInfos.Where(a => a.ID == analysis.personID).FirstOrDefaultAsync();
 
@@ -443,8 +443,8 @@ namespace SuperHero.BL.Reposoratory
                 IsAdd = false
             };
 
-             Db.Analyses.Add(data);
-             Db.SaveChanges();
+            Db.Analyses.Add(data);
+            Db.SaveChanges();
         }
         public async Task CreateBYUser(DoctorAnalysis analysis)
         {
@@ -470,7 +470,7 @@ namespace SuperHero.BL.Reposoratory
             var data = await Db.Treatments.Where(a => a.personID == userinfo).ToListAsync();
             return data;
         }
-        public async Task CreateTreatment(DoctorTreatment Treatment,string DoctorId)
+        public async Task CreateTreatment(DoctorTreatment Treatment, string DoctorId)
         {
             Treatment.patient = await Db.UserInfos.Where(a => a.ID == Treatment.personID).FirstOrDefaultAsync();
 
@@ -481,7 +481,7 @@ namespace SuperHero.BL.Reposoratory
                 personID = Treatment.personID,
                 patient = Treatment.patient,
                 DoctorID = DoctorId,
-                IsAdd =false,
+                IsAdd = false,
             };
 
             Db.Treatments.Add(data);
@@ -495,7 +495,7 @@ namespace SuperHero.BL.Reposoratory
             var data = await Db.Radiologies.Where(a => a.personID == userinfo).ToListAsync();
             return data;
         }
-        public async Task CreateRadiology(DoctorRadiology Radiology,string DoctorId)
+        public async Task CreateRadiology(DoctorRadiology Radiology, string DoctorId)
         {
             Radiology.patient = await Db.UserInfos.Where(a => a.ID == Radiology.personID).FirstOrDefaultAsync();
 
@@ -505,7 +505,7 @@ namespace SuperHero.BL.Reposoratory
                 personID = Radiology.personID,
                 patient = Radiology.patient,
                 DoctorID = DoctorId,
-                IsAdd=false,
+                IsAdd = false,
             };
 
             Db.Radiologies.Add(data);
@@ -519,8 +519,8 @@ namespace SuperHero.BL.Reposoratory
             {
                 Name = Radiology.Name,
                 personID = Radiology.personID,
-                patient = Radiology.patient, 
-                XRay = Radiology.XRay, 
+                patient = Radiology.patient,
+                XRay = Radiology.XRay,
                 IsAdd = true,
             };
 
@@ -533,7 +533,7 @@ namespace SuperHero.BL.Reposoratory
         #region Record && Clicnic 
         public async Task SaveRecord(string PersonId, string DoctorId, Recorder record)
         {
-            var Record =await Db.Recorders.Where(a => a.DoctorID == DoctorId && PersonId == a.PatientID).FirstOrDefaultAsync();
+            var Record = await Db.Recorders.Where(a => a.DoctorID == DoctorId && PersonId == a.PatientID).FirstOrDefaultAsync();
             var person = await Db.Persons.Where(a => a.Id == PersonId).FirstOrDefaultAsync();
             if (Record == null)
             {
@@ -555,7 +555,7 @@ namespace SuperHero.BL.Reposoratory
                 {
                     Record.IsCheck = false;
                     Record.RecodDate = record.RecodDate;
-                   
+
                 }
                 else
                 {
@@ -566,18 +566,18 @@ namespace SuperHero.BL.Reposoratory
                 Db.Recorders.Update(Record);
                 Db.SaveChanges();
             }
-           
-          
+
+
         }
 
         //Get All Patient Record
         public async Task<IEnumerable<Recorder>> GetAllPatientRecord(string DoctorId)
         {
-            var data =await Db.Recorders.Where(a => a.DoctorID == DoctorId).Include("Patient").ToListAsync();
+            var data = await Db.Recorders.Where(a => a.DoctorID == DoctorId).Include("Patient").ToListAsync();
             return data;
         }
         //Get Patient
-        public async Task<Recorder> GetPatientRecordBYID(string DoctorId , string PatientId)
+        public async Task<Recorder> GetPatientRecordBYID(string DoctorId, string PatientId)
         {
             var data = await Db.Recorders.Where(a => a.DoctorID == DoctorId && a.PatientID == PatientId).Include("Patient").FirstOrDefaultAsync();
             return data;
@@ -585,12 +585,12 @@ namespace SuperHero.BL.Reposoratory
         //Get Patient with info
         public async Task<Person> GetPatientRecord(string PatientId)
         {
-            
+
             var data = await Db.Persons.Where(a => a.Id == PatientId).Include("patient").Include("district").Include("Recorder").FirstOrDefaultAsync();
-            data.patient.Analyses =await GetAllAnalysisbyId(data.patient.ID);
+            data.patient.Analyses = await GetAllAnalysisbyId(data.patient.ID);
             data.patient.Treatments = await GetAllTreatmentbyId(data.patient.ID);
             data.patient.radiologies = await GetAllRadiologybyId(data.patient.ID);
-            
+
             return data;
         }
         #endregion
@@ -599,7 +599,7 @@ namespace SuperHero.BL.Reposoratory
         public async Task EditeLessonByID(LessonVM lessonVM)
         {
             var lessons = await Db.Lessons
-                .Where(a => a. ID == lessonVM.ID).SingleOrDefaultAsync();
+                .Where(a => a.ID == lessonVM.ID).SingleOrDefaultAsync();
             lessons.Num = lessonVM.Num;
             lessons.Name = lessonVM.Name;
 
@@ -610,7 +610,7 @@ namespace SuperHero.BL.Reposoratory
         #endregion
 
         #region GetAllSocial
-        public async Task<AuditViewModel>GetAllSocial(Person PersonProfile)
+        public async Task<AuditViewModel> GetAllSocial(Person PersonProfile)
         {
             var data = await GetALlPost("person", "Comments", "ReactPosts");
             var post = mapper.Map<IEnumerable<PostVM>>(data);
@@ -640,7 +640,7 @@ namespace SuperHero.BL.Reposoratory
             var ISFound = await Db.MedicalSyndicates.Where(a => a.NUMMBERSYNDICATE == NummberSyndicate).FirstOrDefaultAsync();
             if (ISFound == null)
                 return false;
-            return  true;
+            return true;
         }
         #endregion
 
@@ -650,7 +650,7 @@ namespace SuperHero.BL.Reposoratory
             var Chat = await Db.ChatGroups.Where(a => a.groupId == GroupId).Include("Person").Include("group").ToListAsync();
             return Chat;
         }
-        public async Task<IEnumerable<PrivateChat>> GetAllPrivateChat(string SenderID ,string ReciverID )
+        public async Task<IEnumerable<PrivateChat>> GetAllPrivateChat(string SenderID, string ReciverID)
         {
             var Chat = await Db.PrivateChats.Where(a => (a.SenderID == SenderID && a.RecivierID == ReciverID) || (a.SenderID == ReciverID && a.RecivierID == SenderID)).Include("Sender").ToListAsync();
             return Chat;
@@ -661,11 +661,49 @@ namespace SuperHero.BL.Reposoratory
         public async Task<IEnumerable<Person>> Search(string query)
         {
             var searchResults = await Db.Persons
-             .Where(p => p.FullName.Contains(query) )
+             .Where(p => p.FullName.Contains(query))
             .ToListAsync();
             return searchResults;
         }
-        
+
+        public async Task<List<NotificationMessage>> GetNotiFications(Expression<Func<NotificationMessage, bool>> filter = null)
+        {
+            if (filter != null)
+            {
+                var data = await Db.NotificationMessages.Where(filter).ToListAsync();
+                return data;
+
+            }
+            else
+            {
+                return await Db.NotificationMessages.ToListAsync();
+            }
+        }
+
+        public async Task<bool> IsRead(string UserId)
+        {
+            var data = await Db.NotificationMessages.Where(x => x.ReciverID == UserId).ToListAsync();
+            foreach (var item in data)
+            {
+                item.Show = true;
+            }
+
+            try
+            {
+
+                await Db.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return
+                    false;
+                throw ex;
+            }
+
+
+        }
+
 
         #endregion
     }

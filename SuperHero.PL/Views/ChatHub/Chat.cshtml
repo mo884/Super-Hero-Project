@@ -43,6 +43,7 @@
 }
 
 
+              
 <section style="background-color: #eee;">
     <div class="container py-5">
 
@@ -69,6 +70,7 @@
                                     </div>
                                     <img src="~/Files/Imgs/@item.Sender.Image"
                                          alt="avatar 1" style="width: 45px; height: 100%;">
+                                   
                                 </div>
                             }
                             else
@@ -134,12 +136,12 @@
     var messageInput = document.getElementById("message-input");
     var PathImage = document.getElementById("imgPath");
     var sendButton = document.getElementById("send-button");
-
+    var NameUser = document.getElementById("txtUser").value;
     sendButton.addEventListener("click", function () {
         var message = messageInput.value;
         var Sender = SenderID.value;
         var Path = PathImage.value;
-        sendToMessage(userId, message, Sender, Path);
+        sendToMessage(userId, message, Sender, Path, NameUser);
         messageInput.value = "";
     });
 </script>

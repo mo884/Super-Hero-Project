@@ -63,5 +63,10 @@ namespace SuperHero.BL.Interface
         Task<IEnumerable<ChatGroup>> GetAllChatGroup(int GroupId);
         Task<IEnumerable<PrivateChat>> GetAllPrivateChat(string SenderID, string ReciverID);
         Task<IEnumerable<Person>> Search(string query);
+
+
+        Task<List<NotificationMessage>> GetNotiFications(Expression<Func<NotificationMessage, bool>> filter = null);
+
+        Task<bool> IsRead(string UserId);
     }
 }
