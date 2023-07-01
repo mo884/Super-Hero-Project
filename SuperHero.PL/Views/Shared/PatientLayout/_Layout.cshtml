@@ -29,7 +29,7 @@
                 <div class="menue_items">
                     <a active-when="MyProfile" style=" text-decoration: none;" asp-action="Profile" asp-controller="MyProfile" asp-route-id="@userinfo.Id">Profile</a>
                     <a  active-when="SocialPatient" style=" text-decoration: none;" asp-action="GetAll" asp-controller="SocialPatient">Social</a>
-                    <a  style=" text-decoration: none;" href="#">Problem</a>
+                   
                     <a  active-when="PatientCourse" style=" text-decoration: none;" asp-action="Course" asp-controller="PatientCourse">Course</a>
                     <a  active-when="ChatHub" asp-action="Index" asp-controller="ChatHub" style=" text-decoration: none;">Contact</a>
                         @if (@userinfo.PersonType == SuperHero.DAL.Enum.PersonType.Trainer)

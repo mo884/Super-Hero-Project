@@ -259,15 +259,19 @@
 <partial name="~/views/post/Model.cshtml">
 
     @section CSS{
+        <style>
+            #carousel-card .carousel-control-next,
+            #carousel-card .carousel-control-prev {
+                width: 5%;
+            }
+
+            .dropdown-content {
+                display: none
+            }
+        </style>
         <partial name="~/views/post/CSS.cshtml">
             <link href="~/dashboard/lib/style.bundle.css" rel="stylesheet" />
-            <style>
-                               #carousel-card .carousel-control-next,
-                #carousel-card .carousel-control-prev {
-                  width: 5%;
-
-                }
-            </style>
+            
         }
         @section JqueryValidation{
             <partial name="~/views/person/Partial/Script.cshtml" />

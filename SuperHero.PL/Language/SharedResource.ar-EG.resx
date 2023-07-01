@@ -121,13 +121,16 @@
     <value>*</value>
   </data>
   <data name="about" xml:space="preserve">
-    <value>عن</value>
+    <value>ماذا عن </value>
   </data>
   <data name="Action" xml:space="preserve">
     <value>الحدث</value>
   </data>
   <data name="Add" xml:space="preserve">
     <value>إضافة</value>
+  </data>
+  <data name="Add a post or comment" xml:space="preserve">
+    <value>إضافة منشور أو تعليق: هذا الخيار متاح فقط للطبيب والمدرب ، حيث يمكنه إضافة بعض المنشورات المفيدة التي يحتاجها ذوي الاحتياجات الخاصة.</value>
   </data>
   <data name="Add Doctor" xml:space="preserve">
     <value>اضافة دكتور </value>
@@ -150,8 +153,14 @@
   <data name="Add Person" xml:space="preserve">
     <value>اضافة شخص </value>
   </data>
+  <data name="Add the appropriate" xml:space="preserve">
+    <value>اضافة العلاج المناسب للمريض</value>
+  </data>
   <data name="Add Trainer" xml:space="preserve">
     <value>اضافة مدرب</value>
+  </data>
+  <data name="Adding stats to patients" xml:space="preserve">
+    <value>اضافة  تقيمات للمرضى داخل الموقع والتفاعل معهم.</value>
   </data>
   <data name="Adress" xml:space="preserve">
     <value>العنوان </value>
@@ -316,7 +325,7 @@
     <value>المجموعه</value>
   </data>
   <data name="Home" xml:space="preserve">
-    <value>بيت</value>
+    <value>الصفحة الرئسية</value>
   </data>
   <data name="Hours" xml:space="preserve">
     <value>الساعات</value>
@@ -330,6 +339,12 @@
   <data name="Images" xml:space="preserve">
     <value>الصور</value>
   </data>
+  <data name="in most cases the patient’s family" xml:space="preserve">
+    <value>في معظم الحالات تكون عائلة المريض هي من يستخدم هذه الصفحة ، والهدف من هذه الصفحة هو التواصل بين أعضاء المجموعة مع بعضهم البعض والطبيب</value>
+  </data>
+  <data name="In the end, this is our duty" xml:space="preserve">
+    <value>في النهاية، هذا هو واجبنا تجاههم للارتقاء إلى مستوى كرامتهم والتمتع بحقوقهم بغض النظر عن الاختلافات الفردية.</value>
+  </data>
   <data name="Invalid Email" xml:space="preserve">
     <value>بريد إلكتروني خاطئ</value>
   </data>
@@ -338,6 +353,9 @@
   </data>
   <data name="IsDelete" xml:space="preserve">
     <value>هو حذف</value>
+  </data>
+  <data name="Join the group" xml:space="preserve">
+    <value>انضم إلى المجموعة التي أنشأها المسؤول لبعض المرضى</value>
   </data>
   <data name="Lesson" xml:space="preserve">
     <value>درس</value>
@@ -420,6 +438,9 @@
   <data name="Profile" xml:space="preserve">
     <value>حساب تعريفي</value>
   </data>
+  <data name="Register" xml:space="preserve">
+    <value>انشاء حساب</value>
+  </data>
   <data name="Registration" xml:space="preserve">
     <value>تسجيل</value>
   </data>
@@ -441,6 +462,9 @@
   <data name="Save" xml:space="preserve">
     <value>حفظ</value>
   </data>
+  <data name="Second: Religious and moral principles" xml:space="preserve">
+    <value>ثانيا: المبادئ الدينية والأخلاقية، وهذا ما دفعنا للقيام بمثل هذا المشروع. نؤمن بأن مساعدة ذوي الاحتياجات الخاصة واجب ديني وأخلاقي</value>
+  </data>
   <data name="Send" xml:space="preserve">
     <value>يرسل</value>
   </data>
@@ -450,14 +474,29 @@
   <data name="Sign Out" xml:space="preserve">
     <value>خروج</value>
   </data>
+  <data name="social" xml:space="preserve">
+    <value>التواصل اجتماعي</value>
+  </data>
+  <data name="The Chatting interface is the interface" xml:space="preserve">
+    <value>واجهة الدردشة هي الواجهة التي يستخدمها كل من الطبيب وذوي الاحتياجات الخاصة</value>
+  </data>
   <data name="The Email field is required" xml:space="preserve">
     <value>حقل البريد الإلكتروني مطلوب</value>
   </data>
   <data name="The FullName field is required" xml:space="preserve">
     <value>حقل الاسم الكامل مطلوب</value>
   </data>
+  <data name="The motivation behind designing" xml:space="preserve">
+    <value>جاء الدافع وراء تصميم هذا الموقع أولا: معظمنا يعرف أو يرى أشخاصا من ذوي الاحتياجات الخاصة أو تعاملنا معهم في حياتنا، وهذا يخلق جانبا من جوانب التعاطف والتضامن مع هؤلاء الأشخاص، وهذا جعل البعض منا لديه الرغبة في مساعدة هؤلاء الأشخاص وتخفيف المعاناة التي يواجهونها في حياتهم اليومية.</value>
+  </data>
+  <data name="Third: Belief in the capabilities of these people" xml:space="preserve">
+    <value>ثالثا: الإيمان بقدرات هؤلاء الناس. عندما يتم تمكين هؤلاء الأشخاص ، وتوفير الفرص المناسبة لهم ، سيستفيد المجتمع بأكمله من مساهماتهم ومواهبهم المتنوعة ، ويكونون قادرين على القيام بذلك ، بشرط منحهم الفرصة</value>
+  </data>
   <data name="This field is required" xml:space="preserve">
     <value>هذه الخانة مطلوبه</value>
+  </data>
+  <data name="This page is divided into two parts, the group" xml:space="preserve">
+    <value>تنقسم هذه الصفحة إلى قسمين ، المجموعة التي يكون فيها الطبيب مع مجموعة من ذوي الاحتياجات الخاصة أو محادثة شخصية بين الطبيب والمريض سواء كانت طارئة أو للاستفسار</value>
   </data>
   <data name="Toggel Status" xml:space="preserve">
     <value>تبديل الحالة</value>
@@ -489,8 +528,17 @@
   <data name="UserName required" xml:space="preserve">
     <value>اسم المستخدم مطلوب</value>
   </data>
+  <data name="Users" xml:space="preserve">
+    <value>المستخدمين</value>
+  </data>
   <data name="View Profile" xml:space="preserve">
     <value>عرض الصفحة الشخصية</value>
+  </data>
+  <data name="Watching posts" xml:space="preserve">
+    <value>مشاهدة المنشورات والتفاعل معها: تظهر المشاركات التي أضافها الطبيب أو المدرب في هذه الصفحة.</value>
+  </data>
+  <data name="Which the doctor responds to the patient’s message" xml:space="preserve">
+    <value>حيث يقوم الطبيب بالرد على رسالة المريض، ويستمر في إرسال الرسائل من قبل الطرفين حتى نهاية المحادثة.</value>
   </data>
   <data name="Your quote request has been sent successfully. Thank you!" xml:space="preserve">
     <value>تم إرسال طلب الاقتباس الخاص بك بنجاح. شكرًا لك!</value>

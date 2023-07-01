@@ -1,4 +1,5 @@
-﻿<header>
+﻿
+<header>
     <div id="logo">
         <a href="#">
             <span id="span1">Super</span><span id="span2">Heros</span>
@@ -9,14 +10,14 @@
             <i class="fa fa-times" aria-hidden="true" onclick="toggle()"></i>
         </div>
         <ul>
-            <li>home</li>
+            <li><a asp-action="Login" asp-controller="Account">@SharedLocalizer["Home"]</a></li>
 
-            <li>about</li>
-            <li>contact</li>
-            <li>Problem</li>
-            <li>Profile</li>
-
-
+            <li><a href="#section-2">@SharedLocalizer["about"]</a></li>
+            <li>@SharedLocalizer["contact"]</li>
+            <li>@SharedLocalizer["Problem"]</li>
+            <li>@SharedLocalizer["Profile"]</li>
+           
+           
 
         </ul>
     </nav>
@@ -31,12 +32,12 @@
     <div class="left">
         <h1><span>Super H</span>eroes</h1>
 
-        <p style="color:rgb(99, 99, 99)">Helping people with special needs to learn and develop and to provide all the necessary assistance to these people. Places dedicated to donating and material assistance to these people, as well as providing group conversations for these people to communicate with each other or the doctors supervising them , If You are User ,Register Now</p>
+        <p style="color:rgb(99, 99, 99)">@SharedLocalizer["AimoftheWeb"]</p>
         <div style="background-color: white ; border:2px solid #82DBDB;" class="btn" id="btn_play">
-            <a style="color:#82DBDB ;" asp-action="Login" asp-controller="Account">LogIn</a>
+            <a style="color:#82DBDB ;" asp-action="Login" asp-controller="Account">@SharedLocalizer["Login"]</a>
         </div>
         <div class="btn" id="btn_play">
-            <a asp-action="Registration" asp-controller="Patient">Register</a>
+            <a asp-action="Registration" asp-controller="Patient">@SharedLocalizer["Register"]</a>
         </div>
     </div>
     <div class="right">

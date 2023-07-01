@@ -17,11 +17,15 @@
         <input type="text" placeholder="Search here..." />
     </div>*@
 
-
-    <div class="dropdown show">
+    
+       
+       
+          
+   
+<div class="dropdown">
      
         <div @*class="dropdown show"*@>
-            <a class="" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <a class="dropbtn" onclick="myFunction()" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
        @if (signInManager.IsSignedIn(User))
         {
              
@@ -46,7 +50,7 @@
         }
             </a>
 
-            <div class="dropdown-menu mt-3 " aria-labelledby="dropdownMenuLink">
+        <div id="myDropdown" class="dropdown-content">
                 <a class="dropdown-item ancor" href="#">
                     <i class="uil uil-user"></i>
                     Profile
@@ -64,20 +68,7 @@
                 }
             </div>
         </div>
-       <div class="dropdown-menu mt-3 w-25 " aria-labelledby="dropdownMenuLink">
-            <a class="dropdown-item ancor" href="#">
-                <i class="uil uil-user"></i>
-                Profile
-            </a>
-            <a class="dropdown-item" href="#">
-                <i class="uil uil-edit"></i>
-                Edit
-            </a>
-            <a class="dropdown-item" asp-action="LogOff" asp-controller="Account">
-                <i class="uil uil-sign-out-alt"></i>
-                Log out
-            </a>
-
-        </div>
+    </div>
+       
     </div>
 </div>

@@ -9,7 +9,7 @@ using System.Data;
 
 namespace SuperHero.PL.Controllers.Admin.Courses
 {
-    [Authorize(Roles = @$"{AppRoles.Admin},{AppRoles.Trainer}")]
+    //[Authorize(Roles = @$"{AppRoles.Admin},{AppRoles.Trainer}")]
     public class CategoriesController : Controller
     {
 
@@ -17,24 +17,30 @@ namespace SuperHero.PL.Controllers.Admin.Courses
         #region Prop
         private readonly IBaseRepsoratory<Catogery> categories;
         private readonly IMapper mapper;
+        private readonly SignInManager<Person> signInManager;
         #endregion
 
         #region Ctor
-        public CategoriesController(IBaseRepsoratory<Catogery> categories, IMapper mapper)
+        public CategoriesController(IBaseRepsoratory<Catogery> categories, IMapper mapper, SignInManager<Person> signInManager)
         {
             this.categories = categories;
             this.mapper = mapper;
+            this.signInManager = signInManager;
         }
         #endregion
 
         #region GetAll Category
         public async Task<IActionResult> GetALL()
         {
-            //Get All Category
-            var data = await categories.GetAll();
-            //Mapper
-            var result = mapper.Map<IEnumerable<CategoryVM>>(data);
-            return View(result);
+           
+                //Get All Category
+                var data = await categories.GetAll();
+                //Mapper
+                var result = mapper.Map<IEnumerable<CategoryVM>>(data);
+                return View(result);
+
+           
+           
         }
         #endregion
 
@@ -69,6 +75,7 @@ namespace SuperHero.PL.Controllers.Admin.Courses
             catch (Exception ex)
             {
                 TempData["error"] = ex.Message;
+
             }
 
             //ModelState.Clear();

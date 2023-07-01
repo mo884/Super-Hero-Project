@@ -136,7 +136,7 @@ namespace SuperHero.PL.Controllers.Admin.Persons
         }
         #endregion
 
-        #region Get Better Doctor
+        #region Get near Doctor
         public async Task<IActionResult> nearDoctor()
         {
             //Get Person Profile By include Adress (District - City - Governate) 

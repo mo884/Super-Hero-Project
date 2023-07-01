@@ -69,5 +69,6 @@ namespace SuperHero.DAL.Database
 
         public DbSet<PrivateChat> PrivateChats { get; set; }
         public DbSet<NotificationMessage> NotificationMessages { get; set; }
+        public DbSet<Problem> Problems { get; set; }
     }
 }

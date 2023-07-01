@@ -828,6 +828,31 @@ namespace SuperHero.DAL.Migrations
                     b.ToTable("PrivateChats");
                 });
 
+            modelBuilder.Entity("SuperHero.DAL.Entities.Problem", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PathImage")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Problems");
+                });
+
             modelBuilder.Entity("SuperHero.DAL.Entities.Radiology", b =>
                 {
                     b.Property<int>("ID")

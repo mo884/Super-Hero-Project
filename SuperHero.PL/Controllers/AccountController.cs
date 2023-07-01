@@ -147,7 +147,16 @@ namespace SuperHero.PL.Controllers
         #endregion
 
 
+        [AllowAnonymous]
+        public IActionResult AccessDenied()
+        {
 
-      
+
+
+            return PartialView("AccessDenied");
+
+        }
+
+
     }
 }

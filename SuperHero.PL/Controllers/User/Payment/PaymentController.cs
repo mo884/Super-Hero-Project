@@ -21,7 +21,7 @@ namespace SuperHero.PL.Controllers.User.Payment
         }
         #endregion
         [HttpGet]
-        public IActionResult Pay()
+        public IActionResult Pay(int id)
         {
             return PartialView("Pay");
         }

@@ -106,6 +106,7 @@ namespace SuperHero.PL.Controllers.Admin.Courses
             catch (Exception ex)
             {
                 TempData["error"] = ex.Message;
+             
             }
 
             //ModelState.Clear();

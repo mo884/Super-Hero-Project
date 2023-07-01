@@ -50,13 +50,13 @@
     <div style="margin-top:20px" class="menu-items">
         <ul class="nav-links" style="padding-left:0px">
 
-            <li >
+           @* <li >
                 <a active-when="Person" asp-action="GetAll" asp-controller="Person">
                     <i class="uil uil-user-circle"></i>
                     <span class="link-name">Person</span>
                 </a>
                 
-            </li>
+            </li>*@
   
             <li  data-bs-toggle="dropdown" aria-expanded="false">
                 <a asp-controller="Categories" active-when="Categories">
@@ -84,25 +84,19 @@
                     <span class="link-name">Group</span>
                 </a>
             </li>
-          @*  <ul class="nav-links dropdown-menu" aria-labelledby="dropdownMenuLink" style="padding-left:0px">
-
-                <li><a class="dropdown-item" asp-action="GetAll" asp-controller="Categories"><i class="uil uil-globe"></i>District</a></li>
-                <li><a class="dropdown-item" asp-action="GetAll" asp-controller="Course"><i class="uil uil-presentation-edit"></i>City</a></li>
-                <li><a class="dropdown-item" asp-action="GetAll" asp-controller="Lesson"><i class="uil uil-layer-group"></i>Governorate</a></li>
-
-            </ul>*@
+        
             <li>
                 <a asp-action="GetAll" asp-controller="Roles">
                     <i class="uil uil-chart icon"></i>
                     <span class="link-name">Roles</span>
                 </a>
             </li>
-            <li>
+           @* <li>
                 <a href="#">
                     <i class="uil uil-thumbs-up icon"></i>
                     <span class="link-name">Like</span>
                 </a>
-            </li>
+            </li>*@
             <li>
                 <a asp-action="Course" asp-controller="CourseView">
                     <i class="uil uil-comments icon"></i>
@@ -119,11 +113,7 @@
 
         <ul class="logout-mode" style="padding-left:0px">
             <li>
-            @*    <form style="display:inline-block" asp-controller="Account" asp-action="LogOff">
-                    <i class="uil uil-signout"></i>
-                    <input type="submit" value="Sign Out" class="btn btn-block" />
-                </form>*@
-            </li>
+          
             <li class ="mode">
             </li>
 

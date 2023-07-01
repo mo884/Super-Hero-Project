@@ -78,6 +78,9 @@ namespace SuperHero.BL.Mapper
 
             CreateMap<Recorder, RecorderVM>();
             CreateMap<RecorderVM, Recorder>();
+
+            CreateMap<Problem, ProblemVM>();
+            CreateMap<ProblemVM, Problem>();
         }
     }
 }

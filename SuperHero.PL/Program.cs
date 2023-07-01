@@ -53,9 +53,9 @@ builder.Services.AddSignalR();
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
 .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme,
     options =>
-    {
+    { 
         options.LoginPath = new PathString("/Account/Login");
-        options.AccessDeniedPath = new PathString("/Account/AccessDenied");
+        options.AccessDeniedPath = new PathString("/Error/Error");
     });
 
 
@@ -94,7 +94,7 @@ var supportedCultures = new[] {
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
-    app.UseExceptionHandler("/Home/Error");
+    app.UseExceptionHandler("/Error/Error");
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }

@@ -1,0 +1,80 @@
+﻿@model IEnumerable<ProblemVM>
+@{
+    ViewData["Title"] = "GetAll";
+    Layout = "~/Views/AdminLayout/_Layout.cshtml";
+}
+@section CSS{
+    <partial name="~/views/person/Partial/css.cshtml" />
+}
+<a class="btn1 third col-sm-3  me-2 js-friends" data-url="/Problem/Creat" href="javascript:;"> &nbsp; &nbsp; &nbsp;<i class="uil uil-create-dashboard "></i> &nbsp; Create</a>
+<br />
+<br />
+<table id="example" class="table" style="width:100%;color:darkgrey">
+    <thead>
+        <tr>
+
+            <th>Name</th>
+
+
+            <th>description</th>
+
+
+
+            
+            <th></th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Title</td>
+                <td>@item.Description</td>
+               
+
+
+
+
+
+
+
+                <td>
+                    <div class="dropdown show">
+                        <p class="btn btn-outline-info" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Action
+                        </p>
+
+                        <div class="dropdown-menu align-items-center " aria-labelledby="dropdownMenuLink">
+                            <a class="js-friends dropdown-item" href="javascript:;" data-url="/City/Edit/@item.Id" data-update="true">Edite</a>
+
+
+
+                            <a class="js-friends dropdown-item" href="javascript:;" data-url="/District/Create/@item.Id" data-update="true">Add Problem</a>
+
+
+
+
+
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        }
+
+
+    </tbody>
+
+</table>
+@section DatatablesJS{
+    <partial name="~/views/person/Partial/script.cshtml" />
+
+}
+<partial name="~/views/post/Model.cshtml">
+    @section JS{
+        <partial name="~/views/post/scripts.cshtml">
+
+
+           
+
+        }

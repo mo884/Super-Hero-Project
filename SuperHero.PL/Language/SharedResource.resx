@@ -126,6 +126,9 @@
   <data name="Action" xml:space="preserve">
     <value>Action</value>
   </data>
+  <data name="Add a post or comment" xml:space="preserve">
+    <value>Add a post or comment: This option is only available to the doctor and trainer, where he can add some useful posts that people with special needs need</value>
+  </data>
   <data name="Add Doctor" xml:space="preserve">
     <value>Add Doctor</value>
   </data>
@@ -147,11 +150,17 @@
   <data name="Add Person" xml:space="preserve">
     <value>Add Person</value>
   </data>
+  <data name="Add the appropriate" xml:space="preserve">
+    <value>Add the appropriate treatment for the patient</value>
+  </data>
   <data name="Add Trainer" xml:space="preserve">
     <value>Add Trainer</value>
   </data>
   <data name="AddDoctor" xml:space="preserve">
     <value>Add Doctor</value>
+  </data>
+  <data name="Adding stats to patients" xml:space="preserve">
+    <value>Adding stats to patients within the site and interacting with them.</value>
   </data>
   <data name="Adress" xml:space="preserve">
     <value>Adress</value>
@@ -324,6 +333,12 @@
   <data name="Images" xml:space="preserve">
     <value>Images</value>
   </data>
+  <data name="in most cases the patient’s family" xml:space="preserve">
+    <value>In most cases the patient’s family is the one who uses this page, and the goal of this page is to communicate between the members of the group with each other and the doctor</value>
+  </data>
+  <data name="In the end, this is our duty" xml:space="preserve">
+    <value>In the end, this is our duty towards them to live up to their dignity and enjoy their rights regardless of individual differences.</value>
+  </data>
   <data name="Invalid Email" xml:space="preserve">
     <value>Invalid Email</value>
   </data>
@@ -332,6 +347,9 @@
   </data>
   <data name="IsDelete" xml:space="preserve">
     <value>IsDelete</value>
+  </data>
+  <data name="Join the group" xml:space="preserve">
+    <value>Join the group created by the administrator for some patients</value>
   </data>
   <data name="Lesson" xml:space="preserve">
     <value>Lesson</value>
@@ -411,6 +429,9 @@
   <data name="Profile" xml:space="preserve">
     <value>Profile</value>
   </data>
+  <data name="Register" xml:space="preserve">
+    <value>Register</value>
+  </data>
   <data name="Registration" xml:space="preserve">
     <value>Registration</value>
   </data>
@@ -432,6 +453,9 @@
   <data name="Save" xml:space="preserve">
     <value>Save</value>
   </data>
+  <data name="Second: Religious and moral principles" xml:space="preserve">
+    <value>Second: Religious and moral principles, and this is what urged us to undertake such a project. We believe that helping people with special needs is a religious and moral duty</value>
+  </data>
   <data name="Send" xml:space="preserve">
     <value>Send</value>
   </data>
@@ -441,14 +465,29 @@
   <data name="Sign Out" xml:space="preserve">
     <value>Sign Out</value>
   </data>
+  <data name="social" xml:space="preserve">
+    <value>social</value>
+  </data>
+  <data name="The Chatting interface is the interface" xml:space="preserve">
+    <value>The Chatting interface is the interface that is used by both the doctor and people with special needs</value>
+  </data>
   <data name="The Email field is required" xml:space="preserve">
     <value>The Email field is required</value>
   </data>
   <data name="The FullName field is required" xml:space="preserve">
     <value>The FullName field is required</value>
   </data>
+  <data name="The motivation behind designing" xml:space="preserve">
+    <value>The motivation behind designing this site came first: Most of us know or see people with special needs or have dealt with them in our lives, and this creates an aspect of sympathy and solidarity with these people, and this made some of us have the desire to help these people and alleviate the suffering they face in their daily lives.</value>
+  </data>
+  <data name="Third: Belief in the capabilities of these people" xml:space="preserve">
+    <value>Third: Belief in the capabilities of these people. When these people are empowered, and appropriate opportunities are provided for them, the entire society will benefit from their contributions and diverse talents, and they are able to do so, provided they are given the opportunity</value>
+  </data>
   <data name="This field is required" xml:space="preserve">
     <value>This field is required</value>
+  </data>
+  <data name="This page is divided into two parts, the group" xml:space="preserve">
+    <value>This page is divided into two parts, the group in which the doctor is with a group People with special needs or a personal conversation between the doctor and the patient whether it is an emergency or for inquiries</value>
   </data>
   <data name="Toggel Status" xml:space="preserve">
     <value>Toggel Status</value>
@@ -480,8 +519,17 @@
   <data name="UserName required" xml:space="preserve">
     <value>UserName required</value>
   </data>
+  <data name="Users" xml:space="preserve">
+    <value>Users</value>
+  </data>
   <data name="View Profile" xml:space="preserve">
     <value>View Profile</value>
+  </data>
+  <data name="Watching posts" xml:space="preserve">
+    <value>Watching posts and interacting with them: Posts added by the doctor or trainer appear on this page.</value>
+  </data>
+  <data name="Which the doctor responds to the patient’s message" xml:space="preserve">
+    <value>Which the doctor responds to the patient’s message, and continues sending messages by both parties until the end of the conversation.</value>
   </data>
   <data name="Your quote request has been sent successfully. Thank you!" xml:space="preserve">
     <value>Your quote request has been sent successfully. Thank you!</value>

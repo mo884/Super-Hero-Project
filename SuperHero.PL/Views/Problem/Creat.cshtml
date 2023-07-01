@@ -1,0 +1,67 @@
+﻿@model ProblemVM
+
+
+<div class="card shadow-sm">
+
+    <div class="card-header">
+        <h3 class="card-title">@(ViewBag.Delete == "Delete" ? "Delete" : (ViewBag.ID != null ? "Edit" : "Add")) Course</h3>
+    </div>
+    <div class="card-body">
+
+        <div class="row">
+            <div class="col-sm-2"></div>
+            <div class="col-md-8">
+                <a>@TempData["error"]</a>
+                <div asp-validation-summary="All"></div>
+                <form method="post" asp-controller="Problem" asp-action="Creat" enctype="multipart/form-data">
+
+                    <div class="mb-5">
+                        <div class="form-floating mb-2">
+                            <input type="text" class="form-control" placeholder="Title" asp-for="Title" />
+                            <label asp-for="Title"></label>
+                        </div>
+                        <span asp-validation-for="Title" class="text-danger"></span>
+                    </div>
+                   
+
+                   
+                    <br />
+
+                    <div class="mb-5">
+                        <div class="form-floating mb-2">
+                            <input type="text" class="form-control" placeholder="Description" asp-for="Description" />
+                            <label asp-for="Description"></label>
+                        </div>
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
+
+
+                    <br />
+                    <label asp-for="Image" class="file-upload">
+                        <input asp-for="Image" class="input" type="file" multiple accept="image/*, video/*" />
+                        <span asp-for="Image" class="file-upload_button">Choose Files</span>
+
+                    </label>
+                    <br />
+                    <center>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="uil uil-check"></i>Save
+                        </button>
+
+
+                    </center>
+
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section CSS{
+    <partial name="~/views/person/Partial/css.cshtml" />
+
+}
+    @section JqueryValidation{
+    <partial name="~/views/person/Partial/Script.cshtml" />
+}

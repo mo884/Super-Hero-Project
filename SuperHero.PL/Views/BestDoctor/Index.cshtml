@@ -22,17 +22,31 @@
         <div class="cont" id="testim-content">
 
             <div class="active">
-                <div class="img"><img src="~/Files/Imgs/@Model.Doctor.FirstOrDefault().Image"></div>
+                @if (@Model.Doctor.FirstOrDefault().Image == null)
+                {
+                    <div class="img"><img src="~/files/imgs/doctorprofile.jfif"></div>
+
+                }
+                else
+                {
+                    <div class="img"><img src="~/Files/Imgs/@Model.Doctor.FirstOrDefault().Image"></div>
+
+                }
                 <h2>Dr . @Model.Doctor.FirstOrDefault().FullName</h2>
-                <p> <p>@Model.Doctor.FirstOrDefault().doctor.Rating</p></p>
+               
 
             </div>
             @foreach (var item in Model.Doctor.Skip(1))
             {
                 <div>
+                    @if (item.Image == null)
+                    {
+                        <div class="img"><img src="~/files/imgs/doctorprofile.jfif"></div>
+                    }else{
                     <div class="img"><img src="~/Files/Imgs/@item.Image"></div>
+                    }
                     <h2>Dr . @item.FullName</h2>
-                    <p>@item.doctor.Rating</p>
+                   
                 </div>
             }
           
@@ -69,19 +83,19 @@
 </section>
 <div class="num">
     <div class="content">
-        <h3>Doctor</h3>
+        <h3>@SharedLocalizer["Doctor"]</h3>
         <p>@Model.DoctorCount</p>
     </div>
     <div class="content">
-        <h3>Users</h3>
+        <h3>@SharedLocalizer["Users"]</h3>
         <p>@Model.UserCount</p>
     </div>
     <div class="content">
-        <h3>Donner</h3>
+        <h3>@SharedLocalizer["Donner"]</h3>
         <p>@Model.DonnerCount</p>
     </div>
     <div class="content">
-        <h3>Trainer</h3>
+        <h3>@SharedLocalizer["Trainer"]</h3>
         <p>@Model.TrainnerCount</p>
     </div>
 </div>
