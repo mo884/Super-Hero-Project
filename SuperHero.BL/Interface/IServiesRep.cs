@@ -68,5 +68,6 @@ namespace SuperHero.BL.Interface
         Task<List<NotificationMessage>> GetNotiFications(Expression<Func<NotificationMessage, bool>> filter = null);
 
         Task<bool> IsRead(string UserId);
+         Task<SecondPage> BestDoctor();
     }
 }

@@ -666,6 +666,8 @@ namespace SuperHero.BL.Reposoratory
             return searchResults;
         }
 
+        #endregion
+        #region Notification
         public async Task<List<NotificationMessage>> GetNotiFications(Expression<Func<NotificationMessage, bool>> filter = null)
         {
             if (filter != null)
@@ -704,6 +706,40 @@ namespace SuperHero.BL.Reposoratory
 
         }
 
+
+        #endregion
+        #region Best 5 Doctor
+        public async Task<float> AVG(string Id)
+        {
+            var data = await Db.DoctorRating.Where(a => a.DoctorId == Id).ToListAsync();
+            float? sum = 0;
+            for (int i = 0; i < data.Count(); i++)
+            {
+                sum = data[i].reating;
+            }
+            float? rating = sum/data.Count();
+            return (float)rating;
+        }
+        public async Task<SecondPage> BestDoctor()
+        {
+            IEnumerable<Person> AllDoctor = await Db.Persons.Where(doctor => doctor.PersonType == PersonType.Doctor).Include("DoctorRating").Include("doctor").ToListAsync();
+            
+            foreach (var item in AllDoctor)
+            {
+                float Rating =await AVG(item.Id);
+                item.doctor.Rating = Rating;
+                
+            }
+            SecondPage All = new SecondPage()
+            {
+                Doctor = AllDoctor.OrderByDescending(a => a.doctor.Rating).Take(5),
+                DoctorCount = await Db.Persons.Where(a => a.PersonType == PersonType.Doctor).CountAsync(),
+                DonnerCount = await Db.Persons.Where(a => a.PersonType == PersonType.Doner).CountAsync(),
+                TrainnerCount = await Db.Persons.Where(a => a.PersonType == PersonType.Trainer).CountAsync(),
+                UserCount = await Db.Persons.Where(a=>a.PersonType == PersonType.User).CountAsync(),
+            };
+            return All;
+        }
 
         #endregion
     }

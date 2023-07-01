@@ -1,4 +1,4 @@
-﻿
+﻿@model SecondPage
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/SecondPage/_SecondLayout.cshtml";
@@ -22,21 +22,22 @@
         <div class="cont" id="testim-content">
 
             <div class="active">
-                <div class="img"><img src="vendor/Image/Doctors-pana.svg"></div>
-                <h2>Dr . Mohamed Esam</h2>
-                <p></p>
+                <div class="img"><img src="~/Files/Imgs/@Model.Doctor.FirstOrDefault().Image"></div>
+                <h2>Dr . @Model.Doctor.FirstOrDefault().FullName</h2>
+                <p> <p>@Model.Doctor.FirstOrDefault().doctor.Rating</p></p>
 
             </div>
+            @foreach (var item in Model.Doctor.Skip(1))
+            {
+                <div>
+                    <div class="img"><img src="~/Files/Imgs/@item.Image"></div>
+                    <h2>Dr . @item.FullName</h2>
+                    <p>@item.doctor.Rating</p>
+                </div>
+            }
+          
 
-            <div>
-                <div class="img"><img src="vendor/Image/Insurance-amico.svg"></div>
-                <h2>Dr . Ameen Ali</h2>
-                <p></p>
-
-
-            </div>
-
-            <div>
+           @* <div>
                 <div class="img"><img src="vendor/Image/Messaging-amico.svg"></div>
                 <h2>Dr .Youmna Saber</h2>
                 <p></p>
@@ -58,7 +59,7 @@
                 <p></p>
 
 
-            </div>
+            </div>*@
         </div>
 
     </div>
@@ -69,19 +70,19 @@
 <div class="num">
     <div class="content">
         <h3>Doctor</h3>
-        <p>475</p>
+        <p>@Model.DoctorCount</p>
     </div>
     <div class="content">
         <h3>Users</h3>
-        <p>200456</p>
+        <p>@Model.UserCount</p>
     </div>
     <div class="content">
         <h3>Donner</h3>
-        <p>956</p>
+        <p>@Model.DonnerCount</p>
     </div>
     <div class="content">
         <h3>Trainer</h3>
-        <p>324</p>
+        <p>@Model.TrainnerCount</p>
     </div>
 </div>
 

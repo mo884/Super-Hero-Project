@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿
+<!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="UTF-8">
@@ -11,7 +12,8 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
         <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.3.5/css/swiper.min.css'>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" />
-
+    @RenderSection("CSSLogin",required:false)
+    <link href="~/firstpage/image/flash.svg" rel="icon">
       </head>
     <body>
         <section id="home">
@@ -247,7 +249,7 @@
         <li>
           <i class="fa-sharp fa-solid fa-phone"></i> Telephon 
           <br>
-          <a href="#support">+20 116788 </a>
+          <a href="#support">+20 1156745016 </a>
          </li>
       </li>
       <li>
@@ -267,7 +269,7 @@
        <br>
        3-Radwa Ali
        <br>
-       4-Fatmaa Hassan
+       4-Amira Hassan
        <br>
        5-Amin Ali
       </li>
@@ -277,14 +279,14 @@
   <div class="column subscribe">
    <h3>Newsletter</h3>
     <div>
-      <form >
-        <input type="email" placeholder="Your email id here" />
+      <form asp-action="SendMail" asp-controller="Mail">
+        <input name="Email"  type="email" placeholder="Your email id here" />
         <br>
         <br>
-        <textarea placeholder="Your problem  here"></textarea>
+        <textarea name="Message" placeholder="Your problem  here"></textarea>
         <br>
         <br>
-        <button>Subscribe</button>
+        <button  type="submit">Subscribe</button>
       </form>
     
     </div>
@@ -341,10 +343,13 @@
     
   
       </body>
-      <script src="~/secondpage/js/main.js"></script>
+@RenderSection("JqueryValidation",required:false)
+<!-- scripts -->
+@RenderSection("ScriptsLogin",required:false)
+      
         
         <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-    
+<script src="~/secondpage/js/main.js"></script>
 </html>
