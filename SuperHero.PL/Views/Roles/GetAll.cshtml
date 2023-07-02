@@ -29,13 +29,13 @@
 
                 <td>@item.Name</td>               
                 <td>
-                    <div class="dropdown show">
-                        <p class="btn btn-outline-info" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <div class="dropdown">
+                        <p class="btn dropbtn btn-outline-info" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Action
                         </p>
 
-                        <div class="dropdown-menu align-items-center " aria-labelledby="dropdownMenuLink">
-                            <a class="dropdown-item ancor btn btn-primary" asp-action="Update" asp-controller="Roles" asp-route-id="@item.Id">
+                        <div class="dropdown-menu dropdown-content  align-items-center " aria-labelledby="dropdownMenuLink">
+                            <a class="dropdown-item  ancor btn btn-primary" asp-action="Update" asp-controller="Roles" asp-route-id="@item.Id">
 
                                 Details
                             </a>
