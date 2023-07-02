@@ -11,7 +11,7 @@ using System.Configuration;
 
 namespace SuperHero.PL.Controllers.Admin.Persons
 {
-    //[Authorize(Roles = AppRoles.Admin)]
+    //[Authorize(Roles = AppRoles.Doctor)]
     public class DoctorController : Controller
     {
         #region Prop
@@ -47,52 +47,60 @@ namespace SuperHero.PL.Controllers.Admin.Persons
         [HttpGet]
         public async Task<IActionResult> CreateDoctor()
         {
-            TempData["Message"] = null;
-            return View();
+            if (signInManager.IsSignedIn(User))
+            {
+                TempData["Message"] = null;
+                return View();
+            }
+            return RedirectToAction("AccessDenied", "Account");
         }
         [HttpPost]
         public async Task<IActionResult> CreateDoctor(PersonVM model)
         {
-            try
+            if (signInManager.IsSignedIn(User))
             {
-                //Save Image Profile
-                model.Image = FileUploader.UploadFile("Imgs", model.ImageName);
-
-                if (ModelState.IsValid)
+                try
                 {
-                    //Map PersonVM to Class CreatePerson
-                    var doctor = mapper.Map<CreatePerson>(model);
-                    //Create Doctor 
-                    var result = await userManager.CreateAsync(await Service.Add(doctor, 1), model.PasswordHash);
-                    //Get Doctor By Id
-                    var Doctor = await servis.GetBYUserName(model.UserName);
-                    //Get Role Doctor
-                    var role = await roleManager.FindByNameAsync(AppRoles.Doctor);
-                    //Add Doctor in table Role
-                    var result1 = await userManager.AddToRoleAsync(Doctor, role.Name);
-                    //Send Message Success
-                    if (result.Succeeded && result1.Succeeded)
+                    //Save Image Profile
+                    model.Image = FileUploader.UploadFile("Imgs", model.ImageName);
+
+                    if (ModelState.IsValid)
                     {
-                        TempData["Message"] = "saved Successfuly";
-                        return RedirectToAction("GetAll", "Person");
-                    }
-                    else
-                    {
-                        foreach (var item in result.Errors)
+                        //Map PersonVM to Class CreatePerson
+                        var doctor = mapper.Map<CreatePerson>(model);
+                        //Create Doctor 
+                        var result = await userManager.CreateAsync(await Service.Add(doctor, 1), model.PasswordHash);
+                        //Get Doctor By Id
+                        var Doctor = await servis.GetBYUserName(model.UserName);
+                        //Get Role Doctor
+                        var role = await roleManager.FindByNameAsync(AppRoles.Doctor);
+                        //Add Doctor in table Role
+                        var result1 = await userManager.AddToRoleAsync(Doctor, role.Name);
+                        //Send Message Success
+                        if (result.Succeeded && result1.Succeeded)
                         {
-                            ModelState.AddModelError("", item.Description);
+                            TempData["Message"] = "saved Successfuly";
+                            return RedirectToAction("GetAll", "Person");
                         }
+                        else
+                        {
+                            foreach (var item in result.Errors)
+                            {
+                                ModelState.AddModelError("", item.Description);
+                            }
+                        }
+                        TempData["Message"] = null;
+                        return View("CreateDoctor", model);
                     }
-                    TempData["Message"] = null;
-                    return View("CreateDoctor", model);
                 }
+                catch (Exception ex)
+                {
+                    TempData["error"] = ex.Message;
+                }
+                TempData["Message"] = null;
+                return View("CreateDoctor", model);
             }
-            catch (Exception ex)
-            {
-                TempData["error"] = ex.Message;
-            }
-            TempData["Message"] = null;
-            return View("CreateDoctor", model);
+            return RedirectToAction("AccessDenied", "Account");
         }
 
         #endregion
@@ -101,53 +109,65 @@ namespace SuperHero.PL.Controllers.Admin.Persons
         [HttpGet]
         public async Task<IActionResult> Edite(string ID)
         {
-            //Get Doctor By Id
-            var data = await person.GetByID(ID);
-            //Map Doctor to PersonVM
-            var result = mapper.Map<PersonVM>(data);
-            TempData["Message"] = null;
-            return View(result);
+            if (signInManager.IsSignedIn(User))
+            {
+                //Get Doctor By Id
+                var data = await person.GetByID(ID);
+                //Map Doctor to PersonVM
+                var result = mapper.Map<PersonVM>(data);
+                TempData["Message"] = null;
+                return View(result);
+            }
+            return RedirectToAction("AccessDenied", "Account");
         }
         [HttpPost]
         public async Task<IActionResult> Edite(PersonVM model)
         {
-            try
+            if (signInManager.IsSignedIn(User))
             {
-                if (ModelState.IsValid)
+                try
                 {
-                   //Call Function To Update Doctor 
-                    await servis.Update(model);
-                    //send Message Sucess
-                    TempData["Message"] = "saved Successfuly";
-                    return RedirectToAction("GetAll", "Person");
+                    if (ModelState.IsValid)
+                    {
+                        //Call Function To Update Doctor 
+                        await servis.Update(model);
+                        //send Message Sucess
+                        TempData["Message"] = "saved Successfuly";
+                        return RedirectToAction("GetAll", "Person");
+                    }
+                    else
+                    {
+                        TempData["Message"] = null;
+                        return View("Edite", model);
+                    }
                 }
-                else
+                catch (Exception ex)
                 {
-                    TempData["Message"] = null;
-                    return View("Edite", model);
+                    TempData["error"] = ex.Message;
                 }
+                TempData["Message"] = null;
+                return View("Edite", model);
             }
-            catch (Exception ex)
-            {
-                TempData["error"] = ex.Message;
-            }
-            TempData["Message"] = null;
-            return View("Edite", model);
+            return RedirectToAction("AccessDenied", "Account");
         }
         #endregion
 
         #region Get near Doctor
         public async Task<IActionResult> nearDoctor()
         {
-            //Get Person Profile By include Adress (District - City - Governate) 
-            var data = await servis.GetPersonInclud("district",(await signInManager.UserManager.FindByNameAsync(User.Identity.Name)).Id);
-            //Map Profile
-            var Patient = mapper.Map<CreatePerson>(data);
-            //Get Near Doctor BY Using Person Profile Adress
-            var Doctor = await servis.GetDoctor(Patient.districtID, Patient.district.CityId, Patient.district.City.GovernorateID);
-            //Map All Doctor
-            var Doctorvm = mapper.Map<IEnumerable<CreatePerson>>(Doctor);
-            return PartialView("nearDoctor", Doctorvm);
+            if (signInManager.IsSignedIn(User))
+            {
+                //Get Person Profile By include Adress (District - City - Governate) 
+                var data = await servis.GetPersonInclud("district", (await signInManager.UserManager.FindByNameAsync(User.Identity.Name)).Id);
+                //Map Profile
+                var Patient = mapper.Map<CreatePerson>(data);
+                //Get Near Doctor BY Using Person Profile Adress
+                var Doctor = await servis.GetDoctor(Patient.districtID, Patient.district.CityId, Patient.district.City.GovernorateID);
+                //Map All Doctor
+                var Doctorvm = mapper.Map<IEnumerable<CreatePerson>>(Doctor);
+                return PartialView("nearDoctor", Doctorvm);
+            }
+            return RedirectToAction("AccessDenied", "Account");
         }
         #endregion
 
@@ -167,19 +187,19 @@ namespace SuperHero.PL.Controllers.Admin.Persons
                 {
                     //Add Doctor Image
                     model.Image = FileUploader.UploadFile("Imgs", model.ImageName);
-                //Add Doctor
-                var result = await userManager.CreateAsync(await Service.Add(model, 1), model.PasswordHash);
-                //Get Doctor By Name
-                var Doctor = await servis.GetBYUserName(model.UserName);
-                //Get Role Doctor
-                var role = await roleManager.FindByNameAsync(AppRoles.Doctor);
-                //Add Doctor in table Role
-                var result1 = await userManager.AddToRoleAsync(Doctor, role.Name);
+                    //Add Doctor
+                    var result = await userManager.CreateAsync(await Service.Add(model, 1), model.PasswordHash);
+                    //Get Doctor By Name
+                    var Doctor = await servis.GetBYUserName(model.UserName);
+                    //Get Role Doctor
+                    var role = await roleManager.FindByNameAsync(AppRoles.Doctor);
+                    //Add Doctor in table Role
+                    var result1 = await userManager.AddToRoleAsync(Doctor, role.Name);
 
 
-                if (result.Succeeded)
-                {
-                  
+                    if (result.Succeeded)
+                    {
+
                         if (await SendConfitmEmail(model.Email))
                         {
                             return RedirectToAction("SuccessRegistration");
@@ -188,18 +208,18 @@ namespace SuperHero.PL.Controllers.Admin.Persons
 
 
                     }
-               
-                else
-                {
-                    foreach (var item in result.Errors)
+
+                    else
                     {
-                        ModelState.AddModelError("", item.Description);
-                    }
+                        foreach (var item in result.Errors)
+                        {
+                            ModelState.AddModelError("", item.Description);
+                        }
                     }
                 }
 
                 return PartialView("Registration", model);
-               
+
             }
             catch (Exception)
             {

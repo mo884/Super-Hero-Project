@@ -29,64 +29,87 @@ namespace SuperHero.PL.Controllers.PrivateClinic
         #endregion
         public async Task<IActionResult> PatientRadiology(int id)
         {
-            var Radiology = await servies.GetAllRadiologybyId(id);
-            var RadiologyVM = mapper.Map<List<RadiologyVM>>(Radiology);
-            var userinfo = await signInManager.UserManager.FindByNameAsync(User.Identity.Name);
-            var patient = await servies.GetPatientBYID(userinfo.Id);
-            var data = new PatientInfo()
+            if (signInManager.IsSignedIn(User))
             {
-                patient = patient,
-                User = userinfo,
-                RadiologyVMs = RadiologyVM
-            };
-            return PartialView(data);
+                var Radiology = await servies.GetAllRadiologybyId(id);
+                var RadiologyVM = mapper.Map<List<RadiologyVM>>(Radiology);
+                var userinfo = await signInManager.UserManager.FindByNameAsync(User.Identity.Name);
+                var patient = await servies.GetPatientBYID(userinfo.Id);
+                var data = new PatientInfo()
+                {
+                    patient = patient,
+                    User = userinfo,
+                    RadiologyVMs = RadiologyVM
+                };
+                return PartialView(data);
+            }
+            return RedirectToAction("AccessDenied", "Account");
         }
         [HttpPost]
         public async Task<IActionResult> AddByPatient(int id)
         {
-            var data = await radiology.GetByID(id);
-            data.IsAdd = true;
-            await radiology.Update(data);
-            return Ok();
+            if (signInManager.IsSignedIn(User))
+            {
+                var data = await radiology.GetByID(id);
+                data.IsAdd = true;
+                await radiology.Update(data);
+                return Ok();
+            }
+            return RedirectToAction("AccessDenied", "Account");
         }
         [HttpGet]
         public async Task<IActionResult> Create(int id)
         {
-            TempData["PatientId"] = id;
-            return PartialView();
+            if (signInManager.IsSignedIn(User))
+            {
+                TempData["PatientId"] = id;
+                return PartialView();
+            }
+            return RedirectToAction("AccessDenied", "Account");
         }
         [HttpPost]
         public async Task<IActionResult> Create(DoctorRadiology Radiology)
         {
-            Radiology.personID = (int)TempData["PatientId"];
-            var user = await signInManager.UserManager.FindByNameAsync(User.Identity.Name);
-            await servies.CreateRadiology(Radiology,user.Id);
-            return RedirectToAction("PatientRecord", "DoctorHome", new { id = Radiology.patient.UserID });
+            if (signInManager.IsSignedIn(User))
+            {
+                Radiology.personID = (int)TempData["PatientId"];
+                var user = await signInManager.UserManager.FindByNameAsync(User.Identity.Name);
+                await servies.CreateRadiology(Radiology, user.Id);
+                return RedirectToAction("PatientRecord", "DoctorHome", new { id = Radiology.patient.UserID });
+            }
+            return RedirectToAction("AccessDenied", "Account");
         }
         [HttpPost]
         public async Task<IActionResult> CreateBYUser(PatientInfo analysisVM)
         {
-
-            var user = await signInManager.UserManager.FindByNameAsync(User.Identity.Name);
-            var Patient = await servies.GetPatientBYID(user.Id);
-            var Data = new DoctorRadiology
+            if (signInManager.IsSignedIn(User))
             {
-                XRay = FileUploader.UploadFile("PDF", analysisVM.uploade),
-                Name = analysisVM.Name,
-                personID = Patient.ID
-            };
+                var user = await signInManager.UserManager.FindByNameAsync(User.Identity.Name);
+                var Patient = await servies.GetPatientBYID(user.Id);
+                var Data = new DoctorRadiology
+                {
+                    XRay = FileUploader.UploadFile("PDF", analysisVM.uploade),
+                    Name = analysisVM.Name,
+                    personID = Patient.ID
+                };
 
-            await servies.CreateRadiologyBYPatient(Data);
-            return RedirectToAction("Profile", "MyProfile", new { id = user.Id });
+                await servies.CreateRadiologyBYPatient(Data);
+                return RedirectToAction("Profile", "MyProfile", new { id = user.Id });
+            }
+            return RedirectToAction("AccessDenied", "Account");
         }
         [HttpPost]
         public async Task<IActionResult> Edit(PatientInfo patientInfo)
         {
-            var data = await radiology.GetByID(patientInfo.ID);
-            data.XRay = FileUploader.UploadFile("PDF", patientInfo.uploade);
-            await radiology.Update(data);
-            var user = await signInManager.UserManager.FindByNameAsync(User.Identity.Name);
-            return RedirectToAction("Profile", "MyProfile", new { Id = user.Id });
+            if (signInManager.IsSignedIn(User))
+            {
+                var data = await radiology.GetByID(patientInfo.ID);
+                data.XRay = FileUploader.UploadFile("PDF", patientInfo.uploade);
+                await radiology.Update(data);
+                var user = await signInManager.UserManager.FindByNameAsync(User.Identity.Name);
+                return RedirectToAction("Profile", "MyProfile", new { Id = user.Id });
+            }
+            return RedirectToAction("AccessDenied", "Account");
         }
     }
 }

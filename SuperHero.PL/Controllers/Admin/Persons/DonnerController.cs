@@ -14,6 +14,7 @@ namespace SuperHero.PL.Controllers.Admin.Persons
     {
         #region Prop
         private readonly UserManager<Person> userManager;
+        private readonly SignInManager<Person> signInManager;
         private readonly IBaseRepsoratory<Person> person;
         private readonly IMapper mapper;
         private readonly RoleManager<IdentityRole> roleManager;
@@ -22,7 +23,7 @@ namespace SuperHero.PL.Controllers.Admin.Persons
         #endregion
 
         #region Ctor
-        public DonnerController(UserManager<Person> userManager, IBaseRepsoratory<Person> person, IMapper mapper, RoleManager<IdentityRole> roleManager, IServiesRep servis, IBaseRepsoratory<District> district)
+        public DonnerController(UserManager<Person> userManager, SignInManager<Person> signInManager, IBaseRepsoratory<Person> person, IMapper mapper, RoleManager<IdentityRole> roleManager, IServiesRep servis, IBaseRepsoratory<District> district)
         {
             this.userManager = userManager;
             this.person = person;
@@ -30,58 +31,68 @@ namespace SuperHero.PL.Controllers.Admin.Persons
             this.roleManager = roleManager;
             this.servis = servis;
             this.district = district;
+            this.signInManager = signInManager;
         }
         #endregion
 
         #region Create Donner
         public async Task<IActionResult> CreateDonner()
-        { 
-            TempData["Message"] = null;
-            return View();
+        {
+            if (signInManager.IsSignedIn(User))
+            {
+                TempData["Message"] = null;
+                return View();
+            }
+            return RedirectToAction("AccessDenied", "Acount");
+
         }
         [HttpPost, ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateDonner(PersonVM model)
         {
-            try
+            if (signInManager.IsSignedIn(User))
             {
-                if (ModelState.IsValid)
+                try
                 {
-                    //Map PersonVM to Class CreatePerson
-                    var donner = mapper.Map<CreatePerson>(model);
-                    //Create Donner 
-                    var result = await userManager.CreateAsync(await Service.Add(donner, 2), model.PasswordHash);
-                    //Get Donner By UserName
-                    var Donner = await servis.GetBYUserName(model.UserName);
-                    //Get Role Donner
-                    var role = await roleManager.FindByNameAsync(AppRoles.Donner);
-                    //Add Donner in table Role
-                    var result1 = await userManager.AddToRoleAsync(Donner, role.Name);
-                    //Send Message Success
-                    if (result.Succeeded && result1.Succeeded)
+                    if (ModelState.IsValid)
                     {
-                        TempData["Message"] = "saved Successfuly";
-                        return RedirectToAction("GetAll", "Person");
-                    }
-                    else
-                    {
-                        foreach (var item in result.Errors)
+                        //Map PersonVM to Class CreatePerson
+                        var donner = mapper.Map<CreatePerson>(model);
+                        //Create Donner 
+                        var result = await userManager.CreateAsync(await Service.Add(donner, 2), model.PasswordHash);
+                        //Get Donner By UserName
+                        var Donner = await servis.GetBYUserName(model.UserName);
+                        //Get Role Donner
+                        var role = await roleManager.FindByNameAsync(AppRoles.Donner);
+                        //Add Donner in table Role
+                        var result1 = await userManager.AddToRoleAsync(Donner, role.Name);
+                        //Send Message Success
+                        if (result.Succeeded && result1.Succeeded)
                         {
-                            ModelState.AddModelError("", item.Description);
+                            TempData["Message"] = "saved Successfuly";
+                            return RedirectToAction("GetAll", "Person");
                         }
+                        else
+                        {
+                            foreach (var item in result.Errors)
+                            {
+                                ModelState.AddModelError("", item.Description);
+                            }
+                        }
+
+                        TempData["Message"] = null;
+                        return View("CreateDonner", model);
                     }
-                   
-                    TempData["Message"] = null;
-                    return View("CreateDonner", model);
+
+                }
+                catch (Exception ex)
+                {
+                    TempData["error"] = ex.Message;
                 }
 
+                TempData["Message"] = null;
+                return View("CreateDonner", model);
             }
-            catch (Exception ex)
-            {
-                TempData["error"] = ex.Message;
-            }
-           
-            TempData["Message"] = null;
-            return View("CreateDonner", model);
+            return RedirectToAction("AccessDenied", "Acount");
         }
 
 
@@ -91,41 +102,49 @@ namespace SuperHero.PL.Controllers.Admin.Persons
         [HttpGet]
         public async Task<IActionResult> Edite(string ID)
         {
-            //Get Donner By Id
-            var data = await person.GetByID(ID);
-            //Map Donner to PersonVM
-            var result = mapper.Map<PersonVM>(data);
-            TempData["Message"] = null;
-            return View(result);
+            if (signInManager.IsSignedIn(User))
+            {
+                //Get Donner By Id
+                var data = await person.GetByID(ID);
+                //Map Donner to PersonVM
+                var result = mapper.Map<PersonVM>(data);
+                TempData["Message"] = null;
+                return View(result);
+            }
+            return RedirectToAction("AccessDenied", "Acount");
         }
         [HttpPost]
         public async Task<IActionResult> Edite(PersonVM model)
         {
-            try
+            if (signInManager.IsSignedIn(User))
             {
-                if (ModelState.IsValid)
+                try
                 {
-                    //Call Function To Update Donner 
-                    await servis.Update(model);
-                    //send Message Sucess
-                    TempData["Message"] = "saved Successfuly";
-                    return RedirectToAction("GetAll", "Person");
-                }
+                    if (ModelState.IsValid)
+                    {
+                        //Call Function To Update Donner 
+                        await servis.Update(model);
+                        //send Message Sucess
+                        TempData["Message"] = "saved Successfuly";
+                        return RedirectToAction("GetAll", "Person");
+                    }
 
-                else
+                    else
+                    {
+                        TempData["Message"] = null;
+                        return View(model);
+                    }
+
+
+                }
+                catch (Exception ex)
                 {
-                    TempData["Message"] = null;
-                    return View(model);
+                    TempData["error"] = ex.Message;
                 }
-
-
+                TempData["Message"] = null;
+                return View(model);
             }
-            catch (Exception ex)
-            {
-                TempData["error"] = ex.Message;
-            }
-            TempData["Message"] = null;
-            return View(model);
+            return RedirectToAction("AccessDenied", "Acount");
         }
         #endregion
 
@@ -166,8 +185,8 @@ namespace SuperHero.PL.Controllers.Admin.Persons
 
                 return PartialView("Registration", model);
             }
-           
-             catch (Exception)
+
+            catch (Exception)
             {
 
                 return PartialView("Registration", model);

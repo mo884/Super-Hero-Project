@@ -21,10 +21,11 @@ namespace SuperHero.PL.Controllers.Admin.Persons
         private readonly IServiesRep servis;
         private readonly IBaseRepsoratory<District> district;
         private IConfiguration Configuration;
+        private readonly SignInManager<Person> signInManager;
         #endregion
 
         #region Ctor
-        public TrainerController(UserManager<Person> userManager, IConfiguration Configuration, IMapper mapper, IBaseRepsoratory<Person> person, RoleManager<IdentityRole> roleManager, IServiesRep servis, IBaseRepsoratory<District> district)
+        public TrainerController(UserManager<Person> userManager, SignInManager<Person> signInManager, IConfiguration Configuration, IMapper mapper, IBaseRepsoratory<Person> person, RoleManager<IdentityRole> roleManager, IServiesRep servis, IBaseRepsoratory<District> district)
         {
             this.userManager = userManager;
             this.mapper = mapper;
@@ -33,20 +34,27 @@ namespace SuperHero.PL.Controllers.Admin.Persons
             this.servis = servis;
             this.district = district;
             this.Configuration = Configuration;
+            this.signInManager = signInManager;
         }
         #endregion
 
         #region Create Trainer
         public async Task<IActionResult> CreateTrainer()
         {
-            ViewBag.districtList = new SelectList(await district.GetAll(), "Id", "Name");
+            if (signInManager.IsSignedIn(User))
+            {
+                ViewBag.districtList = new SelectList(await district.GetAll(), "Id", "Name");
             TempData["Message"] = null;
             return View();
+            }
+            return RedirectToAction("AccessDenied", "Account");
         }
         [HttpPost, ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateTrainer(PersonVM model)
         {
-            var Alldistrict = await district.GetAll();
+            if (signInManager.IsSignedIn(User))
+            {
+                var Alldistrict = await district.GetAll();
             try
             {
                 model.Image = FileUploader.UploadFile("Imgs", model.ImageName);
@@ -87,6 +95,8 @@ namespace SuperHero.PL.Controllers.Admin.Persons
             ViewBag.districtList = new SelectList(Alldistrict, "Id", "Name");
             TempData["Message"] = null;
             return View(model);
+            }
+            return RedirectToAction("AccessDenied", "Account");
         }
 
 
@@ -96,11 +106,15 @@ namespace SuperHero.PL.Controllers.Admin.Persons
         [HttpGet]
         public async Task<IActionResult> Edite(string ID)
         {
-            var data = await person.GetByID(ID);
+            if (signInManager.IsSignedIn(User))
+            {
+                var data = await person.GetByID(ID);
             var result = mapper.Map<PersonVM>(data);
             ViewBag.districtList = new SelectList(await district.GetAll(), "Id", "Name", data.districtID);
             TempData["Message"] = null;
             return View(result);
+            }
+            return RedirectToAction("AccessDenied", "Account");
         }
         [HttpPost]
         public async Task<IActionResult> Edite(PersonVM model)
@@ -154,7 +168,7 @@ namespace SuperHero.PL.Controllers.Admin.Persons
                 //Get Trainer By Name
                 var trainer = await servis.GetBYUserName(model.UserName);
                 //Add Trainer Role
-                var role = await roleManager.FindByNameAsync(AppRoles.User);
+                var role = await roleManager.FindByNameAsync(AppRoles.Trainer);
                 //Add Trainer in table Role
                 var result1 = await userManager.AddToRoleAsync(trainer, role.Name);
                 if (result.Succeeded)

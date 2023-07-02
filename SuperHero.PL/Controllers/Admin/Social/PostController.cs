@@ -18,6 +18,7 @@ namespace SuperHero.PL.Controllers.Admin.Social
         private readonly IMapper mapper;
         private readonly IServiesRep servies;
         private readonly SignInManager<Person> signInManager;
+       
         #endregion
 
         #region ctor

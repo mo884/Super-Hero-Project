@@ -21,7 +21,9 @@ namespace SuperHero.PL.Controllers
         }
         public async Task<IActionResult>Index()
         {
-            Random randomNumber = new Random();
+            if (signInManager.IsSignedIn(User))
+            {
+                Random randomNumber = new Random();
             int RnadomSession = randomNumber.Next(0, 955121135); 
             HttpContext.Session.SetInt32("UserId", RnadomSession);
             var PersonProfile = await signInManager.UserManager.FindByNameAsync(User.Identity.Name);
@@ -44,11 +46,15 @@ namespace SuperHero.PL.Controllers
                 }
             }
             return View(null);
+            }
+            return RedirectToAction("AccessDenied", "Account");
 
         }
         public async Task<IActionResult> GetMessage(int id)
         {
-            Random randomNumber = new Random();
+            if (signInManager.IsSignedIn(User))
+            {
+                Random randomNumber = new Random();
             int RnadomSession = randomNumber.Next(0, 955121135);
             HttpContext.Session.SetInt32("UserId", RnadomSession);
             var PersonProfile = await signInManager.UserManager.FindByNameAsync(User.Identity.Name);
@@ -71,6 +77,8 @@ namespace SuperHero.PL.Controllers
                 }
             }
             return RedirectToAction("GetAll", "Person");
+            }
+            return RedirectToAction("AccessDenied", "Account");
         }
         public IActionResult Index2(string Id)
         {
@@ -81,8 +89,9 @@ namespace SuperHero.PL.Controllers
 
         public async Task<IActionResult> Chat(string Id)
         {
-            
-            var user = await _userManager.GetByID(Id);
+            if (signInManager.IsSignedIn(User))
+            {
+                var user = await _userManager.GetByID(Id);
             var PersonProfile = await signInManager.UserManager.FindByNameAsync(User.Identity.Name);
             
             var Chat = await serviesRep.GetAllPrivateChat(PersonProfile.Id, Id);
@@ -94,6 +103,8 @@ namespace SuperHero.PL.Controllers
                 Reciver = user
             };
             return View(privateChatVM);
+            }
+            return RedirectToAction("AccessDenied", "Account");
         }
     }
 }

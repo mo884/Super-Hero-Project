@@ -32,14 +32,17 @@ namespace SuperHero.PL.Controllers.Admin.Social
         #region Get Profile By Id
         [Route("Profile")]
         public async Task<IActionResult> Profile(string id)
-        
-        {
 
-            var data = await servies.GetPersonInclud("district", id);
-            var PersonProfile = await signInManager.UserManager.FindByNameAsync(User.Identity.Name);
-            var result = mapper.Map<CreatePerson>(data);
-            result.doctorRating = await servies.DoctorRatingISTrue(PersonProfile.Id, id);
-            return PartialView(result);
+        {
+            if (signInManager.IsSignedIn(User))
+            {
+                var data = await servies.GetPersonInclud("district", id);
+                var PersonProfile = await signInManager.UserManager.FindByNameAsync(User.Identity.Name);
+                var result = mapper.Map<CreatePerson>(data);
+                result.doctorRating = await servies.DoctorRatingISTrue(PersonProfile.Id, id);
+                return PartialView(result);
+            }
+            return RedirectToAction("AccessDenied", "Account");
         }
 
         #endregion
@@ -48,36 +51,40 @@ namespace SuperHero.PL.Controllers.Admin.Social
         [HttpPost]
         public async Task<IActionResult> AddFriends(string id)
         {
-            var Person = await person.GetByID(id);
-            if (Person is null)
-                return NotFound();
-            var PersonProfile = await signInManager.UserManager.FindByNameAsync(User.Identity.Name);
-            var Friend = await servies.GetBYUserFriends(PersonProfile.Id, id);
-            if (Friend is null)
+            if (signInManager.IsSignedIn(User))
             {
-                var AddFriends = new Friends()
+                var Person = await person.GetByID(id);
+                if (Person is null)
+                    return NotFound();
+                var PersonProfile = await signInManager.UserManager.FindByNameAsync(User.Identity.Name);
+                var Friend = await servies.GetBYUserFriends(PersonProfile.Id, id);
+                if (Friend is null)
                 {
-                    personId = PersonProfile.Id,
-                    FriendId = id,
-                    IsFriend = true,
-                };
+                    var AddFriends = new Friends()
+                    {
+                        personId = PersonProfile.Id,
+                        FriendId = id,
+                        IsFriend = true,
+                    };
 
 
-                await friends.Create(AddFriends);
-                return Ok();
-            }
+                    await friends.Create(AddFriends);
+                    return Ok();
+                }
 
-            if (Friend.IsFriend == false)
-            {
-                Friend.IsFriend = true;
+                if (Friend.IsFriend == false)
+                {
+                    Friend.IsFriend = true;
+                    await friends.Update(Friend);
+                    return Ok();
+                }
+
+                Friend.IsFriend = false;
                 await friends.Update(Friend);
+
                 return Ok();
             }
-
-            Friend.IsFriend = false;
-            await friends.Update(Friend);
-
-            return Ok();
+            return RedirectToAction("AccessDenied", "Account");
 
         }
         #endregion
@@ -86,13 +93,21 @@ namespace SuperHero.PL.Controllers.Admin.Social
         [HttpGet]
         public async Task<IActionResult> Friend(string id)
         {
-            var Friends = await servies.GetBYUserFriends(id);
-            return PartialView("Friends", Friends); 
+            if (signInManager.IsSignedIn(User))
+            {
+                var Friends = await servies.GetBYUserFriends(id);
+                return PartialView("Friends", Friends);
+            }
+            return RedirectToAction("AccessDenied", "Account");
         }
         public async Task<IActionResult> Follower(string id)
         {
-            var Friends = await servies.GetFollower(id);
-            return PartialView("Follower", Friends);
+            if (signInManager.IsSignedIn(User))
+            {
+                var Friends = await servies.GetFollower(id);
+                return PartialView("Follower", Friends);
+            }
+            return RedirectToAction("AccessDenied", "Account");
         }
         #endregion
 

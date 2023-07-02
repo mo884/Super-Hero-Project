@@ -32,15 +32,17 @@ namespace SuperHero.PL.Controllers.Admin.Courses
         #region GetAll Category
         public async Task<IActionResult> GetALL()
         {
-           
+            if (signInManager.IsSignedIn(User))
+            {
                 //Get All Category
                 var data = await categories.GetAll();
                 //Mapper
                 var result = mapper.Map<IEnumerable<CategoryVM>>(data);
                 return View(result);
 
-           
-           
+            }
+            return RedirectToAction("AccessDenied", "Account");
+
         }
         #endregion
 
@@ -48,42 +50,50 @@ namespace SuperHero.PL.Controllers.Admin.Courses
         [HttpGet]
         public async Task<IActionResult> Edite(int id)
         {
-            //Get Category by Id
-            var data = await categories.GetByID(id);
-            //Mapper
-            var result = mapper.Map<CategoryVM>(data);
-            TempData["Message"] = null;
-            return PartialView("Edite", result);
+            if (signInManager.IsSignedIn(User))
+            {
+                //Get Category by Id
+                var data = await categories.GetByID(id);
+                //Mapper
+                var result = mapper.Map<CategoryVM>(data);
+                TempData["Message"] = null;
+                return PartialView("Edite", result);
+            }
+            return RedirectToAction("AccessDenied", "Account");
         }
         public async Task<IActionResult> Edite(CategoryVM categoryVM)
         {
-            try
+            if (signInManager.IsSignedIn(User))
             {
-
-                if (ModelState.IsValid)
+                try
                 {
-                    //Make Update Time Now
-                    categoryVM.UpdateTime = DateTime.Now;
-                    //Mapper
-                    var result = mapper.Map<Catogery>(categoryVM);
-                    //Make Update
-                    await categories.Update(result);
-                    TempData["Message"] = "saved Successfuly";
-                    return RedirectToAction("GetAll");
+
+                    if (ModelState.IsValid)
+                    {
+                        //Make Update Time Now
+                        categoryVM.UpdateTime = DateTime.Now;
+                        //Mapper
+                        var result = mapper.Map<Catogery>(categoryVM);
+                        //Make Update
+                        await categories.Update(result);
+                        TempData["Message"] = "saved Successfuly";
+                        return RedirectToAction("GetAll");
+                    }
                 }
+                catch (Exception ex)
+                {
+                    TempData["error"] = ex.Message;
+
+                }
+
+                //ModelState.Clear();
+                TempData["Message"] = null;
+
+
+                ViewBag.ID = "Edite";
+                return RedirectToAction("GetAll");
             }
-            catch (Exception ex)
-            {
-                TempData["error"] = ex.Message;
-
-            }
-
-            //ModelState.Clear();
-            TempData["Message"] = null;
-
-
-            ViewBag.ID = "Edite";
-            return RedirectToAction("GetAll");
+            return RedirectToAction("AccessDenied", "Account");
         }
         #endregion
 
@@ -91,34 +101,42 @@ namespace SuperHero.PL.Controllers.Admin.Courses
         [HttpGet]
         public async Task<IActionResult> Create()
         {
-            TempData["Message"] = null;
-            return PartialView("Create");
+            if (signInManager.IsSignedIn(User))
+            {
+                TempData["Message"] = null;
+                return PartialView("Create");
+            }
+            return RedirectToAction("AccessDenied", "Account");
         }
         public async Task<IActionResult> Create(CategoryVM categoryVM)
         {
-            try
+            if (signInManager.IsSignedIn(User))
             {
-
-                if (ModelState.IsValid)
+                try
                 {
-                    //MAke Time of create Now
-                    categoryVM.createdTime = DateTime.Now;
-                    //Mapper
-                    var result = mapper.Map<Catogery>(categoryVM);
-                    //Create Category
-                    await categories.Create(result);
-                    TempData["Message"] = "saved Successfuly";
-                    return RedirectToAction("GetAll");
-                }
-            }
-            catch (Exception ex)
-            {
-                TempData["error"] = ex.Message;
-            }
 
-            //ModelState.Clear();
-            TempData["Message"] = null;
-            return RedirectToAction("GetAll");
+                    if (ModelState.IsValid)
+                    {
+                        //MAke Time of create Now
+                        categoryVM.createdTime = DateTime.Now;
+                        //Mapper
+                        var result = mapper.Map<Catogery>(categoryVM);
+                        //Create Category
+                        await categories.Create(result);
+                        TempData["Message"] = "saved Successfuly";
+                        return RedirectToAction("GetAll");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    TempData["error"] = ex.Message;
+                }
+
+                //ModelState.Clear();
+                TempData["Message"] = null;
+                return RedirectToAction("GetAll");
+            }
+            return RedirectToAction("AccessDenied", "Account");
         }
         #endregion
 
@@ -127,16 +145,20 @@ namespace SuperHero.PL.Controllers.Admin.Courses
         [HttpPost]
         public async Task<IActionResult> Delete(int id)
         {
-            //Get Category By Id
-            var data = await categories.GetByID(id);
+            if (signInManager.IsSignedIn(User))
+            {
+                //Get Category By Id
+                var data = await categories.GetByID(id);
 
-            if (data is null)
-                return NotFound();
-            //Make Is Deleted
-            var Course = await Service.Delete(data);
-            //Make Update
-            await categories.Update(Course);
-            return Ok();
+                if (data is null)
+                    return NotFound();
+                //Make Is Deleted
+                var Course = await Service.Delete(data);
+                //Make Update
+                await categories.Update(Course);
+                return Ok();
+            }
+            return RedirectToAction("AccessDenied", "Account");
         }
         #endregion
     }

@@ -9,24 +9,31 @@ namespace SuperHero.PL.Controllers.Admin.Adress
         #region Prop
         private readonly IBaseRepsoratory<City> city;
         private readonly IBaseRepsoratory<Governorate> governate;
+        private readonly SignInManager<Person> signInManager;
         private readonly IMapper mapper;
         #endregion
 
         #region Ctor
-        public CityController(IBaseRepsoratory<City> city, IBaseRepsoratory<Governorate> governate, IMapper mapper)
+        public CityController(IBaseRepsoratory<City> city, SignInManager<Person> signInManager, IBaseRepsoratory<Governorate> governate, IMapper mapper)
         {
             this.city = city;
             this.governate = governate;
             this.mapper = mapper;
+            this.signInManager = signInManager;
         }
         #endregion
 
         #region Get All City
         public async Task<IActionResult> GetAll()
         {
-            var cityList = await city.FindAsync("Governorate", "Districts");
-            var CityListVM = mapper.Map<IEnumerable<CityVM>>(cityList);
-            return View(CityListVM);
+            if (signInManager.IsSignedIn(User))
+            {
+                var cityList = await city.FindAsync("Governorate", "Districts");
+                var CityListVM = mapper.Map<IEnumerable<CityVM>>(cityList);
+                return View(CityListVM);
+            }
+            return RedirectToAction("AccessDenied", "Account");
+
         }
         #endregion
 
@@ -34,34 +41,42 @@ namespace SuperHero.PL.Controllers.Admin.Adress
         [HttpGet]
         public async Task<IActionResult> Create()
         {
-            ViewBag.categoryList = new SelectList(await governate.GetAll(), "ID", "Name");
-            TempData["Message"] = null;
-            return PartialView("Create");
+            if (signInManager.IsSignedIn(User))
+            {
+                ViewBag.categoryList = new SelectList(await governate.GetAll(), "ID", "Name");
+                TempData["Message"] = null;
+                return PartialView("Create");
+            }
+            return RedirectToAction("AccessDenied", "Account");
         }
         public async Task<IActionResult> Create(CityVM cityVM)
         {
-            try
+            if (signInManager.IsSignedIn(User))
             {
+                try
+                {
 
-                if (ModelState.IsValid)
-                { 
-                    var result = mapper.Map<City>(cityVM);
-                    await city.Create(result);
-                    TempData["Message"] = "saved Successfuly";
-                    return RedirectToAction("GetAll");
+                    if (ModelState.IsValid)
+                    {
+                        var result = mapper.Map<City>(cityVM);
+                        await city.Create(result);
+                        TempData["Message"] = "saved Successfuly";
+                        return RedirectToAction("GetAll");
+                    }
                 }
-            }
-            catch (Exception ex)
-            {
-                TempData["error"] = ex.Message;
-            }
+                catch (Exception ex)
+                {
+                    TempData["error"] = ex.Message;
+                }
 
-            //ModelState.Clear();
-            TempData["Message"] = null;
-            ViewBag.categoryList = new SelectList(await governate.GetAll(), "ID", "Name");
+                //ModelState.Clear();
+                TempData["Message"] = null;
+                ViewBag.categoryList = new SelectList(await governate.GetAll(), "ID", "Name");
 
-            ViewBag.ID = null;
-            return View("Form", cityVM);
+                ViewBag.ID = null;
+                return View("Form", cityVM);
+            }
+            return RedirectToAction("AccessDenied", "Account");
         }
         #endregion
 
@@ -70,34 +85,42 @@ namespace SuperHero.PL.Controllers.Admin.Adress
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
-            var data = await city.GetByID(id);
-            var result = mapper.Map<CityVM>(data);
-            ViewBag.categoryList = new SelectList(await governate.GetAll(), "ID", "Name");
-            TempData["Message"] = null;
-            return PartialView("Edite", result);
+            if (signInManager.IsSignedIn(User))
+            {
+                var data = await city.GetByID(id);
+                var result = mapper.Map<CityVM>(data);
+                ViewBag.categoryList = new SelectList(await governate.GetAll(), "ID", "Name");
+                TempData["Message"] = null;
+                return PartialView("Edite", result);
+            }
+            return RedirectToAction("AccessDenied", "Account");
         }
         public async Task<IActionResult> Edite(CityVM cityVM)
         {
-            try
+            if (signInManager.IsSignedIn(User))
             {
-
-                if (ModelState.IsValid)
+                try
                 {
-                    var result = mapper.Map<City>(cityVM);
-                    await city.Update(result);
-                    TempData["Message"] = "saved Successfuly";
-                    return RedirectToAction("GetAll");
-                }
-            }
-            catch (Exception ex)
-            {
-                TempData["error"] = ex.Message;
-            }
 
-            //ModelState.Clear();
-            TempData["Message"] = null;
-            ViewBag.categoryList = new SelectList(await governate.GetAll(), "ID", "Name");
-            return PartialView("Edite", cityVM);
+                    if (ModelState.IsValid)
+                    {
+                        var result = mapper.Map<City>(cityVM);
+                        await city.Update(result);
+                        TempData["Message"] = "saved Successfuly";
+                        return RedirectToAction("GetAll");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    TempData["error"] = ex.Message;
+                }
+
+                //ModelState.Clear();
+                TempData["Message"] = null;
+                ViewBag.categoryList = new SelectList(await governate.GetAll(), "ID", "Name");
+                return PartialView("Edite", cityVM);
+            }
+            return RedirectToAction("AccessDenied", "Account");
         }
         #endregion
 

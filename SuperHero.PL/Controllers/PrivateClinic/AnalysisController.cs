@@ -7,12 +7,13 @@ namespace SuperHero.PL.Controllers.PrivateClinic
 {
     public class AnalysisController : Controller
     {
-        private readonly IBaseRepsoratory<UserInfo> patient;
-        private readonly IBaseRepsoratory<Analysis> analysis;
+
         #region Prop
         private readonly IMapper mapper;
         private readonly IServiesRep servies;
         private readonly SignInManager<Person> signInManager;
+        private readonly IBaseRepsoratory<UserInfo> patient;
+        private readonly IBaseRepsoratory<Analysis> analysis;
         #endregion
 
 
@@ -28,63 +29,87 @@ namespace SuperHero.PL.Controllers.PrivateClinic
         #endregion
         public async Task<IActionResult> PatientAnalysis(int id)
         {
-            var Analysis = await servies.GetAllAnalysisbyId(id);
-            var AnalysisVM = mapper.Map<List<AnalysisVM>>(Analysis);
-            var userinfo = await signInManager.UserManager.FindByNameAsync(User.Identity.Name);
-            var patient = await servies.GetPatientBYID(userinfo.Id);
-            var data = new PatientInfo()
+            if (signInManager.IsSignedIn(User))
             {
-                patient = patient,
-                User = userinfo,
-                AnalysisVMs = AnalysisVM
-            };
-            return PartialView(data);
+                var Analysis = await servies.GetAllAnalysisbyId(id);
+                var AnalysisVM = mapper.Map<List<AnalysisVM>>(Analysis);
+                var userinfo = await signInManager.UserManager.FindByNameAsync(User.Identity.Name);
+                var patient = await servies.GetPatientBYID(userinfo.Id);
+                var data = new PatientInfo()
+                {
+                    patient = patient,
+                    User = userinfo,
+                    AnalysisVMs = AnalysisVM
+                };
+                return PartialView(data);
+            }
+            return RedirectToAction("AccessDenied", "Account");
         }
         [HttpGet]
         public async Task<IActionResult> Create(int id)
         {
-            TempData["PatientId"] = id;
-            return PartialView();
+            if (signInManager.IsSignedIn(User) || id == null)
+            {
+                TempData["PatientId"] = id;
+                return PartialView();
+            }
+            return RedirectToAction("AccessDenied", "Account");
         }
         [HttpPost]
         public async Task<IActionResult> Create(DoctorAnalysis analysisVM)
         {
-            analysisVM.personID = (int)TempData["PatientId"];
-            var user = await signInManager.UserManager.FindByNameAsync(User.Identity.Name);
-            await servies.Create(analysisVM,user.Id);
-            return RedirectToAction("PatientRecord", "DoctorHome", new { id = analysisVM.patient.UserID });
+            if (signInManager.IsSignedIn(User))
+            {
+                analysisVM.personID = (int)TempData["PatientId"];
+                var user = await signInManager.UserManager.FindByNameAsync(User.Identity.Name);
+                await servies.Create(analysisVM, user.Id);
+                return RedirectToAction("PatientRecord", "DoctorHome", new { id = analysisVM.patient.UserID });
+            }
+            return RedirectToAction("AccessDenied", "Account");
         }
         [HttpPost]
         public async Task<IActionResult> CreateBYUser(PatientInfo analysisVM)
         {
-           
-            var user = await signInManager.UserManager.FindByNameAsync(User.Identity.Name);
-            var Patient = await servies.GetPatientBYID(user.Id);
-            var Data = new DoctorAnalysis {
-                AnalysisPDF = FileUploader.UploadFile("PDF", analysisVM.uploade),
-                Name = analysisVM.Name,
-                personID = Patient.ID
-            };
+            if (signInManager.IsSignedIn(User))
+            {
+                var user = await signInManager.UserManager.FindByNameAsync(User.Identity.Name);
+                var Patient = await servies.GetPatientBYID(user.Id);
+                var Data = new DoctorAnalysis
+                {
+                    AnalysisPDF = FileUploader.UploadFile("PDF", analysisVM.uploade),
+                    Name = analysisVM.Name,
+                    personID = Patient.ID
+                };
 
-            await servies.CreateBYUser(Data);
-            return RedirectToAction("Profile", "MyProfile", new { id = user.Id });
+                await servies.CreateBYUser(Data);
+                return RedirectToAction("Profile", "MyProfile", new { id = user.Id });
+            }
+            return RedirectToAction("AccessDenied", "Account");
         }
         [HttpPost]
         public async Task<IActionResult> AddByPatient(int id)
         {
-            var data = await analysis.GetByID(id);
-            data.IsAdd = true;
-            await analysis.Update(data);
-            return Ok();
+            if (signInManager.IsSignedIn(User))
+            {
+                var data = await analysis.GetByID(id);
+                data.IsAdd = true;
+                await analysis.Update(data);
+                return Ok();
+            }
+            return RedirectToAction("AccessDenied", "Account");
         }
         [HttpPost]
         public async Task<IActionResult> Edit(PatientInfo patientInfo)
         {
-            var data = await analysis.GetByID(patientInfo.ID);
-            data.AnalysisPDF = FileUploader.UploadFile("PDF", patientInfo.uploade);
-            await analysis.Update(data);
-            var user = await signInManager.UserManager.FindByNameAsync(User.Identity.Name);
-            return RedirectToAction("Profile", "MyProfile", new { Id = user.Id });
+            if (signInManager.IsSignedIn(User))
+            {
+                var data = await analysis.GetByID(patientInfo.ID);
+                data.AnalysisPDF = FileUploader.UploadFile("PDF", patientInfo.uploade);
+                await analysis.Update(data);
+                var user = await signInManager.UserManager.FindByNameAsync(User.Identity.Name);
+                return RedirectToAction("Profile", "MyProfile", new { Id = user.Id });
+            }
+            return RedirectToAction("AccessDenied", "Account");
         }
     }
 }

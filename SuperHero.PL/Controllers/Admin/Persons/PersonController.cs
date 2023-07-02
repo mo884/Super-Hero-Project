@@ -14,7 +14,7 @@ using System.Security.Cryptography;
 
 namespace SuperHero.PL.Controllers.Admin.Persons
 {
-    //[Authorize(Roles = $"{AppRoles.Doctor}, {AppRoles.Admin}")]
+    
 
     public class PersonController : Controller
     {
@@ -44,6 +44,7 @@ namespace SuperHero.PL.Controllers.Admin.Persons
         #endregion
 
         #region Get All Persons
+        [Authorize(Roles = $"{AppRoles.Admin}")]
         public async Task<IActionResult> GetAll()
         {
             var data = await person.FindAsync("district");

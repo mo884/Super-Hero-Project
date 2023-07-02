@@ -27,32 +27,48 @@ namespace SuperHero.PL.Controllers.PrivateClinic
         #endregion
         public async Task<IActionResult> PatientTreatment(int id)
         {
-            var Treatment = await servies.GetAllTreatmentbyId(id);
-            var TreatmentVM = mapper.Map<List<TreatmentVM>>(Treatment);
-            
-            return PartialView(TreatmentVM);
+            if (signInManager.IsSignedIn(User))
+            {
+                var Treatment = await servies.GetAllTreatmentbyId(id);
+                var TreatmentVM = mapper.Map<List<TreatmentVM>>(Treatment);
+
+                return PartialView(TreatmentVM);
+            }
+            return RedirectToAction("AccessDenied", "Account");
         }
         [HttpGet]
         public async Task<IActionResult> Create(int id)
         {
-            TempData["PatientId"] = id;
-            return PartialView();
+            if (signInManager.IsSignedIn(User))
+            {
+                TempData["PatientId"] = id;
+                return PartialView();
+            }
+            return RedirectToAction("AccessDenied", "Account");
         }
         [HttpPost]
         public async Task<IActionResult> Create(DoctorTreatment treatment)
         {
-            treatment.personID = (int)TempData["PatientId"];
-            var user = await signInManager.UserManager.FindByNameAsync(User.Identity.Name);
-            await servies.CreateTreatment(treatment,user.Id);
-            return RedirectToAction("PatientRecord", "DoctorHome", new { id = treatment.patient.UserID });
+            if (signInManager.IsSignedIn(User))
+            {
+                treatment.personID = (int)TempData["PatientId"];
+                var user = await signInManager.UserManager.FindByNameAsync(User.Identity.Name);
+                await servies.CreateTreatment(treatment, user.Id);
+                return RedirectToAction("PatientRecord", "DoctorHome", new { id = treatment.patient.UserID });
+            }
+            return RedirectToAction("AccessDenied", "Account");
         }
         [HttpPost]
         public async Task<IActionResult> AddByPatient(int id)
         {
-            var data = await treatment.GetByID(id);
-            data.IsAdd = true;
-            await treatment.Update(data);
-            return Ok();
+            if (signInManager.IsSignedIn(User))
+            {
+                var data = await treatment.GetByID(id);
+                data.IsAdd = true;
+                await treatment.Update(data);
+                return Ok();
+            }
+            return RedirectToAction("AccessDenied", "Account");
         }
     }
 }

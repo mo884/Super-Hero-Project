@@ -16,7 +16,24 @@
                         <div class="col-sm-3 bg-c-lite-green user-profile">
                             <div class="card-block text-center text-white">
                                 <div class="m-b-25">
-                                    <img src="~/Files/Imgs/@Model.Image" width="100" height="100" style="border:2px solid #363636b4;border-radius:50%" class="img-radius" alt="User-Profile-Image">
+                                    @if(Model.Image == null)
+                                    {
+                                    if(Model.gender == 0)
+                                    {
+
+                                            <img src="/files/imgs/men.jpg" width="100" height="100" style="border:2px solid #363636b4;border-radius:50%" class="img-radius" alt="User-Profile-Image">
+                                    }
+                                    else
+                                    {
+
+                                            <img src="/files/imgs/young-woman-avatar-cartoon-character-profile-picture-young-woman-wearing-blue-t-shirt-avatar-cartoon-character-vector-149732076.jpg" width="100" height="100" style="border:2px solid #363636b4;border-radius:50%" class="img-radius" alt="User-Profile-Image">
+                                    }
+                                    }
+                                    else
+                                    {
+                                        <img src="~/Files/Imgs/@Model.Image" width="100" height="100" style="border:2px solid #363636b4;border-radius:50%" class="img-radius" alt="User-Profile-Image">
+                                    }
+                                    
                                 </div>
                                 <h6 class="f-w-600">@Model.FullName</h6>
                                 <br />
@@ -92,10 +109,10 @@
 
         </div>
         <div class="col-sm-4">
-            <button data-bs-toggle="modal" class="js-Analysis" href="javascript:;" data-title="Analysis" data-url="/Radiology/PatientRadiology/@Model.patient.ID" data-update="true">Radiology<i class="fa-solid fa-x-ray fa-bounce"></i></button>
+            <button data-bs-toggle="modal" class="js-Analysis" href="javascript:;" data-title="Radiology" data-url="/Radiology/PatientRadiology/@Model.patient.ID" data-update="true">Radiology<i class="fa-solid fa-x-ray fa-bounce"></i></button>
         </div>
         <div class="col-sm-4">
-            <button data-bs-toggle="modal" class="js-Analysis" href="javascript:;" data-title="Analysis" data-url="/Treatment/PatientTreatment/@Model.patient.ID" data-update="true">Treatment<i class="fa-solid fa-capsules fa-bounce"></i></button>
+            <button data-bs-toggle="modal" class="js-Analysis" href="javascript:;" data-title="Treatment" data-url="/Treatment/PatientTreatment/@Model.patient.ID" data-update="true">Treatment<i class="fa-solid fa-capsules fa-bounce"></i></button>
         </div>
 
     </div>
@@ -112,12 +129,12 @@
 
         </div>
         <div class="col-sm-4">
-            <button data-bs-toggle="modal" class="js-Analysis" href="javascript:;" data-title="Analysis" data-url="/Radiology/Create/@Model.patient.ID" data-update="true" role="button">Add Radiology<i class="fa-solid fa-x-ray "></i></button>
+            <button data-bs-toggle="modal" class="js-Analysis" href="javascript:;" data-title="Radiology" data-url="/Radiology/Create/@Model.patient.ID" data-update="true" role="button">Add Radiology<i class="fa-solid fa-x-ray "></i></button>
         </div>
         <div class="col-sm-4">
-            <button data-bs-toggle="modal" class="js-Analysis" href="javascript:;" data-title="Analysis" data-url="/Treatment/Create/@Model.patient.ID" data-update="true" role="button">Add Treatment<i class="fa-solid fa-capsules "></i></button>
+            <button data-bs-toggle="modal" class="js-Analysis" href="javascript:;" data-title="Treatment" data-url="/Treatment/Create/@Model.patient.ID" data-update="true" role="button">Add Treatment<i class="fa-solid fa-capsules "></i></button>
         </div>
-
+          
     </div>
 </div>
 <partial name="~/views/Analysis/ModelClinic.cshtml">

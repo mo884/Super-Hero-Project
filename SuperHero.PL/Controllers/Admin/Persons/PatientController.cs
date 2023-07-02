@@ -17,7 +17,7 @@ namespace SuperHero.PL.Controllers.Admin.Persons
         #region Prop
         private readonly UserManager<Person> userManager;
         private readonly IBaseRepsoratory<Person> person;
-      
+
         private readonly SignInManager<Person> signInManager;
         private readonly IMapper mapper;
         private readonly RoleManager<IdentityRole> roleManager;
@@ -46,47 +46,55 @@ namespace SuperHero.PL.Controllers.Admin.Persons
         [HttpGet]
         public async Task<IActionResult> CreateUser()
         {
-            ViewBag.districtList = new SelectList(await district.GetAll(), "Id", "Name");
-            TempData["Message"] = null;
-            return View();
+            if (signInManager.IsSignedIn(User))
+            {
+                ViewBag.districtList = new SelectList(await district.GetAll(), "Id", "Name");
+                TempData["Message"] = null;
+                return View();
+            }
+            return RedirectToAction("AccessDenied", "Account");
         }
         [HttpPost]
         public async Task<IActionResult> CreateUser(PersonVM model)
         {
-            try
+            if (signInManager.IsSignedIn(User))
             {
-                model.Image = FileUploader.UploadFile("Imgs", model.ImageName);
-
-                if (ModelState.IsValid)
+                try
                 {
-                    var patient = mapper.Map<CreatePerson>(model);
-                    var result = await userManager.CreateAsync(await Service.Add(patient, 0), model.PasswordHash);
-                    var Patient = await servis.GetBYUserName(model.UserName);
-                    var role = await roleManager.FindByNameAsync(AppRoles.User);
-                    var result1 = await userManager.AddToRoleAsync(Patient, role.Name);
-                    if (result.Succeeded)
-                    {
-                        TempData["Message"] = "saved Successfuly";
-                        return RedirectToAction("GetAll", "Person");
-                    }
-                    else
-                    {
-                        foreach (var item in result.Errors)
-                            ModelState.AddModelError("", item.Description);
-                    }
-                    ViewBag.districtList = new SelectList(await district.GetAll(), "Id", "Name");
-                    TempData["Message"] = null;
-                    return View("CreateUser", model);
-                }
+                    model.Image = FileUploader.UploadFile("Imgs", model.ImageName);
 
+                    if (ModelState.IsValid)
+                    {
+                        var patient = mapper.Map<CreatePerson>(model);
+                        var result = await userManager.CreateAsync(await Service.Add(patient, 0), model.PasswordHash);
+                        var Patient = await servis.GetBYUserName(model.UserName);
+                        var role = await roleManager.FindByNameAsync(AppRoles.User);
+                        var result1 = await userManager.AddToRoleAsync(Patient, role.Name);
+                        if (result.Succeeded)
+                        {
+                            TempData["Message"] = "saved Successfuly";
+                            return RedirectToAction("GetAll", "Person");
+                        }
+                        else
+                        {
+                            foreach (var item in result.Errors)
+                                ModelState.AddModelError("", item.Description);
+                        }
+                        ViewBag.districtList = new SelectList(await district.GetAll(), "Id", "Name");
+                        TempData["Message"] = null;
+                        return View("CreateUser", model);
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    TempData["error"] = ex.Message;
+                }
+                ViewBag.districtList = new SelectList(await district.GetAll(), "Id", "Name");
+                TempData["Message"] = null;
+                return View("CreateUser", model);
             }
-            catch (Exception ex)
-            {
-                TempData["error"] = ex.Message;
-            }
-            ViewBag.districtList = new SelectList(await district.GetAll(), "Id", "Name");
-            TempData["Message"] = null;
-            return View("CreateUser", model);
+            return RedirectToAction("AccessDenied", "Account");
         }
 
         #endregion
@@ -176,9 +184,9 @@ namespace SuperHero.PL.Controllers.Admin.Persons
             {
 
                 return PartialView("Registration", model);
-            } 
+            }
 
-           
+
         }
         #endregion
 
@@ -196,7 +204,7 @@ namespace SuperHero.PL.Controllers.Admin.Persons
             {
 
                 var res = await userManager.ConfirmEmailAsync(user, token);
-                return RedirectToAction("Login","Account");
+                return RedirectToAction("Login", "Account");
             }
             else
             {
@@ -233,8 +241,8 @@ namespace SuperHero.PL.Controllers.Admin.Persons
                 {
                     ToEmail = usr.Email,
                     Name = usr.FullName,
-                  
-                    
+
+
 
                 };
                 var TempHtml = $"<a href='{confiramtionLink}'>ConfrmLink</a>";

@@ -38,35 +38,37 @@ namespace SuperHero.PL.Controllers.MyProfile
         public async Task<IActionResult> Profile(string id)
 
         {
-
-            var Profile = await person.GetByID(id);
-            var PersonProfile = await signInManager.UserManager.FindByNameAsync(User.Identity.Name);
-            if (Profile.PersonType == 0)
+            if (signInManager.IsSignedIn(User))
             {
-                var Patient = await servies.GetPatientProfile( id);
-                var Patientresult = mapper.Map<CreatePerson>(Patient);
+                var Profile = await person.GetByID(id);
+                var PersonProfile = await signInManager.UserManager.FindByNameAsync(User.Identity.Name);
+                if (Profile.PersonType == 0)
+                {
+                    var Patient = await servies.GetPatientProfile(id);
+                    var Patientresult = mapper.Map<CreatePerson>(Patient);
 
-                Patientresult.doctorRating = await servies.DoctorRatingISTrue(PersonProfile.Id, id);
-                var PatientFriends = await servies.GetBYUserFriends(id);
-                Patientresult.Friends = PatientFriends;
-                Patientresult.Allfriends = await allfriends.GetAll();
-                return View(Patientresult);
+                    Patientresult.doctorRating = await servies.DoctorRatingISTrue(PersonProfile.Id, id);
+                    var PatientFriends = await servies.GetBYUserFriends(id);
+                    Patientresult.Friends = PatientFriends;
+                    Patientresult.Allfriends = await allfriends.GetAll();
+                    return View(Patientresult);
+                }
+                else
+                {
+                    var data = await servies.GetPersonInclud("district", id);
+                    var result = mapper.Map<CreatePerson>(data);
+
+                    result.doctorRating = await servies.DoctorRatingISTrue(PersonProfile.Id, id);
+                    var Friends = await servies.GetBYUserFriends(id);
+                    result.Friends = Friends;
+                    result.Allfriends = await allfriends.GetAll();
+                    return View(result);
+                }
+
+
+
             }
-            else
-            {
-                var data = await servies.GetPersonInclud("district", id);
-                var result = mapper.Map<CreatePerson>(data);
-
-                result.doctorRating = await servies.DoctorRatingISTrue(PersonProfile.Id, id);
-                var Friends = await servies.GetBYUserFriends(id);
-                result.Friends = Friends;
-                result.Allfriends = await allfriends.GetAll();
-                return View(result);
-            }
-           
-
-
-           
+            return RedirectToAction("AccessDenied", "Account");
 
         }
 
@@ -76,18 +78,26 @@ namespace SuperHero.PL.Controllers.MyProfile
         [HttpGet]
         public async Task<IActionResult> Record(string id)
         {
-            var data = new Recorder()
+            if (signInManager.IsSignedIn(User))
             {
-                DoctorID = id
-            };
-            return PartialView("Record", data);
+                var data = new Recorder()
+                {
+                    DoctorID = id
+                };
+                return PartialView("Record", data);
+            }
+            return RedirectToAction("AccessDenied", "Account");
         }
         public async Task<IActionResult> Record(Recorder record)
         {
-            var PersonProfile = await signInManager.UserManager.FindByNameAsync(User.Identity.Name);
+            if (signInManager.IsSignedIn(User))
+            {
+                var PersonProfile = await signInManager.UserManager.FindByNameAsync(User.Identity.Name);
 
-            await servies.SaveRecord(PersonProfile.Id, record.DoctorID, record) ;
-            return RedirectToAction("Profile", "MyProfile", new {id = record.DoctorID });
+                await servies.SaveRecord(PersonProfile.Id, record.DoctorID, record);
+                return RedirectToAction("Profile", "MyProfile", new { id = record.DoctorID });
+            }
+            return RedirectToAction("AccessDenied", "Account");
         }
         #endregion
     }

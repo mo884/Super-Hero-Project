@@ -1,7 +1,12 @@
 ﻿@*@model List<PersonVM>*@
 @using Microsoft.AspNetCore.Identity;
+@using SuperHero.BL.Seeds;
 @inject SignInManager<Person> signInManager
 
+@{
+    var userinfo = await signInManager.UserManager.FindByNameAsync(User.Identity.Name);
+    
+}
 
 <nav>
     <div class="logo-name">
@@ -10,69 +15,86 @@
         </div>
 
         <span class="logo_name">Super Heroes</span>
-      
-       @if (signInManager.IsSignedIn(User))
+
+        @if (signInManager.IsSignedIn(User))
         {
 
-            var userinfo = await signInManager.UserManager.FindByNameAsync(User.Identity.Name);
-            <a asp-action="Profile" asp-controller="Profile" asp-route-id="@userinfo.Id">
-            @if (@userinfo.Image == null)
-            {
-                if (@userinfo.gender == 0)
-                {
-                    <div class="Image" style="background-image:url('/files/imgs/men.jpg') ; ">
-                    </div>
 
+            <a asp-action="Profile" asp-controller="Profile" asp-route-id="@userinfo.Id">
+                @if (@userinfo.Image == null)
+                {
+                    if (@userinfo.gender == 0)
+                    {
+                        <div class="Image" style="background-image:url('/files/imgs/men.jpg') ; ">
+                        </div>
+
+                    }
+                    else
+                    {
+                        <div class="Image" style="background-image:url('/files/imgs/young-woman-avatar-cartoon-character-profile-picture-young-woman-wearing-blue-t-shirt-avatar-cartoon-character-vector-149732076.jpg') ">
+                        </div>
+
+                    }
                 }
                 else
                 {
-                    <div class="Image" style="background-image:url('/files/imgs/young-woman-avatar-cartoon-character-profile-picture-young-woman-wearing-blue-t-shirt-avatar-cartoon-character-vector-149732076.jpg') ">
+                    <div class="Image" style="background-image:url('/files/imgs/@userinfo.Image') ">
                     </div>
-
                 }
-            }
-            else
-            {
-                <div class="Image" style="background-image:url('/files/imgs/@userinfo.Image') ">
-                </div>
-            }
 
 
             </a>
-            <div  class=" c ">
+            <div class=" c ">
                 <span class="font-weight-bold">@userinfo.FullName</span>
             </div>
-          
+
         }
-  
+
     </div>
 
     <div style="margin-top:20px" class="menu-items">
         <ul class="nav-links" style="padding-left:0px">
+            @if (userinfo.PersonType == SuperHero.DAL.Enum.PersonType.Doctor)
+            {
 
-           @* <li >
-                <a active-when="Person" asp-action="GetAll" asp-controller="Person">
-                    <i class="uil uil-user-circle"></i>
-                    <span class="link-name">Person</span>
-                </a>
-                
-            </li>*@
-  
-            <li  data-bs-toggle="dropdown" aria-expanded="false">
-                <a asp-controller="Categories" active-when="Categories">
-                    <i class="uil uil-files-landscapes icon"></i>
-                    <span class="link-name">Courses</span>
-                </a>
-                
-            </li>
-               <ul class="nav-links dropdown-menu" aria-labelledby="dropdownMenuLink" style="padding-left:0px;z-index:12939494">
+                <li>
+                    <a active-when="DoctorHome" asp-action="AllRecorder" asp-controller="DoctorHome">
+                        <i class="uil uil-user-circle"></i>
+                        <span class="link-name">Check</span>
+                    </a>
+
+                </li>
+            }
+            @if (await signInManager.UserManager.IsInRoleAsync(userinfo, AppRoles.Admin))
+            {
+                <li>
+
+                    <a active-when="Person" asp-action="GetAll" asp-controller="Person">
+                        <i class="uil uil-user-circle"></i>
+                        <span class="link-name">Person</span>
+                    </a>
+
+                </li>
+            }
+           
+            @if (userinfo.PersonType == SuperHero.DAL.Enum.PersonType.Trainer)
+            {
+                <li data-bs-toggle="dropdown" aria-expanded="false">
+                    <a asp-controller="Categories" active-when="Categories">
+                        <i class="uil uil-files-landscapes icon"></i>
+                        <span class="link-name">Courses</span>
+                    </a>
+
+                </li>
+                <ul class="nav-links dropdown-menu" aria-labelledby="dropdownMenuLink" style="padding-left:0px;z-index:12939494">
 
                 <li><a active-when="Categories" class="dropdown-item" asp-action="GetAll" asp-controller="Categories"><i class="uil uil-servers"></i>Category</a></li>
                 <li><a active-when="Course" class="dropdown-item" asp-action="GetAll" asp-controller="Course"><i class="uil uil-presentation-edit"></i>Course</a></li>
                 <li><a active-when="Lesson" class="dropdown-item" asp-action="GetAll" asp-controller="Lesson"><i class="uil uil-layer-group"></i>Lesson</a></li>
 
-                </ul>
-            <li >
+            </ul>
+            }
+            <li>
                 <a active-when="Post" asp-action="GetAll" asp-controller="Post">
                     <i class="uil uil-search"></i>
                     <span class="link-name">Post</span>
@@ -84,18 +106,18 @@
                     <span class="link-name">Group</span>
                 </a>
             </li>
-        
+
             <li>
                 <a asp-action="GetAll" asp-controller="Roles">
                     <i class="uil uil-chart icon"></i>
                     <span class="link-name">Roles</span>
                 </a>
             </li>
-           @* <li>
-                <a href="#">
-                    <i class="uil uil-thumbs-up icon"></i>
-                    <span class="link-name">Like</span>
-                </a>
+            @* <li>
+            <a href="#">
+            <i class="uil uil-thumbs-up icon"></i>
+            <span class="link-name">Like</span>
+            </a>
             </li>*@
             <li>
                 <a asp-action="Course" asp-controller="CourseView">
@@ -113,8 +135,8 @@
 
         <ul class="logout-mode" style="padding-left:0px">
             <li>
-          
-            <li class ="mode">
+
+            <li class="mode">
             </li>
 
             <li class="mode">

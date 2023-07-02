@@ -4,6 +4,7 @@ using SuperHero.BL.Interface;
 
 namespace SuperHero.PL.Controllers.SecondPage
 {
+
     public class BestDoctorController : Controller
     {
         private readonly IServiesRep servies;
