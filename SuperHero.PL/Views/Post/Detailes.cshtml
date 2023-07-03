@@ -79,7 +79,7 @@
     <a style=" text-decoration: none;" href="javascript:;" data-url="/Profile/Follower/@userinfo.Id" data-update="true" class=" js-render-modal">Follwers</a>
 
     }
-    <div class="post">
+    <div style="margin-bottom:30px" class="post">
         <div class="header">
             <div class="User">
 
@@ -138,7 +138,9 @@
             @Model.postvm.Body
         </div>
         <div class="social-react">
-            <i id="btn" class="fa-solid fa-comment fa-spin btn btn-dark"></i>
+            
+            
+            <i id="btn" style="cursor:pointer" class="fa-sharp fa-solid fa-comment fa-beat fa-2xl"></i>
             <i href="javascript:;" data-id="@Model.postvm.ID" class="fa-solid js-love2 fa-heart btn @((Model.postvm.ReactPosts?.Where(c=>c.PersonID==userinfo.Id)?.FirstOrDefault() == null ? "btn-light" : (Model.postvm.ReactPosts.Where(c=>c.PersonID==userinfo.Id).FirstOrDefault().IsLike == true) ? "btn-danger" : "btn-light"))"></i>
 
         </div>
@@ -252,6 +254,9 @@
             <partial name="~/views/post/CSS.cshtml">
 
                 <style>
+                    .Card_Warp .middel {
+                        display: none
+                    }
                     #carousel-card .carousel-control-next,
                     #carousel-card .carousel-control-prev {
                         width: 5%;

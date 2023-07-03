@@ -7,7 +7,13 @@
     var userinfo = await signInManager.UserManager.FindByNameAsync(User.Identity.Name);
 
 } 
-
+@section CSS{
+    <style>
+        .Card_Warp .card {
+            display: none
+        }
+    </style>
+ }
 @section PersonType{
     @if (signInManager.IsSignedIn(User))
     {

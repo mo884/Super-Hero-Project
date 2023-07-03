@@ -135,8 +135,8 @@
                                     @if (userinfo.Id == @post.person.Id || await signInManager.UserManager.IsInRoleAsync(userinfo, AppRoles.Admin))
                                     {
                                         <a asp-controller="Post" asp-action="Edite" asp-route-id="@post.ID" >
-                                            <i class="uil uil-pen"></i>
-                                            Edite
+                                            <i class="uil uil-pen btn btn-info"></i>
+                                           
                                         </a>
                                         <a asp-controller="Post" asp-action="Delete" asp-route-id="@post.ID" >
 

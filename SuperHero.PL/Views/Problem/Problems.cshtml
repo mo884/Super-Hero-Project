@@ -1,0 +1,196 @@
+﻿@model IEnumerable<ProblemVM>
+@using Microsoft.AspNetCore.Identity;
+@inject SignInManager<Person> signInManager
+@{
+    ViewData["Title"] = "Problem";
+    Layout = "~/Views/Shared/PatientLayout/_Layout.cshtml";
+    var userinfo = await signInManager.UserManager.FindByNameAsync(User.Identity.Name);
+
+}
+@section PersonType{
+    @if (signInManager.IsSignedIn(User))
+    {
+
+
+        @if (@userinfo.Image == null)
+        {
+            if (@userinfo.gender == 0)
+            {
+                <img src="/files/imgs/men.jpg" alt="" />
+            }
+            else
+            {
+
+                <img src="/files/imgs/young-woman-avatar-cartoon-character-profile-picture-young-woman-wearing-blue-t-shirt-avatar-cartoon-character-vector-149732076.jpg" alt="" />
+            }
+        }
+        else
+        {
+            <a data-fslightbox href="~/files/imgs/@userinfo.Image">
+                <img src="/files/imgs/@userinfo.Image" alt="" />
+            </a>
+
+        }
+        <div class="acc-txt">
+        <h3>Never Give Up!</h3>
+        <h6>@userinfo.FullName</h6>
+            <h6><strong>@userinfo.PersonType</strong></h6>
+        </div>
+    }
+}
+<div class="main">
+   
+    <ul class="cards">
+        @foreach (var item in Model)
+        {
+            <li class="cards_item">
+                <div style="text-align:center" class="card">
+                    <div class="card_image">
+                        @if (item.PathImage == null)
+                        {
+                            <img src="~/secondpage/vendor/image/Oxygen mask-pana.svg">
+                        }
+                        else
+                        {
+
+                            <img src="~/files/Courses/@item.PathImage">
+                        }
+
+                    </div>
+                    <div class="card_content">
+                        <h2 class="card_title">@item.Title</h2>
+                        <p class="card_text">@item.Description</p>
+                        <a asp-action="Pay" asp-controller="Payment" asp-route-id="@item.Id" class="btn1 card_btn" style="text-decoration:none;color:white">Pay to Solve Problem</a>
+                    </div>
+                </div>
+            </li>
+        }
+
+
+
+    </ul>
+</div>
+@section CSS{
+    <style>
+        .Card_Warp .card {
+            display: none
+        }
+    </style>
+ }
+@section CSSLogin{
+    <style>
+        .Card_Warp{
+            display:none
+        }
+        .About, .Doctor {
+            display: none
+        }
+
+        .main {
+            max-width: 1200px;
+            margin: 0 auto;
+            margin-bottom: 200px;
+        }
+
+        h1 {
+            font-size: 24px;
+            font-weight: 400;
+            text-align: center;
+        }
+
+        .main h1 span {
+            border-bottom: 4px solid var(--primaryColor);
+        }
+
+        img {
+            height: auto;
+            max-width: 100%;
+            vertical-align: middle;
+            border-bottom: 4px solid var(--primaryColor);
+        }
+
+        .cards {
+  display: flex;
+  flex-wrap: wrap;
+  list-style: none;
+  margin: 0;
+ 
+  padding: 0;
+}
+
+.cards_item {
+  display: flex;
+  padding: 1rem;
+}
+
+@@media (min-width: 40rem) {
+  .cards_item {
+    width: 50%;
+  }
+}
+
+@@media (min-width: 56rem) {
+  .cards_item {
+    width: 33.3333%;
+  }
+}
+
+.card {
+  background-color: white;
+  border-radius: 0.25rem;
+  box-shadow: 0 20px 40px -14px rgba(0, 0, 0, 0.25);
+  display: flex;
+   color: #000;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.card_content {
+  padding: 1rem;
+  background-color:transparent;
+  color: #000;
+}
+
+.card_title {
+  color: #050505;
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: capitalize;
+  margin: 0px;
+}
+
+.card_text {
+  color: #131212;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  margin-bottom: 1.25rem;    
+  font-weight: 400;
+}
+.made_by{
+  font-weight: 400;
+  font-size: 13px;
+  margin-top: 35px;
+  text-align: center;
+}
+
+        .btn1 {
+            color: #f8f8f8;
+            padding: 0.8rem;
+            font-size: 14px;
+            text-transform: uppercase;
+            border-radius: 4px;
+            font-weight: 400;
+            display: block;
+            width: 100%;
+            cursor: pointer;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: linear-gradient(to bottom left, var(--primaryColor) 40%, var(--thierd) 100%);
+            
+        }
+
+        .Card_Warp {
+            display:none
+        }
+    </style>
+}

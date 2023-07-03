@@ -10,12 +10,13 @@ namespace SuperHero.PL.Controllers.SecondPage
 
         private readonly IBaseRepsoratory<Problem> problem;
         private readonly IMapper mapper;
-        public ProblemController(IBaseRepsoratory<Problem> problem, IMapper mapper)
+        private readonly SignInManager<Person> signInManager;
+        public ProblemController(IBaseRepsoratory<Problem> problem, IMapper mapper, SignInManager<Person> signInManager)
         {
             this.problem = problem;
             this.mapper = mapper;
-
-        } 
+            this.signInManager = signInManager;
+        }
         public async Task<IActionResult>  Problem()
         {
             var Date = await problem.GetAll();
@@ -27,6 +28,16 @@ namespace SuperHero.PL.Controllers.SecondPage
             var Date = await problem.GetAll();
             var result= mapper.Map< IEnumerable<ProblemVM>>(Date);
             return View(result);
+        }
+        public async Task<IActionResult> Problems()
+        {
+            if (signInManager.IsSignedIn(User))
+            {
+                var Date = await problem.GetAll();
+            var result = mapper.Map<IEnumerable<ProblemVM>>(Date);
+            return View(result);
+            }
+            return RedirectToAction("Login", "Account");
         }
         public async Task<IActionResult> Delete(int id)
         {
