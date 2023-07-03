@@ -62,6 +62,9 @@ namespace SuperHero.BL.Mapper
             CreateMap<DoctorInfo, DoctorInfoVM>();
             CreateMap<DoctorInfoVM, DoctorInfo>();
 
+            CreateMap<TrainerInfo, TrainerInfoVM>();
+            CreateMap<DoctorInfoVM, TrainerInfo>();
+
             CreateMap<CityVM, City>();
             CreateMap<City, CityVM>();
 

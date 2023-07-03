@@ -1,4 +1,8 @@
-﻿
+﻿@using Microsoft.AspNetCore.Identity;
+@inject SignInManager<Person> signInManager
+@{
+
+}
 <header>
     <div id="logo">
         <a href="#">
@@ -13,11 +17,15 @@
             <li><a asp-action="Login" asp-controller="Account">@SharedLocalizer["Home"]</a></li>
 
             <li><a href="#section-2">@SharedLocalizer["about"]</a></li>
-            <li>@SharedLocalizer["contact"]</li>
-            <li>@SharedLocalizer["Problem"]</li>
-            <li>@SharedLocalizer["Profile"]</li>
-           
-           
+            <li><a href="#Footer">@SharedLocalizer["contact"]</a></li>
+            <li><a asp-action="Problem" asp-controller="Problem">@SharedLocalizer["Problem"]</a></li>
+            @if (signInManager.IsSignedIn(User))
+            {
+                var userinfo = await signInManager.UserManager.FindByNameAsync(User.Identity.Name);
+                <li><a asp-action="Profile" asp-controller="MyProfile" asp-route-id="@userinfo.Id">@SharedLocalizer["Profile"]</a></li>
+            }
+
+
 
         </ul>
     </nav>

@@ -113,6 +113,7 @@ namespace SuperHero.PL.Controllers.Admin.Persons
             {
                 //Get Doctor By Id
                 var data = await person.GetByID(ID);
+                data.doctor = await servis.GetDoctorBYID(ID);
                 //Map Doctor to PersonVM
                 var result = mapper.Map<PersonVM>(data);
                 TempData["Message"] = null;
@@ -127,19 +128,28 @@ namespace SuperHero.PL.Controllers.Admin.Persons
             {
                 try
                 {
-                    if (ModelState.IsValid)
+                    var data = await person.GetByID(model.Id);
+                    data.doctor = await servis.GetDoctorBYID(model.Id);
+                    if (model.ImageName != null)
                     {
-                        //Call Function To Update Doctor 
-                        await servis.Update(model);
-                        //send Message Sucess
-                        TempData["Message"] = "saved Successfuly";
-                        return RedirectToAction("GetAll", "Person");
+                        model.Image = FileUploader.UploadFile("Imgs", model.ImageName);
+
+                    }
+                    if(model.doctor.Cv_Name != null)
+                    {
+                        model.doctor.CV = data.doctor.CV;
                     }
                     else
                     {
-                        TempData["Message"] = null;
-                        return View("Edite", model);
+                        model.Image = data.Image;
                     }
+                    if (model.districtID == null)
+                    {
+                        model.districtID = data.districtID;
+                    }
+                    await servis.Update(model);
+                    TempData["Message"] = "saved Successfuly";
+                    return RedirectToAction("GetAll", "Person");
                 }
                 catch (Exception ex)
                 {
@@ -183,41 +193,46 @@ namespace SuperHero.PL.Controllers.Admin.Persons
         {
             try
             {
-                if (await servis.GetMedicalSyndicate(model.doctor.MedicalSyndicate))
+                var checkUserName = await servis.GetBYUserName(model.UserName);
+                var checkEmail = await servis.GetBYEmail(model.Email);
+                if (checkUserName == null && checkEmail == null)
                 {
-                    //Add Doctor Image
-                    model.Image = FileUploader.UploadFile("Imgs", model.ImageName);
-                    //Add Doctor
-                    var result = await userManager.CreateAsync(await Service.Add(model, 1), model.PasswordHash);
-                    //Get Doctor By Name
-                    var Doctor = await servis.GetBYUserName(model.UserName);
-                    //Get Role Doctor
-                    var role = await roleManager.FindByNameAsync(AppRoles.Doctor);
-                    //Add Doctor in table Role
-                    var result1 = await userManager.AddToRoleAsync(Doctor, role.Name);
-
-
-                    if (result.Succeeded)
+                    if (await servis.GetMedicalSyndicate(model.doctor.MedicalSyndicate))
                     {
+                        //Add Doctor Image
+                        model.Image = FileUploader.UploadFile("Imgs", model.ImageName);
+                        //Add Doctor
+                        var result = await userManager.CreateAsync(await Service.Add(model, 1), model.PasswordHash);
+                        //Get Doctor By Name
+                        var Doctor = await servis.GetBYUserName(model.UserName);
+                        //Get Role Doctor
+                        var role = await roleManager.FindByNameAsync(AppRoles.Doctor);
+                        //Add Doctor in table Role
+                        var result1 = await userManager.AddToRoleAsync(Doctor, role.Name);
 
-                        if (await SendConfitmEmail(model.Email))
+
+                        if (result.Succeeded)
                         {
-                            return RedirectToAction("SuccessRegistration");
+
+                            if (await SendConfitmEmail(model.Email))
+                            {
+                                return RedirectToAction("SuccessRegistration");
+                            }
+                            return RedirectToAction("Login", "Account");
+
+
                         }
-                        return RedirectToAction("Login", "Account");
 
-
-                    }
-
-                    else
-                    {
-                        foreach (var item in result.Errors)
+                        else
                         {
-                            ModelState.AddModelError("", item.Description);
+                            foreach (var item in result.Errors)
+                            {
+                                ModelState.AddModelError("", item.Description);
+                            }
                         }
                     }
                 }
-
+                TempData["UserName"] = "User Name or Email Found Please Try again";
                 return PartialView("Registration", model);
 
             }

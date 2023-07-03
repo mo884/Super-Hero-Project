@@ -70,12 +70,15 @@ namespace SuperHero.PL.Controllers.Admin.Courses
 
                     if (ModelState.IsValid)
                     {
+                        var oldcategory = await categories.GetByID(categoryVM.ID);
                         //Make Update Time Now
-                        categoryVM.UpdateTime = DateTime.Now;
-                        //Mapper
-                        var result = mapper.Map<Catogery>(categoryVM);
+                        oldcategory.UpdateTime = DateTime.Now;
+                        oldcategory.CategoryName = categoryVM.CategoryName;
+                       
+                        
+                        
                         //Make Update
-                        await categories.Update(result);
+                        await categories.Update(oldcategory);
                         TempData["Message"] = "saved Successfuly";
                         return RedirectToAction("GetAll");
                     }

@@ -114,27 +114,32 @@ namespace SuperHero.PL.Controllers.Admin.Persons
         {
             try
             {
-                if (ModelState.IsValid)
-                {
+                
                     var data = await person.GetByID(model.Id);
+                    if(model.ImageName != null)
+                    {
                     model.Image = FileUploader.UploadFile("Imgs", model.ImageName);
+
+                    }else
+                    {
+                        model.Image = data.Image;
+                    }
+                    if (model.districtID == null)
+                    {
+                        model.districtID = data.districtID;
+                    }
                     await servis.Update(model);
                     TempData["Message"] = "saved Successfuly";
                     return RedirectToAction("GetAll", "Person");
-                }
-                else
-                {
-                    ViewBag.districtList = new SelectList(await district.GetAll(), "Id", "Name");
-                    TempData["Message"] = null;
-                    return View(model);
-                }
+                
+              
             }
             catch (Exception ex)
             {
                 TempData["error"] = ex.Message;
             }
             TempData["Message"] = null;
-            ViewBag.districtList = new SelectList(await district.GetAll(), "Id", "Name");
+            
             return View(model);
         }
         #endregion
@@ -149,33 +154,41 @@ namespace SuperHero.PL.Controllers.Admin.Persons
         [HttpPost]
         public async Task<IActionResult> Registration(CreatePerson model)
         {
-            try
+            try 
             {
-                //Add Patient Image
-                model.Image = FileUploader.UploadFile("Imgs", model.ImageName);
-                //Add Patient
-                var result = await userManager.CreateAsync(await Service.Add(model, 0), model.PasswordHash);
-                //Add Patient By Name
-                var Patient = await servis.GetBYUserName(model.UserName);
-                //Add Patient Role
-                var role = await roleManager.FindByNameAsync(AppRoles.User);
-                //Add Patient
-                var result1 = await userManager.AddToRoleAsync(Patient, role.Name);
-                if (result.Succeeded)
+                var checkUserName = await servis.GetBYUserName(model.UserName);
+                var checkEmail = await servis.GetBYEmail(model.Email);
+                if (checkUserName == null && checkEmail==null)
                 {
-                    if (await SendConfitmEmail(model.Email))
+                    //Add Patient Image
+                    model.Image = FileUploader.UploadFile("Imgs", model.ImageName);
+                    //Add Patient
+                    var result = await userManager.CreateAsync(await Service.Add(model, 0), model.PasswordHash);
+                    //Add Patient By Name
+                    var Patient = await servis.GetBYUserName(model.UserName);
+                    //Add Patient Role
+                    var role = await roleManager.FindByNameAsync(AppRoles.User);
+                    //Add Patient
+                    var result1 = await userManager.AddToRoleAsync(Patient, role.Name);
+                    if (result.Succeeded)
                     {
-                        return RedirectToAction("SuccessRegistration");
+                        if (await SendConfitmEmail(model.Email))
+                        {
+                            return RedirectToAction("SuccessRegistration");
+                        }
+                        return RedirectToAction("Login", "Account");
                     }
-                    return RedirectToAction("Login", "Account");
-                }
-                else
-                {
-                    foreach (var item in result.Errors)
+                    else
                     {
-                        ModelState.AddModelError("", item.Description);
+                        foreach (var item in result.Errors)
+                        {
+                            ModelState.AddModelError("", item.Description);
+                        }
                     }
                 }
+
+
+                TempData["UserName"] = "User Name or Email Found Please Try Another";
 
 
                 return PartialView("Registration", model);

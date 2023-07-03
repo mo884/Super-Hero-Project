@@ -67,10 +67,17 @@ namespace SuperHero.PL.Controllers.Admin.Courses
 
                     if (ModelState.IsValid)
                     {
-                        courseVM.Image = FileUploader.UploadFile("Courses", courseVM.ImageName);
-                        courseVM.UpdateTime = DateTime.Now;
-                        var result = mapper.Map<Course>(courseVM);
-                        await courses.Update(result);
+                        var oldCourse = await courses.GetByID(courseVM.ID);
+                        if(courseVM.ImageName != null)
+                        {
+                            oldCourse.Image = FileUploader.UploadFile("Courses", courseVM.ImageName);
+
+                        }
+
+                        oldCourse.PersonId = oldCourse.PersonId;
+                        oldCourse.UpdateTime = DateTime.Now;
+                       
+                        await courses.Update(oldCourse);
                         TempData["Message"] = "saved Successfuly";
                         return RedirectToAction("GetAll");
                     }
@@ -83,7 +90,7 @@ namespace SuperHero.PL.Controllers.Admin.Courses
                 //ModelState.Clear();
                 TempData["Message"] = null;
                 ViewBag.categoryList = await category.GetAll();
-                return View("Form", courseVM);
+                return View("Edite", courseVM);
             }
             return RedirectToAction("AccessDenied", "Account");
         }

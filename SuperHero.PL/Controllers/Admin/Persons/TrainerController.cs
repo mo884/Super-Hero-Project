@@ -109,34 +109,44 @@ namespace SuperHero.PL.Controllers.Admin.Persons
             if (signInManager.IsSignedIn(User))
             {
                 var data = await person.GetByID(ID);
-            var result = mapper.Map<PersonVM>(data);
-            ViewBag.districtList = new SelectList(await district.GetAll(), "Id", "Name", data.districtID);
-            TempData["Message"] = null;
-            return View(result);
+                data.trainer = await servis.GetTrainerBYID(ID);
+                var result = mapper.Map<PersonVM>(data);
+          
+                 TempData["Message"] = null;
+                 return View(result);
             }
             return RedirectToAction("AccessDenied", "Account");
         }
         [HttpPost]
         public async Task<IActionResult> Edite(PersonVM model)
         {
-            try
+            try 
             {
-                if (ModelState.IsValid)
-                {
-                    var data = await person.GetByID(model.Id);
-                   
-                    await servis.Update(model);
-                    TempData["Message"] = "saved Successfuly";
-                    return RedirectToAction("GetAll", "Person");
-                }
 
+
+                var data = await person.GetByID(model.Id);
+                data.trainer = await servis.GetTrainerBYID(model.Id);
+                if (model.ImageName != null)
+                {
+                    model.Image = FileUploader.UploadFile("Imgs", model.ImageName);
+
+                }
+                if (model.trainer.Cv_Name != null)
+                {
+                    model.trainer.CV = data.trainer.CV;
+                }
                 else
                 {
-                    TempData["Message"] = null;
-                    ViewBag.districtList = new SelectList(await district.GetAll(), "Id", "Name");
-                    return View(model);
+                    model.Image = data.Image;
                 }
-
+                if (model.districtID == null)
+                {
+                    model.districtID = data.districtID;
+                }
+                await servis.Update(model);
+                TempData["Message"] = "saved Successfuly";
+                    return RedirectToAction("GetAll", "Person");
+               
 
             }
             catch (Exception ex)
@@ -161,34 +171,40 @@ namespace SuperHero.PL.Controllers.Admin.Persons
         {
             try
             {
-                //Add Trainer Image
-                model.Image = FileUploader.UploadFile("Imgs", model.ImageName);
-                //Add Trainer
-                var result = await userManager.CreateAsync(await Service.Add(model, 3), model.PasswordHash);
-                //Get Trainer By Name
-                var trainer = await servis.GetBYUserName(model.UserName);
-                //Add Trainer Role
-                var role = await roleManager.FindByNameAsync(AppRoles.Trainer);
-                //Add Trainer in table Role
-                var result1 = await userManager.AddToRoleAsync(trainer, role.Name);
-                if (result.Succeeded)
+                var checkUserName = await servis.GetBYUserName(model.UserName);
+                var checkEmail = await servis.GetBYEmail(model.Email);
+                if (checkUserName == null && checkEmail == null)
                 {
-                    if (await SendConfitmEmail(model.Email))
+                    //Add Trainer Image
+                    model.Image = FileUploader.UploadFile("Imgs", model.ImageName);
+                    //Add Trainer
+                    var result = await userManager.CreateAsync(await Service.Add(model, 3), model.PasswordHash);
+                    //Get Trainer By Name
+                    var trainer = await servis.GetBYUserName(model.UserName);
+                    //Add Trainer Role
+                    var role = await roleManager.FindByNameAsync(AppRoles.Trainer);
+                    //Add Trainer in table Role
+                    var result1 = await userManager.AddToRoleAsync(trainer, role.Name);
+                    if (result.Succeeded)
                     {
-                        return RedirectToAction("SuccessRegistration");
+                        if (await SendConfitmEmail(model.Email))
+                        {
+                            return RedirectToAction("SuccessRegistration");
+                        }
+                        return RedirectToAction("Login", "Account");
                     }
-                    return RedirectToAction("Login", "Account");
-                }
-                else
-                {
-                    foreach (var item in result.Errors)
+                    else
                     {
-                        ModelState.AddModelError("", item.Description);
+                        foreach (var item in result.Errors)
+                        {
+                            ModelState.AddModelError("", item.Description);
+                        }
                     }
                 }
 
-
+                TempData["UserName"] = "User Name or Email Found Please Try again";
                 return PartialView("Registration", model);
+
             }
          
              catch (Exception)

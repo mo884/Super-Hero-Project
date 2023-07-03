@@ -19,6 +19,7 @@ namespace SuperHero.BL.Interface
         Task<UserInfo> GetPatientBYID(string id);
         Task<Person> GetPersonBYID(string id);
         Task<Person> GetBYUserName(string Name);
+        Task<Person> GetBYEmail(string Name);
         Task<IEnumerable<Post>> GetALlPost(string include,string include1, string include2);
         Task<Post> GetPostById(int id, string include1, string include2, string include3);
         Task<IEnumerable<Comment>> GetAll(int id, string include, string include1);

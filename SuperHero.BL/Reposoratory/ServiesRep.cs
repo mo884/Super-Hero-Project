@@ -51,13 +51,13 @@ namespace SuperHero.BL.Reposoratory
         #region update Person(Patien - Doctor - Trainer - Admin - Donner)
         public async Task Update(PersonVM obj)
         {
-            obj.Image = FileUploader.UploadFile("Imgs", obj.ImageName);
+            
             var OldData = await person.GetByID(obj.Id);
 
             OldData.FullName = obj.FullName;
             OldData.Email = obj.Email;
             OldData.gender = (obj.gender == 0) ? Gender.Male : Gender.Female;
-
+            OldData.districtID = obj.districtID;
             if (obj.Image != null)
             {
                 if (OldData.PersonType == PersonType.User)
@@ -106,6 +106,7 @@ namespace SuperHero.BL.Reposoratory
                         await trainer.Create(Trainer);
                         await trainer.Delete(olduserData.ID);
                     }
+                  
 
                 }
                 else if (OldData.PersonType == PersonType.Doner)
@@ -188,7 +189,11 @@ namespace SuperHero.BL.Reposoratory
             var user = Db.Persons.Where(a => a.UserName == Name).FirstOrDefaultAsync();
             return await user;
         }
-
+        public async Task<Person> GetBYEmail(string Name)
+        {
+            var user = Db.Persons.Where(a => a.Email == Name).FirstOrDefaultAsync();
+            return await user;
+        }
         #endregion
 
         #region Get Person and PersonFriends and Person Comments and ReactPost By Id and use Include 

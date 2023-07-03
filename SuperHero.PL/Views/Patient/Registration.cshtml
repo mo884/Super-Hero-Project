@@ -197,12 +197,15 @@
                                 <br>
 
 
-                                <div class="sent-message">Your quote request has been sent successfully. Thank you!</div>
                                 <button type="submit">Register</button>
 
                             </div>
                         </form>
-                        <div asp-validation-summary="All"></div>
+                        @if (TempData["UserName"] != null)
+                        {
+                            <P style="color:red" class="text-danger">@TempData["UserName"]</P>
+                        }
+                       
                     </div>
                 </div>
             </div>

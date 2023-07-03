@@ -32,7 +32,7 @@ namespace SuperHero.PL.Controllers.Admin.Adress
                 var CityListVM = mapper.Map<IEnumerable<CityVM>>(cityList);
                 return View(CityListVM);
             }
-            return RedirectToAction("AccessDenied", "Account");
+            return RedirectToAction("Login", "Account");
 
         }
         #endregion
@@ -47,7 +47,7 @@ namespace SuperHero.PL.Controllers.Admin.Adress
                 TempData["Message"] = null;
                 return PartialView("Create");
             }
-            return RedirectToAction("AccessDenied", "Account");
+            return RedirectToAction("Login", "Account");
         }
         public async Task<IActionResult> Create(CityVM cityVM)
         {
@@ -76,7 +76,7 @@ namespace SuperHero.PL.Controllers.Admin.Adress
                 ViewBag.ID = null;
                 return View("Form", cityVM);
             }
-            return RedirectToAction("AccessDenied", "Account");
+            return RedirectToAction("Login", "Account");
         }
         #endregion
 
@@ -93,7 +93,7 @@ namespace SuperHero.PL.Controllers.Admin.Adress
                 TempData["Message"] = null;
                 return PartialView("Edite", result);
             }
-            return RedirectToAction("AccessDenied", "Account");
+            return RedirectToAction("Login", "Account");
         }
         public async Task<IActionResult> Edite(CityVM cityVM)
         {
@@ -120,7 +120,7 @@ namespace SuperHero.PL.Controllers.Admin.Adress
                 ViewBag.categoryList = new SelectList(await governate.GetAll(), "ID", "Name");
                 return PartialView("Edite", cityVM);
             }
-            return RedirectToAction("AccessDenied", "Account");
+            return RedirectToAction("Login", "Account");
         }
         #endregion
 

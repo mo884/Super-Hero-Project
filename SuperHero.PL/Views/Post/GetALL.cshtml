@@ -1,5 +1,6 @@
 ﻿@model AuditViewModel
 @using Microsoft.AspNetCore.Identity;
+@using SuperHero.BL.Seeds;
 @inject SignInManager<Person> signInManager
 @{
     ViewData["Title"] = "GetALL";
@@ -128,27 +129,19 @@
                         <div class="d-flex flex-row mt-1 ellipsis">
                             <small style="padding:10px;color:#363636b4" class="mr-2">@post.CreatedTime</small><div class="dropdown show">
 
+
                                 @if (@post.PersonID != null)
                                 {
-                                    @if (userinfo.Id == @post.person.Id)
+                                    @if (userinfo.Id == @post.person.Id || await signInManager.UserManager.IsInRoleAsync(userinfo, AppRoles.Admin))
                                     {
-                                        <div>
-                                            <a class="" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                <i style="font-size:30px;color:#363636b4" class="uil uil-elipsis-double-v-alt"></i>
-                                            </a>
+                                        <a asp-controller="Post" asp-action="Edite" asp-route-id="@post.ID" >
+                                            <i class="uil uil-pen"></i>
+                                            Edite
+                                        </a>
+                                        <a asp-controller="Post" asp-action="Delete" asp-route-id="@post.ID" >
 
-                                            <div class="dropdown-menu mt-3 " aria-labelledby="dropdownMenuLink">
-                                                <a asp-controller="Post" asp-action="Edite" asp-route-id="@post.ID" class="dropdown-item ancor">
-                                                    <i class="uil uil-pen"></i>
-                                                    Edite
-                                                </a>
-                                                <a asp-controller="Post" asp-action="Delete" asp-route-id="@post.ID" class="dropdown-item ancor">
-                                                    <i class="uil uil-trash-alt"></i>
-                                                    Delete
-                                                </a>
-
-                                            </div>
-                                        </div>
+                                        <i class="uil uil-trash-alt btn btn-danger"></i>
+                                        </a>
                                     }
                                 }
                             </div>

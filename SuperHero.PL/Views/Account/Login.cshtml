@@ -2,9 +2,9 @@
 @{
     ViewData["Title"] = "Login";
     Layout = "~/Views/FirstPage/_FirstPageLayout.cshtml";
-} 
+}
 
-@if (TempData["modelShow"] !=null)
+@if (TempData["modelShow"] != null)
 {
     <div class="modal " id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" style="display: block;padding-right: 15px;" aria-modal="true">
         <div class="modal-dialog" role="document" style="display:flex;justify-content:center">
@@ -74,7 +74,7 @@
             <div class="modal-header" style="border:none">
 
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span  aria-hidden="true">&times;</span>
+                    <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
@@ -86,19 +86,19 @@
                             <form asp-action="Login" asp-controller="Account" method="post">
                                 <div class="input-box">
                                     <header>Login</header>
-                                 @*   <div class="input-field">
-                                        <input asp-for="UserName" type="text" class="input" id="email" required autocomplete="off">
-                                        <label asp-for="UserName" for="email">Email</label>
-                                        <span class="text-danger" asp-validation-for="UserName"></span>
+                                    @*   <div class="input-field">
+                                    <input asp-for="UserName" type="text" class="input" id="email" required autocomplete="off">
+                                    <label asp-for="UserName" for="email">Email</label>
+                                    <span class="text-danger" asp-validation-for="UserName"></span>
                                     </div>*@
                                     <div class="input-field">
-                                        <input asp-for="Email" type="email" class="input"  required autocomplete="off">
+                                        <input asp-for="Email" type="email" class="input" required autocomplete="off">
                                         <label asp-for="Email">Email</label>
                                         <span asp-validation-for="Email"></span>
                                     </div>
                                     <div class="input-field">
-                                        <input asp-for="Password" type="password" class="input"  required>
-                                        <label asp-for="Password" >Password</label>
+                                        <input asp-for="Password" type="password" class="input" required>
+                                        <label asp-for="Password">Password</label>
                                         <span asp-validation-for="Password"></span>
                                         @if (Model.AccountNotFound != "")
                                         {
@@ -110,16 +110,16 @@
 
                                     </div>
                                     <div class="signin">
-                                        <span>Already have an account? <a href="#">Register here</a></span>
-                                        @if (Model.Message != "" )
+                                        <span>I not have any account? <a asp-action="Index" asp-controller="BestDoctor">Register here</a></span>
+                                        @if (Model.Message != "")
                                         {
                                             <div class="text-danger"> @Model.Message</div>
                                         }
-                                        
+
                                     </div>
                                 </div>
                             </form>
-                            
+
                         </div>
                     </div>
                 </div>
@@ -132,38 +132,37 @@
 @section CSSLogin{
     <style>
 
-        .modal-body{
-            background-color:#dadbdb;
+        .modal-body {
+            background-color: #dadbdb;
         }
-          .close span{
-                    font-size:30px ;
-                    color:white
-        }
-              
-        
 
+        .close span {
+            font-size: 30px;
+            color: white
+        }
     </style>
- 
+
     <link href="~/identity/prop/css/bootstrap.min.css" rel="stylesheet" />
     <link href="~/identity/login/style.css" rel="stylesheet" />
  }
- @section JqueryValidation{
-    <script src="~/jquery-validation/additional-methods.js"></script>
-    <script src="~/jquery-validation/jquery.validate.js"></script>
-    <script src="~/jquery-validation/validation-styling.js"></script>
-    <script>
-       
-            var btn = document.getElementById("btnclose");
-        var model = document.getElementById("exampleModal");
-            btn.addEventListener("click", function () {
-            model.setAttribute("style","display:none");
-            })
-
-      
-    </script>
-}
-    @section ScriptsLogin{
+@section ScriptsLogin{
     <script src="~/identity/prop/js/jquery-3.6.0.js"></script>
     <script src="~/identity/prop/js/bootstrap.js"></script>
-    
+
 }
+@section JqueryValidation{
+    @*  <script src="~/jquery-validation/additional-methods.js"></script>
+    <script src="~/jquery-validation/jquery.validate.js"></script>
+    <script src="~/jquery-validation/validation-styling.js"></script>*@
+    <script>
+
+        var btn = document.getElementById("btnclose");
+        var model = document.getElementById("exampleModal");
+        btn.addEventListener("click", function () {
+            model.setAttribute("style", "display:none");
+        })
+
+
+    </script>
+}
+

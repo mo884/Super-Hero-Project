@@ -24,25 +24,25 @@
                         </div>
                         <span asp-validation-for="FullName" class="text-danger"></span>
                     </div>
-                    <div class="mb-5">
+                   @* <div class="mb-5">
                         <div class="form-floating mb-2">
                             <input type="text" class="form-control" placeholder="Email" asp-for="Email" />
                            
                         </div>
                         <span asp-validation-for="Email" class="text-danger"></span>
-                    </div>
+                    </div>*@
 
                     <div class="mb-5">
 
 
 
-                        <input type="text" asp-for="trainer.Graduation" class="form-control" placeholder="Clinic Adress" required="">
+                        <input type="text" asp-for="trainer.Graduation" class="form-control" placeholder="Graduation" required="">
                         <span class="text-danger" asp-validation-for="trainer.Graduation"></span>
 
                     </div>
 
 
-                    <div asp-for="doctor.Cv_Name" class='file file--uploading'>
+                 @*   <div asp-for="doctor.Cv_Name" class='file file--uploading'>
                         <label class="label" for='input-file'>
                             <i class="fa-solid fa-upload"></i>
 
@@ -50,7 +50,7 @@
                         </label>
                         <input id='input-file' asp-for="trainer.Cv_Name" type='file' />
                     </div>
-
+*@
                    
                     <br />
 
@@ -62,7 +62,6 @@
                         </label>
                         <input id='input-file' asp-for="ImageName" type='file' />
                     </div>
-                    <output class="file-upload_result"></output>
                     <br />
                     <div class="mb-5">
                         <div class="form-floating mb-2">

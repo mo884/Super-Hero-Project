@@ -33,9 +33,7 @@
                             <span class="fast-flicker"> Donor </span>
                         </h2>
                         <p>
-                            Rem id rerum. Debitis deserunt quidem delectus expedita ducimus dolor.
-                            Aut iusto ipsa. Eos ipsum nobis ipsa soluta itaque perspiciatis fuga ipsum perspiciatis
-                            Aut iusto ipsa. Eos ipsum nobis ipsa soluta itaque perspiciatis fuga
+                            the donor enters his personal data to make the donation process, as it contains places to add personal data and places to add electronic payment card data, and then prints a message to the donor to thank him for his contribution in helping these people
                         </p>
 
                         <div class="words word-1">
@@ -203,7 +201,10 @@
 
                             </div>
                         </form>
-                        <div asp-validation-summary="All"></div>
+                        @if (TempData["UserName"] != null)
+                        {
+                            <P style="color:red" class="text-danger">@TempData["UserName"]</P>
+                        }
                     </div>
                 </div>
             </div>

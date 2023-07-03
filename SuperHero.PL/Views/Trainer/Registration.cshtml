@@ -33,9 +33,10 @@
                             <span class="fast-flicker"> Trainer </span>
                         </h2>
                         <p>
-                            Rem id rerum. Debitis deserunt quidem delectus expedita ducimus dolor.
-                            Aut iusto ipsa. Eos ipsum nobis ipsa soluta itaque perspiciatis fuga ipsum perspiciatis
-                            Aut iusto ipsa. Eos ipsum nobis ipsa soluta itaque perspiciatis fuga
+                            •	Adding appropriate educational courses within the site.
+                            <br />
+                            •	Add educational posts within the site and interact with them
+
                         </p>
 
                         <div class="words word-1">
@@ -200,7 +201,10 @@
 
                             </div>
                         </form>
-                        <div asp-validation-summary="All"></div>
+                        @if (TempData["UserName"] != null)
+                        {
+                            <P style="color:red" class="text-danger">@TempData["UserName"]</P>
+                        }
                     </div>
                 </div>
             </div>
