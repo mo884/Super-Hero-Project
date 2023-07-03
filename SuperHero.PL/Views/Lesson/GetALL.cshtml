@@ -1,7 +1,14 @@
 ﻿@model IEnumerable<LessonVM>
+@using Microsoft.AspNetCore.Identity;
+@using SuperHero.BL.Seeds;
+@inject SignInManager<Person> signInManager
 @{
     ViewData["Title"] = "GetALL";
     Layout = "~/Views/AdminLayout/_Layout.cshtml";
+}
+@{
+    var userinfo = await signInManager.UserManager.FindByNameAsync(User.Identity.Name);
+
 }
 @section CSS{
     <partial name="~/views/person/Partial/css.cshtml" />
@@ -57,19 +64,21 @@
 
 
                 <td>
-                    <div class="dropdown show nav-links">
-                        <p class="btn1 third col-sm-1" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class=" col-sm-3 uil uil-plus"></i>
+                    @if (item.Course.PersonId == userinfo.Id || await signInManager.UserManager.IsInRoleAsync(userinfo, AppRoles.Admin))
+                    {
+                        <div class="dropdown">
+                            <p class="btn1 dropbtn btn-outline-info" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                         Action
                         </p>
 
-                        <div class="dropdown-menu align-items-center " aria-labelledby="dropdownMenuLink">
-                            <a class="js-friends dropdown-item" href="javascript:;" data-url="/Lesson/Edite/@item.ID" data-update="true">Edite</a>
+                            <div class="dropdown-menu dropdown-content  align-items-center " aria-labelledby="dropdownMenuLink">
+                                <a class="js-friends dropdown-item" href="javascript:;" data-url="/Lesson/Edite/@item.ID" data-update="true">Edite</a>
                             <a class="js-friends dropdown-item" href="javascript:;" data-url="/Lesson/Delete/@item.ID" data-update="true">Delete</a>
 
 
 
                         </div>
-                    </div>
+                    </div>}
                 </td>
             </tr>
         }

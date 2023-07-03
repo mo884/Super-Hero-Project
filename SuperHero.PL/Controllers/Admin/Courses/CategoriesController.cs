@@ -9,7 +9,7 @@ using System.Data;
 
 namespace SuperHero.PL.Controllers.Admin.Courses
 {
-    //[Authorize(Roles = @$"{AppRoles.Admin},{AppRoles.Trainer}")]
+    [Authorize(Roles = @$"{AppRoles.Admin},{AppRoles.Trainer}")]
     public class CategoriesController : Controller
     {
 

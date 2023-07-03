@@ -77,22 +77,29 @@
                 </li>
             }
            
-            @if (userinfo.PersonType == SuperHero.DAL.Enum.PersonType.Trainer)
+            @if (userinfo.PersonType == SuperHero.DAL.Enum.PersonType.Trainer || await signInManager.UserManager.IsInRoleAsync(userinfo, AppRoles.Admin))
             {
-                <li data-bs-toggle="dropdown" aria-expanded="false">
-                    <a asp-controller="Categories" active-when="Categories">
-                        <i class="uil uil-files-landscapes icon"></i>
-                        <span class="link-name">Courses</span>
+               
+                <div style="width:100%" class="dropdown">
+
+                <li>
+                    <a class="dropbtn"  asp-action="GetAll" asp-controller="Categories">
+                        <i class="fa-solid fa-bars"></i>
+                        <span class="link-name"> Category</span>
                     </a>
-
                 </li>
-                <ul class="nav-links dropdown-menu" aria-labelledby="dropdownMenuLink" style="padding-left:0px;z-index:12939494">
 
-                <li><a active-when="Categories" class="dropdown-item" asp-action="GetAll" asp-controller="Categories"><i class="uil uil-servers"></i>Category</a></li>
-                <li><a active-when="Course" class="dropdown-item" asp-action="GetAll" asp-controller="Course"><i class="uil uil-presentation-edit"></i>Course</a></li>
-                <li><a active-when="Lesson" class="dropdown-item" asp-action="GetAll" asp-controller="Lesson"><i class="uil uil-layer-group"></i>Lesson</a></li>
+                    <div style="text-align:center" class="dropdown-menu dropdown-content  align-items-center " aria-labelledby="dropdownMenuLink">
+                        <a active-when="Categories" class="dropdown-item" asp-action="GetAll" asp-controller="Categories"><i class="uil uil-servers"></i>Category</a>                        
 
-            </ul>
+                      <a active-when="Course" class="dropdown-item" asp-action="GetAll" asp-controller="Course"><i class="uil uil-presentation-edit"></i>Course</a>
+                        <a active-when="Lesson" class="dropdown-item" asp-action="GetAll" asp-controller="Lesson"><i class="uil uil-layer-group"></i>Lesson</a>
+
+                    </div>
+                </div>
+              
+
+              
             }
             <li>
                 <a active-when="Post" asp-action="GetAll" asp-controller="Post">
@@ -100,19 +107,18 @@
                     <span class="link-name">Post</span>
                 </a>
             </li>
-            <li>
-                <a active-when="Group" asp-action="GetAll" asp-controller="Group">
+            @if (userinfo.PersonType == SuperHero.DAL.Enum.PersonType.Doctor || await signInManager.UserManager.IsInRoleAsync(userinfo, AppRoles.Admin))
+            {
+
+                <li>
+                    <a active-when="Group" asp-action="GetAll" asp-controller="Group">
                     <i class="uil uil-users-alt"></i>
                     <span class="link-name">Group</span>
                 </a>
             </li>
+            }
 
-            <li>
-                <a asp-action="GetAll" asp-controller="Roles">
-                    <i class="uil uil-chart icon"></i>
-                    <span class="link-name">Roles</span>
-                </a>
-            </li>
+           
             @* <li>
             <a href="#">
             <i class="uil uil-thumbs-up icon"></i>
@@ -125,11 +131,44 @@
                     <span class="link-name">Course</span>
                 </a>
             </li>
-            <li>
-                <a asp-action="GetAll" asp-controller="City">
+           @if (await signInManager.UserManager.IsInRoleAsync(userinfo, AppRoles.Admin))
+            {
+                <li>
+                    <a asp-action="GetAll" asp-controller="City">
                     <i class="uil uil-globe"></i>
-                    <span class="link-name">Adress</span>
+                    <span class="link-name">Address</span>
                 </a>
+            </li>
+   
+                <li>
+
+                    <a active-when="Person" asp-action="GetAll" asp-controller="Person">
+                        <i class="uil uil-user-circle"></i>
+                        <span class="link-name">Person</span>
+                    </a>
+
+                </li>
+                <li>
+                    <a asp-action="GetAll" asp-controller="Roles">
+                        <i class="uil uil-chart icon"></i>
+                        <span class="link-name">Roles</span>
+                    </a>
+                </li>
+            }
+
+            <li>
+                <a active-when="SocialPatient" style=" text-decoration: none;" asp-action="GetAll" asp-controller="SocialPatient">
+                    <i class="uil uil-user-arrows"></i>
+                    <span class="link-name">Social</span>
+                    </a>
+
+            </li>
+            <li>
+                <a a style=" text-decoration: none;" asp-action="Problem" asp-controller="Problem">
+                    <i class="fa-solid fa-eye"></i>
+                    <span class="link-name">Problem</span>
+                </a>
+
             </li>
         </ul>
 

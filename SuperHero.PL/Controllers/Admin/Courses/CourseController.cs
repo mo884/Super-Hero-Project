@@ -9,7 +9,7 @@ using System.Runtime.Intrinsics.Arm;
 
 namespace SuperHero.PL.Controllers.Admin.Courses
 {
-    [Authorize(Roles = AppRoles.Trainer)]
+    [Authorize(Roles = @$"{AppRoles.Admin},{AppRoles.Trainer}")]
     public class CourseController : Controller
     {
 

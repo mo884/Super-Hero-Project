@@ -1,4 +1,12 @@
 ﻿@model IEnumerable<CategoryVM>
+@using Microsoft.AspNetCore.Identity;
+@using SuperHero.BL.Seeds;
+@inject SignInManager<Person> signInManager
+
+@{
+    var userinfo = await signInManager.UserManager.FindByNameAsync(User.Identity.Name);
+
+}
 @{
     ViewData["Title"] = "GetALL";
     Layout = "~/Views/AdminLayout/_Layout.cshtml";
@@ -50,13 +58,17 @@
                
 
                 <td>
-                    <div class="dropdown show">
-                        <p class="btn btn-outline-info" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Action
+                    @if (await signInManager.UserManager.IsInRoleAsync(userinfo, AppRoles.Admin))
+                    {
+                        <div class="dropdown ">
+                            <p class="btn dropbtn btn-outline-info" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Action
                         </p>
 
-                        <div class="dropdown-menu align-items-center " aria-labelledby="dropdownMenuLink">
-                            <a class="js-friends dropdown-item" href="javascript:;" data-url="/Categories/Edite/@item.ID" data-update="true">Edite</a>
+
+                            <div class="dropdown-menu dropdown-content  align-items-center " aria-labelledby="dropdownMenuLink">
+
+                                <a style="text-align: center" class="js-friends  dropdown-item" href="javascript:;" data-url="/Categories/Edite/@item.ID" data-update="true">Edite</a>
                             <a style="text-align: center" class="dropdown-item js-category-status" href="javascript:;" data-id="@item.ID">
 
                                 Toggel status
@@ -65,6 +77,7 @@
 
                         </div>
                     </div>
+                    }
                 </td>
             </tr>
         }

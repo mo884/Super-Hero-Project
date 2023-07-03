@@ -20,10 +20,9 @@ else
             <i class="fa fa-times" aria-hidden="true" onclick="toggle()"></i>
         </div>
         <ul>
-            <li><a style=" text-decoration:none;" href="#"> @SharedLocalizer["Home"]</a></li>
-            <li><a style=" text-decoration:none;" href="#"> @SharedLocalizer["Problem"]</a></li>
-            <li><a style=" text-decoration:none;" href="#"> @SharedLocalizer["about"]</a></li>
-            <li><a style=" text-decoration:none;" href="#"> @SharedLocalizer["contact"]</a></li>
+            <li><a style=" text-decoration:none;" asp-action="Problem" asp-controller="Problem"> @SharedLocalizer["Problem"]</a></li>
+            <li><a style=" text-decoration:none;" asp-action="Index" asp-controller="BestDoctor"> @SharedLocalizer["about"]</a></li>
+            <li><a style=" text-decoration:none;" asp-action="Index" asp-controller="BestDoctor"> @SharedLocalizer["contact"]</a></li>
             <li>
                 <div class="dropdown">
                     <i style="font-size:30px;color:#1EB2A6;cursor:pointer" class="fa-solid fa-language"></i>

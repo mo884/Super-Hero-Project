@@ -20,9 +20,9 @@ namespace SuperHero.BL.Helper
                 smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
                 smtp.UseDefaultCredentials = false;
                 smtp.Timeout = 100000;
-                smtp.Credentials = new NetworkCredential("FRYMA_SUPERHEROES@outlook.com", "pYL-aNs97pCmb4x", "FRYMA");
+                smtp.Credentials = new NetworkCredential("SuperHero_FRYMA123@outlook.com", "123456@Am", "FRYMA");
                 //Sender  / reciever / body/message
-                MailMessage MailMessage = new MailMessage("FRYMA_SUPERHEROES@outlook.com", mail.Email);
+                MailMessage MailMessage = new MailMessage("SuperHero_FRYMA123@outlook.com", mail.Email);
                 MailMessage.Subject = mail.Email;
                 MailMessage.IsBodyHtml = true;
                 MailMessage.Body = $"<h3 style='color:red;'>{mail.Message}</h3>";
